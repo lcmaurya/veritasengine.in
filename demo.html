@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Veritas Engine – Risk Demo</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #ffffff;
+      color: #111;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      padding: 40px 20px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+    }
+    section {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: 6px;
+    }
+    .box {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-top: 15px;
+      background: #fafafa;
+    }
+    .risk {
+      display: inline-block;
+      padding: 8px 14px;
+      margin-right: 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      color: #fff;
+    }
+    .low { background: #2ecc71; }
+    .medium { background: #f1c40f; color:#000; }
+    .high { background: #e74c3c; }
+    footer {
+      margin-top: 60px;
+      padding: 20px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      border-top: 1px solid #eee;
+    }
+    .note {
+      font-size: 14px;
+      color: #444;
+      margin-top: 10px;
+    }
+    .mono {
+      font-family: monospace;
+      background: #f4f4f4;
+      padding: 10px;
+      margin-top: 10px;
+      white-space: pre;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Risk Classification Demo</h1>
+  <p>Conceptual intelligence output (non-operational)</p>
+</header>
+
+<section>
+  <h2>Sample Input</h2>
+  <div class="box mono">
+Source: Digital Transaction
+Signals:
+- Abnormal timing pattern
+- Repeated redirection behavior
+- Known phishing infrastructure proximity
+  </div>
+  <p class="note">
+    This represents abstract signals only. No real user or transaction data is used.
+  </p>
+</section>
+
+<section>
+  <h2>Engine Evaluation Output</h2>
+  <div class="box">
+    <span class="risk low">LOW RISK</span>
+    <span class="risk medium">MEDIUM RISK</span>
+    <span class="risk high">HIGH RISK</span>
+  </div>
+  <p class="note">
+    In real deployment, a single classified outcome is generated based on combined signals.
+  </p>
+</section>
+
+<section>
+  <h2>Interpretation</h2>
+  <ul>
+    <li><strong>Low Risk:</strong> Normal behavior, no intervention required</li>
+    <li><strong>Medium Risk:</strong> Monitoring or secondary verification advised</li>
+    <li><strong>High Risk:</strong> Immediate action / block / investigation recommended</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Important Notice</h2>
+  <p>
+    This page is a <strong>conceptual demonstration only</strong>.  
+    The actual Veritas Engine operates as a secured backend system and is not exposed publicly.
+  </p>
+</section>
+
+<footer>
+  © 2026 Veritas Engine — Demo Illustration Only
+</footer>
+
+</body>
+</html>
