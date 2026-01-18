@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Veritas Engine – System Architecture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background:#fff; color:#111; margin:0; padding:20px; }
+    h1,h2 { border-bottom:1px solid #e0e0e0; padding-bottom:6px; }
+    .container { max-width:900px; margin:auto; }
+    .diagram {
+      background:#0f172a;
+      color:#22c55e;
+      padding:20px;
+      font-family: monospace;
+      white-space: pre;
+      border-radius:6px;
+      margin:20px 0;
+    }
+    ul { margin-left:20px; }
+    footer { text-align:center; font-size:13px; color:#666; margin-top:40px; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<h1>Veritas Engine – System Architecture</h1>
+<p><b>High-level conceptual architecture for institutional deployment</b></p>
+
+<h2>Architecture Overview</h2>
+
+<div class="diagram">
+User / Transaction / Digital Event
+            |
+            v
++--------------------------------+
+|        Data Ingestion Layer     |
+| (Events, Signals, Metadata)    |
++--------------------------------+
+            |
+            v
++--------------------------------+
+|        Veritas Engine Core      |
+|   (Private & Isolated System)  |
+|  - Pattern Analysis            |
+|  - Risk Modeling               |
+|  - Fraud & Scam Detection      |
++--------------------------------+
+            |
+            v
++--------------------------------+
+|      Intelligence Output Layer |
+|  - Risk Score                  |
+|  - Risk Indicators             |
+|  - Confidence Level            |
++--------------------------------+
+            |
+            v
++--------------------------------+
+|        Secure API Gateway      |
+|   (Authenticated / Encrypted) |
++--------------------------------+
+            |
+            v
+Institution / Bank / Authority
+</div>
+
+<h2>Key Design Principles</h2>
+<ul>
+  <li>Engine core remains private and isolated</li>
+  <li>No raw or personal data exposure</li>
+  <li>Only processed intelligence is shared</li>
+  <li>API-first, institution-controlled integration</li>
+</ul>
+
+<h2>Security & Privacy</h2>
+<ul>
+  <li>No user identity storage</li>
+  <li>No transaction content retention</li>
+  <li>Stateless or controlled state processing</li>
+  <li>Audit-friendly outputs</li>
+</ul>
+
+<h2>Deployment Flexibility</h2>
+<ul>
+  <li>On-premise (Government / Bank servers)</li>
+  <li>Private cloud</li>
+  <li>Hybrid deployment</li>
+</ul>
+
+<footer>
+© 2026 Veritas Engine. Architecture – Conceptual Representation
+</footer>
+
+</div>
+</body>
+</html>
