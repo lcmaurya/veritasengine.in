@@ -3,74 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Engine - Financial Crime Detection</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Veritas Engine - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #030712;
+            color: #ffffff;
+            /* Background image with overlay to match the city-network look */
+            background: linear-gradient(to right, rgba(3, 7, 18, 0.95), rgba(3, 7, 18, 0.7)), 
+                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 80px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #e2e8f0;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .btn-request {
+            background: #1e3a8a;
+            padding: 10px 22px;
+            border-radius: 6px;
+            color: white !important;
+            font-weight: 500;
+        }
+
+        /* Hero Container */
+        .hero {
+            display: flex;
+            padding: 40px 80px;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .left-panel {
+            flex: 1.2;
+            padding-top: 40px;
+        }
+
+        .right-panel {
+            flex: 0.8;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 16px;
+            max-width: 500px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
+
+        /* Buttons */
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+
+        .btn-blue {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .btn-outline {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid #334155;
+            padding: 12px 28px;
+            border-radius: 6px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        /* Stats Grid */
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 10px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-box h2 { font-size: 24px; margin-bottom: 5px; }
+        .stat-box p { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* How it works section */
+        .features {
+            background: rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+        }
+
+        .features h3 { font-size: 16px; margin-bottom: 15px; color: #cbd5e1; }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .tick { color: #4ade80; font-weight: bold; }
+
+        /* Visualization Card (Right Side) */
+        .viz-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            width: 400px;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wallet {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 15px;
+            position: relative;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .wallet::after {
+            content: "";
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .safe::after { background: #4ade80; box-shadow: 0 0 10px #4ade80; }
+        .warning-dot::after { content: "▲"; color: #fbbf24; background: none; font-size: 10px; }
+
+        .arrow-v { color: #334155; margin-bottom: 15px; font-size: 18px; }
+
+        .wallet.high-risk {
+            border: 1px solid #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .alert-icon {
+            font-size: 45px;
+            color: #ef4444;
+            margin: 20px 0;
+            filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.5));
+        }
+
+        .risk-badge {
+            border: 1px solid #ef4444;
+            padding: 10px 30px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 600;
+            background: rgba(239, 68, 68, 0.2);
+            font-size: 14px;
+        }
+
+        .risk-badge span { color: #ef4444; margin-left: 5px; }
+
+        /* Responsive */
+        @media (max-width: 1000px) {
+            .hero { flex-direction: column; padding: 20px; }
+            nav { padding: 20px; }
+            .right-panel { width: 100%; justify-content: center; margin-top: 40px; }
+        }
+    </style>
 </head>
 <body>
-    <div class="hero-section">
-        <nav>
-            <div class="logo">Veritas Engine</div>
-            <div class="nav-links">
-                <a href="#">Home</a>
-                <a href="#">Demo</a>
-                <a href="#">AML</a>
-                <a href="#">Partners</a>
-                <a href="#" class="btn-request">Request Access</a>
-            </div>
-        </nav>
 
-        <main class="container">
-            <div class="content-left">
-                <h1>Detecting Complex Financial Crime Patterns</h1>
-                <p>Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+    <nav>
+        <div class="logo">Veritas Engine</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Demo</a>
+            <a href="#">AML</a>
+            <a href="#">Partners</a>
+            <a href="#" class="btn-request">Request Access</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="left-panel">
+            <h1>Detecting Complex<br>Financial Crime Patterns</h1>
+            <p class="subtitle">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+            
+            <div class="cta-group">
+                <button class="btn-blue">View Demo</button>
+                <button class="btn-outline">AML Capabilities</button>
+            </div>
+
+            <div class="stats">
+                <div class="stat-box">
+                    <h2>2M+</h2>
+                    <p>Suspicious Entities Correlated</p>
+                </div>
+                <div class="stat-box">
+                    <h2>40M+</h2>
+                    <p>Transactions Analyzed</p>
+                </div>
+                <div class="stat-box">
+                    <h2>125+</h2>
+                    <p>Bank & Institution Deployments</p>
+                </div>
+            </div>
+
+            <div class="features">
+                <h3>How Veritas Works</h3>
+                <div class="feature-item"><span class="tick">✓</span> Detects behavior, not identity</div>
+                <div class="feature-item"><span class="tick">✓</span> Correlates events across time</div>
+                <div class="feature-item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="viz-card">
+                <div class="wallet safe">Wallet A</div>
+                <div class="arrow-v">↓</div>
+                <div class="wallet safe">Wallet B</div>
+                <div class="arrow-v">↓</div>
+                <div class="wallet warning-dot">Wallet C</div>
+                <div class="arrow-v" style="color: #ef4444;">↓</div>
+                <div class="wallet high-risk">Wallet C</div>
                 
-                <div class="hero-btns">
-                    <button class="btn-primary">View Demo</button>
-                    <button class="btn-secondary">AML Capabilities</button>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3>2M+</h3>
-                        <p>Suspicious Entities Correlated</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>40M+</h3>
-                        <p>Transactions Analyzed</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3>125+</h3>
-                        <p>Bank & Financial Institution Deployments</p>
-                    </div>
-                </div>
-
-                <div class="how-it-works">
-                    <h4>How Veritas Works</h4>
-                    <ul>
-                        <li>Detects behavior, not identity</li>
-                        <li>Correlates events across time</li>
-                        <li>Escalates only when patterns repeat</li>
-                    </ul>
-                </div>
+                <div class="alert-icon">⚠</div>
+                
+                <div class="risk-badge">Risk Level: <span>HIGH •</span></div>
             </div>
-
-            <div class="content-right">
-                <div class="monitor-card">
-                    <div class="wallet-flow">
-                        <div class="wallet">Wallet A <span class="dot green"></span></div>
-                        <div class="arrow">↓</div>
-                        <div class="wallet">Wallet B <span class="dot green"></span></div>
-                        <div class="arrow">↓</div>
-                        <div class="wallet warning">Wallet C <span class="symbol">▲</span></div>
-                        <div class="arrow red-arrow">↓</div>
-                        <div class="wallet alert">Wallet C</div>
-                        <div class="danger-icon">⚠️</div>
-                        <div class="risk-badge">Risk Level: <span>HIGH •</span></div>
-                    </div>
-                </div>
-            </div>
-        </main>
+        </div>
     </div>
+
 </body>
 </html>
