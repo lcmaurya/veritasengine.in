@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Veritas Engine – API Concept</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: Arial, sans-serif; background:#fff; color:#111; margin:0; padding:20px; }
+    h1,h2 { border-bottom:1px solid #e0e0e0; padding-bottom:6px; }
+    .container { max-width:900px; margin:auto; }
+    .box {
+      background:#0f172a;
+      color:#22c55e;
+      padding:16px;
+      font-family: monospace;
+      border-radius:6px;
+      margin:16px 0;
+      white-space: pre-wrap;
+    }
+    ul { margin-left:20px; }
+    footer { text-align:center; font-size:13px; color:#666; margin-top:40px; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+<h1>Veritas Engine – API Concept</h1>
+<p><b>Illustrative API model for institutional integration</b></p>
+
+<h2>Purpose</h2>
+<p>
+This page demonstrates how institutions may interact with Veritas Engine
+via secured APIs. This is a <b>conceptual representation only</b>.
+</p>
+
+<h2>Sample Request (Conceptual)</h2>
+<div class="box">
+POST /v1/risk/analyze
+Headers:
+  Authorization: Bearer &lt;Institution_Token&gt;
+  Content-Type: application/json
+
+{
+  "event_type": "digital_transaction",
+  "metadata": {
+    "amount": 12000,
+    "channel": "online",
+    "region": "IN"
+  }
+}
+</div>
+
+<h2>Sample Response (Conceptual)</h2>
+<div class="box">
+{
+  "risk_level": "HIGH",
+  "risk_score": 0.87,
+  "indicators": [
+    "behavioral_anomaly",
+    "pattern_match",
+    "velocity_risk"
+  ],
+  "confidence": "0.91"
+}
+</div>
+
+<h2>Key Characteristics</h2>
+<ul>
+  <li>No raw personal data returned</li>
+  <li>No user identity exposed</li>
+  <li>Only processed intelligence shared</li>
+  <li>Institution-controlled access</li>
+</ul>
+
+<h2>Security Model</h2>
+<ul>
+  <li>Token-based authentication</li>
+  <li>Encrypted transport (TLS)</li>
+  <li>Audit-ready responses</li>
+</ul>
+
+<h2>Disclaimer</h2>
+<p>
+This API is <b>not publicly available</b>. Access is provided only under
+formal institutional collaboration.
+</p>
+
+<footer>
+© 2026 Veritas Engine. API Concept – Non-operational
+</footer>
+
+</div>
+</body>
+</html>
