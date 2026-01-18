@@ -1,254 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Veritas Engine | Institutional Risk Intelligence</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family: "Segoe UI", Roboto, Arial, sans-serif;
-  background:#0b1220;
-  color:#e9eef6;
-}
-
-/* ===== HEADER ===== */
-header{
-  background:linear-gradient(180deg,#0d1b2f,#0b1220);
-  padding:18px 40px;
-}
-.header-inner{
-  max-width:1300px;
-  margin:auto;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-.brand h1{
-  font-size:26px;
-  font-weight:700;
-}
-.brand span{
-  font-size:13px;
-  color:#b9c6da;
-}
-nav a{
-  margin-left:22px;
-  color:#dbe6f7;
-  text-decoration:none;
-  font-size:14px;
-  font-weight:600;
-}
-nav .cta{
-  padding:8px 16px;
-  border-radius:6px;
-  background:#2e6cf6;
-  box-shadow:0 6px 18px rgba(46,108,246,.45);
-}
-
-/* ===== HERO ===== */
-.hero{
-  background:
-    linear-gradient(to right,
-      rgba(10,20,40,.92) 35%,
-      rgba(10,20,40,.6) 55%,
-      rgba(10,20,40,.9)
-    ),
-    url("https://images.unsplash.com/photo-1499346030926-9a72daac6c63");
-  background-size:cover;
-  background-position:center;
-  padding:90px 40px;
-}
-.hero-inner{
-  max-width:1300px;
-  margin:auto;
-  display:flex;
-  gap:60px;
-  align-items:flex-start;
-}
-
-/* LEFT TEXT */
-.hero-left{
-  flex:1;
-}
-.hero-left h2{
-  font-size:44px;
-  line-height:1.15;
-  margin-bottom:18px;
-}
-.hero-left p{
-  font-size:16px;
-  max-width:520px;
-  color:#cfd9ea;
-}
-.buttons{
-  margin-top:28px;
-}
-.buttons a{
-  display:inline-block;
-  padding:12px 20px;
-  margin-right:12px;
-  border-radius:8px;
-  background:#1b3b6f;
-  color:#fff;
-  text-decoration:none;
-  font-weight:600;
-}
-.buttons a.secondary{
-  background:#2e6cf6;
-}
-
-/* ===== RIGHT PANEL ===== */
-.hero-right{
-  flex:1;
-  display:flex;
-  justify-content:center;
-}
-.panel{
-  width:360px;
-  padding:28px;
-  border-radius:18px;
-  background:rgba(20,35,65,.85);
-  backdrop-filter:blur(12px);
-  box-shadow:0 30px 70px rgba(0,0,0,.6);
-  border:1px solid rgba(255,255,255,.08);
-}
-.node{
-  padding:12px;
-  border-radius:8px;
-  background:rgba(255,255,255,.08);
-  text-align:center;
-  margin-bottom:10px;
-  font-weight:600;
-}
-.arrow{
-  text-align:center;
-  margin:6px 0;
-  color:#ff6b5a;
-  font-size:18px;
-}
-.alert{
-  margin-top:10px;
-  padding:14px;
-  border-radius:10px;
-  text-align:center;
-  font-weight:700;
-  background:linear-gradient(90deg,#ff5a4f,#e84135);
-  box-shadow:0 12px 26px rgba(232,65,53,.55);
-}
-
-/* ===== STATS ===== */
-.stats{
-  max-width:1300px;
-  margin:50px auto;
-  padding:0 40px;
-  display:flex;
-  gap:30px;
-}
-.stat{
-  flex:1;
-  padding:26px;
-  background:rgba(255,255,255,.04);
-  border-radius:14px;
-  text-align:center;
-  box-shadow:0 14px 30px rgba(0,0,0,.45);
-}
-.stat h3{
-  font-size:30px;
-  color:#ffffff;
-}
-.stat p{
-  margin-top:6px;
-  font-size:14px;
-  color:#b7c4da;
-}
-
-/* ===== FOOTER ===== */
-footer{
-  text-align:center;
-  padding:28px;
-  font-size:13px;
-  color:#9fb0c9;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:900px){
-  .hero-inner{flex-direction:column}
-  .hero-left h2{font-size:34px}
-  .stats{flex-direction:column}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas Engine - Financial Crime Detection</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-
 <body>
+    <div class="hero-section">
+        <nav>
+            <div class="logo">Veritas Engine</div>
+            <div class="nav-links">
+                <a href="#">Home</a>
+                <a href="#">Demo</a>
+                <a href="#">AML</a>
+                <a href="#">Partners</a>
+                <a href="#" class="btn-request">Request Access</a>
+            </div>
+        </nav>
 
-<header>
-  <div class="header-inner">
-    <div class="brand">
-      <h1>Veritas Engine</h1>
-      <span>Institutional Fraud, AML & Risk Intelligence</span>
+        <main class="container">
+            <div class="content-left">
+                <h1>Detecting Complex Financial Crime Patterns</h1>
+                <p>Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+                
+                <div class="hero-btns">
+                    <button class="btn-primary">View Demo</button>
+                    <button class="btn-secondary">AML Capabilities</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>2M+</h3>
+                        <p>Suspicious Entities Correlated</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>40M+</h3>
+                        <p>Transactions Analyzed</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>125+</h3>
+                        <p>Bank & Financial Institution Deployments</p>
+                    </div>
+                </div>
+
+                <div class="how-it-works">
+                    <h4>How Veritas Works</h4>
+                    <ul>
+                        <li>Detects behavior, not identity</li>
+                        <li>Correlates events across time</li>
+                        <li>Escalates only when patterns repeat</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-right">
+                <div class="monitor-card">
+                    <div class="wallet-flow">
+                        <div class="wallet">Wallet A <span class="dot green"></span></div>
+                        <div class="arrow">↓</div>
+                        <div class="wallet">Wallet B <span class="dot green"></span></div>
+                        <div class="arrow">↓</div>
+                        <div class="wallet warning">Wallet C <span class="symbol">▲</span></div>
+                        <div class="arrow red-arrow">↓</div>
+                        <div class="wallet alert">Wallet C</div>
+                        <div class="danger-icon">⚠️</div>
+                        <div class="risk-badge">Risk Level: <span>HIGH •</span></div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Demo</a>
-      <a href="#">AML</a>
-      <a href="#">Partners</a>
-      <a class="cta" href="#">Request Access</a>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <div class="hero-inner">
-
-    <div class="hero-left">
-      <h2>Detecting Complex Financial Crime Patterns</h2>
-      <p>
-        Veritas Engine uncovers fraud, money laundering and illicit networks
-        through advanced behavioral correlation across time, wallets and platforms.
-      </p>
-
-      <div class="buttons">
-        <a href="#">View Demo</a>
-        <a class="secondary" href="#">AML Capabilities</a>
-      </div>
-    </div>
-
-    <div class="hero-right">
-      <div class="panel">
-        <div class="node">Wallet A</div>
-        <div class="arrow">↓</div>
-        <div class="node">Wallet B</div>
-        <div class="arrow">↓</div>
-        <div class="node">Wallet C</div>
-        <div class="arrow">↓</div>
-        <div class="alert">Risk Level : HIGH</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section class="stats">
-  <div class="stat">
-    <h3>2M+</h3>
-    <p>Suspicious Entities Correlated</p>
-  </div>
-  <div class="stat">
-    <h3>40M+</h3>
-    <p>Transactions Analyzed</p>
-  </div>
-  <div class="stat">
-    <h3>125+</h3>
-    <p>Bank & Financial Institution Deployments</p>
-  </div>
-</section>
-
-<footer>
-© 2026 Veritas Engine · Institutional Use Only<br>
-Conceptual visualization · No real user or transaction data shown
-</footer>
-
 </body>
 </html>
