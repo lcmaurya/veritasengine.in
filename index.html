@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Engine | Advanced AML</title>
+    <title>Veritas Engine</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #3b82f6;
             --danger: #ef4444;
-            --bg-overlay: rgba(3, 7, 18, 0.85);
+            --bg-overlay: rgba(3, 7, 18, 0.82);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -17,127 +17,124 @@
         body {
             background-color: #030712;
             color: #ffffff;
-            /* Heavy overlay for dark city look */
             background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                               url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
             background-size: cover;
-            background-position: center;
+            background-position: center top; /* Image align to top */
             background-attachment: fixed;
             min-height: 100vh;
         }
 
-        /* Nav Bar - Top Fixed */
+        /* Nav - Compact & Fixed Top */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 25px 8%;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 20px 8%;
+            position: relative;
+            z-index: 10;
         }
 
-        .logo { font-size: 26px; font-weight: 500; letter-spacing: -0.5px; }
-        .nav-links { display: flex; gap: 25px; align-items: center; }
-        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; }
-        .btn-access { background: #1e40af; padding: 10px 22px; border-radius: 6px; color: white !important; font-weight: 500; }
+        .logo { font-size: 24px; font-weight: 600; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 13px; }
+        .btn-access { background: #1e40af; padding: 8px 18px; border-radius: 5px; color: white !important; font-weight: 500; }
 
-        /* Main Container - Shifted Up */
-        .main-container {
+        /* Main Section - Top Aligned */
+        .hero-container {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            padding: 60px 8% 20px 8%; /* Top padding reduced to align high */
+            padding: 40px 8% 20px 8%; /* Reduced top padding to shift content up */
             gap: 40px;
-            max-width: 1500px;
+            max-width: 1400px;
             margin: 0 auto;
+            align-items: start; /* Force items to stay at top */
         }
 
-        /* Left Side Content */
-        .left-panel h1 {
-            font-size: 44px;
-            line-height: 1.15;
-            margin-bottom: 20px;
-            font-weight: 500;
+        /* Left Panel */
+        h1 {
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 18px;
+            font-weight: 600;
         }
 
-        .description {
+        .desc {
             color: #94a3b8;
-            font-size: 16px;
-            max-width: 520px;
-            margin-bottom: 35px;
-            line-height: 1.6;
+            font-size: 15px;
+            margin-bottom: 25px;
+            max-width: 500px;
+            line-height: 1.5;
         }
 
-        .cta-btns { display: flex; gap: 15px; margin-bottom: 50px; }
-        .btn-fill { background: var(--accent); border: none; padding: 14px 28px; border-radius: 4px; color: white; cursor: pointer; font-size: 15px; }
-        .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid #334155; padding: 14px 28px; border-radius: 4px; color: white; font-size: 15px; }
+        .cta-btns { display: flex; gap: 12px; margin-bottom: 40px; }
+        .btn-blue { background: var(--accent); border: none; padding: 12px 24px; border-radius: 4px; color: white; cursor: pointer; }
+        .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid #334155; padding: 12px 24px; border-radius: 4px; color: white; }
 
         /* Stats Section */
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
-        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px 15px; border-radius: 10px; text-align: center; }
-        .stat-card h2 { font-size: 24px; margin-bottom: 4px; font-weight: 600; }
-        .stat-card p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 18px 10px; border-radius: 8px; text-align: center; }
+        .stat-card h2 { font-size: 22px; margin-bottom: 2px; }
+        .stat-card p { font-size: 10px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
-        /* Features List */
-        .features-box {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            max-width: 600px;
+        /* How it Works */
+        .how-works {
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.05);
+            max-width: 550px;
         }
-        .features-box h4 { font-size: 15px; margin-bottom: 18px; color: #e2e8f0; }
-        .feature-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; margin-bottom: 12px; }
-        .tick { color: #22c55e; font-weight: bold; font-size: 16px; }
+        .how-works h4 { font-size: 14px; margin-bottom: 12px; color: #cbd5e1; }
+        .item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #94a3b8; margin-bottom: 8px; }
+        .tick { color: #22c55e; font-weight: bold; }
 
-        /* Right Side: Visualization Monitor */
-        .right-panel { display: flex; justify-content: flex-end; align-items: flex-start; }
+        /* Right Panel Viz - Aligned Top */
+        .right-panel { display: flex; justify-content: flex-end; }
 
-        .monitor-frame {
+        .viz-box {
             background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(25px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 50px 40px;
-            border-radius: 15px;
+            padding: 40px 30px;
+            border-radius: 12px;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 0 60px rgba(0,0,0,0.6);
-            position: relative;
+            max-width: 380px;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
         }
 
-        .wallet-node {
+        .node {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 16px;
+            padding: 14px;
             border-radius: 6px;
             text-align: center;
-            margin-bottom: 12px;
-            font-size: 15px;
-            color: #cbd5e1;
+            margin-bottom: 10px;
+            font-size: 14px;
             position: relative;
         }
 
-        .node-dot { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; }
-        .dot-ok { background: #22c55e; box-shadow: 0 0 12px #22c55e; }
-        .dot-alert { color: #f59e0b; font-size: 12px; background: none; font-weight: bold; }
+        .dot { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; }
+        .dot-green { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+        .arrow { text-align: center; color: #334155; margin-bottom: 8px; font-size: 18px; }
 
-        .connector { text-align: center; color: #334155; margin: -5px 0 5px 0; font-size: 22px; }
+        .node.danger-box { border: 1px solid var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); font-weight: 500; }
 
-        .wallet-node.danger { border: 1.5px solid var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); font-weight: 600; }
+        .alert-ui { text-align: center; margin-top: 25px; }
+        .alert-icon { font-size: 45px; color: var(--danger); margin-bottom: 10px; filter: drop-shadow(0 0 10px var(--danger)); }
+        .risk-tag { border: 1px solid var(--danger); padding: 8px 25px; border-radius: 4px; font-weight: bold; background: rgba(239, 68, 68, 0.1); font-size: 13px; }
+        .risk-tag span { color: var(--danger); }
 
-        .alert-container { text-align: center; margin-top: 35px; }
-        .warn-icon { font-size: 55px; color: var(--danger); margin-bottom: 15px; filter: drop-shadow(0 0 15px var(--danger)); }
-        .risk-label { border: 1.5px solid var(--danger); padding: 12px 30px; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.1); font-size: 14px; letter-spacing: 1px; display: inline-block; }
-        .risk-label span { color: var(--danger); }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .main-container { grid-template-columns: 1fr; text-align: center; padding: 40px 5%; }
+        /* Responsive Fix for Mobile */
+        @media (max-width: 900px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; padding: 20px 5%; }
             .right-panel { justify-content: center; }
             .nav-links a:not(.btn-access) { display: none; }
-            h1 { font-size: 34px; }
-            .description { margin: 0 auto 35px; }
+            h1 { font-size: 32px; }
+            .desc { margin: 0 auto 25px; }
             .cta-btns { justify-content: center; }
             .stats-grid { grid-template-columns: 1fr; }
-            .monitor-frame { max-width: 100%; }
+            .viz-box { max-width: 100%; }
         }
     </style>
 </head>
@@ -146,57 +143,48 @@
     <nav>
         <div class="logo">Veritas Engine</div>
         <div class="nav-links">
-            <a href="#">Home</a><a href="#">Demo</a><a href="#">AML</a><a href="#">Partners</a>
+            <a href="#">Home</a><a href="#">Demo</a><a href="#">AML</a>
             <a href="#" class="btn-access">Request Access</a>
         </div>
     </nav>
 
-    <div class="main-container">
+    <div class="hero-container">
         <div class="left-panel">
             <h1>Detecting Complex<br>Financial Crime Patterns</h1>
-            <p class="description">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+            <p class="desc">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
             
             <div class="cta-btns">
-                <button class="btn-fill">View Demo</button>
+                <button class="btn-blue">View Demo</button>
                 <button class="btn-outline">AML Capabilities</button>
             </div>
 
             <div class="stats-grid">
-                <div class="stat-card">
-                    <h2>2M+</h2>
-                    <p>Suspicious Entities<br>Correlated</p>
-                </div>
-                <div class="stat-card">
-                    <h2>40M+</h2>
-                    <p>Transactions<br>Analyzed</p>
-                </div>
-                <div class="stat-card">
-                    <h2>125+</h2>
-                    <p>Bank & Institution<br>Deployments</p>
-                </div>
+                <div class="stat-card"><h2>2M+</h2><p>Suspicious Entities<br>Correlated</p></div>
+                <div class="stat-card"><h2>40M+</h2><p>Transactions<br>Analyzed</p></div>
+                <div class="stat-card"><h2>125+</h2><p>Bank & Institution<br>Deployments</p></div>
             </div>
 
-            <div class="features-box">
+            <div class="how-works">
                 <h4>How Veritas Works</h4>
-                <div class="feature-item"><span class="tick">✓</span> Detects behavior, not identity</div>
-                <div class="feature-item"><span class="tick">✓</span> Correlates events across time</div>
-                <div class="feature-item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
+                <div class="item"><span class="tick">✓</span> Detects behavior, not identity</div>
+                <div class="item"><span class="tick">✓</span> Correlates events across time</div>
+                <div class="item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
             </div>
         </div>
 
         <div class="right-panel">
-            <div class="monitor-frame">
-                <div class="wallet-node">Wallet A <span class="node-dot dot-ok"></span></div>
-                <div class="connector">↓</div>
-                <div class="wallet-node">Wallet B <span class="node-dot dot-ok"></span></div>
-                <div class="connector">↓</div>
-                <div class="wallet-node">Wallet C <span class="node-dot" style="background:none; color:#f59e0b;">▲</span></div>
-                <div class="connector" style="color:var(--danger)">↓</div>
-                <div class="wallet-node danger">Wallet C</div>
+            <div class="viz-box">
+                <div class="node">Wallet A <span class="dot dot-green"></span></div>
+                <div class="arrow">↓</div>
+                <div class="node">Wallet B <span class="dot dot-green"></span></div>
+                <div class="arrow">↓</div>
+                <div class="node">Wallet C <span class="dot" style="background:none; color:#f59e0b;">▲</span></div>
+                <div class="arrow" style="color:var(--danger)">↓</div>
+                <div class="node danger-box">Wallet C</div>
                 
-                <div class="alert-container">
-                    <div class="warn-icon">⚠</div>
-                    <div class="risk-label">RISK LEVEL: <span>HIGH •</span></div>
+                <div class="alert-ui">
+                    <div class="alert-icon">⚠</div>
+                    <div class="risk-tag">Risk Level: <span>HIGH •</span></div>
                 </div>
             </div>
         </div>
