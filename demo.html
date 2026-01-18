@@ -5,46 +5,106 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Engine – Risk Intelligence Demo</title>
 
+<!-- LOCKED VERSION – do not modify without explicit instruction -->
+
 <style>
-body{font-family:Arial;background:#f4f6f9;margin:0;color:#222}
-header{background:#0b3a67;color:#fff;padding:26px;text-align:center}
-.container{max-width:1100px;margin:auto;padding:30px}
-.card{background:#fff;border-radius:8px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+body{
+  font-family:Arial;
+  background:#f4f6f9;
+  margin:0;
+  color:#222
+}
+header{
+  background:#0b3a67;
+  color:#fff;
+  padding:26px;
+  text-align:center
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:30px
+}
+.card{
+  background:#fff;
+  border-radius:8px;
+  padding:20px;
+  margin-bottom:24px;
+  box-shadow:0 2px 8px rgba(0,0,0,.08)
+}
 h2{margin-top:0}
 
-/* ===== Graph ===== */
-.graph{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:10px}
+/* ===== Pattern Graph ===== */
+.graph{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:18px;
+  margin-top:10px
+}
+
 .node{
-background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;
-font-weight:bold;opacity:0;animation:fade .6s forwards
+  background:#0b3a67;
+  color:#fff;
+  padding:12px 18px;
+  border-radius:6px;
+  font-weight:bold;
+  opacity:0;
+  animation:fade .6s forwards
 }
 
+/* ===== Risk-based arrows ===== */
 .arrow{
-font-size:28px;
-font-weight:bold;
-color:#e74c3c;
-text-shadow:0 0 8px rgba(231,76,60,.8);
-animation:pulse .9s infinite
+  font-size:28px;
+  font-weight:bold;
+  opacity:.7;
+  animation:pulse var(--speed) infinite;
+  color:var(--arrow);
+  text-shadow:0 0 10px var(--arrow)
 }
 
-/* HIGH RISK */
-.graph{--arrow:#e74c3c}
-.arrow{color:var(--arrow);text-shadow:0 0 10px var(--arrow)}
+/* 🔴 HIGH */
+.risk-high{
+  --arrow:#e74c3c;
+  --speed:.9s;
+}
+
+/* 🟡 MEDIUM */
+.risk-medium{
+  --arrow:#f1c40f;
+  --speed:1.6s;
+}
+
+/* 🟢 LOW */
+.risk-low{
+  --arrow:#2ecc71;
+  --speed:2.6s;
+}
 
 @keyframes pulse{
-0%{transform:translateY(0);opacity:.6}
-50%{transform:translateY(8px);opacity:1}
-100%{transform:translateY(0);opacity:.6}
+  0%{transform:translateY(0);opacity:.6}
+  50%{transform:translateY(8px);opacity:1}
+  100%{transform:translateY(0);opacity:.6}
 }
 @keyframes fade{to{opacity:1}}
 
-.timeline{height:160px;background:linear-gradient(to right,#3498db,#9b59b6);border-radius:6px}
+.timeline{
+  height:160px;
+  background:linear-gradient(to right,#3498db,#9b59b6);
+  border-radius:6px
+}
 
-footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
+footer{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  margin:40px 0
+}
 </style>
 </head>
 
 <body>
+
 <header>
 <h1>Veritas Engine</h1>
 <p>Conceptual Institutional Risk Intelligence Demo</p>
@@ -55,20 +115,28 @@ footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
 <div class="card">
 <h2>Pattern-Chaining Graph (HIGH Risk)</h2>
 
-<div class="graph">
-<div class="node">Wallet A</div>
-<div class="arrow">↓</div>
-<div class="node">Wallet B</div>
-<div class="arrow">↓</div>
-<div class="node">Wallet C</div>
-<div class="arrow">↓</div>
-<div class="node">Cross-Platform Correlation</div>
-<div class="arrow">↓</div>
-<div class="node">Multi-Wallet AML Signal (HIGH)</div>
+<!-- 🔴 CHANGE ONLY THIS CLASS:
+     risk-high | risk-medium | risk-low -->
+
+<div class="graph risk-high">
+
+  <div class="node">Wallet A</div>
+  <div class="arrow">↓</div>
+
+  <div class="node">Wallet B</div>
+  <div class="arrow">↓</div>
+
+  <div class="node">Wallet C</div>
+  <div class="arrow">↓</div>
+
+  <div class="node">Cross-Platform Correlation</div>
+  <div class="arrow">↓</div>
+
+  <div class="node">Multi-Wallet AML Signal</div>
 </div>
 
 <p style="text-align:center;font-size:13px;color:#666">
-Arrow glow & speed indicate risk severity
+Arrow color & pulse speed represent detected risk severity
 </p>
 </div>
 
@@ -82,5 +150,6 @@ Arrow glow & speed indicate risk severity
 <footer>
 © 2026 Veritas Engine · Demo Environment · Institutional Use Only
 </footer>
+
 </body>
 </html>
