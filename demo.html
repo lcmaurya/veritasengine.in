@@ -11,38 +11,69 @@ header{background:#0b3a67;color:#fff;padding:26px;text-align:center}
 .container{max-width:1100px;margin:auto;padding:30px}
 .card{background:#fff;border-radius:8px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 h2{margin-top:0}
+
+/* Badges */
 .badges span{padding:8px 14px;border-radius:4px;color:#fff;font-weight:bold;margin-right:10px}
 .low{background:#2ecc71}
 .medium{background:#f1c40f;color:#000}
 .high{background:#e74c3c}
+
+/* Heatmap */
 .heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
 .cell{padding:14px;text-align:center;color:#fff;font-weight:bold;border-radius:4px;font-size:13px}
 .green{background:#2ecc71}
 .yellow{background:#f1c40f;color:#000}
 .red{background:#e74c3c}
+
+/* Risk Meter */
 .meter{width:100%;height:120px;background:linear-gradient(to right,#2ecc71,#f1c40f,#e74c3c);border-radius:100px;position:relative}
 .pointer{position:absolute;bottom:-12px;left:72%;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:18px solid #000}
 
-/* Animated Pattern Graph */
+/* 🔥 Pattern-Chaining Graph + Arrow Pulse */
 .graph{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:10px}
-.node{background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;font-weight:bold;opacity:0;transform:translateY(10px);animation:fadeIn .6s forwards}
+.node{
+  background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;
+  font-weight:bold;opacity:0;transform:translateY(10px);
+  animation:fadeIn .6s forwards;
+}
 .node:nth-child(1){animation-delay:.2s}
 .node:nth-child(3){animation-delay:.6s}
 .node:nth-child(5){animation-delay:1s}
 .node:nth-child(7){animation-delay:1.4s}
 .node:nth-child(9){animation-delay:1.8s}
-.arrow{font-size:22px;color:#888;opacity:0;animation:fadeIn .4s forwards}
+
+/* Arrow pulse animation */
+.arrow{
+  font-size:22px;
+  color:#888;
+  opacity:0;
+  animation:
+    fadeIn .4s forwards,
+    pulse 1.2s ease-in-out infinite;
+}
 .arrow:nth-child(2){animation-delay:.4s}
 .arrow:nth-child(4){animation-delay:.8s}
 .arrow:nth-child(6){animation-delay:1.2s}
 .arrow:nth-child(8){animation-delay:1.6s}
-@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
+
+@keyframes fadeIn{
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes pulse{
+  0%{transform:translateY(0);color:#888}
+  50%{transform:translateY(6px);color:#0b3a67}
+  100%{transform:translateY(0);color:#888}
+}
+
+/* Timeline */
 .timeline{height:160px;background:linear-gradient(to right,#3498db,#9b59b6);border-radius:6px;opacity:.85}
+
 footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
 </style>
 </head>
 
 <body>
+
 <header>
 <h1>Veritas Engine</h1>
 <p>Conceptual Institutional Risk Intelligence Demo</p>
@@ -80,15 +111,15 @@ Static preview only · Full interactive analysis available under institutional a
 <div class="card">
 <h2>Pattern-Chaining Graph (Animated)</h2>
 <div class="graph">
-<div class="node">Wallet A</div>
-<div class="arrow">↓</div>
-<div class="node">Wallet B</div>
-<div class="arrow">↓</div>
-<div class="node">Wallet C</div>
-<div class="arrow">↓</div>
-<div class="node">Cross-Platform Correlation</div>
-<div class="arrow">↓</div>
-<div class="node">Multi-Wallet AML Signal (HIGH)</div>
+  <div class="node">Wallet A</div>
+  <div class="arrow">↓</div>
+  <div class="node">Wallet B</div>
+  <div class="arrow">↓</div>
+  <div class="node">Wallet C</div>
+  <div class="arrow">↓</div>
+  <div class="node">Cross-Platform Correlation</div>
+  <div class="arrow">↓</div>
+  <div class="node">Multi-Wallet AML Signal (HIGH)</div>
 </div>
 </div>
 
@@ -102,5 +133,6 @@ Static preview only · Full interactive analysis available under institutional a
 <footer>
 © 2026 Veritas Engine · Demo Environment · Institutional Use Only
 </footer>
+
 </body>
 </html>
