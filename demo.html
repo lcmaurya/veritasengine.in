@@ -5,11 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Engine – Risk Intelligence Demo</title>
 
-<!-- LOCKED VERSION – do not modify without explicit instruction -->
-
 <style>
 body{
-  font-family:Arial;
+  font-family:Arial,Helvetica,sans-serif;
   background:#f4f6f9;
   margin:0;
   color:#222
@@ -17,21 +15,22 @@ body{
 header{
   background:#0b3a67;
   color:#fff;
-  padding:26px;
+  padding:28px 20px;
   text-align:center
 }
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:30px
-}
+header h1{margin:0}
+header p{margin:6px 0 0;font-size:14px;opacity:.9}
+
+.container{max-width:1100px;margin:auto;padding:30px}
+
 .card{
   background:#fff;
   border-radius:8px;
-  padding:20px;
-  margin-bottom:24px;
+  padding:22px;
+  margin-bottom:26px;
   box-shadow:0 2px 8px rgba(0,0,0,.08)
 }
+
 h2{margin-top:0}
 
 /* ===== Pattern Graph ===== */
@@ -39,65 +38,90 @@ h2{margin-top:0}
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:18px;
-  margin-top:10px
+  gap:16px;
+  margin:20px 0
 }
-
 .node{
   background:#0b3a67;
   color:#fff;
-  padding:12px 18px;
+  padding:12px 20px;
   border-radius:6px;
   font-weight:bold;
-  opacity:0;
-  animation:fade .6s forwards
+  font-size:14px
 }
-
-/* ===== Risk-based arrows ===== */
 .arrow{
-  font-size:28px;
-  font-weight:bold;
-  opacity:.7;
-  animation:pulse var(--speed) infinite;
-  color:var(--arrow);
-  text-shadow:0 0 10px var(--arrow)
-}
-
-/* 🔴 HIGH */
-.risk-high{
-  --arrow:#e74c3c;
-  --speed:.9s;
-}
-
-/* 🟡 MEDIUM */
-.risk-medium{
-  --arrow:#f1c40f;
-  --speed:1.6s;
-}
-
-/* 🟢 LOW */
-.risk-low{
-  --arrow:#2ecc71;
-  --speed:2.6s;
+  font-size:26px;
+  color:#e74c3c;
+  animation:pulse 1s infinite
 }
 
 @keyframes pulse{
-  0%{transform:translateY(0);opacity:.6}
-  50%{transform:translateY(8px);opacity:1}
-  100%{transform:translateY(0);opacity:.6}
+  0%{opacity:.5;transform:translateY(0)}
+  50%{opacity:1;transform:translateY(6px)}
+  100%{opacity:.5;transform:translateY(0)}
 }
-@keyframes fade{to{opacity:1}}
 
+.final-signal{
+  background:#e85c47;
+  color:#fff;
+  padding:14px 22px;
+  border-radius:6px;
+  font-weight:bold
+}
+
+.explain{
+  font-size:14px;
+  color:#555;
+  margin-top:10px;
+  line-height:1.5
+}
+
+/* ===== Heatmap ===== */
+.heatmap{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px
+}
+.cell{
+  padding:14px;
+  text-align:center;
+  font-weight:bold;
+  border-radius:6px;
+  color:#fff
+}
+.low{background:#2ecc71}
+.medium{background:#f1c40f;color:#000}
+.high{background:#e74c3c}
+
+/* ===== Meter ===== */
+.meter{
+  height:90px;
+  background:linear-gradient(to right,#2ecc71,#f1c40f,#e74c3c);
+  border-radius:60px;
+  position:relative
+}
+.pointer{
+  position:absolute;
+  top:-6px;
+  left:70%;
+  width:0;
+  height:0;
+  border-left:10px solid transparent;
+  border-right:10px solid transparent;
+  border-top:16px solid #000
+}
+
+/* ===== Timeline ===== */
 .timeline{
-  height:160px;
-  background:linear-gradient(to right,#3498db,#9b59b6);
-  border-radius:6px
+  height:140px;
+  border-radius:6px;
+  background:linear-gradient(to right,#3498db,#9b59b6)
 }
 
 footer{
   text-align:center;
-  color:#777;
   font-size:13px;
+  color:#777;
   margin:40px 0
 }
 </style>
@@ -106,49 +130,95 @@ footer{
 <body>
 
 <header>
-<h1>Veritas Engine</h1>
-<p>Conceptual Institutional Risk Intelligence Demo</p>
+  <h1>Veritas Engine</h1>
+  <p>Conceptual Institutional Risk Intelligence Demo</p>
 </header>
 
 <div class="container">
 
+<!-- ================= Pattern Chaining ================= -->
 <div class="card">
-<h2>Pattern-Chaining Graph (HIGH Risk)</h2>
+  <h2>Pattern-Chaining Graph (Risk-Aware)</h2>
 
-<!-- 🔴 CHANGE ONLY THIS CLASS:
-     risk-high | risk-medium | risk-low -->
+  <div class="graph">
+    <div class="node">Wallet A</div>
+    <div class="arrow">↓</div>
+    <div class="node">Wallet B</div>
+    <div class="arrow">↓</div>
+    <div class="node">Wallet C</div>
+    <div class="arrow">↓</div>
+    <div class="node">Cross-Platform Correlation</div>
+    <div class="arrow">↓</div>
+    <div class="final-signal">Multi-Wallet AML Signal (HIGH)</div>
+  </div>
 
-<div class="graph risk-high">
+  <p class="explain">
+    This visualization demonstrates how multiple independent wallets or accounts
+    become linked through behavioral correlation.  
+    Individually, each activity may appear normal.  
+    When analyzed together, repeated connections and synchronized movement
+    elevate the overall risk signal.
+  </p>
 
-  <div class="node">Wallet A</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Wallet B</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Wallet C</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Cross-Platform Correlation</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Multi-Wallet AML Signal</div>
+  <p class="explain">
+    <b>Important:</b> This output represents risk intelligence, not a verdict.
+    No personal data or transaction details are shown in this demonstration.
+  </p>
 </div>
 
-<p style="text-align:center;font-size:13px;color:#666">
-Arrow color & pulse speed represent detected risk severity
-</p>
+<!-- ================= Heatmap + Meter ================= -->
+<div class="card">
+  <h2>Risk Heatmap Preview</h2>
+
+  <p class="explain">
+    The heatmap provides a conceptual snapshot of how risk intensity may vary
+    across different activity clusters. Colors indicate relative risk levels only.
+  </p>
+
+  <div class="heatmap">
+    <div class="cell low">LOW</div>
+    <div class="cell medium">MEDIUM</div>
+    <div class="cell high">HIGH</div>
+
+    <div class="cell low">LOW</div>
+    <div class="cell medium">MEDIUM</div>
+    <div class="cell high">HIGH</div>
+
+    <div class="cell low">LOW</div>
+    <div class="cell medium">MEDIUM</div>
+    <div class="cell high">HIGH</div>
+  </div>
+
+  <br/>
+
+  <h2>Risk Meter</h2>
+  <div class="meter">
+    <div class="pointer"></div>
+  </div>
+
+  <p class="explain" style="text-align:center">
+    <b>Current Risk Level:</b> HIGH<br/>
+    Overall risk is derived from multiple correlated signals combined together.
+  </p>
 </div>
 
+<!-- ================= Timeline ================= -->
 <div class="card">
-<h2>Risk Signal Timeline</h2>
-<div class="timeline"></div>
+  <h2>Risk Signal Timeline</h2>
+
+  <p class="explain">
+    This timeline illustrates how risk signals accumulate over time rather than
+    being triggered by a single event.
+  </p>
+
+  <div class="timeline"></div>
 </div>
 
 </div>
 
 <footer>
-© 2026 Veritas Engine · Demo Environment · Institutional Use Only
+  © 2026 Veritas Engine · Demo Environment · Institutional Use Only<br/>
+  Conceptual visualization · No real user or transaction data involved
 </footer>
 
 </body>
