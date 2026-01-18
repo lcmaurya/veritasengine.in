@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veritas Engine | Institutional Risk Intelligence</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 *{box-sizing:border-box}
@@ -11,202 +11,216 @@ body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
   background:#f4f6f9;
-  color:#1c1c1c;
+  color:#1f2d3d;
 }
-header{
-  background:linear-gradient(135deg,#0b3a67,#062645);
-  color:#fff;
-  padding:22px 26px;
-}
+
+/* ===== NAV ===== */
 nav{
+  background:#0b3a67;
+  color:#fff;
+  padding:14px 24px;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  flex-wrap:wrap;
-}
-nav .logo{
-  font-size:22px;
-  font-weight:bold;
 }
 nav a{
   color:#fff;
   text-decoration:none;
   margin-left:18px;
-  font-size:14px;
+  font-weight:600;
 }
 nav .cta{
-  background:#2d6cdf;
-  padding:10px 16px;
+  background:#2e6cf6;
+  padding:8px 14px;
   border-radius:6px;
 }
 
+/* ===== HERO ===== */
 .hero{
-  display:grid;
-  grid-template-columns:1.2fr 1fr;
-  gap:40px;
-  padding:60px 26px;
   background:
-    linear-gradient(to right,rgba(255,255,255,.96),rgba(255,255,255,.85)),
-    url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80");
+    linear-gradient(to right, rgba(255,255,255,.95) 45%, rgba(11,58,103,.75)),
+    url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a");
   background-size:cover;
+  background-position:center;
+  padding:70px 30px;
 }
-.hero h1{
-  font-size:40px;
+.hero-wrap{
+  max-width:1200px;
+  margin:auto;
+  display:flex;
+  gap:40px;
+  align-items:center;
+}
+.hero-left{flex:1}
+.hero-left h1{
+  font-size:36px;
   margin:0 0 12px;
 }
-.hero p{
-  font-size:16px;
-  line-height:1.6;
+.hero-left p{
+  font-size:15px;
+  color:#444;
   max-width:520px;
 }
-.btns{
+
+.buttons{
   margin-top:22px;
 }
-.btn{
+.buttons a{
   display:inline-block;
-  padding:12px 18px;
+  margin:6px 8px 6px 0;
+  padding:10px 16px;
+  border-radius:6px;
   background:#0b3a67;
   color:#fff;
   text-decoration:none;
-  border-radius:6px;
-  margin:6px 8px 0 0;
   font-size:14px;
 }
-.btn.alt{background:#555}
+.buttons a.alt{background:#5c6f82}
 
-.visual{
-  background:rgba(11,58,103,.92);
+/* ===== RIGHT GLASS CARD ===== */
+.hero-right{
+  flex:1;
+  display:flex;
+  justify-content:center;
+}
+.panel{
+  width:320px;
+  padding:22px;
   border-radius:12px;
-  padding:26px;
+  background:rgba(15,45,80,.92);
+  box-shadow:0 20px 40px rgba(0,0,0,.35);
   color:#fff;
-  box-shadow:0 10px 30px rgba(0,0,0,.25);
 }
 .node{
-  background:#123e6d;
-  padding:12px;
-  text-align:center;
+  background:#123d6b;
+  padding:10px;
   border-radius:6px;
-  margin:10px auto;
-  width:70%;
-  font-weight:bold;
+  text-align:center;
+  margin-bottom:10px;
+  font-weight:600;
 }
 .arrow{
   text-align:center;
-  font-size:22px;
-  color:#ff6b4a;
+  color:#ff6b5a;
+  font-size:18px;
+  margin:6px 0;
 }
 .alert{
   background:#e74c3c;
-  padding:14px;
+  padding:10px;
   border-radius:6px;
   text-align:center;
   font-weight:bold;
-  margin-top:10px;
 }
 
-.metrics{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:24px;
-  padding:50px 26px;
+/* ===== STATS ===== */
+.stats{
+  max-width:1200px;
+  margin:40px auto;
+  display:flex;
+  gap:20px;
+  padding:0 20px;
+}
+.stat{
+  flex:1;
   background:#fff;
-}
-.metric{
-  background:#f9fbfd;
+  padding:24px;
   border-radius:10px;
-  padding:26px;
   text-align:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
 }
-.metric h2{
-  margin:0;
-  color:#0b3a67;
-  font-size:34px;
-}
-.metric p{
-  margin:8px 0 0;
-  font-size:14px;
-  color:#555;
-}
+.stat h2{margin:0;color:#0b3a67}
+.stat p{margin:6px 0 0;color:#666;font-size:14px}
 
+/* ===== FOOTER ===== */
 footer{
   text-align:center;
-  padding:30px 16px;
+  padding:24px;
+  color:#777;
   font-size:13px;
-  color:#666;
 }
 
+/* ===== MOBILE ===== */
 @media(max-width:900px){
-  .hero{grid-template-columns:1fr}
-  .node{width:90%}
+  .hero-wrap{flex-direction:column}
+  .hero{
+    background:
+      linear-gradient(rgba(11,58,103,.85),rgba(11,58,103,.85)),
+      url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a");
+  }
+  .hero-left{color:#fff}
+  .hero-left p{color:#e6e6e6}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <nav>
-    <div class="logo">Veritas Engine</div>
-    <div>
-      <a href="index.html">Home</a>
-      <a href="demo.html">Demo</a>
-      <a href="aml.html">AML</a>
-      <a href="partners.html">Partners</a>
-      <a href="request-access.html" class="cta">Request Access</a>
-    </div>
-  </nav>
-</header>
+<nav>
+  <strong>Veritas Engine</strong>
+  <div>
+    <a href="index.html">Home</a>
+    <a href="demo.html">Demo</a>
+    <a href="aml.html">AML</a>
+    <a href="partners.html">Partners</a>
+    <a class="cta" href="request-access.html">Request Access</a>
+  </div>
+</nav>
 
 <section class="hero">
-  <div>
-    <h1>Detecting Complex Financial Crime Patterns</h1>
-    <p>
-      Veritas Engine uncovers fraud, money laundering and illicit networks by
-      correlating behavior across wallets, platforms and time.
-      Individually harmless events become high-risk when connected together.
-    </p>
+  <div class="hero-wrap">
 
-    <div class="btns">
-      <a href="demo.html" class="btn">View Demo</a>
-      <a href="aml.html" class="btn">AML Capabilities</a>
-      <a href="integration-roadmap.html" class="btn alt">System Architecture</a>
-      <a href="whitepaper.html" class="btn alt">Security & Privacy</a>
-      <a href="outreach.html" class="btn">Government / Bank Outreach</a>
+    <div class="hero-left">
+      <h1>Detecting Complex Financial Crime Patterns</h1>
+      <p>
+        Veritas Engine uncovers fraud, money laundering and illicit networks by
+        correlating behavior across wallets, platforms and time.
+        Individually harmless events become high-risk when connected together.
+      </p>
+
+      <div class="buttons">
+        <a href="demo.html">View Demo</a>
+        <a href="aml.html">AML Capabilities</a>
+        <a class="alt" href="architecture.html">System Architecture</a>
+        <a class="alt" href="security.html">Security & Privacy</a>
+        <a class="alt" href="outreach.html">Government / Bank Outreach</a>
+      </div>
     </div>
-  </div>
 
-  <div class="visual">
-    <div class="node">Wallet A</div>
-    <div class="arrow">↓</div>
-    <div class="node">Wallet B</div>
-    <div class="arrow">↓</div>
-    <div class="node">Wallet C</div>
-    <div class="arrow">↓</div>
-    <div class="node">Cross-Platform Correlation</div>
-    <div class="arrow">↓</div>
-    <div class="alert">AML Risk Signal — HIGH</div>
+    <div class="hero-right">
+      <div class="panel">
+        <div class="node">Wallet A</div>
+        <div class="arrow">↓</div>
+        <div class="node">Wallet B</div>
+        <div class="arrow">↓</div>
+        <div class="node">Wallet C</div>
+        <div class="arrow">↓</div>
+        <div class="node">Cross-Platform Correlation</div>
+        <div class="arrow">↓</div>
+        <div class="alert">AML Risk Signal – HIGH</div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<section class="metrics">
-  <div class="metric">
+<section class="stats">
+  <div class="stat">
     <h2>2M+</h2>
     <p>Suspicious Entities Correlated</p>
   </div>
-  <div class="metric">
+  <div class="stat">
     <h2>40M+</h2>
     <p>Transactions Analyzed</p>
   </div>
-  <div class="metric">
+  <div class="stat">
     <h2>125+</h2>
     <p>Bank & Fintech Deployments</p>
   </div>
 </section>
 
 <footer>
-© 2026 Veritas Engine · Institutional Use Only  
-<br>
+© 2026 Veritas Engine · Institutional Use Only<br>
 Conceptual visualization · No real user or transaction data shown
 </footer>
 
