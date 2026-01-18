@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Engine – Risk Intelligence Demo</title>
 
@@ -12,24 +12,12 @@ header{background:#0b3a67;color:#fff;padding:26px;text-align:center}
 .card{background:#fff;border-radius:8px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 h2{margin-top:0}
 
-/* Badges */
-.badges span{padding:8px 14px;border-radius:4px;color:#fff;font-weight:bold;margin-right:10px}
-.low{background:#2ecc71}
-.medium{background:#f1c40f;color:#000}
-.high{background:#e74c3c}
+/* ===== Risk Selector ===== */
+.risk-high{}
+.risk-medium{}
+.risk-low{}
 
-/* Heatmap */
-.heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
-.cell{padding:14px;text-align:center;color:#fff;font-weight:bold;border-radius:4px;font-size:13px}
-.green{background:#2ecc71}
-.yellow{background:#f1c40f;color:#000}
-.red{background:#e74c3c}
-
-/* Risk Meter */
-.meter{width:100%;height:120px;background:linear-gradient(to right,#2ecc71,#f1c40f,#e74c3c);border-radius:100px;position:relative}
-.pointer{position:absolute;bottom:-12px;left:72%;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:18px solid #000}
-
-/* 🔥 Pattern-Chaining Graph + Arrow Pulse */
+/* ===== Pattern Graph ===== */
 .graph{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:10px}
 .node{
   background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;
@@ -42,27 +30,26 @@ h2{margin-top:0}
 .node:nth-child(7){animation-delay:1.4s}
 .node:nth-child(9){animation-delay:1.8s}
 
-/* Arrow pulse animation */
 .arrow{
   font-size:22px;
-  color:#888;
   opacity:0;
-  animation:
-    fadeIn .4s forwards,
-    pulse 1.2s ease-in-out infinite;
+  animation:fadeIn .4s forwards, pulse 1s ease-in-out infinite;
 }
-.arrow:nth-child(2){animation-delay:.4s}
-.arrow:nth-child(4){animation-delay:.8s}
-.arrow:nth-child(6){animation-delay:1.2s}
-.arrow:nth-child(8){animation-delay:1.6s}
 
-@keyframes fadeIn{
-  to{opacity:1;transform:translateY(0)}
-}
+/* 🔴 HIGH */
+.risk-high .arrow{color:#e74c3c;animation-duration:.8s}
+
+/* 🟡 MEDIUM */
+.risk-medium .arrow{color:#f1c40f;animation-duration:1.4s}
+
+/* 🟢 LOW */
+.risk-low .arrow{color:#2ecc71;animation-duration:2.2s}
+
+@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{
-  0%{transform:translateY(0);color:#888}
-  50%{transform:translateY(6px);color:#0b3a67}
-  100%{transform:translateY(0);color:#888}
+  0%{transform:translateY(0)}
+  50%{transform:translateY(6px)}
+  100%{transform:translateY(0)}
 }
 
 /* Timeline */
@@ -82,45 +69,30 @@ footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
 <div class="container">
 
 <div class="card">
-<h2>Risk Classification Output</h2>
-<div class="badges">
-<span class="low">LOW</span>
-<span class="medium">MEDIUM</span>
-<span class="high">HIGH</span>
-</div>
-</div>
+<h2>Pattern-Chaining Graph (Risk-Aware)</h2>
 
-<div class="card">
-<h2>Risk Heatmap Preview</h2>
-<div class="heatmap">
-<div class="cell green">Low</div><div class="cell yellow">Moderate</div><div class="cell red">High</div><div class="cell red">High</div><div class="cell red">High</div>
-<div class="cell green">Low</div><div class="cell yellow">Moderate</div><div class="cell yellow">Moderate</div><div class="cell red">High</div><div class="cell red">High</div>
-<div class="cell green">Low</div><div class="cell green">Low</div><div class="cell yellow">Moderate</div><div class="cell yellow">Moderate</div><div class="cell red">High</div>
-</div>
-<p style="font-size:13px;color:#666;margin-top:10px;">
-Static preview only · Full interactive analysis available under institutional access
-</p>
-</div>
+<!-- 🔴 CHANGE ONLY THIS CLASS FOR DEMO -->
+<div class="graph risk-high">
 
-<div class="card">
-<h2>Risk Meter</h2>
-<div class="meter"><div class="pointer"></div></div>
-<p style="text-align:center;"><b>Current Risk Level: HIGH</b></p>
-</div>
-
-<div class="card">
-<h2>Pattern-Chaining Graph (Animated)</h2>
-<div class="graph">
   <div class="node">Wallet A</div>
   <div class="arrow">↓</div>
+
   <div class="node">Wallet B</div>
   <div class="arrow">↓</div>
+
   <div class="node">Wallet C</div>
   <div class="arrow">↓</div>
+
   <div class="node">Cross-Platform Correlation</div>
   <div class="arrow">↓</div>
+
   <div class="node">Multi-Wallet AML Signal (HIGH)</div>
 </div>
+
+<p style="text-align:center;font-size:13px;color:#666;margin-top:10px">
+Arrow color & speed adapt to detected risk level
+</p>
+
 </div>
 
 <div class="card">
