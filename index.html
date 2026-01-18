@@ -3,35 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Engine - Financial Crime Detection</title>
+    <title>Veritas Engine | Advanced Financial Crime Detection</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #020617;
-            --accent-blue: #2563eb;
-            --glass-bg: rgba(15, 23, 42, 0.7);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --text-dim: #94a3b8;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --bg-overlay: rgba(3, 7, 18, 0.9);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
 
         body {
-            background-color: var(--bg-dark);
+            background-color: #030712;
             color: #ffffff;
-            /* Space/City Background Overlay */
-            background: linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.8)), 
-                        url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
+            background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
+                              url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
             background-size: cover;
-            background-attachment: fixed;
             background-position: center;
+            background-attachment: fixed;
             min-height: 100vh;
-            line-height: 1.5;
+            display: flex;
+            flex-direction: column;
         }
 
         /* Navigation */
@@ -39,200 +32,98 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 5%;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px 6%;
             backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            z-index: 100;
         }
 
-        .logo { font-size: 22px; font-weight: 600; letter-spacing: -0.5px; }
+        .logo { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; transition: 0.3s; }
+        .nav-links a:hover { color: white; }
+        .btn-access { background: #1e40af; padding: 10px 22px; border-radius: 6px; color: white !important; font-weight: 500; }
 
-        .nav-links { display: flex; align-items: center; gap: 20px; }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #cbd5e1;
-            font-size: 13px;
-            font-weight: 500;
-        }
-
-        .btn-request {
-            background: #1e3a8a;
-            padding: 8px 18px;
-            border-radius: 4px;
-            color: white !important;
-        }
-
-        /* Hero Layout */
+        /* Main Hero Section */
         .hero {
-            display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 40px;
-            padding: 60px 8%;
-            max-width: 1400px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            padding: 40px 8%;
+            gap: 50px;
+            max-width: 1500px;
             margin: 0 auto;
         }
 
-        .left-panel h1 {
-            font-size: 48px;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            font-weight: 600;
-        }
+        .left-content { flex: 1.2; }
+        .right-viz { flex: 0.8; display: flex; justify-content: flex-end; }
 
-        .subtitle {
-            color: var(--text-dim);
-            font-size: 16px;
-            margin-bottom: 30px;
-            max-width: 550px;
-        }
+        h1 { font-size: 48px; line-height: 1.1; margin-bottom: 25px; font-weight: 600; }
+        .desc { color: #94a3b8; font-size: 16px; margin-bottom: 35px; line-height: 1.6; max-width: 520px; }
 
         /* CTA Buttons */
-        .cta-group { display: flex; gap: 12px; margin-bottom: 50px; }
+        .cta-btns { display: flex; gap: 15px; margin-bottom: 45px; }
+        .btn-blue { background: var(--accent); border: none; padding: 14px 30px; border-radius: 5px; color: white; cursor: pointer; font-size: 15px; font-weight: 500; }
+        .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid #334155; padding: 14px 30px; border-radius: 5px; color: white; font-size: 15px; }
 
-        .btn-blue {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 5px;
-            font-weight: 500;
-            cursor: pointer;
-        }
+        /* Stats Row */
+        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
+        .stat-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px 10px; border-radius: 10px; text-align: center; }
+        .stat-item h2 { font-size: 26px; margin-bottom: 4px; font-weight: 600; }
+        .stat-item p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; }
 
-        .btn-outline {
-            background: rgba(255,255,255,0.05);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px 24px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+        /* Checklist Section */
+        .checklist { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+        .checklist h4 { font-size: 15px; margin-bottom: 15px; color: #f1f5f9; letter-spacing: 0.5px; }
+        .item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; margin-bottom: 12px; }
+        .tick { color: #22c55e; font-weight: bold; }
 
-        /* Stats Grid */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 40px;
-        }
-
-        .stat-box {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
-            padding: 20px 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .stat-box h2 { font-size: 22px; margin-bottom: 4px; }
-        .stat-box p { font-size: 10px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* Features List */
-        .how-it-works {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .how-it-works h3 { font-size: 14px; margin-bottom: 12px; color: #f8fafc; }
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--text-dim);
-            margin-bottom: 6px;
-        }
-
-        .tick { color: #22c55e; }
-
-        /* Right Panel Viz */
-        .viz-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .wallet-node {
+        /* RIGHT SIDE: Visualization Monitor */
+        .monitor-frame {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 45px 35px;
+            border-radius: 15px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px;
-            border-radius: 4px;
+            max-width: 420px;
+            box-shadow: 0 0 60px rgba(0,0,0,0.7), inset 0 0 20px rgba(59, 130, 246, 0.05);
             text-align: center;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: #f1f5f9;
+        }
+
+        .node {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #e2e8f0;
             position: relative;
         }
 
-        .wallet-node span.status {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
+        .status-dot { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; }
+        .dot-green { background: #22c55e; box-shadow: 0 0 15px #22c55e; }
+        .dot-warn { color: #f59e0b; font-size: 12px; background: none; font-weight: bold; }
 
-        .status.green { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
-        .status.warning { background: #eab308; }
+        .arrow-down { color: #334155; margin: -5px 0 5px 0; font-size: 22px; font-weight: 300; }
 
-        .arrow { color: #475569; margin-bottom: 8px; font-size: 18px; }
+        .node.danger-node { border: 1.5px solid var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); font-weight: 600; box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
 
-        .wallet-node.danger {
-            border: 1px solid #ef4444;
-            background: rgba(239, 68, 68, 0.15);
-            color: #ef4444;
-        }
+        .alert-zone { margin-top: 30px; }
+        .alert-icon { font-size: 52px; color: var(--danger); margin-bottom: 15px; filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); }
+        .risk-badge { border: 1.5px solid var(--danger); padding: 12px 30px; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.2); font-size: 14px; letter-spacing: 1px; display: inline-block; }
+        .risk-badge span { color: var(--danger); }
 
-        .alert-box {
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .warning-icon { font-size: 40px; color: #ef4444; margin-bottom: 10px; }
-
-        .risk-badge {
-            background: rgba(239, 68, 68, 0.2);
-            border: 1px solid #ef4444;
-            padding: 8px 25px;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .risk-badge span { color: #ef4444; margin-left: 5px; }
-
-        /* --- RESPONSIVE DESIGN (Mobile Friendly) --- */
-        @media (max-width: 968px) {
-            nav { padding: 15px 5%; }
-            .nav-links a:not(.btn-request) { display: none; } /* Hide menu on mobile to save space */
-            
-            .hero {
-                grid-template-columns: 1fr; /* Stack vertically */
-                padding: 40px 5%;
-                text-align: center;
-            }
-
-            .left-panel h1 { font-size: 32px; }
-            .subtitle { margin: 0 auto 30px; }
-            .cta-group { justify-content: center; }
-            .stats { grid-template-columns: 1fr; gap: 10px; }
-            
-            .viz-card { width: 100%; padding: 25px; }
+        /* Responsive Fixes */
+        @media (max-width: 1024px) {
+            .hero { flex-direction: column; text-align: center; padding: 40px 5%; }
+            .right-viz { justify-content: center; width: 100%; margin-top: 30px; }
+            .nav-links a:not(.btn-access) { display: none; }
+            h1 { font-size: 38px; }
+            .desc { margin: 0 auto 35px; }
+            .cta-btns { justify-content: center; }
+            .stats-row { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px; }
+            .monitor-frame { max-width: 420px; margin: 0 auto; }
         }
     </style>
 </head>
@@ -241,60 +132,48 @@
     <nav>
         <div class="logo">Veritas Engine</div>
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Demo</a>
-            <a href="#">AML</a>
-            <a href="#">Partners</a>
-            <a href="#" class="btn-request">Request Access</a>
+            <a href="#">Home</a><a href="#">Demo</a><a href="#">AML</a><a href="#">Partners</a>
+            <a href="#" class="btn-access">Request Access</a>
         </div>
     </nav>
 
     <div class="hero">
-        <div class="left-panel">
+        <div class="left-content">
             <h1>Detecting Complex<br>Financial Crime Patterns</h1>
-            <p class="subtitle">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+            <p class="desc">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
             
-            <div class="cta-group">
+            <div class="cta-btns">
                 <button class="btn-blue">View Demo</button>
-                <button class="btn-outline">AML Capabilities</button>
+                <button class="btn-ghost">AML Capabilities</button>
             </div>
 
-            <div class="stats">
-                <div class="stat-box">
-                    <h2>2M+</h2>
-                    <p>Suspicious Entities Correlated</p>
-                </div>
-                <div class="stat-box">
-                    <h2>40M+</h2>
-                    <p>Transactions Analyzed</p>
-                </div>
-                <div class="stat-box">
-                    <h2>125+</h2>
-                    <p>Bank & Institution Deployments</p>
-                </div>
+            <div class="stats-row">
+                <div class="stat-item"><h2>2M+</h2><p>Entities Correlated</p></div>
+                <div class="stat-item"><h2>40M+</h2><p>Transactions Analyzed</p></div>
+                <div class="stat-item"><h2>125+</h2><p>Bank Deployments</p></div>
             </div>
 
-            <div class="how-it-works">
-                <h3>How Veritas Works</h3>
-                <div class="feature-item"><span class="tick">✓</span> Detects behavior, not identity</div>
-                <div class="feature-item"><span class="tick">✓</span> Correlates events across time</div>
-                <div class="feature-item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
+            <div class="checklist">
+                <h4>How Veritas Works</h4>
+                <div class="item"><span class="tick">✓</span> Detects behavior, not identity</div>
+                <div class="item"><span class="tick">✓</span> Correlates events across time</div>
+                <div class="item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
             </div>
         </div>
 
-        <div class="right-panel">
-            <div class="viz-card">
-                <div class="wallet-node">Wallet A <span class="status green"></span></div>
-                <div class="arrow">↓</div>
-                <div class="wallet-node">Wallet B <span class="status green"></span></div>
-                <div class="arrow">↓</div>
-                <div class="wallet-node">Wallet C <span class="status warning"></span></div>
-                <div class="arrow" style="color: #ef4444;">↓</div>
-                <div class="wallet-node danger">Wallet C</div>
+        <div class="right-viz">
+            <div class="monitor-frame">
+                <div class="node">Wallet A <span class="status-dot dot-green"></span></div>
+                <div class="arrow-down">↓</div>
+                <div class="node">Wallet B <span class="status-dot dot-green"></span></div>
+                <div class="arrow-down">↓</div>
+                <div class="node">Wallet C <span class="status-dot" style="background:none; color:#f59e0b;">▲</span></div>
+                <div class="arrow-down" style="color:var(--danger)">↓</div>
+                <div class="node danger-node">Wallet C</div>
                 
-                <div class="alert-box">
-                    <div class="warning-icon">⚠</div>
-                    <div class="risk-badge">Risk Level: <span>HIGH •</span></div>
+                <div class="alert-zone">
+                    <div class="alert-icon">⚠</div>
+                    <div class="risk-badge">RISK LEVEL: <span>HIGH •</span></div>
                 </div>
             </div>
         </div>
