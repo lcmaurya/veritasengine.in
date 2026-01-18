@@ -5,11 +5,17 @@
 <title>Veritas Engine | Institutional Risk Intelligence</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body{font-family:Arial;margin:0;padding:0}
+body{font-family:Arial;margin:0;padding:0;background:#f7f9fc}
 header{background:#0b3a67;color:#fff;padding:30px}
 nav a{color:#fff;margin-right:16px;text-decoration:none;font-weight:bold}
 section{padding:40px}
 .btn{display:inline-block;padding:12px 18px;background:#0b3a67;color:#fff;text-decoration:none;border-radius:6px;margin:6px 6px 6px 0}
+.preview-box{background:#fff;border-radius:8px;padding:20px;margin-top:30px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:16px}
+.cell{padding:14px;color:#fff;font-size:12px;text-align:center;border-radius:4px}
+.low{background:#2ecc71}
+.medium{background:#f1c40f;color:#000}
+.high{background:#e74c3c}
 footer{padding:30px;text-align:center;color:#666}
 </style>
 </head>
@@ -38,10 +44,47 @@ patterns using behavior analysis and pattern-chaining intelligence.
 
 <a class="btn" href="demo.html">View Demo</a>
 <a class="btn" href="aml.html">AML Capabilities</a>
-<a class="btn" href="integration-roadmap.html">System Architecture</a>
+<a class="btn" href="architecture.html">System Architecture</a>
 <a class="btn" href="whitepaper.html">Security & Privacy</a>
 <a class="btn" href="outreach.html">Government / Bank Outreach</a>
 <a class="btn" href="request-access.html">Request Access / NDA</a>
+
+<div class="preview-box">
+<h3>Risk Heatmap Preview (Conceptual)</h3>
+<p style="color:#555;font-size:14px">
+Illustrative snapshot of how Veritas Engine classifies institutional risk signals.
+</p>
+
+<div class="heatmap">
+<div class="cell low">Low</div>
+<div class="cell medium">Moderate</div>
+<div class="cell high">High</div>
+<div class="cell high">High</div>
+<div class="cell high">High</div>
+
+<div class="cell low">Low</div>
+<div class="cell medium">Moderate</div>
+<div class="cell medium">Moderate</div>
+<div class="cell high">High</div>
+<div class="cell high">High</div>
+
+<div class="cell low">Low</div>
+<div class="cell low">Low</div>
+<div class="cell medium">Moderate</div>
+<div class="cell medium">Moderate</div>
+<div class="cell high">High</div>
+
+<div class="cell low">Low</div>
+<div class="cell low">Low</div>
+<div class="cell low">Low</div>
+<div class="cell medium">Moderate</div>
+<div class="cell medium">Moderate</div>
+</div>
+
+<p style="font-size:12px;color:#777;margin-top:12px">
+Static preview only · Full interactive analysis available in Demo
+</p>
+</div>
 </section>
 
 <footer>
