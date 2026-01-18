@@ -2,136 +2,213 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veritas Engine | Institutional Risk Intelligence</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-body{font-family:Arial;margin:0;padding:0;background:#f7f9fc}
-header{background:#0b3a67;color:#fff;padding:30px}
-nav a{color:#fff;margin-right:16px;text-decoration:none;font-weight:bold}
-section{padding:40px}
-.btn{display:inline-block;padding:12px 18px;background:#0b3a67;color:#fff;text-decoration:none;border-radius:6px;margin:6px 6px 6px 0}
-.preview-box{background:#fff;border-radius:8px;padding:20px;margin-top:30px;box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:16px}
-.cell{padding:14px;color:#fff;font-size:12px;text-align:center;border-radius:4px}
-.low{background:#2ecc71}
-.medium{background:#f1c40f;color:#000}
-.high{background:#e74c3c}
-footer{padding:30px;text-align:center;color:#666}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f4f6f9;
+  color:#1c1c1c;
+}
+header{
+  background:linear-gradient(135deg,#0b3a67,#062645);
+  color:#fff;
+  padding:22px 26px;
+}
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  flex-wrap:wrap;
+}
+nav .logo{
+  font-size:22px;
+  font-weight:bold;
+}
+nav a{
+  color:#fff;
+  text-decoration:none;
+  margin-left:18px;
+  font-size:14px;
+}
+nav .cta{
+  background:#2d6cdf;
+  padding:10px 16px;
+  border-radius:6px;
+}
+
+.hero{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:40px;
+  padding:60px 26px;
+  background:
+    linear-gradient(to right,rgba(255,255,255,.96),rgba(255,255,255,.85)),
+    url("https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80");
+  background-size:cover;
+}
+.hero h1{
+  font-size:40px;
+  margin:0 0 12px;
+}
+.hero p{
+  font-size:16px;
+  line-height:1.6;
+  max-width:520px;
+}
+.btns{
+  margin-top:22px;
+}
+.btn{
+  display:inline-block;
+  padding:12px 18px;
+  background:#0b3a67;
+  color:#fff;
+  text-decoration:none;
+  border-radius:6px;
+  margin:6px 8px 0 0;
+  font-size:14px;
+}
+.btn.alt{background:#555}
+
+.visual{
+  background:rgba(11,58,103,.92);
+  border-radius:12px;
+  padding:26px;
+  color:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.25);
+}
+.node{
+  background:#123e6d;
+  padding:12px;
+  text-align:center;
+  border-radius:6px;
+  margin:10px auto;
+  width:70%;
+  font-weight:bold;
+}
+.arrow{
+  text-align:center;
+  font-size:22px;
+  color:#ff6b4a;
+}
+.alert{
+  background:#e74c3c;
+  padding:14px;
+  border-radius:6px;
+  text-align:center;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:24px;
+  padding:50px 26px;
+  background:#fff;
+}
+.metric{
+  background:#f9fbfd;
+  border-radius:10px;
+  padding:26px;
+  text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+.metric h2{
+  margin:0;
+  color:#0b3a67;
+  font-size:34px;
+}
+.metric p{
+  margin:8px 0 0;
+  font-size:14px;
+  color:#555;
+}
+
+footer{
+  text-align:center;
+  padding:30px 16px;
+  font-size:13px;
+  color:#666;
+}
+
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr}
+  .node{width:90%}
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>Veritas Engine</h1>
-<p>Institutional Fraud, AML & Risk Intelligence</p>
-<nav>
-<a href="index.html">Home</a>
-<a href="demo.html">Demo</a>
-<a href="aml.html">AML</a>
-<a href="whitepaper.html">Whitepaper</a>
-<a href="request-access.html">Request Access</a>
-<a href="outreach.html">Government / Bank</a>
-<a href="partners.html">Partners</a>
-</nav>
+  <nav>
+    <div class="logo">Veritas Engine</div>
+    <div>
+      <a href="index.html">Home</a>
+      <a href="demo.html">Demo</a>
+      <a href="aml.html">AML</a>
+      <a href="partners.html">Partners</a>
+      <a href="request-access.html" class="cta">Request Access</a>
+    </div>
+  </nav>
 </header>
 
-<section>
-<h2>What We Do</h2>
-<p>
-Veritas Engine detects complex fraud, scam, phishing and money-laundering
-patterns using behavior analysis and pattern-chaining intelligence.
-</p>
+<section class="hero">
+  <div>
+    <h1>Detecting Complex Financial Crime Patterns</h1>
+    <p>
+      Veritas Engine uncovers fraud, money laundering and illicit networks by
+      correlating behavior across wallets, platforms and time.
+      Individually harmless events become high-risk when connected together.
+    </p>
 
-<a class="btn" href="demo.html">View Demo</a>
-<a class="btn" href="aml.html">AML Capabilities</a>
-<a class="btn" href="architecture.html">System Architecture</a>
-<a class="btn" href="whitepaper.html">Security & Privacy</a>
-<a class="btn" href="outreach.html">Government / Bank Outreach</a>
-<a class="btn" href="request-access.html">Request Access / NDA</a>
+    <div class="btns">
+      <a href="demo.html" class="btn">View Demo</a>
+      <a href="aml.html" class="btn">AML Capabilities</a>
+      <a href="integration-roadmap.html" class="btn alt">System Architecture</a>
+      <a href="whitepaper.html" class="btn alt">Security & Privacy</a>
+      <a href="outreach.html" class="btn">Government / Bank Outreach</a>
+    </div>
+  </div>
 
-<div class="preview-box">
-<h3>Risk Heatmap Preview (Conceptual)</h3>
-<p style="color:#555;font-size:14px">
-Illustrative snapshot of how Veritas Engine classifies institutional risk signals.
-</p>
+  <div class="visual">
+    <div class="node">Wallet A</div>
+    <div class="arrow">↓</div>
+    <div class="node">Wallet B</div>
+    <div class="arrow">↓</div>
+    <div class="node">Wallet C</div>
+    <div class="arrow">↓</div>
+    <div class="node">Cross-Platform Correlation</div>
+    <div class="arrow">↓</div>
+    <div class="alert">AML Risk Signal — HIGH</div>
+  </div>
+</section>
 
-<div class="heatmap">
-<div class="cell low">Low</div>
-<div class="cell medium">Moderate</div>
-<div class="cell high">High</div>
-<div class="cell high">High</div>
-<div class="cell high">High</div>
-
-<div class="cell low">Low</div>
-<div class="cell medium">Moderate</div>
-<div class="cell medium">Moderate</div>
-<div class="cell high">High</div>
-<div class="cell high">High</div>
-
-<div class="cell low">Low</div>
-<div class="cell low">Low</div>
-<div class="cell medium">Moderate</div>
-<div class="cell medium">Moderate</div>
-<div class="cell high">High</div>
-
-<div class="cell low">Low</div>
-<div class="cell low">Low</div>
-<div class="cell low">Low</div>
-<div class="cell medium">Moderate</div>
-<div class="cell medium">Moderate</div>
-</div>
-
-<p style="font-size:12px;color:#777;margin-top:12px">
-Static preview only · Full interactive analysis available in Demo
-</p>
-</div>
+<section class="metrics">
+  <div class="metric">
+    <h2>2M+</h2>
+    <p>Suspicious Entities Correlated</p>
+  </div>
+  <div class="metric">
+    <h2>40M+</h2>
+    <p>Transactions Analyzed</p>
+  </div>
+  <div class="metric">
+    <h2>125+</h2>
+    <p>Bank & Fintech Deployments</p>
+  </div>
 </section>
 
 <footer>
-© 2026 Veritas Engine · Institutional Use Only
+© 2026 Veritas Engine · Institutional Use Only  
+<br>
+Conceptual visualization · No real user or transaction data shown
 </footer>
 
 </body>
 </html>
-
-<section style="padding:40px">
-<h2>Live Pattern-Chaining Preview</h2>
-
-<div class="graph risk-high" style="max-width:300px;margin:auto">
-
-<div class="node" style="animation-delay:.1s">Wallet A</div>
-<div class="arrow">↓</div>
-<div class="node" style="animation-delay:.4s">Wallet B</div>
-<div class="arrow">↓</div>
-<div class="node" style="animation-delay:.7s">Wallet C</div>
-<div class="arrow">↓</div>
-<div class="node" style="animation-delay:1s">AML Risk Escalation</div>
-
-</div>
-
-<p style="text-align:center;font-size:13px;color:#666;margin-top:10px">
-Animated preview · Full analysis inside Demo
-</p>
-</section>
-
-
-<section style="padding:40px">
-<h2>Live Pattern-Chaining Preview</h2>
-
-<div style="max-width:320px;margin:auto;text-align:center;font-size:14px;color:#333">
-<div style="padding:8px;font-weight:bold">Wallet A</div>
-↓
-<div style="padding:8px;font-weight:bold">Wallet B</div>
-↓
-<div style="padding:8px;font-weight:bold">Wallet C</div>
-↓
-<div style="padding:8px;font-weight:bold;color:#b30000">
-AML Risk Escalation
-</div>
-</div>
-
-<p style="text-align:center;font-size:13px;color:#666;margin-top:10px">
-Static preview · Full animated analysis inside Demo
-</p>
-</section>
-
