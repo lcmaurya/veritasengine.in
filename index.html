@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Engine | Advanced Financial Crime Detection</title>
+    <title>Veritas Engine | Advanced AML</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent: #3b82f6;
             --danger: #ef4444;
-            --bg-overlay: rgba(3, 7, 18, 0.9);
+            --bg-overlay: rgba(3, 7, 18, 0.85);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
@@ -17,113 +17,127 @@
         body {
             background-color: #030712;
             color: #ffffff;
+            /* Heavy overlay for dark city look */
             background-image: linear-gradient(var(--bg-overlay), var(--bg-overlay)), 
                               url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80');
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
 
-        /* Navigation */
+        /* Nav Bar - Top Fixed */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 6%;
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            padding: 25px 8%;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .logo { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
-        .nav-links { display: flex; gap: 20px; align-items: center; }
-        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; transition: 0.3s; }
-        .nav-links a:hover { color: white; }
+        .logo { font-size: 26px; font-weight: 500; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-links a { color: #94a3b8; text-decoration: none; font-size: 14px; }
         .btn-access { background: #1e40af; padding: 10px 22px; border-radius: 6px; color: white !important; font-weight: 500; }
 
-        /* Main Hero Section */
-        .hero {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            padding: 40px 8%;
-            gap: 50px;
+        /* Main Container - Shifted Up */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            padding: 60px 8% 20px 8%; /* Top padding reduced to align high */
+            gap: 40px;
             max-width: 1500px;
             margin: 0 auto;
         }
 
-        .left-content { flex: 1.2; }
-        .right-viz { flex: 0.8; display: flex; justify-content: flex-end; }
+        /* Left Side Content */
+        .left-panel h1 {
+            font-size: 44px;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
 
-        h1 { font-size: 48px; line-height: 1.1; margin-bottom: 25px; font-weight: 600; }
-        .desc { color: #94a3b8; font-size: 16px; margin-bottom: 35px; line-height: 1.6; max-width: 520px; }
+        .description {
+            color: #94a3b8;
+            font-size: 16px;
+            max-width: 520px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+        }
 
-        /* CTA Buttons */
-        .cta-btns { display: flex; gap: 15px; margin-bottom: 45px; }
-        .btn-blue { background: var(--accent); border: none; padding: 14px 30px; border-radius: 5px; color: white; cursor: pointer; font-size: 15px; font-weight: 500; }
-        .btn-ghost { background: rgba(255,255,255,0.05); border: 1px solid #334155; padding: 14px 30px; border-radius: 5px; color: white; font-size: 15px; }
+        .cta-btns { display: flex; gap: 15px; margin-bottom: 50px; }
+        .btn-fill { background: var(--accent); border: none; padding: 14px 28px; border-radius: 4px; color: white; cursor: pointer; font-size: 15px; }
+        .btn-outline { background: rgba(255,255,255,0.05); border: 1px solid #334155; padding: 14px 28px; border-radius: 4px; color: white; font-size: 15px; }
 
-        /* Stats Row */
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
-        .stat-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 20px 10px; border-radius: 10px; text-align: center; }
-        .stat-item h2 { font-size: 26px; margin-bottom: 4px; font-weight: 600; }
-        .stat-item p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.8px; }
+        /* Stats Section */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 40px; }
+        .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 25px 15px; border-radius: 10px; text-align: center; }
+        .stat-card h2 { font-size: 24px; margin-bottom: 4px; font-weight: 600; }
+        .stat-card p { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
-        /* Checklist Section */
-        .checklist { background: rgba(255,255,255,0.02); padding: 25px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .checklist h4 { font-size: 15px; margin-bottom: 15px; color: #f1f5f9; letter-spacing: 0.5px; }
-        .item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; margin-bottom: 12px; }
-        .tick { color: #22c55e; font-weight: bold; }
+        /* Features List */
+        .features-box {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-width: 600px;
+        }
+        .features-box h4 { font-size: 15px; margin-bottom: 18px; color: #e2e8f0; }
+        .feature-item { display: flex; align-items: center; gap: 12px; font-size: 14px; color: #94a3b8; margin-bottom: 12px; }
+        .tick { color: #22c55e; font-weight: bold; font-size: 16px; }
 
-        /* RIGHT SIDE: Visualization Monitor */
+        /* Right Side: Visualization Monitor */
+        .right-panel { display: flex; justify-content: flex-end; align-items: flex-start; }
+
         .monitor-frame {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(30px);
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(25px);
             border: 1px solid rgba(255, 255, 255, 0.15);
-            padding: 45px 35px;
+            padding: 50px 40px;
             border-radius: 15px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 0 60px rgba(0,0,0,0.7), inset 0 0 20px rgba(59, 130, 246, 0.05);
-            text-align: center;
-        }
-
-        .node {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 15px;
-            color: #e2e8f0;
+            box-shadow: 0 0 60px rgba(0,0,0,0.6);
             position: relative;
         }
 
-        .status-dot { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 10px; height: 10px; border-radius: 50%; }
-        .dot-green { background: #22c55e; box-shadow: 0 0 15px #22c55e; }
-        .dot-warn { color: #f59e0b; font-size: 12px; background: none; font-weight: bold; }
+        .wallet-node {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 6px;
+            text-align: center;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: #cbd5e1;
+            position: relative;
+        }
 
-        .arrow-down { color: #334155; margin: -5px 0 5px 0; font-size: 22px; font-weight: 300; }
+        .node-dot { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; }
+        .dot-ok { background: #22c55e; box-shadow: 0 0 12px #22c55e; }
+        .dot-alert { color: #f59e0b; font-size: 12px; background: none; font-weight: bold; }
 
-        .node.danger-node { border: 1.5px solid var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); font-weight: 600; box-shadow: 0 0 15px rgba(239, 68, 68, 0.1); }
+        .connector { text-align: center; color: #334155; margin: -5px 0 5px 0; font-size: 22px; }
 
-        .alert-zone { margin-top: 30px; }
-        .alert-icon { font-size: 52px; color: var(--danger); margin-bottom: 15px; filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.5)); }
-        .risk-badge { border: 1.5px solid var(--danger); padding: 12px 30px; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.2); font-size: 14px; letter-spacing: 1px; display: inline-block; }
-        .risk-badge span { color: var(--danger); }
+        .wallet-node.danger { border: 1.5px solid var(--danger); background: rgba(239, 68, 68, 0.15); color: var(--danger); font-weight: 600; }
 
-        /* Responsive Fixes */
+        .alert-container { text-align: center; margin-top: 35px; }
+        .warn-icon { font-size: 55px; color: var(--danger); margin-bottom: 15px; filter: drop-shadow(0 0 15px var(--danger)); }
+        .risk-label { border: 1.5px solid var(--danger); padding: 12px 30px; border-radius: 6px; font-weight: 700; background: rgba(239, 68, 68, 0.1); font-size: 14px; letter-spacing: 1px; display: inline-block; }
+        .risk-label span { color: var(--danger); }
+
+        /* Responsive */
         @media (max-width: 1024px) {
-            .hero { flex-direction: column; text-align: center; padding: 40px 5%; }
-            .right-viz { justify-content: center; width: 100%; margin-top: 30px; }
+            .main-container { grid-template-columns: 1fr; text-align: center; padding: 40px 5%; }
+            .right-panel { justify-content: center; }
             .nav-links a:not(.btn-access) { display: none; }
-            h1 { font-size: 38px; }
-            .desc { margin: 0 auto 35px; }
+            h1 { font-size: 34px; }
+            .description { margin: 0 auto 35px; }
             .cta-btns { justify-content: center; }
-            .stats-row { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto 40px; }
-            .monitor-frame { max-width: 420px; margin: 0 auto; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .monitor-frame { max-width: 100%; }
         }
     </style>
 </head>
@@ -137,43 +151,52 @@
         </div>
     </nav>
 
-    <div class="hero">
-        <div class="left-content">
+    <div class="main-container">
+        <div class="left-panel">
             <h1>Detecting Complex<br>Financial Crime Patterns</h1>
-            <p class="desc">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
+            <p class="description">Veritas Engine uncovers fraud, money laundering, and illicit networks through advanced behavioral correlation.</p>
             
             <div class="cta-btns">
-                <button class="btn-blue">View Demo</button>
-                <button class="btn-ghost">AML Capabilities</button>
+                <button class="btn-fill">View Demo</button>
+                <button class="btn-outline">AML Capabilities</button>
             </div>
 
-            <div class="stats-row">
-                <div class="stat-item"><h2>2M+</h2><p>Entities Correlated</p></div>
-                <div class="stat-item"><h2>40M+</h2><p>Transactions Analyzed</p></div>
-                <div class="stat-item"><h2>125+</h2><p>Bank Deployments</p></div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h2>2M+</h2>
+                    <p>Suspicious Entities<br>Correlated</p>
+                </div>
+                <div class="stat-card">
+                    <h2>40M+</h2>
+                    <p>Transactions<br>Analyzed</p>
+                </div>
+                <div class="stat-card">
+                    <h2>125+</h2>
+                    <p>Bank & Institution<br>Deployments</p>
+                </div>
             </div>
 
-            <div class="checklist">
+            <div class="features-box">
                 <h4>How Veritas Works</h4>
-                <div class="item"><span class="tick">✓</span> Detects behavior, not identity</div>
-                <div class="item"><span class="tick">✓</span> Correlates events across time</div>
-                <div class="item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
+                <div class="feature-item"><span class="tick">✓</span> Detects behavior, not identity</div>
+                <div class="feature-item"><span class="tick">✓</span> Correlates events across time</div>
+                <div class="feature-item"><span class="tick">✓</span> Escalates only when patterns repeat</div>
             </div>
         </div>
 
-        <div class="right-viz">
+        <div class="right-panel">
             <div class="monitor-frame">
-                <div class="node">Wallet A <span class="status-dot dot-green"></span></div>
-                <div class="arrow-down">↓</div>
-                <div class="node">Wallet B <span class="status-dot dot-green"></span></div>
-                <div class="arrow-down">↓</div>
-                <div class="node">Wallet C <span class="status-dot" style="background:none; color:#f59e0b;">▲</span></div>
-                <div class="arrow-down" style="color:var(--danger)">↓</div>
-                <div class="node danger-node">Wallet C</div>
+                <div class="wallet-node">Wallet A <span class="node-dot dot-ok"></span></div>
+                <div class="connector">↓</div>
+                <div class="wallet-node">Wallet B <span class="node-dot dot-ok"></span></div>
+                <div class="connector">↓</div>
+                <div class="wallet-node">Wallet C <span class="node-dot" style="background:none; color:#f59e0b;">▲</span></div>
+                <div class="connector" style="color:var(--danger)">↓</div>
+                <div class="wallet-node danger">Wallet C</div>
                 
-                <div class="alert-zone">
-                    <div class="alert-icon">⚠</div>
-                    <div class="risk-badge">RISK LEVEL: <span>HIGH •</span></div>
+                <div class="alert-container">
+                    <div class="warn-icon">⚠</div>
+                    <div class="risk-label">RISK LEVEL: <span>HIGH •</span></div>
                 </div>
             </div>
         </div>
