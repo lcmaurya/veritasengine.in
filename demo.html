@@ -1,116 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Veritas Engine – Risk Demo</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f6f7f9;
-      margin: 0;
-      padding: 20px;
-      color: #222;
-    }
-    h1, h2 {
-      text-align: center;
-    }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-    }
-    .card {
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .badges span {
-      display: inline-block;
-      padding: 8px 14px;
-      margin-right: 10px;
-      border-radius: 4px;
-      color: #fff;
-      font-weight: bold;
-    }
-    .low { background: #2ecc71; }
-    .medium { background: #f1c40f; color:#000; }
-    .high { background: #e74c3c; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Veritas Engine – Risk Intelligence Demo</title>
 
-    .flow {
-      font-family: monospace;
-      background: #111;
-      color: #0f0;
-      padding: 15px;
-      border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .chart {
-      height: 160px;
-      background: linear-gradient(to right, #3498db, #9b59b6);
-      border-radius: 6px;
-      opacity: 0.85;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 13px;
-      color: #777;
-    }
-  </style>
+<style>
+body{font-family:Arial;background:#f4f6f9;margin:0;color:#222}
+header{background:#0b3a67;color:#fff;padding:24px;text-align:center}
+.container{max-width:1100px;margin:auto;padding:30px}
+.card{background:#fff;border-radius:8px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+h2{margin-top:0}
+.badges span{padding:8px 14px;border-radius:4px;color:#fff;font-weight:bold;margin-right:10px}
+.low{background:#2ecc71}
+.medium{background:#f1c40f;color:#000}
+.high{background:#e74c3c}
+.heatmap{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:12px}
+.cell{padding:14px;text-align:center;color:#fff;font-weight:bold;border-radius:4px;font-size:13px}
+.green{background:#2ecc71}
+.yellow{background:#f1c40f;color:#000}
+.red{background:#e74c3c}
+.meter{width:100%;height:120px;background:linear-gradient(to right,#2ecc71,#f1c40f,#e74c3c);border-radius:100px;position:relative}
+.pointer{position:absolute;bottom:-10px;left:72%;width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:18px solid #000}
+.flow{background:#111;color:#0f0;font-family:monospace;padding:16px;border-radius:6px;font-size:14px}
+.timeline{height:160px;background:linear-gradient(to right,#3498db,#9b59b6);border-radius:6px;opacity:.85}
+footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>Veritas Engine</h1>
-    <p style="text-align:center;">Conceptual Risk Intelligence Demo</p>
+<header>
+<h1>Veritas Engine</h1>
+<p>Conceptual Institutional Risk Intelligence Demo</p>
+</header>
 
-    <div class="card">
-      <h2>Risk Output (Sample)</h2>
-      <div class="badges">
-        <span class="low">LOW RISK</span>
-        <span class="medium">MEDIUM RISK</span>
-        <span class="high">HIGH RISK</span>
-      </div>
-    </div>
+<div class="container">
 
-    <div class="card">
-      <h2>Risk Signal Timeline</h2>
-      <div class="chart"></div>
-      <p>This represents aggregated behavioral risk signals over time.</p>
-    </div>
+<div class="card">
+<h2>Risk Classification Output</h2>
+<div class="badges">
+<span class="low">LOW</span>
+<span class="medium">MEDIUM</span>
+<span class="high">HIGH</span>
+</div>
+</div>
 
-    <div class="card">
-      <h2>How the Engine Works</h2>
-      <div class="flow">
-User / Transaction / Digital Event
-        ↓
-Veritas Engine (Private Core)
-        ↓
-Risk Score + Indicators
-        ↓
-Secure API Output
-        ↓
-Institution / Authority Dashboard
-      </div>
-      <p>No raw or personal data is exposed.</p>
-    </div>
+<div class="card">
+<h2>Risk Heatmap Preview</h2>
+<div class="heatmap">
+<div class="cell green">Low</div>
+<div class="cell yellow">Moderate</div>
+<div class="cell red">High</div>
+<div class="cell red">High</div>
+<div class="cell red">High</div>
+<div class="cell green">Low</div>
+<div class="cell yellow">Moderate</div>
+<div class="cell yellow">Moderate</div>
+<div class="cell red">High</div>
+<div class="cell red">High</div>
+<div class="cell green">Low</div>
+<div class="cell green">Low</div>
+<div class="cell yellow">Moderate</div>
+<div class="cell yellow">Moderate</div>
+<div class="cell red">High</div>
+</div>
+</div>
 
-    <div class="card">
-      <h2>Disclaimer</h2>
-      <p>
-        This demo is a visual representation only.  
-        It does not process real user data or transactions.
-      </p>
-    </div>
+<div class="card">
+<h2>Risk Meter</h2>
+<div class="meter"><div class="pointer"></div></div>
+<p style="text-align:center;"><b>Current Risk Level: HIGH</b></p>
+</div>
 
-    <footer>
-      © 2026 Veritas Engine · Demo Environment
-    </footer>
-  </div>
+<div class="card">
+<h2>Pattern-Chaining Intelligence</h2>
+<div class="flow">
+Wallet A → Wallet B → Wallet C  
+→ Cross-Platform Correlation  
+→ Escalated Risk Signal (HIGH)
+</div>
+</div>
+
+<div class="card">
+<h2>Risk Signal Timeline</h2>
+<div class="timeline"></div>
+</div>
+
+</div>
+
+<footer>
+© 2026 Veritas Engine · Demo Environment · Institutional Use Only
+</footer>
 
 </body>
 </html>
