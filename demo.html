@@ -12,55 +12,39 @@ header{background:#0b3a67;color:#fff;padding:26px;text-align:center}
 .card{background:#fff;border-radius:8px;padding:20px;margin-bottom:24px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
 h2{margin-top:0}
 
-/* ===== Risk Selector ===== */
-.risk-high{}
-.risk-medium{}
-.risk-low{}
-
-/* ===== Pattern Graph ===== */
-.graph{display:flex;flex-direction:column;align-items:center;gap:14px;margin-top:10px}
+/* ===== Graph ===== */
+.graph{display:flex;flex-direction:column;align-items:center;gap:18px;margin-top:10px}
 .node{
-  background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;
-  font-weight:bold;opacity:0;transform:translateY(10px);
-  animation:fadeIn .6s forwards;
+background:#0b3a67;color:#fff;padding:12px 18px;border-radius:6px;
+font-weight:bold;opacity:0;animation:fade .6s forwards
 }
-.node:nth-child(1){animation-delay:.2s}
-.node:nth-child(3){animation-delay:.6s}
-.node:nth-child(5){animation-delay:1s}
-.node:nth-child(7){animation-delay:1.4s}
-.node:nth-child(9){animation-delay:1.8s}
 
 .arrow{
-  font-size:22px;
-  opacity:0;
-  animation:fadeIn .4s forwards, pulse 1s ease-in-out infinite;
+font-size:28px;
+font-weight:bold;
+color:#e74c3c;
+text-shadow:0 0 8px rgba(231,76,60,.8);
+animation:pulse .9s infinite
 }
 
-/* 🔴 HIGH */
-.risk-high .arrow{color:#e74c3c;animation-duration:.8s}
+/* HIGH RISK */
+.graph{--arrow:#e74c3c}
+.arrow{color:var(--arrow);text-shadow:0 0 10px var(--arrow)}
 
-/* 🟡 MEDIUM */
-.risk-medium .arrow{color:#f1c40f;animation-duration:1.4s}
-
-/* 🟢 LOW */
-.risk-low .arrow{color:#2ecc71;animation-duration:2.2s}
-
-@keyframes fadeIn{to{opacity:1;transform:translateY(0)}}
 @keyframes pulse{
-  0%{transform:translateY(0)}
-  50%{transform:translateY(6px)}
-  100%{transform:translateY(0)}
+0%{transform:translateY(0);opacity:.6}
+50%{transform:translateY(8px);opacity:1}
+100%{transform:translateY(0);opacity:.6}
 }
+@keyframes fade{to{opacity:1}}
 
-/* Timeline */
-.timeline{height:160px;background:linear-gradient(to right,#3498db,#9b59b6);border-radius:6px;opacity:.85}
+.timeline{height:160px;background:linear-gradient(to right,#3498db,#9b59b6);border-radius:6px}
 
 footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
 </style>
 </head>
 
 <body>
-
 <header>
 <h1>Veritas Engine</h1>
 <p>Conceptual Institutional Risk Intelligence Demo</p>
@@ -69,30 +53,23 @@ footer{text-align:center;color:#777;font-size:13px;margin:40px 0}
 <div class="container">
 
 <div class="card">
-<h2>Pattern-Chaining Graph (Risk-Aware)</h2>
+<h2>Pattern-Chaining Graph (HIGH Risk)</h2>
 
-<!-- 🔴 CHANGE ONLY THIS CLASS FOR DEMO -->
-<div class="graph risk-high">
-
-  <div class="node">Wallet A</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Wallet B</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Wallet C</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Cross-Platform Correlation</div>
-  <div class="arrow">↓</div>
-
-  <div class="node">Multi-Wallet AML Signal (HIGH)</div>
+<div class="graph">
+<div class="node">Wallet A</div>
+<div class="arrow">↓</div>
+<div class="node">Wallet B</div>
+<div class="arrow">↓</div>
+<div class="node">Wallet C</div>
+<div class="arrow">↓</div>
+<div class="node">Cross-Platform Correlation</div>
+<div class="arrow">↓</div>
+<div class="node">Multi-Wallet AML Signal (HIGH)</div>
 </div>
 
-<p style="text-align:center;font-size:13px;color:#666;margin-top:10px">
-Arrow color & speed adapt to detected risk level
+<p style="text-align:center;font-size:13px;color:#666">
+Arrow glow & speed indicate risk severity
 </p>
-
 </div>
 
 <div class="card">
@@ -105,6 +82,5 @@ Arrow color & speed adapt to detected risk level
 <footer>
 © 2026 Veritas Engine · Demo Environment · Institutional Use Only
 </footer>
-
 </body>
 </html>
