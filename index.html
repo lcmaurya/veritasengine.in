@@ -207,4 +207,11 @@
                 const data = await response.json();
                 document.getElementById('count').innerText = data.value.toLocaleString() + " ANALYSIS UNITS";
             } catch (error) {
-                document.getElementById('count').innerText =
+                document.getElementById('count').innerText = "ONLINE";
+            }
+        }
+        updateCounter();
+    </script>
+
+</body>
+</html>
