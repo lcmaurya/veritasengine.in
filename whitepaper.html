@@ -1,78 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Security & Privacy Whitepaper | Veritas Engine</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.7}
-h1,h2{border-bottom:1px solid #ddd;padding-bottom:6px}
-ul{margin-left:20px}
-.note{background:#f8fafc;border-left:4px solid #334155;padding:14px;margin:20px 0}
-footer{margin-top:60px;font-size:13px;color:#666;text-align:center}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security & Privacy Whitepaper | Veritas Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --accent: #3b82f6;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(15, 23, 42, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: #94a3b8;
+            background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.03), transparent);
+            line-height: 1.7;
+            padding-bottom: 80px;
+        }
+
+        nav { padding: 25px 8%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 20px; font-weight: 700; color: white; text-decoration: none; letter-spacing: -0.5px; }
+        .nav-links a { color: #64748b; text-decoration: none; font-size: 13px; margin-left: 20px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .container { max-width: 850px; margin: 60px auto; padding: 0 25px; }
+
+        header { margin-bottom: 60px; border-left: 4px solid var(--accent); padding-left: 30px; }
+        header h1 { font-size: 32px; color: white; margin-bottom: 10px; }
+        header p { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+        section { margin-bottom: 50px; }
+        h2 { color: white; font-size: 20px; margin-bottom: 25px; display: flex; align-items: center; gap: 12px; }
+        h2::after { content: ""; flex: 1; height: 1px; background: var(--border); }
+
+        .content-card { background: var(--glass); border: 1px solid var(--border); padding: 30px; border-radius: 16px; margin-bottom: 25px; }
+        
+        ul { list-style: none; }
+        li { margin-bottom: 15px; display: flex; gap: 12px; font-size: 15px; }
+        li::before { content: "▹"; color: var(--accent); font-weight: bold; }
+
+        .tech-note { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); padding: 25px; border-radius: 12px; margin: 40px 0; }
+        .tech-note b { color: white; display: block; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; }
+
+        .highlight-box { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .h-item { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 20px; border-radius: 10px; }
+        .h-item h4 { color: white; margin-bottom: 8px; font-size: 14px; }
+        .h-item p { font-size: 13px; color: #64748b; }
+
+        footer { text-align: center; padding-top: 60px; font-size: 12px; color: #475569; }
+
+        @media (max-width: 600px) { .highlight-box { grid-template-columns: 1fr; } }
+    </style>
 </head>
 <body>
 
-<h1>Security & Privacy Whitepaper</h1>
-<p><b>Institutional-grade security, privacy-first design</b></p>
+    <nav>
+        <a href="index.html" class="logo">VERITAS ENGINE</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="access.html">Access</a>
+        </div>
+    </nav>
 
-<h2>Design Philosophy</h2>
-<ul>
-<li>Privacy-by-design and minimal data exposure</li>
-<li>Decision-support only (no enforcement)</li>
-<li>Institution-controlled deployment and access</li>
-</ul>
+    <div class="container">
+        <header>
+            <h1>Security & Privacy Whitepaper</h1>
+            <p>V. 2.1 • Institutional Standards Compliance</p>
+        </header>
 
-<h2>Data Handling</h2>
-<ul>
-<li>No storage of personally identifiable information (PII)</li>
-<li>No retention of raw transactions or content</li>
-<li>Processing limited to behavioral signals and metadata</li>
-</ul>
+        <section>
+            <h2>Design Philosophy</h2>
+            <div class="content-card">
+                <ul>
+                    <li><b>Privacy-by-Design:</b> Core algorithms operate on behavioral entropy rather than identity resolution.</li>
+                    <li><b>Minimal Data Exposure:</b> Zero-retention policy for raw transaction payloads post-analysis.</li>
+                    <li><b>Decision Support:</b> System provides probabilistic risk intelligence; final verdict remains with the institution.</li>
+                </ul>
+            </div>
+        </section>
 
-<h2>Security Controls</h2>
-<ul>
-<li>Encrypted data-in-transit (TLS)</li>
-<li>Token-based API authorization</li>
-<li>Environment isolation for engine core</li>
-</ul>
+        <section>
+            <h2>Pattern-Chaining Intelligence</h2>
+            <p style="margin-bottom: 20px;">The core capability of Veritas Engine links disparate financial events into a unified risk graph without compromising user anonymity.</p>
+            <div class="highlight-box">
+                <div class="h-item">
+                    <h4>Temporal Sequencing</h4>
+                    <p>Analysis of event timing to detect automated fund-layering.</p>
+                </div>
+                <div class="h-item">
+                    <h4>Risk Propagation</h4>
+                    <p>Weighting how risk flows from one node to the entire chain.</p>
+                </div>
+                <div class="h-item">
+                    <h4>Multi-Node Analysis</h4>
+                    <p>Identifying hidden relationships between isolated wallet clusters.</p>
+                </div>
+                <div class="h-item">
+                    <h4>Confidence Scoring</h4>
+                    <p>Probabilistic weighing of behavioral anomalies.</p>
+                </div>
+            </div>
+        </section>
 
-<h2>Audit & Governance</h2>
-<ul>
-<li>Audit-ready outputs and logs</li>
-<li>Institution-defined retention policies</li>
-<li>Human-in-the-loop interpretation</li>
-</ul>
+        <section>
+            <h2>Security Controls</h2>
+            <div class="content-card">
+                <ul>
+                    <li>End-to-End Encryption (mTLS) for all institutional data streams.</li>
+                    <li>Token-based stateless API authorization for zero-leakage integration.</li>
+                    <li>Physical and logical isolation of the Pattern Analysis Engine core.</li>
+                    <li>Audit-friendly logging with institution-defined retention policies.</li>
+                </ul>
+            </div>
+        </section>
 
-<div class="note">
-<b>Important:</b> Veritas Engine does not perform surveillance, identity resolution,
-or legal classification. All conclusions remain with the deploying institution.
-</div>
+        <div class="tech-note">
+            <b>Regulatory Protocol Disclaimer</b>
+            Veritas Engine does not perform surveillance, legal enforcement, or definitive identity attribution. All outputs are probabilistic indicators designed for internal compliance workflows.
+        </div>
 
-<footer>© 2026 Veritas Engine — Security & Privacy Whitepaper</footer>
+    </div>
+
+    <footer>
+        © 2026 Veritas Engine • Systems Engineering & Compliance Division
+    </footer>
+
 </body>
 </html>
-
-<hr>
-
-<h2>Pattern-Chaining & Risk Graph Intelligence</h2>
-<p>
-Pattern-chaining is a core capability of Veritas Engine that links
-transactions, wallets, and behavioral events over time to construct
-a probabilistic risk graph.
-</p>
-
-<ul>
-  <li>Temporal sequencing of financial events</li>
-  <li>Multi-node wallet relationship graphs</li>
-  <li>Risk propagation across transaction chains</li>
-  <li>Confidence-weighted risk escalation</li>
-</ul>
-
-<p>
-This approach enables institutions to identify complex fraud and
-money-laundering risks while maintaining strict privacy and
-non-surveillance boundaries.
-</p>
-
