@@ -1,37 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>FAQ | Veritas Engine</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body{font-family:Arial;max-width:900px;margin:40px auto;padding:0 16px;line-height:1.6}
-h1,h2{border-bottom:1px solid #ddd;padding-bottom:6px}
-footer{margin-top:60px;font-size:13px;color:#666;text-align:center}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institutional FAQ | Veritas Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --accent: #3b82f6;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: #94a3b8;
+            background-image: radial-gradient(circle at center, rgba(15, 23, 42, 1) 0%, rgba(2, 6, 23, 1) 100%);
+            min-height: 100vh;
+        }
+
+        nav { padding: 25px 8%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 20px; font-weight: 700; color: white; text-decoration: none; }
+
+        .container { max-width: 800px; margin: 60px auto; padding: 0 20px; }
+
+        header { text-align: center; margin-bottom: 50px; }
+        header h1 { color: white; font-size: 32px; margin-bottom: 10px; }
+        header p { color: var(--accent); font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .faq-item {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 20px 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #94a3b8;
+            border-top: 1px solid transparent;
+        }
+
+        .faq-item:hover { border-color: var(--accent); }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .disclaimer-card {
+            margin-top: 50px;
+            padding: 30px;
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.05), transparent);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 12px 12px 0;
+        }
+
+        footer { text-align: center; padding: 60px 0; font-size: 12px; color: #475569; }
+    </style>
 </head>
 <body>
 
-<h1>FAQ – Regulators & Financial Institutions</h1>
+    <nav>
+        <a href="index.html" class="logo">VERITAS ENGINE</a>
+    </nav>
 
-<h2>Is Veritas Engine a consumer or retail product?</h2>
-<p>No. It is strictly an institutional intelligence system.</p>
+    <div class="container">
+        <header>
+            <h1>Institutional FAQ</h1>
+            <p>Regulatory Compliance & Technical Standards</p>
+        </header>
 
-<h2>Does the system store user or wallet data?</h2>
-<p>No personal data or raw transactions are stored.</p>
+        <div class="faq-item">
+            <div class="faq-question">Is Veritas a retail/public product?</div>
+            <div class="faq-answer">No. Veritas Engine is strictly an institutional-grade system available only for government bodies, regulated banks, and approved financial entities.</div>
+        </div>
 
-<h2>Does it identify criminals or illegal activity?</h2>
-<p>No. It provides probabilistic risk indicators only.</p>
+        <div class="faq-item">
+            <div class="faq-question">Does the engine store user identities (PII)?</div>
+            <div class="faq-answer">No. The system is built with <b>Privacy-by-Design</b>. It analyzes behavioral signatures and pattern metadata without storing personally identifiable information or raw transaction payloads.</div>
+        </div>
 
-<h2>Is this an enforcement or blocking system?</h2>
-<p>No. All enforcement decisions remain with the institution.</p>
+        <div class="faq-item">
+            <div class="faq-question">Does it prove criminal activity?</div>
+            <div class="faq-answer">Veritas Engine identifies <b>Probabilistic Risk Patterns</b>. It does not perform legal classification or identify individuals as criminals. It provides intelligence indicators for internal institutional review.</div>
+        </div>
 
-<h2>How is it deployed?</h2>
-<p>On-premise, private cloud, or controlled API integration.</p>
+        <div class="faq-item">
+            <div class="faq-question">Is this an enforcement or blocking tool?</div>
+            <div class="faq-answer">No. The engine is a decision-support layer. All enforcement actions, such as blocking accounts or reporting, remain at the sole discretion of the deploying institution.</div>
+        </div>
 
-<h2>Who can request access?</h2>
-<p>Government bodies, banks, regulators, and approved institutions only.</p>
+        <div class="faq-item">
+            <div class="faq-question">How is the system deployed?</div>
+            <div class="faq-answer">Deployment is flexible: On-premise (institutional servers), private cloud, or via restricted API gateway, ensuring full environment control.</div>
+        </div>
 
-<footer>© 2026 Veritas Engine — Regulatory FAQ</footer>
+        <div class="disclaimer-card">
+            <div class="badge">LEGAL PROTOCOL</div>
+            <p style="color: white; font-size: 14px;">Veritas Engine does not perform surveillance or definitive identity attribution. All outputs are risk intelligence signals designed to support existing AML and compliance workflows.</p>
+        </div>
+
+    </div>
+
+    <footer>
+        © 2026 Veritas Engine • Regulatory Affairs Division
+    </footer>
+
 </body>
 </html>
