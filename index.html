@@ -99,7 +99,8 @@
             font-family: monospace;
         }
         
-        .pulse { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 10px; box-shadow: 0 0 10px #22c55e; }
+        .pulse { display: inline-block; width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: 10px; box-shadow: 0 0 10px #22c55e; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
         
         .line-v { text-align: center; color: #334155; margin-bottom: 12px; font-size: 18px; }
         .node.danger { border: 1px solid var(--danger); background: rgba(239, 68, 68, 0.05); color: var(--danger); font-weight: 700; }
@@ -107,7 +108,27 @@
         .alert-ui { text-align: center; margin-top: 30px; padding: 20px; border-top: 1px solid var(--border); }
         .badge { display: inline-block; border: 1px solid var(--danger); padding: 6px 15px; border-radius: 4px; font-weight: 800; font-size: 11px; color: var(--danger); letter-spacing: 1px; }
 
-        footer { padding: 40px 8%; border-top: 1px solid var(--border); text-align: center; color: #475569; font-size: 12px; }
+        footer { 
+            padding: 40px 8%; 
+            border-top: 1px solid var(--border); 
+            text-align: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .footer-text { color: #475569; font-size: 12px; }
+        .live-counter {
+            background: rgba(34, 197, 94, 0.05);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            padding: 6px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .counter-label { font-size: 10px; color: #22c55e; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+        .counter-value { color: #ffffff; font-family: monospace; font-size: 13px; font-weight: 600; }
 
         @media (max-width: 1000px) {
             .hero { grid-template-columns: 1fr; padding: 40px 5%; text-align: center; }
@@ -169,8 +190,21 @@
     </div>
 
     <footer>
-        © 2026 Veritas Engine • Institutional Intelligence Infrastructure
+        <div class="live-counter">
+            <span class="pulse"></span>
+            <span class="counter-label">Institutional Pulse:</span>
+            <span class="counter-value" id="count">...</span>
+        </div>
+        <div class="footer-text">© 2026 Veritas Engine • Institutional Intelligence Infrastructure</div>
     </footer>
 
-</body>
-</html>
+    <script>
+        // Simple hit counter logic using a reliable free API
+        async function updateCounter() {
+            try {
+                // We use a unique key for your domain
+                const response = await fetch('https://api.countapi.xyz/hit/veritasengine.in/visits');
+                const data = await response.json();
+                document.getElementById('count').innerText = data.value.toLocaleString() + " ANALYSIS UNITS";
+            } catch (error) {
+                document.getElementById('count').innerText =
