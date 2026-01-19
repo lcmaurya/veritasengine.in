@@ -1,81 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Veritas Engine – Roadmap & Future Capabilities</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial, sans-serif; background:#ffffff; color:#111; margin:0; padding:20px; }
-    .container { max-width:900px; margin:auto; }
-    h1,h2 { border-bottom:1px solid #e5e7eb; padding-bottom:6px; }
-    ul { margin-left:20px; }
-    .phase {
-      background:#f8fafc;
-      border-left:4px solid #2563eb;
-      padding:14px;
-      margin:18px 0;
-    }
-    footer { text-align:center; font-size:13px; color:#666; margin-top:40px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic Roadmap | Veritas Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #020617;
+            --accent: #3b82f6;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg);
+            color: #94a3b8;
+            background-image: radial-gradient(circle at top right, rgba(59, 130, 246, 0.05), transparent);
+            min-height: 100vh;
+            padding-bottom: 80px;
+        }
+
+        nav { padding: 25px 8%; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 20px; font-weight: 700; color: white; text-decoration: none; letter-spacing: -0.5px; }
+        .nav-links a { color: #64748b; text-decoration: none; font-size: 13px; margin-left: 20px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .container { max-width: 900px; margin: 60px auto; padding: 0 20px; }
+
+        header { text-align: center; margin-bottom: 80px; }
+        header h1 { font-size: 36px; color: white; margin-bottom: 10px; }
+        header p { color: var(--accent); font-family: 'JetBrains Mono'; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Timeline Styles */
+        .timeline { position: relative; border-left: 2px solid var(--border); margin-left: 20px; padding-left: 40px; }
+
+        .phase-card {
+            background: var(--glass);
+            border: 1px solid var(--border);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            transition: 0.3s;
+        }
+        .phase-card:hover { border-color: var(--accent); box-shadow: 0 0 30px rgba(59, 130, 246, 0.1); }
+
+        .phase-card::before {
+            content: "";
+            position: absolute;
+            left: -51px;
+            top: 35px;
+            width: 20px;
+            height: 20px;
+            background: var(--bg);
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent);
+        }
+
+        .phase-badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono';
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .phase-card h3 { color: white; margin-bottom: 15px; font-size: 20px; }
+        
+        .phase-card ul { list-style: none; }
+        .phase-card li { margin-bottom: 10px; font-size: 14px; display: flex; align-items: center; gap: 10px; }
+        .phase-card li::before { content: "→"; color: var(--accent); font-weight: bold; }
+
+        .principles-section {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 60px;
+            text-align: center;
+        }
+        .principles-section h2 { color: white; margin-bottom: 30px; }
+        .p-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left; }
+        .p-item { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+
+        footer { text-align: center; padding: 60px 0; font-size: 12px; color: #475569; }
+
+        @media (max-width: 600px) { .p-grid { grid-template-columns: 1fr; } .timeline { margin-left: 10px; } }
+    </style>
 </head>
 <body>
-<div class="container">
 
-<h1>Roadmap & Future Capabilities</h1>
-<p><b>Strategic evolution plan for Veritas Engine</b></p>
+    <nav>
+        <a href="index.html" class="logo">VERITAS ENGINE</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="architecture.html">Architecture</a>
+            <a href="whitepaper.html">Whitepaper</a>
+        </div>
+    </nav>
 
-<h2>Phase 1 – Foundation (Current)</h2>
-<div class="phase">
-<ul>
-  <li>Core fraud, scam & phishing pattern detection</li>
-  <li>Risk classification (Low / Medium / High)</li>
-  <li>Secure API-based intelligence output</li>
-  <li>Institution-only pilot deployments</li>
-</ul>
-</div>
+    <div class="container">
+        <header>
+            <h1>Strategic Roadmap</h1>
+            <p>Intelligence Evolution & Global Standards</p>
+        </header>
 
-<h2>Phase 2 – Advanced Intelligence</h2>
-<div class="phase">
-<ul>
-  <li>Cross-platform behavioral correlation</li>
-  <li>Temporal risk scoring & trend analysis</li>
-  <li>Adaptive risk confidence levels</li>
-  <li>Enhanced audit & compliance reporting</li>
-</ul>
-</div>
+        <div class="timeline">
+            <div class="phase-card">
+                <span class="phase-badge">PHASE 1 - CURRENT</span>
+                <h3>Foundational Risk Intelligence</h3>
+                <ul>
+                    <li>Core fraud, scam & phishing pattern detection</li>
+                    <li>Risk classification (Low / Medium / High)</li>
+                    <li>Secure API-based intelligence output</li>
+                    <li>Institution-only pilot deployments</li>
+                </ul>
+            </div>
 
-<h2>Phase 3 – Ecosystem Integration</h2>
-<div class="phase">
-<ul>
-  <li>Inter-bank and inter-agency intelligence sharing</li>
-  <li>Custom policy-driven risk rules per institution</li>
-  <li>Case-management and investigation support</li>
-  <li>Integration with national cyber & fraud systems</li>
-</ul>
-</div>
+            <div class="phase-card">
+                <span class="phase-badge">PHASE 2 - ADVANCED</span>
+                <h3>Adaptive Behavioral Analysis</h3>
+                <ul>
+                    <li>Cross-platform behavioral correlation</li>
+                    <li>Temporal risk scoring & trend analysis</li>
+                    <li>Adaptive risk confidence levels</li>
+                    <li>Enhanced audit & compliance reporting</li>
+                </ul>
+            </div>
 
-<h2>Phase 4 – Strategic Capabilities</h2>
-<div class="phase">
-<ul>
-  <li>Early-warning national fraud indicators</li>
-  <li>Sector-wide anonymized risk insights</li>
-  <li>Support for regulatory analytics & supervision</li>
-  <li>Controlled AI-assisted investigation tools</li>
-</ul>
-</div>
+            <div class="phase-card">
+                <span class="phase-badge">PHASE 3 - INTEGRATION</span>
+                <h3>Ecosystem Interoperability</h3>
+                <ul>
+                    <li>Inter-bank intelligence sharing protocols</li>
+                    <li>Custom policy-driven risk rules per institution</li>
+                    <li>Advanced investigation support systems</li>
+                    <li>National cyber-fraud system synchronization</li>
+                </ul>
+            </div>
 
-<h2>Guiding Principles</h2>
-<ul>
-  <li>Privacy-first and regulation-aligned</li>
-  <li>No consumer profiling or surveillance</li>
-  <li>Human-in-the-loop decision support</li>
-  <li>Institutional control at every layer</li>
-</ul>
+            <div class="phase-card">
+                <span class="phase-badge">PHASE 4 - STRATEGIC</span>
+                <h3>Predictive National Indicators</h3>
+                <ul>
+                    <li>Early-warning national fraud indicators</li>
+                    <li>Sector-wide anonymized risk insights</li>
+                    <li>Support for regulatory analytics & supervision</li>
+                    <li>Controlled AI-assisted investigation tools</li>
+                </ul>
+            </div>
+        </div>
 
-<footer>
-© 2026 Veritas Engine. Roadmap & Strategic Direction
-</footer>
+        <div class="principles-section">
+            <h2>Guiding Principles</h2>
+            <div class="p-grid">
+                <div class="p-item"><b>Privacy-First:</b> No consumer profiling or mass surveillance protocols.</div>
+                <div class="p-item"><b>Human-in-the-Loop:</b> Designed as decision support, not automated enforcement.</div>
+                <div class="p-item"><b>Regulation-Aligned:</b> Built to match evolving global financial standards.</div>
+                <div class="p-item"><b>Institutional Control:</b> Full environment sovereignty at every layer.</div>
+            </div>
+        </div>
 
-</div>
+    </div>
+
+    <footer>
+        © 2026 Veritas Engine • Strategy & Planning Division
+    </footer>
+
 </body>
 </html>
