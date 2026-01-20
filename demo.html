@@ -1,123 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Engine | Live Risk Visualizer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #020617;
-            --card: rgba(15, 23, 42, 0.6);
-            --accent: #3b82f6;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --success: #10b981;
-            --border: rgba(255, 255, 255, 0.1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veritas Engine | Live Risk Visualizer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+<style>
+:root{
+  --bg:#020617;
+  --card:rgba(15,23,42,.6);
+  --accent:#3b82f6;
+  --danger:#ef4444;
+  --warning:#f59e0b;
+  --success:#10b981;
+  --border:rgba(255,255,255,.1)
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{
+  background:var(--bg);
+  color:#e2e8f0;
+  background-image:radial-gradient(circle at center,rgba(59,130,246,.05),transparent 70%);
+  min-height:100vh;
+}
+header{
+  padding:40px 20px;
+  text-align:center;
+  border-bottom:1px solid var(--border);
+}
+header h1{font-size:28px;font-weight:700;color:#fff}
+header p{color:var(--accent);font-size:13px;margin-top:6px;letter-spacing:1px}
 
-        body {
-            background-color: var(--bg);
-            color: #e2e8f0;
-            background-image: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
-            min-height: 100vh;
-            padding-bottom: 50px;
-        }
+.sandbox{
+  max-width:1000px;
+  margin:20px auto 25px;
+  padding:14px 18px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(59,130,246,.08);
+  color:#cbd5f5;
+  font-size:13px;
+  border-radius:10px;
+  text-align:center;
+}
 
-        header {
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            margin-bottom: 30px;
-        }
+.container{max-width:1000px;margin:auto;padding:0 20px}
 
-        header h1 { font-size: 28px; font-weight: 700; color: white; letter-spacing: -0.5px; }
-        header p { color: var(--accent); font-size: 14px; margin-top: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:30px;
+  margin-bottom:25px;
+  backdrop-filter:blur(20px)
+}
+h2{
+  font-size:18px;
+  margin-bottom:20px;
+  color:#f8fafc;
+  font-weight:600;
+  display:flex;
+  align-items:center;
+  gap:10px
+}
+h2::before{
+  content:'';
+  width:4px;
+  height:18px;
+  background:var(--accent);
+  border-radius:10px
+}
 
-        .container { max-width: 1000px; margin: auto; padding: 0 20px; }
+/* Pattern Graph */
+.graph{display:flex;flex-direction:column;align-items:center;gap:12px;margin:30px 0}
+.node{
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  color:#94a3b8;
+  padding:14px 25px;
+  border-radius:8px;
+  font-size:14px;
+  width:280px;
+  text-align:center
+}
+.node.active{
+  border-color:var(--accent);
+  color:#fff;
+  background:rgba(59,130,246,.1)
+}
+.arrow{
+  font-size:20px;
+  color:var(--border);
+  animation:flow 1.5s infinite
+}
+@keyframes flow{
+  0%{opacity:.4;transform:translateY(0)}
+  50%{opacity:1;transform:translateY(6px)}
+  100%{opacity:.4;transform:translateY(0)}
+}
+.final-signal{
+  background:rgba(239,68,68,.15);
+  border:1px solid var(--danger);
+  color:var(--danger);
+  padding:16px 30px;
+  border-radius:8px;
+  font-weight:700;
+  letter-spacing:1px;
+  box-shadow:0 0 20px rgba(239,68,68,.25)
+}
 
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 25px;
-            backdrop-filter: blur(20px);
-        }
+/* Heatmap */
+.heatmap{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.cell{
+  padding:20px;
+  text-align:center;
+  font-size:12px;
+  font-weight:700;
+  border-radius:8px;
+  border:1px solid var(--border)
+}
+.low{background:rgba(16,185,129,.1);color:var(--success)}
+.medium{background:rgba(245,158,11,.1);color:var(--warning)}
+.high{background:rgba(239,68,68,.1);color:var(--danger);border-color:var(--danger)}
 
-        h2 { font-size: 18px; margin-bottom: 20px; color: #f8fafc; font-weight: 600; display: flex; align-items: center; gap: 10px; }
-        h2::before { content: ''; width: 4px; height: 18px; background: var(--accent); border-radius: 10px; }
+/* Risk Meter */
+.meter-container{padding:40px 0 20px}
+.meter{
+  height:12px;
+  background:linear-gradient(to right,var(--success),var(--warning),var(--danger));
+  border-radius:20px;
+  position:relative
+}
+.pointer{
+  position:absolute;
+  top:-15px;
+  left:85%;
+  font-size:22px;
+  color:#fff;
+  filter:drop-shadow(0 0 6px var(--danger))
+}
 
-        /* ===== Pattern Chaining Upgraded ===== */
-        .graph { display: flex; flex-direction: column; align-items: center; gap: 12px; margin: 30px 0; }
-        
-        .node {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border);
-            color: #94a3b8;
-            padding: 14px 25px;
-            border-radius: 8px;
-            font-size: 14px;
-            width: 280px;
-            text-align: center;
-            position: relative;
-        }
+.explain{font-size:13px;color:#64748b;line-height:1.6;margin-top:15px}
 
-        .node.active { border-color: var(--accent); color: white; background: rgba(59, 130, 246, 0.1); }
-
-        .arrow { font-size: 20px; color: var(--border); animation: flow 1.5s infinite; }
-        @keyframes flow { 0% { color: var(--border); transform: translateY(0); } 50% { color: var(--accent); transform: translateY(5px); } 100% { color: var(--border); transform: translateY(0); } }
-
-        .final-signal {
-            background: rgba(239, 68, 68, 0.15);
-            border: 1px solid var(--danger);
-            color: var(--danger);
-            padding: 16px 30px;
-            border-radius: 8px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
-        }
-
-        /* ===== Heatmap Grid ===== */
-        .heatmap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-        .cell { padding: 20px; text-align: center; font-size: 12px; font-weight: 700; border-radius: 8px; border: 1px solid var(--border); }
-        .low { background: rgba(16, 185, 129, 0.1); color: var(--success); }
-        .medium { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
-        .high { background: rgba(239, 68, 68, 0.1); color: var(--danger); border-color: var(--danger); }
-
-        /* ===== Neon Risk Meter ===== */
-        .meter-container { padding: 40px 0 20px; }
-        .meter {
-            height: 12px;
-            background: linear-gradient(to right, var(--success), var(--warning), var(--danger));
-            border-radius: 20px;
-            position: relative;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
-        }
-        .pointer {
-            position: absolute;
-            top: -15px;
-            left: 85%;
-            text-align: center;
-            transition: 1s ease-in-out;
-        }
-        .pointer-icon { font-size: 24px; color: white; filter: drop-shadow(0 0 5px var(--danger)); }
-
-        .explain { font-size: 13px; color: #64748b; line-height: 1.6; margin-top: 15px; }
-
-        footer { text-align: center; font-size: 12px; color: #475569; padding: 40px 0; border-top: 1px solid var(--border); }
-
-        @media (max-width: 600px) {
-            .node { width: 100%; }
-            .heatmap { grid-template-columns: 1fr; }
-        }
-    </style>
+footer{
+  text-align:center;
+  font-size:12px;
+  color:#475569;
+  padding:40px 0;
+  border-top:1px solid var(--border)
+}
+@media(max-width:600px){
+  .node{width:100%}
+  .heatmap{grid-template-columns:1fr}
+}
+</style>
 </head>
+
 <body>
 
 <header>
@@ -125,59 +162,65 @@
   <p>Institutional Risk Correlation Demo</p>
 </header>
 
+<div class="sandbox">
+<strong>Sandbox Notice:</strong>
+This live visualizer operates in a controlled sandbox using synthetic and public blockchain behavior patterns.
+No real user data, identities, funds, or production systems are accessed.
+</div>
+
 <div class="container">
 
-  <div class="card">
-    <h2>Pattern-Chaining Logic</h2>
-    <div class="graph">
-      <div class="node">Exchange Source A</div>
-      <div class="arrow">↓</div>
-      <div class="node active">Cross-Chain Swap (Behavioral Match)</div>
-      <div class="arrow">↓</div>
-      <div class="node">Intermediate Layer-2 Wallet</div>
-      <div class="arrow">↓</div>
-      <div class="final-signal">Multi-Wallet AML Alert (CRITICAL)</div>
-    </div>
-    <p class="explain">
-      Aapka engine complex swap patterns ko track karta hai. Yeh graph batata hai ki kaise multiple exchanges ke beech hone wali digital movements ko humara system ek single "Pattern Chain" mein correlate kar deta hai.
-    </p>
-  </div>
+<div class="card">
+<h2>Pattern-Chaining Logic</h2>
+<div class="graph">
+  <div class="node">Exchange Source A</div>
+  <div class="arrow">↓</div>
+  <div class="node active">Cross-Chain Swap (Behavioral Match)</div>
+  <div class="arrow">↓</div>
+  <div class="node">Intermediate Layer-2 Wallet</div>
+  <div class="arrow">↓</div>
+  <div class="final-signal">Multi-Wallet AML Alert (CRITICAL)</div>
+</div>
+<p class="explain">
+This visualization demonstrates how repeated cross-platform behavioral patterns are correlated into a single risk chain,
+without using identity, KYC, or transaction content.
+</p>
+</div>
 
-  <div class="card">
-    <h2>Activity Intensity Heatmap</h2>
-    <div class="heatmap">
-      <div class="cell low">NORMAL</div>
-      <div class="cell medium">SUSPICIOUS</div>
-      <div class="cell high">HIGH RISK</div>
-      <div class="cell low">CLEAN</div>
-      <div class="cell medium">PEER CORRELATED</div>
-      <div class="cell high">EXCHANGE HOP</div>
-    </div>
+<div class="card">
+<h2>Activity Intensity Heatmap</h2>
+<div class="heatmap">
+  <div class="cell low">NORMAL</div>
+  <div class="cell medium">SUSPICIOUS</div>
+  <div class="cell high">HIGH RISK</div>
+  <div class="cell low">CLEAN</div>
+  <div class="cell medium">PEER CORRELATED</div>
+  <div class="cell high">EXCHANGE HOP</div>
+</div>
 
-    <div class="meter-container">
-        <h2>Live Risk Appetite</h2>
-        <div class="meter">
-            <div class="pointer">
-                <div class="pointer-icon">▼</div>
-            </div>
-        </div>
-        <p class="explain" style="text-align:center; color: var(--danger); font-weight: bold; margin-top: 25px;">
-            CURRENT THREAT LEVEL: CRITICAL (0.89)
-        </p>
-    </div>
+<div class="meter-container">
+  <h2>Live Risk Appetite</h2>
+  <div class="meter">
+    <div class="pointer">▼</div>
   </div>
+  <p class="explain" style="text-align:center;color:var(--danger);font-weight:bold;margin-top:25px">
+    CURRENT THREAT LEVEL: CRITICAL (0.89)
+  </p>
+</div>
+</div>
 
-  <div class="card" style="border-color: var(--accent); background: rgba(59, 130, 246, 0.05);">
-    <h2>Intelligence Proof</h2>
-    <p class="explain" style="color: #cbd5e1;">
-      Veritas Engine generates <b>Full-Proof Documentation</b> for regulatory inquiries. Our behavioral signatures remain persistent even across asset swaps and wallet rotations.
-    </p>
-  </div>
+<div class="card" style="border-color:var(--accent);background:rgba(59,130,246,.05)">
+<h2>Intelligence Proof</h2>
+<p class="explain" style="color:#cbd5e1">
+Veritas Engine produces audit-ready behavioral explanations.
+Patterns remain persistent even across asset swaps, wallet rotation, and exchange hops.
+</p>
+</div>
 
 </div>
 
 <footer>
-  © 2026 Veritas Engine · Proprietary Behavioral Logic · Institutional Use Only
+© 2026 Veritas Engine · Proprietary Behavioral Logic · Institutional Use Only
 </footer>
 
 </body>
