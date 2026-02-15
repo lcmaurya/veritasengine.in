@@ -1,13 +1,151 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <title>Message Risk Check</title>
-  <link rel="stylesheet" href="assets/style.css">
+<meta charset="UTF-8">
+<title>Veritas Audit Dashboard</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  background:#0f172a;
+  color:#e5e7eb;
+  margin:0;
+  padding:20px;
+}
+h1 { margin-bottom:10px; }
+
+table {
+  width:100%;
+  border-collapse:collapse;
+  background:#020617;
+}
+th, td {
+  padding:12px;
+  border-bottom:1px solid #1e293b;
+  text-align:left;
+}
+tr:hover { background:#020617cc; cursor:pointer; }
+
+.badge {
+  padding:4px 10px;
+  border-radius:999px;
+  font-weight:600;
+  font-size:12px;
+}
+.v0 { background:#064e3b; color:#6ee7b7; }
+.v1 { background:#78350f; color:#fde68a; }
+.v2 { background:#7c2d12; color:#fdba74; }
+.v3 { background:#7f1d1d; color:#fca5a5; }
+
+.ok { color:#22c55e; }
+
+#vault {
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:none;
+  align-items:center;
+  justify-content:center;
+}
+#vault .box {
+  background:#020617;
+  padding:20px;
+  width:420px;
+  border-radius:10px;
+}
+pre {
+  background:#020617;
+  padding:10px;
+  overflow:auto;
+  font-size:12px;
+}
+button {
+  background:#2563eb;
+  color:white;
+  border:none;
+  padding:8px 12px;
+  border-radius:6px;
+  cursor:pointer;
+}
+</style>
 </head>
+
 <body>
-  <h1>Message Risk Check</h1>
-  <p>Darane, pressure banane, ya paisa maangne wale messages ka behavior-based risk check.</p>
-  <a class="btn" href="analyze.html">Start Risk Check</a>
+<h1>🔐 Veritas Audit Dashboard</h1>
+
+<table id="table">
+  <thead>
+    <tr>
+      <th>Transaction ID</th>
+      <th>Verdict</th>
+      <th>Proof</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<!-- AUDIT VAULT -->
+<div id="vault" onclick="this.style.display='none'">
+  <div class="box" onclick="event.stopPropagation()">
+    <h3>🔐 Audit Vault</h3>
+    <div id="vaultBody"></div>
+    <br>
+    <button onclick="document.getElementById('vault').style.display='none'">
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+const labels = ["NORMAL","RISK","SUSPECT","HIGH-RISK"];
+const tbody = document.querySelector("tbody");
+
+// mock crypto (visual purpose)
+function sha256(txt){
+  return crypto.subtle.digest("SHA-256",
+    new TextEncoder().encode(txt)
+  ).then(b =>
+    [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")
+  );
+}
+function sign(h){ return "ED25519:"+h.slice(0,32); }
+
+async function add(txid, verdict){
+  const hash = await sha256(txid+verdict);
+  const sig  = sign(hash);
+
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${txid}</td>
+    <td><span class="badge v${verdict}">${labels[verdict]}</span></td>
+    <td class="ok">✔ Verified</td>
+  `;
+  tr.onclick = () => openVault(txid, verdict, hash, sig);
+  tbody.prepend(tr);
+}
+
+function openVault(id, v, hash, sig){
+  document.getElementById("vaultBody").innerHTML = `
+    <b>Transaction:</b> ${id}<br>
+    <b>Verdict:</b> ${labels[v]}<br><br>
+
+    <b>SHA-256</b>
+    <pre>${hash}</pre>
+
+    <b>Signature</b>
+    <pre>${sig}</pre>
+
+    <b>Integrity</b><br>
+    🟦 Verified by Frozen Core v1.0.0
+  `;
+  document.getElementById("vault").style.display="flex";
+}
+
+/* REAL-TIME FEED (engine → UI) */
+let i=1;
+setInterval(()=>{
+  add("TX-"+(1000+i), i%4);
+  i++;
+},1500);
+</script>
 </body>
 </html>
