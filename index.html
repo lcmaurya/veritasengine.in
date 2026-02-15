@@ -1,164 +1,161 @@
+cd ~/veritasengine.in || exit 1
+
+cat > index.html <<'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Veritas Audit Dashboard</title>
-
+<title>Veritas Interactive Audit Dashboard</title>
 <style>
-body{
-  margin:0;
-  font-family:system-ui,Arial,sans-serif;
-  background:#0b1220;
-  color:#e5e7eb;
+body {
+    font-family: Arial, sans-serif;
+    background:#f5f7fa;
+    margin:0;
+    padding:20px;
 }
-header{
-  padding:14px 18px;
-  background:#0f172a;
-  font-weight:600;
-  letter-spacing:.3px;
+h1 {
+    text-align:center;
 }
-table{
-  width:100%;
-  border-collapse:collapse;
+table {
+    width:100%;
+    border-collapse: collapse;
+    margin-top:20px;
 }
-th,td{
-  padding:10px 12px;
-  border-bottom:1px solid #1f2937;
-  text-align:left;
-  font-size:14px;
+th, td {
+    padding:12px;
+    text-align:center;
 }
-th{
-  background:#020617;
-  position:sticky;
-  top:0;
+th {
+    background:#1f2937;
+    color:#fff;
 }
-tr:hover{ background:#020617; cursor:pointer; }
+tr {
+    cursor:pointer;
+}
+tr:nth-child(even){background:#f0f0f0;}
+tr.normal {background:#d1fae5;}
+tr.risk {background:#fef3c7;}
+tr.suspect {background:#fde68a;}
+tr.high {background:#fecaca;}
 
-.badge{
-  padding:3px 10px;
-  border-radius:999px;
-  font-size:12px;
-  font-weight:600;
-  display:inline-block;
+.badge {
+    padding:4px 10px;
+    border-radius:12px;
+    font-size:12px;
+    font-weight:bold;
 }
-.v0{ background:#065f46; }      /* NORMAL */
-.v1{ background:#92400e; }      /* RISK */
-.v2{ background:#7c2d12; }      /* SUSPECT */
-.v3{ background:#7f1d1d; }      /* HIGH RISK */
 
-.ok{ color:#22c55e; font-weight:600; }
+.verified {
+    color:#065f46;
+}
 
-#modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  align-items:center;
-  justify-content:center;
+/* POPUP */
+#vault {
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:rgba(0,0,0,0.5);
 }
-#box{
-  background:#020617;
-  border:1px solid #1f2937;
-  border-radius:8px;
-  width:90%;
-  max-width:520px;
-  padding:16px;
+#vaultBox {
+    background:#fff;
+    width:90%;
+    max-width:500px;
+    margin:10% auto;
+    padding:20px;
+    border-radius:8px;
 }
-h3{ margin-top:0; }
-pre{
-  background:#020617;
-  border:1px solid #1f2937;
-  padding:10px;
-  overflow:auto;
-  font-size:12px;
+#closeBtn {
+    float:right;
+    cursor:pointer;
+    font-weight:bold;
 }
-button{
-  margin-top:12px;
-  padding:8px 12px;
-  border:none;
-  background:#2563eb;
-  color:white;
-  border-radius:6px;
+pre {
+    background:#f3f4f6;
+    padding:10px;
+    overflow:auto;
 }
 </style>
 </head>
-
 <body>
-<header>Veritas Interactive Audit Dashboard</header>
+
+<h1>Veritas Interactive Audit Dashboard</h1>
 
 <table>
 <thead>
 <tr>
-  <th>Transaction ID</th>
-  <th>Verdict</th>
-  <th>Proof</th>
+<th>Transaction ID</th>
+<th>Verdict</th>
+<th>Proof</th>
 </tr>
 </thead>
 <tbody id="rows"></tbody>
 </table>
 
-<!-- POPUP -->
-<div id="modal" onclick="closeModal()">
-  <div id="box" onclick="event.stopPropagation()">
+<!-- VAULT POPUP -->
+<div id="vault">
+  <div id="vaultBox">
+    <span id="closeBtn">✖</span>
     <h3>Audit Vault</h3>
-    <b>Raw Input</b>
+
+    <p><b>Raw Input</b></p>
     <pre id="raw"></pre>
 
-    <b>Verification Hash (SHA-256)</b>
+    <p><b>Verification Hash (SHA-256)</b></p>
     <pre id="hash"></pre>
 
-    <b>Digital Signature (Ed25519)</b>
+    <p><b>Digital Signature (Ed25519)</b></p>
     <pre id="sig"></pre>
 
-    <div style="margin-top:10px;">
-      🛡️ <b>Integrity Seal:</b> Verified by Frozen Core v1.0.0
-    </div>
-
-    <button onclick="closeModal()">Close</button>
+    <p><b>Integrity Seal</b></p>
+    <span class="badge verified">✔ Verified by Frozen Core v1.0.0</span>
   </div>
 </div>
 
 <script>
-/* MOCK DATA (engine later replace karega) */
-const verdictMap = [
-  {t:"NORMAL", c:"v0"},
-  {t:"RISK", c:"v1"},
-  {t:"SUSPECT", c:"v2"},
-  {t:"HIGH-RISK", c:"v3"},
+/* DEMO DATA (engine later plug hoga) */
+const data = [
+ {id:101, d:0},
+ {id:102, d:1},
+ {id:103, d:2},
+ {id:104, d:3},
 ];
 
-const data = Array.from({length:40},(_,i)=>({
-  id: 1000+i,
-  verdict: i%4,
-  raw: {input:i, delta:i*7},
-  hash: crypto.randomUUID().replace(/-/g,""),
-  sig: crypto.randomUUID().replace(/-/g,"")
-}));
+const labels = ["NORMAL","RISK","SUSPECT","HIGH-RISK"];
+const classes = ["normal","risk","suspect","high"];
 
 const tbody = document.getElementById("rows");
 
-data.forEach(d=>{
-  const v = verdictMap[d.verdict];
+data.forEach(r=>{
   const tr = document.createElement("tr");
+  tr.className = classes[r.d];
   tr.innerHTML = `
-    <td>${d.id}</td>
-    <td><span class="badge ${v.c}">${v.t}</span></td>
-    <td class="ok">✔ Verified</td>
+    <td>${r.id}</td>
+    <td>${labels[r.d]}</td>
+    <td class="verified">✔ Verified</td>
   `;
-  tr.onclick = ()=>openModal(d);
+  tr.onclick = ()=>openVault(r);
   tbody.appendChild(tr);
 });
 
-function openModal(d){
-  raw.textContent  = JSON.stringify(d.raw,null,2);
-  hash.textContent = d.hash;
-  sig.textContent  = d.sig;
-  modal.style.display="flex";
+function openVault(r){
+  document.getElementById("raw").textContent =
+    JSON.stringify({transaction_id:r.id, verdict:r.d},null,2);
+
+  document.getElementById("hash").textContent =
+    "SHA256_" + r.id.toString(16).padStart(8,"0");
+
+  document.getElementById("sig").textContent =
+    "ED25519_SIGNATURE_" + r.id;
+
+  document.getElementById("vault").style.display="block";
 }
-function closeModal(){
-  modal.style.display="none";
-}
+
+document.getElementById("closeBtn").onclick = ()=>{
+  document.getElementById("vault").style.display="none";
+};
 </script>
+
 </body>
 </html>
+EOF
