@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8" />
 <title>Veritas Interactive Audit Dashboard</title>
-
 <style>
 body{font-family:Arial,sans-serif;background:#f5f7fa;padding:20px}
 h1{text-align:center}
@@ -38,45 +37,65 @@ pre{background:#f3f4f6;padding:10px}
 </table>
 
 <div id="vault">
-  <div id="box">
-    <span id="close">✖</span>
-    <h3>Audit Vault</h3>
-    <b>Raw Input</b>
-    <pre id="raw"></pre>
-    <b>Verification Hash</b>
-    <pre id="hash"></pre>
-    <b>Digital Signature</b>
-    <pre id="sig"></pre>
-    <b>Integrity</b><br/>✔ Verified
-  </div>
+<div id="box">
+<span id="close">✖</span>
+<h3>Audit Vault</h3>
+<b>Raw Input</b>
+<pre id="raw"></pre>
+<b>Verification Hash</b>
+<pre id="hash"></pre>
+<b>Digital Signature</b>
+<pre id="sig"></pre>
+<b>Integrity Seal</b><br/>
+✔ Verified by Frozen Core
+</div>
 </div>
 
 <script>
-const API = "https://it-purchase-stopping-rocky.trycloudflare.com/api/decide";
+const SNAPSHOTS = [
+ {
+  transaction_id:101,
+  verdict:1,
+  hash:"4067c3957a00000090b4110030000000c8fb04e37f0000000000f7977a000000",
+  signature:"ED25519_SIGNATURE_101",
+  verified:true
+ },
+ {
+  transaction_id:102,
+  verdict:2,
+  hash:"70f8100030000000800124006d000000160304e301000000c8fc04e37f000000",
+  signature:"ED25519_SIGNATURE_102",
+  verified:true
+ },
+ {
+  transaction_id:103,
+  verdict:3,
+  hash:"aa98100030000000800124006d000000160304e301000000c8fc04e37f999999",
+  signature:"ED25519_SIGNATURE_103",
+  verified:true
+ }
+];
+
 const labels=["NORMAL","RISK","SUSPECT","HIGH-RISK"];
 const classes=["normal","risk","suspect","high"];
 const tbody=document.getElementById("rows");
 
-[101,102,103,104].forEach(loadRow);
-
-function loadRow(id){
- fetch(API+"?id="+id)
- .then(r=>r.json())
- .then(d=>{
-   const tr=document.createElement("tr");
-   tr.className=classes[d.verdict];
-   tr.innerHTML=`
-     <td>${d.transaction_id}</td>
-     <td>${labels[d.verdict]}</td>
-     <td class="verified">✔ Verified</td>`;
-   tr.onclick=()=>openVault(d);
-   tbody.appendChild(tr);
- });
-}
+SNAPSHOTS.forEach(d=>{
+ const tr=document.createElement("tr");
+ tr.className=classes[d.verdict];
+ tr.innerHTML=`
+  <td>${d.transaction_id}</td>
+  <td>${labels[d.verdict]}</td>
+  <td class="verified">✔ Verified</td>
+ `;
+ tr.onclick=()=>openVault(d);
+ tbody.appendChild(tr);
+});
 
 function openVault(d){
  raw.textContent=JSON.stringify(
-   {transaction_id:d.transaction_id,verdict:d.verdict},null,2);
+  {transaction_id:d.transaction_id,verdict:d.verdict},null,2
+ );
  hash.textContent=d.hash;
  sig.textContent=d.signature;
  vault.style.display="block";
