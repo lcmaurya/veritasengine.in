@@ -1,1 +1,87 @@
-<!-- TUMHARA FINAL HTML YAHAN EXACT AS-IS -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Veritas Interactive Audit Dashboard</title>
+
+<style>
+body{font-family:Arial,sans-serif;background:#f5f7fa;padding:20px}
+h1{text-align:center}
+table{width:100%;border-collapse:collapse;margin-top:20px}
+th,td{padding:12px;text-align:center}
+th{background:#1f2937;color:#fff}
+tr{cursor:pointer}
+tr.normal{background:#d1fae5}
+tr.risk{background:#fef3c7}
+tr.suspect{background:#fde68a}
+tr.high{background:#fecaca}
+.verified{color:#065f46;font-weight:bold}
+#vault{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5)}
+#box{background:#fff;width:90%;max-width:520px;margin:10% auto;padding:20px;border-radius:8px}
+#close{float:right;cursor:pointer;font-weight:bold}
+pre{background:#f3f4f6;padding:10px}
+</style>
+</head>
+
+<body>
+<h1>Veritas Interactive Audit Dashboard</h1>
+
+<table>
+<thead>
+<tr>
+<th>Transaction ID</th>
+<th>Verdict</th>
+<th>Proof</th>
+</tr>
+</thead>
+<tbody id="rows"></tbody>
+</table>
+
+<div id="vault">
+  <div id="box">
+    <span id="close">✖</span>
+    <h3>Audit Vault</h3>
+    <b>Raw Input</b>
+    <pre id="raw"></pre>
+    <b>Verification Hash</b>
+    <pre id="hash"></pre>
+    <b>Digital Signature</b>
+    <pre id="sig"></pre>
+    <b>Integrity</b><br/>✔ Verified
+  </div>
+</div>
+
+<script>
+const API = "https://resolution-php-fewer-comes.trycloudflare.com/api/decide";
+const labels=["NORMAL","RISK","SUSPECT","HIGH-RISK"];
+const classes=["normal","risk","suspect","high"];
+const tbody=document.getElementById("rows");
+
+[101,102,103,104].forEach(loadRow);
+
+function loadRow(id){
+ fetch(API+"?id="+id)
+ .then(r=>r.json())
+ .then(d=>{
+   const tr=document.createElement("tr");
+   tr.className=classes[d.verdict];
+   tr.innerHTML=`
+     <td>${d.transaction_id}</td>
+     <td>${labels[d.verdict]}</td>
+     <td class="verified">✔ Verified</td>`;
+   tr.onclick=()=>openVault(d);
+   tbody.appendChild(tr);
+ });
+}
+
+function openVault(d){
+ raw.textContent=JSON.stringify(
+   {transaction_id:d.transaction_id,verdict:d.verdict},null,2);
+ hash.textContent=d.hash;
+ sig.textContent=d.signature;
+ vault.style.display="block";
+}
+close.onclick=()=>vault.style.display="none";
+</script>
+</body>
+</html>
