@@ -76,6 +76,10 @@ footer{
 </head>
 
 <body>
+<div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;">
+<button onclick="setLang('en')" style="margin-right:4px;">EN</button>
+<button onclick="setLang('hi')">हिंदी</button>
+</div>
 
 <marquee id="legal-marquee">
 ⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.
@@ -115,7 +119,28 @@ footer{
 </footer>
 
 <script>
-const LANG = (navigator.language || 'en').startsWith('hi') ? 'hi' : 'en';
+<script>
+function getLang() {
+  return localStorage.getItem('veritas_lang') ||
+         ((navigator.language || 'en').startsWith('hi') ? 'hi' : 'en');
+}
+
+function setLang(lang) {
+  localStorage.setItem('veritas_lang', lang);
+  applyLang(lang);
+}
+
+function applyLang(LANG) {
+  const T = I18N[LANG];
+
+  document.querySelector('.tagline').innerText = T.tagline;
+  document.querySelector('textarea').placeholder = T.placeholder;
+  document.querySelector('button').innerText = T.button;
+  document.getElementById('legal-marquee').innerText = T.marquee;
+  document.querySelector('details summary').innerText = T.legalTitle;
+  document.querySelector('details p').innerHTML = T.legalText;
+  document.querySelector('footer').innerHTML = T.footer;
+}
 
 const I18N = {
   en: {
@@ -138,7 +163,7 @@ const I18N = {
     tagline: "जोखिम समझाइए। भरोसा मत मांगिए।",
     placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
     button: "जोखिम संकेत विश्लेषण करें",
-    marquee: "⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता, न कोई निर्णय लेता है। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    marquee: "⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता और कोई निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
     legalTitle: "कानूनी अस्वीकरण",
     legalText: `
       यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।
@@ -152,13 +177,7 @@ const I18N = {
   }
 };
 
-document.querySelector('.tagline').innerText = I18N[LANG].tagline;
-document.querySelector('textarea').placeholder = I18N[LANG].placeholder;
-document.querySelector('button').innerText = I18N[LANG].button;
-document.getElementById('legal-marquee').innerText = I18N[LANG].marquee;
-document.querySelector('details summary').innerText = I18N[LANG].legalTitle;
-document.querySelector('details p').innerHTML = I18N[LANG].legalText;
-document.querySelector('footer').innerHTML = I18N[LANG].footer;
+applyLang(getLang());
 </script>
 </body>
 </html>
