@@ -7,57 +7,55 @@
 <title>Veritas Guard</title>
 
 <style>
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  background:#0b1220;
-  color:#e5e7eb;
+body {
+  margin:0; font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  background:#0b1220; color:#e5e7eb;
 }
-#legal-marquee{
-  background:#7c2d12;
-  color:#fff;
-  padding:8px 0;
-  font-size:14px;
+#legal-marquee {
+  background:#7c2d12; color:#fff; padding:8px 0; font-size:14px;
 }
-#app{
-  max-width:420px;
-  margin:40px auto;
-  background:#0f172a;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 0 40px rgba(0,0,0,.5);
+#app {
+  max-width:480px; margin:40px auto; background:#0f172a;
+  border-radius:12px; padding:20px; box-shadow:0 0 40px rgba(0,0,0,.5);
 }
-h1{text-align:center;margin:0 0 6px;}
-.tagline{text-align:center;font-size:13px;color:#9ca3af;}
-textarea{
-  width:100%;height:90px;margin-top:16px;border-radius:8px;
-  border:none;padding:10px;background:#020617;color:#e5e7eb;
+h1 { text-align:center; margin:0 0 6px; }
+.tagline { text-align:center; font-size:13px; color:#9ca3af; }
+textarea {
+  width:100%; height:100px; margin-top:16px; border-radius:8px;
+  border:1px solid #334155; padding:12px; background:#020617; color:#e5e7eb;
+  box-sizing: border-box; resize: none;
 }
-button{
-  width:100%;margin-top:12px;padding:12px;border:none;
-  border-radius:8px;background:#2563eb;color:white;font-size:16px;
+.btn-primary {
+  width:100%; margin-top:12px; padding:14px; border:none; cursor:pointer;
+  border-radius:8px; background:#2563eb; color:white; font-size:16px; font-weight:bold;
 }
-.notice{margin-top:10px;font-size:12px;color:#9ca3af;}
-details{
-  margin-top:14px;background:#020617;padding:12px;
-  border-radius:8px;font-size:13px;
-}
-footer{
-  margin-top:30px;text-align:center;
-  font-size:12px;color:#6b7280;
-}
-.lang-btn{
-  padding:6px 10px;
-  margin-left:4px;
-  border-radius:6px;
-  font-size:13px;
-}
+.notice { margin-top:10px; font-size:12px; color:#9ca3af; text-align: center; }
+details { margin-top:14px; background:#020617; padding:12px; border-radius:8px; font-size:13px; }
+footer { margin-top:30px; text-align:center; font-size:12px; color:#6b7280; margin-bottom: 20px;}
+.lang-btn { padding:6px 12px; margin-left:4px; border-radius:6px; font-size:13px; border:none; cursor:pointer; background:#3b82f6; color:white;}
+
+/* New Result Section Styles */
+#resultSection { display: none; margin-top: 20px; background: #1e293b; padding: 15px; border-radius: 8px; border: 1px solid #334155;}
+.risk-badge { display: inline-block; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+.explanation { font-size: 14px; margin-bottom: 12px; line-height:1.5; }
+.signals-list { margin: 0; padding-left: 20px; color: #9ca3af; font-size: 13px; }
+.hash-display { margin-top: 12px; font-family: monospace; font-size: 10px; color: #64748b; word-break: break-all; background: #020617; padding: 8px; border-radius: 4px; }
+
+/* Action Buttons */
+.action-row { display: flex; gap: 10px; margin-top: 15px; }
+.action-btn { flex: 1; padding: 10px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: bold; }
+.btn-share { background: #10b981; color: white; }
+.btn-clear { background: #ef4444; color: white; }
+.btn-voice { background: #f59e0b; color: white; }
+
+/* History Section */
+.history-section { margin-top: 20px; font-size: 13px; }
+.history-item { background: #020617; padding: 8px; border-radius: 6px; margin-top: 8px; border-left: 3px solid gray; color: #9ca3af; display: flex; justify-content: space-between;}
 </style>
 </head>
 
 <body>
 
-<!-- Language Toggle -->
 <div style="position:fixed;top:12px;right:12px;z-index:9999;">
   <button class="lang-btn" onclick="applyLang('en')">EN</button>
   <button class="lang-btn" onclick="applyLang('hi')">हिंदी</button>
@@ -70,16 +68,33 @@ footer{
   <div class="tagline" id="tagline"></div>
 
   <textarea id="input-text"></textarea>
-  <button><span id="analyze-btn"></span></button>
+  <button class="btn-primary" id="main-btn" onclick="analyzeText()"><span id="analyze-btn"></span></button>
 
-  <div class="notice">
-    No Login · No Permissions · No Data Stored
+  <div id="resultSection">
+      <div id="riskBadge" class="risk-badge">SCANNING...</div>
+      <div id="explainText" class="explanation"></div>
+      <div style="font-size: 12px; color: #9ca3af; font-weight: bold; margin-bottom:4px;" id="signal-title">Triggered Signals:</div>
+      <ul id="signalsList" class="signals-list"></ul>
+      <div id="hashDisplay" class="hash-display"></div>
+      
+      <div class="action-row">
+          <button class="action-btn btn-voice" onclick="playVoiceWarning()">🔊 <span id="btn-voice-txt">Listen</span></button>
+          <button class="action-btn btn-share" onclick="shareResult()">📲 <span id="btn-share-txt">Share</span></button>
+          <button class="action-btn btn-clear" onclick="clearApp()">🗑️ <span id="btn-clear-txt">Clear</span></button>
+      </div>
   </div>
+
+  <div class="notice">🔒 No Login · No Permissions · No Data Stored</div>
 
   <details open>
     <summary><b id="legal-title"></b></summary>
     <div id="legal-text"></div>
   </details>
+
+  <div class="history-section" id="historyBox" style="display:none;">
+      <b id="history-title" style="color:#e5e7eb;">Recent Scans (Saved Locally)</b>
+      <div id="historyList"></div>
+  </div>
 </div>
 
 <footer>
@@ -88,36 +103,41 @@ footer{
 </footer>
 
 <script>
+// --- 1. LANGUAGE CONFIGURATION ---
 const I18N = {
   en:{
-    tagline:"Explain risk. Don’t demand trust.",
-    placeholder:"Paste SMS, WhatsApp message, or link here to analyze...",
-    button:"Analyze Risk Signals",
+    tagline:"Explain risk. Don’t demand trust.", placeholder:"Paste SMS, WhatsApp message, or link here...", button:"Analyze Risk Signals",
     marquee:"⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.",
     legalTitle:"Legal Disclaimer",
-    legalText:`This tool analyzes text for commonly known risk patterns based on deterministic rules.<br><br>
-It does NOT guarantee fraud detection accuracy and does NOT make decisions for you.<br>
-Final responsibility always remains with the user.<br><br>
-This is NOT an AI system, NOT a fraud prevention service, and NOT a financial, banking,
-legal, or security advisory tool.<br><br>
-No personal data is collected, stored, transmitted, or shared.`
+    legalText:`This tool analyzes text for commonly known risk patterns based on deterministic rules.<br><br>It does NOT guarantee fraud detection accuracy and does NOT make decisions for you.<br>Final responsibility always remains with the user.<br><br>This is NOT an AI system, NOT a fraud prevention service, and NOT a financial, banking, legal, or security advisory tool.<br><br>No personal data is collected, stored, transmitted, or shared.`,
+    shareTxt: "Share", clearTxt: "Clear", listenTxt: "Listen", signalTitle: "Triggered Signals:", historyTitle: "Recent Scans (Saved Locally)",
+    voiceWarning: "Warning! This message shows signs of a scam. Please do not click any links.",
+    voiceSafe: "This message appears safe, but always stay alert."
   },
   hi:{
-    tagline:"जोखिम समझाइए। भरोसा मत मांगिए।",
-    placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
-    button:"जोखिम संकेतों का विश्लेषण करें",
+    tagline:"जोखिम समझाइए। भरोसा मत मांगिए।", placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ डालें…", button:"जोखिम संकेतों का विश्लेषण करें",
     marquee:"⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
     legalTitle:"कानूनी अस्वीकरण",
-    legalText:`यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।<br><br>
-यह धोखाधड़ी की कोई गारंटी नहीं देता और कोई निर्णय नहीं लेता।<br>
-अंतिम निर्णय और ज़िम्मेदारी पूरी तरह उपयोगकर्ता की होती है।<br><br>
-यह कोई AI सिस्टम नहीं है और न ही कोई फ्रॉड, बैंकिंग,
-कानूनी या सुरक्षा सलाह सेवा है।<br><br>
-कोई भी व्यक्तिगत डेटा संग्रहित या साझा नहीं किया जाता।`
+    legalText:`यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।<br><br>यह धोखाधड़ी की कोई गारंटी नहीं देता और कोई निर्णय नहीं लेता।<br>अंतिम निर्णय और ज़िम्मेदारी पूरी तरह उपयोगकर्ता की होती है।<br><br>यह कोई AI सिस्टम नहीं है और न ही कोई फ्रॉड, बैंकिंग, कानूनी या सुरक्षा सलाह सेवा है।<br><br>कोई भी व्यक्तिगत डेटा संग्रहित या साझा नहीं किया जाता।`,
+    shareTxt: "शेयर करें", clearTxt: "साफ़ करें", listenTxt: "सुने", signalTitle: "खतरे के संकेत:", historyTitle: "हाल के स्कैन (लोकल सेव्ड)",
+    voiceWarning: "सावधान! यह एक फर्जी संदेश हो सकता है। कृपया किसी भी लिंक पर क्लिक न करें।",
+    voiceSafe: "यह संदेश सुरक्षित प्रतीत होता है, फिर भी सतर्क रहें।"
   }
 };
 
+let currentLang = "en";
+let currentRiskLevel = 0; 
+let currentHash = "";
+
+const riskConfig = {
+    0: { color: "#10b981", bg: "rgba(16, 185, 129, 0.1)" }, // SAFE
+    1: { color: "#eab308", bg: "rgba(234, 179, 8, 0.1)" },  // NEEDS ATTENTION
+    2: { color: "#f97316", bg: "rgba(249, 115, 22, 0.1)" }, // RISK
+    3: { color: "#ef4444", bg: "rgba(239, 68, 68, 0.1)" }   // HIGH RISK
+};
+
 function applyLang(lang){
+  currentLang = lang;
   localStorage.setItem("veritas_lang", lang);
   document.getElementById("tagline").innerText = I18N[lang].tagline;
   document.getElementById("input-text").placeholder = I18N[lang].placeholder;
@@ -125,11 +145,142 @@ function applyLang(lang){
   document.getElementById("legal-title").innerText = I18N[lang].legalTitle;
   document.getElementById("legal-text").innerHTML = I18N[lang].legalText;
   document.getElementById("legal-marquee").innerText = I18N[lang].marquee;
+  document.getElementById("btn-share-txt").innerText = I18N[lang].shareTxt;
+  document.getElementById("btn-clear-txt").innerText = I18N[lang].clearTxt;
+  document.getElementById("btn-voice-txt").innerText = I18N[lang].listenTxt;
+  document.getElementById("signal-title").innerText = I18N[lang].signalTitle;
+  document.getElementById("history-title").innerText = I18N[lang].historyTitle;
+  renderHistory();
 }
 
 document.addEventListener("DOMContentLoaded",()=>{
   applyLang(localStorage.getItem("veritas_lang") || "en");
 });
+
+// --- 2. THE ENGINE CONNECTION & AUTO-MASKING ---
+async function analyzeText() {
+    let rawInput = document.getElementById('input-text').value.trim();
+    if(!rawInput) return;
+
+    // 🔥 FEATURE 1: AUTO-MASKING (Privacy Shield)
+    // Masks 8 to 14 digit numbers (Accounts/Phones) to XXXXXX
+    let maskedInput = rawInput.replace(/\b\d{8,14}\b/g, (match) => "X".repeat(match.length - 4) + match.slice(-4));
+    
+    // UI Update while scanning
+    const mainBtn = document.getElementById('main-btn');
+    const resultSec = document.getElementById('resultSection');
+    mainBtn.disabled = true; 
+    mainBtn.style.opacity = "0.5";
+    resultSec.style.display = "none";
+
+    try {
+        // ⚠️ API ENDPOINT: Change this to your Render/Ngrok link if not running locally!
+        const API_URL = "http://127.0.0.1:3000/api/scan"; 
+        
+        const response = await fetch(API_URL, {
+            method: "POST", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: maskedInput }) // Sending Masked text!
+        });
+        
+        const engineData = await response.json();
+        currentRiskLevel = engineData.verdict;
+        currentHash = engineData.audit_hash;
+        
+        // Update UI with Engine Results
+        const conf = riskConfig[currentRiskLevel];
+        const badge = document.getElementById('riskBadge');
+        // Define labels manually since they might come from engine
+        const riskLabels = ["SAFE", "NEEDS ATTENTION", "RISK", "HIGH RISK"];
+        badge.innerText = riskLabels[currentRiskLevel];
+        badge.style.color = conf.color; 
+        badge.style.backgroundColor = conf.bg; 
+        badge.style.border = `1px solid ${conf.color}`;
+        
+        document.getElementById('explainText').innerText = engineData.explain_text;
+        
+        const list = document.getElementById('signalsList');
+        list.innerHTML = "";
+        if(engineData.fired_rules && engineData.fired_rules.length > 0) {
+            engineData.fired_rules.forEach(rule => { 
+                list.innerHTML += `<li>${rule.replace(/_/g, " ")}</li>`; 
+            });
+        } else {
+            list.innerHTML = "<li>No specific risk patterns found.</li>";
+        }
+        
+        document.getElementById('hashDisplay').innerText = "Audit Hash: " + currentHash;
+        resultSec.style.display = "block";
+
+        // 🔥 FEATURE 3: SAVE TO LOCAL HISTORY
+        saveHistory(maskedInput, riskLabels[currentRiskLevel], conf.color);
+        
+        // 🔥 FEATURE 2 (Auto-Trigger): Voice Warning for High Risk
+        if(currentRiskLevel >= 2) playVoiceWarning();
+
+    } catch (e) {
+        console.error("API Error:", e);
+        alert("Engine is unreachable. Please ensure the backend is running.");
+    } finally {
+        mainBtn.disabled = false; 
+        mainBtn.style.opacity = "1";
+    }
+}
+
+// --- 3. NEXT-LEVEL FEATURES IMPLEMENTATION ---
+
+// Feature 2: Voice Warning
+function playVoiceWarning() {
+    window.speechSynthesis.cancel(); // Stop current speech
+    const msg = currentRiskLevel >= 2 ? I18N[currentLang].voiceWarning : I18N[currentLang].voiceSafe;
+    const utterance = new SpeechSynthesisUtterance(msg);
+    utterance.lang = currentLang === 'hi' ? 'hi-IN' : 'en-US';
+    utterance.rate = 0.9; // Slightly slower for clarity
+    window.speechSynthesis.speak(utterance);
+}
+
+// Feature 4A: WhatsApp Share
+function shareResult() {
+    const text = `*Veritas Guard Alert*\nRisk Level: ${currentRiskLevel >= 2 ? '🚨 HIGH RISK' : '✅ SAFE'}\nAudit Hash: ${currentHash}\n\nChecked via: veritasengine.in`;
+    if (navigator.share) {
+        navigator.share({ title: 'Veritas Guard Scan', text: text });
+    } else {
+        window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`);
+    }
+}
+
+// Feature 4B: Clear App
+function clearApp() {
+    document.getElementById('input-text').value = "";
+    document.getElementById('resultSection').style.display = "none";
+    window.speechSynthesis.cancel();
+}
+
+// Feature 3: Local History Logic
+function saveHistory(text, badgeLabel, color) {
+    let hist = JSON.parse(localStorage.getItem('veritas_history') || '[]');
+    let snippet = text.substring(0, 25).replace(/\n/g, " ") + "...";
+    hist.unshift({ text: snippet, badge: badgeLabel, color: color });
+    if(hist.length > 3) hist.pop(); // Keep only last 3 to save space
+    localStorage.setItem('veritas_history', JSON.stringify(hist));
+    renderHistory();
+}
+
+function renderHistory() {
+    let hist = JSON.parse(localStorage.getItem('veritas_history') || '[]');
+    const box = document.getElementById('historyBox');
+    const list = document.getElementById('historyList');
+    list.innerHTML = "";
+    
+    if(hist.length === 0) {
+        box.style.display = "none";
+        return;
+    }
+    box.style.display = "block";
+    hist.forEach(item => {
+        list.innerHTML += `<div class="history-item"><span>${item.text}</span> <strong style="color:${item.color}; font-size:11px;">${item.badge}</strong></div>`;
+    });
+}
 </script>
 
 </body>
