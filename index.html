@@ -5,6 +5,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Guard</title>
+
 <style>
 body{
   margin:0;
@@ -26,91 +27,58 @@ body{
   padding:20px;
   box-shadow:0 0 40px rgba(0,0,0,.5);
 }
-h1{
-  text-align:center;
-  margin:0 0 6px;
-}
-.tagline{
-  text-align:center;
-  font-size:13px;
-  color:#9ca3af;
-}
+h1{text-align:center;margin:0 0 6px;}
+.tagline{text-align:center;font-size:13px;color:#9ca3af;}
 textarea{
-  width:100%;
-  height:90px;
-  margin-top:16px;
-  border-radius:8px;
-  border:none;
-  padding:10px;
-  background:#020617;
-  color:#e5e7eb;
+  width:100%;height:90px;margin-top:16px;border-radius:8px;
+  border:none;padding:10px;background:#020617;color:#e5e7eb;
 }
 button{
-  width:100%;
-  margin-top:12px;
-  padding:12px;
-  border:none;
-  border-radius:8px;
-  background:#2563eb;
-  color:white;
-  font-size:16px;
+  width:100%;margin-top:12px;padding:12px;border:none;
+  border-radius:8px;background:#2563eb;color:white;font-size:16px;
 }
-.notice{
-  margin-top:10px;
-  font-size:12px;
-  color:#9ca3af;
-}
+.notice{margin-top:10px;font-size:12px;color:#9ca3af;}
 details{
-  margin-top:14px;
-  background:#020617;
-  padding:12px;
-  border-radius:8px;
-  font-size:13px;
+  margin-top:14px;background:#020617;padding:12px;
+  border-radius:8px;font-size:13px;
 }
 footer{
-  margin-top:30px;
-  text-align:center;
-  font-size:12px;
-  color:#6b7280;
+  margin-top:30px;text-align:center;
+  font-size:12px;color:#6b7280;
+}
+.lang-btn{
+  padding:6px 10px;
+  margin-left:4px;
+  border-radius:6px;
+  font-size:13px;
 }
 </style>
 </head>
 
 <body>
-<div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;">
-<button onclick="setLang('en')" style="margin-right:4px;" onclick="applyLang('en')">EN</button>
-<button onclick="setLang('hi')" onclick="applyLang('hi')">हिंदी</button>
+
+<!-- Language Toggle -->
+<div style="position:fixed;top:12px;right:12px;z-index:9999;">
+  <button class="lang-btn" onclick="applyLang('en')">EN</button>
+  <button class="lang-btn" onclick="applyLang('hi')">हिंदी</button>
 </div>
 
-<marquee id="legal-marquee">
-⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.
-</marquee>
+<marquee id="legal-marquee"></marquee>
 
 <div id="app">
   <h1>🛡️ Veritas Guard</h1>
-  <div class="tagline"><span id="tagline">Explain risk. Don’t demand trust.</span></div>
+  <div class="tagline" id="tagline"></div>
 
-  <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
-  <button><span id="analyze-btn">Analyze Risk Signals</span></button>
+  <textarea id="input-text"></textarea>
+  <button><span id="analyze-btn"></span></button>
 
   <div class="notice">
     No Login · No Permissions · No Data Stored
   </div>
 
   <details open>
-    <summary id="legal-title"><b>Legal Disclaimer</b></summary>
-    <p>
-      This tool analyzes text for commonly known risk patterns based on deterministic rules.
-      It does not guarantee fraud detection accuracy and does not make decisions for you.
-      The final decision and responsibility always remain with the user.
-    </p>
-    <p>
-      This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
-      banking, legal, or security advisory tool.
-    </p>
-    <p>
-      No personal data is collected, stored, transmitted, or shared.
-    </p>
+    <summary><b id="legal-title"></b></summary>
+    <div id="legal-text"></div>
   </details>
 </div>
 
@@ -121,52 +89,48 @@ footer{
 
 <script>
 const I18N = {
-  en: {
-    tagline: "Explain risk. Don’t demand trust.",
-    placeholder: "Paste SMS, WhatsApp message, or link here to analyze...",
-    button: "Analyze Risk Signals",
-    marquee: "⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user.",
-    legalTitle: "Legal Disclaimer",
-    legalText: `
-This tool analyzes text for commonly known risk patterns based on deterministic rules.
-It does not guarantee fraud detection accuracy and does not make decisions for you.
-The final decision and responsibility always remain with the user.<br><br>
-This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
-banking, legal, or security advisory tool.<br><br>
-No personal data is collected, stored, transmitted, or shared.
-`
+  en:{
+    tagline:"Explain risk. Don’t demand trust.",
+    placeholder:"Paste SMS, WhatsApp message, or link here to analyze...",
+    button:"Analyze Risk Signals",
+    marquee:"⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.",
+    legalTitle:"Legal Disclaimer",
+    legalText:`This tool analyzes text for commonly known risk patterns based on deterministic rules.<br><br>
+It does NOT guarantee fraud detection accuracy and does NOT make decisions for you.<br>
+Final responsibility always remains with the user.<br><br>
+This is NOT an AI system, NOT a fraud prevention service, and NOT a financial, banking,
+legal, or security advisory tool.<br><br>
+No personal data is collected, stored, transmitted, or shared.`
   },
-  hi: {
-    tagline: "जोखिम समझाइए। भरोसा मत मांगिए।",
-    placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
-    button: "जोखिम संकेत विश्लेषण करें",
-    marquee: "⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
-    legalTitle: "कानूनी अस्वीकरण",
-    legalText: `
-यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।
-यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता।
+  hi:{
+    tagline:"जोखिम समझाइए। भरोसा मत मांगिए।",
+    placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
+    button:"जोखिम संकेतों का विश्लेषण करें",
+    marquee:"⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    legalTitle:"कानूनी अस्वीकरण",
+    legalText:`यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।<br><br>
+यह धोखाधड़ी की कोई गारंटी नहीं देता और कोई निर्णय नहीं लेता।<br>
 अंतिम निर्णय और ज़िम्मेदारी पूरी तरह उपयोगकर्ता की होती है।<br><br>
 यह कोई AI सिस्टम नहीं है और न ही कोई फ्रॉड, बैंकिंग,
 कानूनी या सुरक्षा सलाह सेवा है।<br><br>
-कोई भी व्यक्तिगत डेटा संग्रहित या साझा नहीं किया जाता।
-`
+कोई भी व्यक्तिगत डेटा संग्रहित या साझा नहीं किया जाता।`
   }
 };
 
-window.applyLang = function applyLang(lang){
+function applyLang(lang){
   localStorage.setItem("veritas_lang", lang);
   document.getElementById("tagline").innerText = I18N[lang].tagline;
   document.getElementById("input-text").placeholder = I18N[lang].placeholder;
   document.getElementById("analyze-btn").innerText = I18N[lang].button;
   document.getElementById("legal-title").innerText = I18N[lang].legalTitle;
-  document.querySelector("#legal-box p").innerHTML = I18N[lang].legalText;
+  document.getElementById("legal-text").innerHTML = I18N[lang].legalText;
   document.getElementById("legal-marquee").innerText = I18N[lang].marquee;
 }
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  const lang = localStorage.getItem("veritas_lang") || "en";
-  applyLang(lang);
+document.addEventListener("DOMContentLoaded",()=>{
+  applyLang(localStorage.getItem("veritas_lang") || "en");
 });
 </script>
+
 </body>
 </html>
