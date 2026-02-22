@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<meta http-equiv="Cache-Control" content="no-store" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Guard</title>
@@ -77,8 +78,8 @@ footer{
 
 <body>
 <div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;">
-<button onclick="setLang('en')" style="margin-right:4px;">EN</button>
-<button onclick="setLang('hi')">हिंदी</button>
+<button onclick="setLang('en')" style="margin-right:4px;" onclick="applyLang('en')">EN</button>
+<button onclick="setLang('hi')" onclick="applyLang('hi')">हिंदी</button>
 </div>
 
 <marquee id="legal-marquee">
@@ -152,7 +153,7 @@ No personal data is collected, stored, transmitted, or shared.
   }
 };
 
-function applyLang(lang){
+window.applyLang = function applyLang(lang){
   localStorage.setItem("veritas_lang", lang);
   document.getElementById("tagline").innerText = I18N[lang].tagline;
   document.getElementById("input-text").placeholder = I18N[lang].placeholder;
