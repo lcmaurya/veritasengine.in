@@ -115,12 +115,50 @@ footer{
 </footer>
 
 <script>
-const lang = navigator.language || '';
-if(lang.startsWith('hi')){
-  document.getElementById('legal-marquee').innerText =
-  "⚠️ यह टूल केवल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम निर्णय और ज़िम्मेदारी उपयोगकर्ता की है।";
-}
-</script>
+const LANG = (navigator.language || 'en').startsWith('hi') ? 'hi' : 'en';
 
+const I18N = {
+  en: {
+    tagline: "Explain risk. Don’t demand trust.",
+    placeholder: "Paste SMS, WhatsApp message, or link here to analyze...",
+    button: "Analyze Risk Signals",
+    marquee: "⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.",
+    legalTitle: "Legal Disclaimer",
+    legalText: `
+      This tool analyzes text for commonly known risk patterns based on deterministic rules.
+      It does not guarantee fraud detection accuracy and does not make decisions for you.
+      The final decision and responsibility always remain with the user.<br><br>
+      This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
+      banking, legal, or security advisory tool.<br><br>
+      No personal data is collected, stored, transmitted, or shared.
+    `,
+    footer: "Open Risk Awareness Tool · No charges · No guarantees · No liability"
+  },
+  hi: {
+    tagline: "जोखिम समझाइए। भरोसा मत मांगिए।",
+    placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
+    button: "जोखिम संकेत विश्लेषण करें",
+    marquee: "⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता, न कोई निर्णय लेता है। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    legalTitle: "कानूनी अस्वीकरण",
+    legalText: `
+      यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।
+      यह धोखाधड़ी की सटीक पहचान की गारंटी नहीं देता और कोई निर्णय नहीं लेता।
+      अंतिम निर्णय और ज़िम्मेदारी पूरी तरह उपयोगकर्ता की होती है।<br><br>
+      यह कोई AI सिस्टम नहीं है, न ही कोई फ्रॉड रोकथाम सेवा,
+      वित्तीय, बैंकिंग, कानूनी या सुरक्षा सलाह टूल है।<br><br>
+      कोई भी व्यक्तिगत डेटा संग्रहित, साझा या संग्रहीत नहीं किया जाता।
+    `,
+    footer: "ओपन जोखिम जागरूकता टूल · कोई शुल्क नहीं · कोई गारंटी नहीं · कोई दायित्व नहीं"
+  }
+};
+
+document.querySelector('.tagline').innerText = I18N[LANG].tagline;
+document.querySelector('textarea').placeholder = I18N[LANG].placeholder;
+document.querySelector('button').innerText = I18N[LANG].button;
+document.getElementById('legal-marquee').innerText = I18N[LANG].marquee;
+document.querySelector('details summary').innerText = I18N[LANG].legalTitle;
+document.querySelector('details p').innerHTML = I18N[LANG].legalText;
+document.querySelector('footer').innerHTML = I18N[LANG].footer;
+</script>
 </body>
 </html>
