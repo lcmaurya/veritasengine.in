@@ -1,130 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Veritas Guard</title>
-    <style>
-        :root {
-            --bg-color: #0f172a; --card-bg: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8;
-            --accent-blue: #3b82f6; --accent-hover: #2563eb; --border-color: #334155;
-            --risk-0: #10b981; --risk-1: #eab308; --risk-2: #f97316; --risk-3: #ef4444;
-        }
-        body { font-family: sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .app-container { width: 100%; max-width: 480px; }
-        .header { text-align: center; margin-bottom: 24px; }
-        .header h1 { margin: 0; font-size: 24px; color: var(--text-main); }
-        .tagline { color: var(--text-muted); font-size: 14px; font-style: italic; margin-top: 4px; }
-        .privacy-badge { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-blue); padding: 8px; border-radius: 6px; font-size: 12px; text-align: center; margin-bottom: 20px; font-weight: bold; border: 1px solid rgba(59,130,246,0.2); }
-        .card { background-color: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); }
-        textarea { width: 100%; height: 120px; background-color: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; font-size: 15px; resize: none; box-sizing: border-box; margin-bottom: 16px; }
-        button { width: 100%; background-color: var(--accent-blue); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
-        .mandatory-notice { margin-top: 20px; padding: 12px; border-left: 3px solid var(--text-muted); background-color: rgba(148, 163, 184, 0.05); font-size: 12px; color: var(--text-muted); line-height: 1.5; }
-        #resultSection { display: none; margin-top: 24px; background-color: var(--card-bg); border-radius: 12px; padding: 20px; border: 1px solid var(--border-color); }
-        .risk-badge { display: inline-block; padding: 6px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; margin-bottom: 12px; }
-        .explanation { font-size: 15px; line-height: 1.5; margin-bottom: 16px; margin-top:12px; }
-        .signals-list { margin: 0; padding-left: 20px; color: var(--text-muted); font-size: 14px; }
-        .hash-display { margin-top: 16px; font-family: monospace; font-size: 10px; color: var(--text-muted); word-break: break-all; background-color: var(--bg-color); padding: 8px; border-radius: 4px; }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Veritas Guard</title>
+<style>
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  background:#0b1220;
+  color:#e5e7eb;
+}
+#legal-marquee{
+  background:#7c2d12;
+  color:#fff;
+  padding:8px 0;
+  font-size:14px;
+}
+#app{
+  max-width:420px;
+  margin:40px auto;
+  background:#0f172a;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(0,0,0,.5);
+}
+h1{
+  text-align:center;
+  margin:0 0 6px;
+}
+.tagline{
+  text-align:center;
+  font-size:13px;
+  color:#9ca3af;
+}
+textarea{
+  width:100%;
+  height:90px;
+  margin-top:16px;
+  border-radius:8px;
+  border:none;
+  padding:10px;
+  background:#020617;
+  color:#e5e7eb;
+}
+button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+}
+.notice{
+  margin-top:10px;
+  font-size:12px;
+  color:#9ca3af;
+}
+details{
+  margin-top:14px;
+  background:#020617;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+}
+footer{
+  margin-top:30px;
+  text-align:center;
+  font-size:12px;
+  color:#6b7280;
+}
+</style>
 </head>
+
 <body>
-<div id="legal-banner" style="background:#7c2d12;color:#fff;padding:8px 12px;font-size:13px;text-align:center;font-weight:bold;"></div>
-<div class="app-container">
-    <div class="header">
-        <h1>🛡️ Veritas Guard</h1>
-        <div class="tagline">Explain risk. Don’t demand trust.</div>
-    </div>
-    <div class="privacy-badge">🔒 No Login • No Permissions • No Data Stored</div>
-    <div class="card">
-        <textarea id="messageInput" placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
-        <button id="analyzeBtn" onclick="analyzeText()">Analyze Risk Signals</button>
-    </div>
-    <div class="mandatory-notice">
-        <strong>Mandatory Notice:</strong> This app explains risk signals based on text patterns. It does NOT make decisions for you. Final decision is always yours.
-    </div>
-    <div id="resultSection">
-        <div id="riskBadge" class="risk-badge">SCANNING...</div>
-        <div id="explainText" class="explanation"></div>
-        <div style="font-size: 13px; color: var(--text-muted); font-weight: bold;">Triggered Signals:</div>
-        <ul id="signalsList" class="signals-list"></ul>
-        <div id="hashDisplay" class="hash-display"></div>
-    </div>
+
+<marquee id="legal-marquee">
+⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.
+</marquee>
+
+<div id="app">
+  <h1>🛡️ Veritas Guard</h1>
+  <div class="tagline">Explain risk. Don’t demand trust.</div>
+
+  <textarea placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
+  <button>Analyze Risk Signals</button>
+
+  <div class="notice">
+    No Login · No Permissions · No Data Stored
+  </div>
+
+  <details open>
+    <summary><b>Legal Disclaimer</b></summary>
+    <p>
+      This tool analyzes text for commonly known risk patterns based on deterministic rules.
+      It does not guarantee fraud detection accuracy and does not make decisions for you.
+      The final decision and responsibility always remain with the user.
+    </p>
+    <p>
+      This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
+      banking, legal, or security advisory tool.
+    </p>
+    <p>
+      No personal data is collected, stored, transmitted, or shared.
+    </p>
+  </details>
 </div>
 
-<script>
-    const riskConfig = {
-        0: { label: "SAFE", color: "var(--risk-0)", bg: "rgba(16, 185, 129, 0.1)" },
-        1: { label: "NEEDS ATTENTION", color: "var(--risk-1)", bg: "rgba(234, 179, 8, 0.1)" },
-        2: { label: "RISK", color: "var(--risk-2)", bg: "rgba(249, 115, 22, 0.1)" },
-        3: { label: "HIGH RISK", color: "var(--risk-3)", bg: "rgba(239, 68, 68, 0.1)" }
-    };
-
-    async function analyzeText() {
-        const input = document.getElementById('messageInput').value.trim();
-        const btn = document.getElementById('analyzeBtn');
-        const resultSec = document.getElementById('resultSection');
-        
-        if(!input) { alert("Please paste a message first."); return; }
-        
-        btn.disabled = true; 
-        btn.innerText = "Analyzing..."; 
-        resultSec.style.display = "none";
-
-        try {
-            // REAL API CONNECTION TO YOUR ENGINE
-            const response = await fetch("http://127.0.0.1:3000/api/scan", {
-                method: "POST", 
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ text: input })
-            });
-            
-            const engineData = await response.json();
-            
-            const conf = riskConfig[engineData.verdict];
-            const badge = document.getElementById('riskBadge');
-            badge.innerText = conf.label;
-            badge.style.color = conf.color; 
-            badge.style.backgroundColor = conf.bg; 
-            badge.style.border = `1px solid ${conf.color}`;
-            
-            document.getElementById('explainText').innerText = engineData.explain_text;
-            
-            const list = document.getElementById('signalsList');
-            list.innerHTML = "";
-            if(engineData.fired_rules) {
-                engineData.fired_rules.forEach(rule => { 
-                    list.innerHTML += `<li>${rule.replace(/_/g, " ")}</li>`; 
-                });
-            }
-            
-            document.getElementById('hashDisplay').innerText = "Audit Hash: " + engineData.audit_hash;
-            
-            resultSec.style.display = "block";
-            btn.disabled = false; 
-            btn.innerText = "Analyze Risk Signals";
-
-        } catch (e) {
-            console.error("API Error:", e);
-            alert("Engine connection failed! Pura sure karein ki Ubuntu me port 3000 par api_server.js chal raha hai.");
-            btn.disabled = false; 
-            btn.innerText = "Analyze Risk Signals";
-        }
-    }
-</script>
-<section id="legal-notice" style="max-width:900px;margin:40px auto;padding:16px;border:1px solid #334155;background:#0f172a;color:#e5e7eb;font-size:13px;line-height:1.6;border-radius:8px;">
-<h3 style="margin-top:0;">Legal Disclaimer</h3>
-<p id="legal-text"></p>
-</section>
-<footer style="margin-top:40px;padding:12px;text-align:center;font-size:12px;color:#94a3b8;">
-<span id="legal-footer"></span>
+<footer>
+  © Veritas Engine — Open Risk Awareness Tool<br/>
+  No charges. No guarantees. No liability.
 </footer>
+
 <script>
-fetch("disclaimer.json").then(r=>r.json()).then(d=>{
-const lang = (navigator.language||"en").startsWith("hi") ? "hi":"en";
-document.getElementById("legal-banner").innerText=d[lang].banner;
-document.getElementById("legal-text").innerText=d[lang].notice;
-document.getElementById("legal-footer").innerText=d[lang].footer;
-});
+const lang = navigator.language || '';
+if(lang.startsWith('hi')){
+  document.getElementById('legal-marquee').innerText =
+  "⚠️ यह टूल केवल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम निर्णय और ज़िम्मेदारी उपयोगकर्ता की है।";
+}
 </script>
+
 </body>
 </html>
