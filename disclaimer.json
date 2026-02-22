@@ -1,0 +1,12 @@
+{
+  "en": {
+    "banner": "⚠️ This tool analyzes text for known risk patterns. It does NOT make decisions. Final responsibility remains with the user.",
+    "notice": "This tool analyzes text for commonly known risk patterns based on deterministic rules. It does not guarantee fraud detection accuracy and does not make decisions for you. The final decision and responsibility always remain with the user. No personal data is collected, stored, or shared. This is not a legal, financial, or security advice tool.",
+    "footer": "Veritas Engine is a rule-based risk explanation system. No guarantees. No liability."
+  },
+  "hi": {
+    "banner": "⚠️ यह टूल केवल जोखिम संकेतों का विश्लेषण करता है। यह निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    "notice": "यह टूल निर्धारक नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है। यह धोखाधड़ी की सटीक पहचान की गारंटी नहीं देता और आपके लिए कोई निर्णय नहीं लेता। अंतिम निर्णय और ज़िम्मेदारी हमेशा उपयोगकर्ता की रहती है। कोई भी व्यक्तिगत डेटा एकत्र, संग्रहीत या साझा नहीं किया जाता। यह कानूनी, वित्तीय या सुरक्षा सलाह नहीं है।",
+    "footer": "Veritas Engine एक नियम-आधारित जोखिम व्याख्या प्रणाली है। कोई गारंटी नहीं। कोई कानूनी ज़िम्मेदारी नहीं।"
+  }
+}

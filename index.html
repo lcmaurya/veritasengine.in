@@ -28,6 +28,7 @@
     </style>
 </head>
 <body>
+<div id="legal-banner" style="background:#7c2d12;color:#fff;padding:8px 12px;font-size:13px;text-align:center;font-weight:bold;"></div>
 <div class="app-container">
     <div class="header">
         <h1>🛡️ Veritas Guard</h1>
@@ -109,6 +110,21 @@
             btn.innerText = "Analyze Risk Signals";
         }
     }
+</script>
+<section id="legal-notice" style="max-width:900px;margin:40px auto;padding:16px;border:1px solid #334155;background:#0f172a;color:#e5e7eb;font-size:13px;line-height:1.6;border-radius:8px;">
+<h3 style="margin-top:0;">Legal Disclaimer</h3>
+<p id="legal-text"></p>
+</section>
+<footer style="margin-top:40px;padding:12px;text-align:center;font-size:12px;color:#94a3b8;">
+<span id="legal-footer"></span>
+</footer>
+<script>
+fetch("disclaimer.json").then(r=>r.json()).then(d=>{
+const lang = (navigator.language||"en").startsWith("hi") ? "hi":"en";
+document.getElementById("legal-banner").innerText=d[lang].banner;
+document.getElementById("legal-text").innerText=d[lang].notice;
+document.getElementById("legal-footer").innerText=d[lang].footer;
+});
 </script>
 </body>
 </html>
