@@ -1,123 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-store">
+<meta http-equiv="Cache-Control" content="no-store" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Veritas Guard</title>
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
-
 <style>
-body{margin:0;font-family:system-ui;background:#0b1220;color:#e5e7eb}
-#app{max-width:520px;margin:40px auto;background:#0f172a;border-radius:14px;padding:22px;box-shadow:0 0 40px rgba(0,0,0,.6)}
-h1{text-align:center;margin:0}
-.tagline{text-align:center;color:#94a3b8;font-size:13px;margin-bottom:14px}
-select,textarea,button{width:100%;border-radius:8px;border:1px solid #334155;background:#020617;color:#e5e7eb;padding:12px;font-size:15px}
-select{margin-bottom:10px}
-textarea{height:110px;resize:none}
-textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 12px rgba(59,130,246,.4)}
-button{margin-top:12px;background:#2563eb;font-weight:700;cursor:pointer}
-button:hover{background:#1d4ed8}
-
-#result{display:none;margin-top:20px;background:#020617;border-radius:10px;padding:14px;border:1px solid #334155}
-.badge{display:inline-block;padding:6px 12px;border-radius:6px;font-weight:700;margin-bottom:10px}
-ul{padding-left:18px;color:#9ca3af;font-size:13px}
-.hash{font-family:monospace;font-size:11px;color:#64748b;background:#020617;border:1px dashed #334155;padding:8px;border-radius:6px;margin-top:10px;word-break:break-all}
-.actions{display:flex;gap:8px;margin-top:14px}
-.actions button{flex:1;font-size:13px}
-footer{text-align:center;font-size:12px;color:#6b7280;margin-top:18px}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont;
+  background:#0b1220;
+  color:#e5e7eb;
+}
+#legal-marquee{
+  background:#7c2d12;
+  color:#fff;
+  padding:8px 0;
+  font-size:14px;
+}
+#app{
+  max-width:420px;
+  margin:40px auto;
+  background:#0f172a;
+  border-radius:12px;
+  padding:20px;
+  box-shadow:0 0 40px rgba(0,0,0,.5);
+}
+h1{
+  text-align:center;
+  margin:0 0 6px;
+}
+.tagline{
+  text-align:center;
+  font-size:13px;
+  color:#9ca3af;
+}
+textarea{
+  width:100%;
+  height:90px;
+  margin-top:16px;
+  border-radius:8px;
+  border:none;
+  padding:10px;
+  background:#020617;
+  color:#e5e7eb;
+}
+button{
+  width:100%;
+  margin-top:12px;
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  background:#2563eb;
+  color:white;
+  font-size:16px;
+}
+.notice{
+  margin-top:10px;
+  font-size:12px;
+  color:#9ca3af;
+}
+details{
+  margin-top:14px;
+  background:#020617;
+  padding:12px;
+  border-radius:8px;
+  font-size:13px;
+}
+footer{
+  margin-top:30px;
+  text-align:center;
+  font-size:12px;
+  color:#6b7280;
+}
 </style>
 </head>
 
 <body>
+<div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;">
+<button onclick="setLang('en')" style="margin-right:4px;" onclick="applyLang('en')">EN</button>
+<button onclick="setLang('hi')" onclick="applyLang('hi')">हिंदी</button>
+</div>
+
+<marquee id="legal-marquee">
+⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud, make decisions, or provide guarantees. Final responsibility remains with the user.
+</marquee>
 
 <div id="app">
-<h1>🛡️ Veritas Guard</h1>
-<div class="tagline">Explain risk. Don’t demand trust.</div>
+  <h1>🛡️ Veritas Guard</h1>
+  <div class="tagline"><span id="tagline">Explain risk. Don’t demand trust.</span></div>
 
-<!-- USE CASE SELECTOR -->
-<select id="usecase">
-<option value="cyber">Cyber / Fraud</option>
-<option value="banking">Banking / Fintech</option>
-<option value="legal">Legal / Compliance</option>
-<option value="health">Healthcare (non-diagnostic)</option>
-<option value="insurance">Insurance</option>
-<option value="gov">Government / Public</option>
-<option value="ecom">E-commerce</option>
-<option value="edu">Education / Research</option>
-<option value="enterprise">Enterprise Security</option>
-</select>
+  <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
+  <button><span id="analyze-btn">Analyze Risk Signals</span></button>
 
-<textarea id="input" placeholder="Paste message, SMS, link or text…"></textarea>
-<button onclick="scan()">SCAN & GENERATE PROOF</button>
+  <div class="notice">
+    No Login · No Permissions · No Data Stored
+  </div>
 
-<div id="result">
-<div id="risk" class="badge"></div>
-<div id="explain"></div>
-<ul id="rules"></ul>
-<div id="hash" class="hash"></div>
-
-<div class="actions">
-<button onclick="speak()">🔊 Voice</button>
-<button onclick="share()">📤 Share</button>
-<button onclick="location.reload()">🗑️ Clear</button>
-</div>
+  <details open>
+    <summary id="legal-title"><b>Legal Disclaimer</b></summary>
+    <p>
+      This tool analyzes text for commonly known risk patterns based on deterministic rules.
+      It does not guarantee fraud detection accuracy and does not make decisions for you.
+      The final decision and responsibility always remain with the user.
+    </p>
+    <p>
+      This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
+      banking, legal, or security advisory tool.
+    </p>
+    <p>
+      No personal data is collected, stored, transmitted, or shared.
+    </p>
+  </details>
 </div>
 
 <footer>
-No login · No storage · Deterministic proof only
+  © Veritas Engine — Open Risk Awareness Tool<br/>
+  No charges. No guarantees. No liability.
 </footer>
-</div>
 
 <script>
-const API="http://127.0.0.1:3000/api/scan";
-let lastData=null;
+const I18N = {
+  en: {
+    tagline: "Explain risk. Don’t demand trust.",
+    placeholder: "Paste SMS, WhatsApp message, or link here to analyze...",
+    button: "Analyze Risk Signals",
+    marquee: "⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user.",
+    legalTitle: "Legal Disclaimer",
+    legalText: `
+This tool analyzes text for commonly known risk patterns based on deterministic rules.
+It does not guarantee fraud detection accuracy and does not make decisions for you.
+The final decision and responsibility always remain with the user.<br><br>
+This is NOT an AI system, NOT a fraud prevention service, and NOT a financial,
+banking, legal, or security advisory tool.<br><br>
+No personal data is collected, stored, transmitted, or shared.
+`
+  },
+  hi: {
+    tagline: "जोखिम समझाइए। भरोसा मत मांगिए।",
+    placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
+    button: "जोखिम संकेत विश्लेषण करें",
+    marquee: "⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    legalTitle: "कानूनी अस्वीकरण",
+    legalText: `
+यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है।
+यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता।
+अंतिम निर्णय और ज़िम्मेदारी पूरी तरह उपयोगकर्ता की होती है।<br><br>
+यह कोई AI सिस्टम नहीं है और न ही कोई फ्रॉड, बैंकिंग,
+कानूनी या सुरक्षा सलाह सेवा है।<br><br>
+कोई भी व्यक्तिगत डेटा संग्रहित या साझा नहीं किया जाता।
+`
+  }
+};
 
-function scan(){
-const txt=document.getElementById("input").value.trim();
-if(!txt)return;
+window.applyLang = function applyLang(lang){
+  localStorage.setItem("veritas_lang", lang);
+  document.getElementById("tagline").innerText = I18N[lang].tagline;
+  document.getElementById("input-text").placeholder = I18N[lang].placeholder;
+  document.getElementById("analyze-btn").innerText = I18N[lang].button;
+  document.getElementById("legal-title").innerText = I18N[lang].legalTitle;
+  document.querySelector("#legal-box p").innerHTML = I18N[lang].legalText;
+  document.getElementById("legal-marquee").innerText = I18N[lang].marquee;
+}
 
-fetch(API,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({text:txt,usecase:document.getElementById("usecase").value})
-})
-.then(r=>r.json())
-.then(d=>{
-lastData=d;
-const labels=["SAFE","ATTENTION","RISK","HIGH RISK"];
-const colors=["#10b981","#eab308","#f97316","#ef4444"];
-
-const badge=document.getElementById("risk");
-badge.innerText=labels[d.verdict];
-badge.style.color=colors[d.verdict];
-badge.style.border=`1px solid ${colors[d.verdict]}`;
-
-document.getElementById("explain").innerText=d.explain_text||"";
-document.getElementById("rules").innerHTML=(d.fired_rules||[]).map(r=>`<li>${r}</li>`).join("");
-document.getElementById("hash").innerText="AUDIT HASH: "+d.audit_hash;
-
-document.getElementById("result").style.display="block";
+document.addEventListener("DOMContentLoaded", ()=>{
+  const lang = localStorage.getItem("veritas_lang") || "en";
+  applyLang(lang);
 });
-}
-
-function speak(){
-if(!lastData)return;
-const msg=new SpeechSynthesisUtterance(
-lastData.verdict>=2?
-"Warning. High risk detected.":
-"No major risk detected."
-);
-speechSynthesis.speak(msg);
-}
-
-function share(){
-if(!lastData)return;
-const t=`Veritas Proof\nRisk:${lastData.verdict}\nHash:${lastData.audit_hash}`;
-navigator.share?navigator.share({text:t}):alert(t);
-}
 </script>
-
 </body>
 </html>
