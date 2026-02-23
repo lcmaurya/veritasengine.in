@@ -1,172 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta http-equiv="Cache-Control" content="no-store" />
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-store">
 <title>Veritas Guard</title>
 
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
 
 <style>
 body{margin:0;font-family:system-ui;background:#0b1220;color:#e5e7eb}
-#legal-marquee{background:#7c2d12;color:#fff;padding:8px 0;font-size:14px}
-#app{max-width:480px;margin:40px auto;background:#0f172a;border-radius:12px;padding:20px;box-shadow:0 0 40px rgba(0,0,0,.5)}
-h1{text-align:center;margin:0 0 6px}
-.tagline{text-align:center;font-size:13px;color:#9ca3af}
-textarea{width:100%;height:100px;margin-top:16px;border-radius:8px;border:1px solid #334155;padding:12px;background:#020617;color:#e5e7eb;box-sizing:border-box;resize:none}
-textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 15px rgba(59,130,246,.4)}
-.btn-primary{width:100%;margin-top:12px;padding:14px;border:none;cursor:pointer;border-radius:8px;background:#2563eb;color:white;font-size:16px;font-weight:bold}
-.btn-primary:hover{background:#1d4ed8}
-#resultSection{display:none;margin-top:20px;background:#1e293b;padding:15px;border-radius:8px;border:1px solid #334155}
-.risk-badge{display:inline-block;padding:6px 12px;border-radius:4px;font-weight:bold;font-size:14px;margin-bottom:10px}
-.explanation{font-size:14px;margin-bottom:12px}
-.signals-list{padding-left:20px;font-size:13px;color:#9ca3af}
-.hash-display{margin-top:12px;font-family:monospace;font-size:10px;color:#64748b;word-break:break-all;background:#020617;padding:8px;border-radius:4px;border:1px dashed #334155}
-.action-row{display:flex;gap:10px;margin-top:15px}
-.action-btn{flex:1;padding:10px;border:none;border-radius:6px;font-size:13px;font-weight:bold;cursor:pointer}
-.btn-voice{background:#f59e0b;color:#000}
-.btn-share{background:#10b981;color:#000}
-.btn-clear{background:#ef4444;color:#000}
-.lang-btn{padding:6px 12px;margin-left:4px;border-radius:6px;border:none;background:#3b82f6;color:#fff;cursor:pointer}
+#app{max-width:520px;margin:40px auto;background:#0f172a;border-radius:14px;padding:22px;box-shadow:0 0 40px rgba(0,0,0,.6)}
+h1{text-align:center;margin:0}
+.tagline{text-align:center;color:#94a3b8;font-size:13px;margin-bottom:14px}
+select,textarea,button{width:100%;border-radius:8px;border:1px solid #334155;background:#020617;color:#e5e7eb;padding:12px;font-size:15px}
+select{margin-bottom:10px}
+textarea{height:110px;resize:none}
+textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 12px rgba(59,130,246,.4)}
+button{margin-top:12px;background:#2563eb;font-weight:700;cursor:pointer}
+button:hover{background:#1d4ed8}
+
+#result{display:none;margin-top:20px;background:#020617;border-radius:10px;padding:14px;border:1px solid #334155}
+.badge{display:inline-block;padding:6px 12px;border-radius:6px;font-weight:700;margin-bottom:10px}
+ul{padding-left:18px;color:#9ca3af;font-size:13px}
+.hash{font-family:monospace;font-size:11px;color:#64748b;background:#020617;border:1px dashed #334155;padding:8px;border-radius:6px;margin-top:10px;word-break:break-all}
+.actions{display:flex;gap:8px;margin-top:14px}
+.actions button{flex:1;font-size:13px}
+footer{text-align:center;font-size:12px;color:#6b7280;margin-top:18px}
 </style>
 </head>
 
 <body>
 
-<div style="position:fixed;top:12px;right:12px;z-index:9999">
-  <button class="lang-btn" onclick="applyLang('en')">EN</button>
-  <button class="lang-btn" onclick="applyLang('hi')">हिंदी</button>
-</div>
-
-<marquee id="legal-marquee"></marquee>
-
 <div id="app">
-  <h1>🛡️ Veritas Guard</h1>
-  <div class="tagline" id="tagline"></div>
+<h1>🛡️ Veritas Guard</h1>
+<div class="tagline">Explain risk. Don’t demand trust.</div>
 
-  <textarea id="input-text"></textarea>
-  <button class="btn-primary" id="main-btn" onclick="analyzeText()">
-    <span id="analyze-btn"></span>
-  </button>
+<!-- USE CASE SELECTOR -->
+<select id="usecase">
+<option value="cyber">Cyber / Fraud</option>
+<option value="banking">Banking / Fintech</option>
+<option value="legal">Legal / Compliance</option>
+<option value="health">Healthcare (non-diagnostic)</option>
+<option value="insurance">Insurance</option>
+<option value="gov">Government / Public</option>
+<option value="ecom">E-commerce</option>
+<option value="edu">Education / Research</option>
+<option value="enterprise">Enterprise Security</option>
+</select>
 
-  <div id="resultSection">
-    <div id="riskBadge" class="risk-badge"></div>
-    <div id="explainText" class="explanation"></div>
+<textarea id="input" placeholder="Paste message, SMS, link or text…"></textarea>
+<button onclick="scan()">SCAN & GENERATE PROOF</button>
 
-    <div style="font-size:12px;font-weight:bold;margin-bottom:4px" id="signal-title"></div>
-    <ul id="signalsList" class="signals-list"></ul>
+<div id="result">
+<div id="risk" class="badge"></div>
+<div id="explain"></div>
+<ul id="rules"></ul>
+<div id="hash" class="hash"></div>
 
-    <div id="hashDisplay" class="hash-display"></div>
-
-    <div class="action-row">
-      <button class="action-btn btn-voice" onclick="playVoice()">🔊 <span id="btn-voice-txt"></span></button>
-      <button class="action-btn btn-share" onclick="shareResult()">📲 <span id="btn-share-txt"></span></button>
-      <button class="action-btn btn-clear" onclick="location.reload()">🗑️ <span id="btn-clear-txt"></span></button>
-    </div>
-  </div>
-
-  <div style="font-size:12px;color:#9ca3af;margin-top:10px;text-align:center">
-    🔒 No Login · No Cookies · No Data Stored
-  </div>
+<div class="actions">
+<button onclick="speak()">🔊 Voice</button>
+<button onclick="share()">📤 Share</button>
+<button onclick="location.reload()">🗑️ Clear</button>
+</div>
 </div>
 
-<footer style="text-align:center;font-size:12px;color:#64748b;margin-top:20px">
-© Veritas Engine — Open Risk Awareness Tool
+<footer>
+No login · No storage · Deterministic proof only
 </footer>
+</div>
 
 <script>
-/* 🔗 GOOGLE CLOUD VERITAS ENGINE */
-const API_URL = "http://34.135.63.210:3000/api/scan";
+const API="http://127.0.0.1:3000/api/scan";
+let lastData=null;
 
-const I18N={
-en:{
-tagline:"Explain risk. Don’t demand trust.",
-placeholder:"Paste SMS, WhatsApp message, or link here...",
-button:"Analyze Risk Signals",
-marquee:"⚠️ This tool highlights known risk patterns only. Final responsibility is yours.",
-share:"Share",clear:"Clear",listen:"Listen",
-signals:"Triggered Signals",
-voiceHigh:"Warning! This message shows scam indicators. Do not click links.",
-voiceSafe:"Message seems safe, stay alert."
-},
-hi:{
-tagline:"जोखिम समझाइए। भरोसा मत मांगिए।",
-placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ डालें…",
-button:"जोखिम संकेतों का विश्लेषण करें",
-marquee:"⚠️ यह टूल केवल जोखिम पैटर्न दिखाता है। अंतिम निर्णय आपका है।",
-share:"शेयर करें",clear:"साफ़ करें",listen:"सुने",
-signals:"खतरे के संकेत",
-voiceHigh:"सावधान! यह संदेश फर्जी हो सकता है।",
-voiceSafe:"संदेश सुरक्षित प्रतीत होता है, सतर्क रहें।"
-}
-};
+function scan(){
+const txt=document.getElementById("input").value.trim();
+if(!txt)return;
 
-let lang="en",risk=0;
-
-function applyLang(l){
-lang=l;
-tagline.innerText=I18N[l].tagline;
-input-text.placeholder=I18N[l].placeholder;
-analyze-btn.innerText=I18N[l].button;
-legal-marquee.innerText=I18N[l].marquee;
-btn-share-txt.innerText=I18N[l].share;
-btn-clear-txt.innerText=I18N[l].clear;
-btn-voice-txt.innerText=I18N[l].listen;
-signal-title.innerText=I18N[l].signals;
-}
-window.onload=()=>applyLang("en");
-
-async function analyzeText(){
-const raw=input-text.value.trim();
-if(!raw)return;
-
-const masked=raw.replace(/\b\d{8,14}\b/g,m=>"X".repeat(m.length-4)+m.slice(-4));
-
-main-btn.disabled=true;
-resultSection.style.display="none";
-
-try{
-const r=await fetch(API_URL,{
+fetch(API,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({text:masked})
-});
-const d=await r.json();
-risk=d.verdict;
-
-const colors=["#10b981","#eab308","#f97316","#ef4444"];
+body:JSON.stringify({text:txt,usecase:document.getElementById("usecase").value})
+})
+.then(r=>r.json())
+.then(d=>{
+lastData=d;
 const labels=["SAFE","ATTENTION","RISK","HIGH RISK"];
+const colors=["#10b981","#eab308","#f97316","#ef4444"];
 
-riskBadge.innerText=labels[risk];
-riskBadge.style.color=colors[risk];
-riskBadge.style.border="1px solid "+colors[risk];
+const badge=document.getElementById("risk");
+badge.innerText=labels[d.verdict];
+badge.style.color=colors[d.verdict];
+badge.style.border=`1px solid ${colors[d.verdict]}`;
 
-explainText.innerText=d.explain_text;
-signalsList.innerHTML=d.fired_rules.map(x=>`<li>${x.replace(/_/g," ")}</li>`).join("");
-hashDisplay.innerText="Audit Hash: "+d.audit_hash;
+document.getElementById("explain").innerText=d.explain_text||"";
+document.getElementById("rules").innerHTML=(d.fired_rules||[]).map(r=>`<li>${r}</li>`).join("");
+document.getElementById("hash").innerText="AUDIT HASH: "+d.audit_hash;
 
-resultSection.style.display="block";
-if(risk>=2) playVoice();
-
-}catch(e){
-alert("Veritas Engine unreachable");
-}finally{
-main-btn.disabled=false;
-}
+document.getElementById("result").style.display="block";
+});
 }
 
-function playVoice(){
-speechSynthesis.cancel();
-const msg=risk>=2?I18N[lang].voiceHigh:I18N[lang].voiceSafe;
-const u=new SpeechSynthesisUtterance(msg);
-u.lang=lang==="hi"?"hi-IN":"en-US";
-speechSynthesis.speak(u);
+function speak(){
+if(!lastData)return;
+const msg=new SpeechSynthesisUtterance(
+lastData.verdict>=2?
+"Warning. High risk detected.":
+"No major risk detected."
+);
+speechSynthesis.speak(msg);
 }
 
-function shareResult(){
-const t=`Veritas Scan Result: ${riskBadge.innerText}\n${hashDisplay.innerText}`;
-if(navigator.share)navigator.share({title:"Veritas Guard",text:t});
+function share(){
+if(!lastData)return;
+const t=`Veritas Proof\nRisk:${lastData.verdict}\nHash:${lastData.audit_hash}`;
+navigator.share?navigator.share({text:t}):alert(t);
 }
 </script>
 
