@@ -199,6 +199,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 <script>
 
 function setLang(lang){
+document.querySelectorAll("[data-en]").forEach(el=>{el.innerText=el.dataset[lang];});
 window.onload = ()=>setLang("en");
 
 
