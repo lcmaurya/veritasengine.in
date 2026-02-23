@@ -4,7 +4,7 @@
 <meta http-equiv="Cache-Control" content="no-store" />
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Veritas Guard</title>
+<title><span data-en="Veritas Guard" data-hi="वेरिटास गार्ड">Veritas Guard</span></title>
 <style>
 body{
   margin:0;
@@ -94,8 +94,8 @@ footer{
 </marquee>
 
 <div id="app">
-  <h1>🛡️ Veritas Guard</h1>
-  <div class="tagline"><span id="tagline">Explain risk. Don’t demand trust.</span></div>
+  <h1>🛡️ <span data-en="Veritas Guard" data-hi="वेरिटास गार्ड">Veritas Guard</span></h1>
+  <div class="tagline"><span id="tagline"><span data-en="Explain risk. Don't demand trust." data-hi="जोखिम समझाइए। भरोसा मत मांगिए।">Explain risk. Don't demand trust.</span></span></div>
 
 <select id="usecase" style="width:100%;margin-bottom:10px;">
 
@@ -118,8 +118,8 @@ footer{
  <option>Enterprise Security</option>
 
 </select>
-  <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
-  <button><span id="analyze-btn">Analyze Risk Signals</span></button>
+  <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here..." data-en="Paste SMS, WhatsApp message, or link here..." data-hi="SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ"></textarea>
+  <button><span id="analyze-btn"><span data-en="Analyze Risk Signals" data-hi="जोखिम संकेत जांचें">Analyze Risk Signals</span></span></button>
 
   <div class="notice">
     No Login · No Permissions · No Data Stored
@@ -150,9 +150,9 @@ footer{
 <script>
 const I18N = {
   en: {
-    tagline: "Explain risk. Don’t demand trust.",
+    tagline: "<span data-en="Explain risk. Don't demand trust." data-hi="जोखिम समझाइए। भरोसा मत मांगिए।">Explain risk. Don't demand trust.</span>",
     placeholder: "Paste SMS, WhatsApp message, or link here to analyze...",
-    button: "Analyze Risk Signals",
+    button: "<span data-en="Analyze Risk Signals" data-hi="जोखिम संकेत जांचें">Analyze Risk Signals</span>",
     marquee: "⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user.",
     legalTitle: "Legal Disclaimer",
     legalText: `
@@ -199,6 +199,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 <script>
 
 function setLang(lang){
+window.onload = ()=>setLang("en");
+
 
  document.documentElement.lang = lang;
 
