@@ -77,6 +77,13 @@ footer{
 </head>
 
 <body>
+<div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;display:flex;gap:6px;">
+
+ <button onclick="setLang(\"en\")">EN</button>
+
+ <button onclick="setLang(\"hi\")">हिंदी</button>
+
+</div>
 <div id="lang-toggle" style="position:fixed;top:12px;right:12px;z-index:9999;">
 <button onclick="setLang('en')" style="margin-right:4px;" onclick="applyLang('en')">EN</button>
 <button onclick="setLang('hi')" onclick="applyLang('hi')">हिंदी</button>
@@ -90,6 +97,27 @@ footer{
   <h1>🛡️ Veritas Guard</h1>
   <div class="tagline"><span id="tagline">Explain risk. Don’t demand trust.</span></div>
 
+<select id="usecase" style="width:100%;margin-bottom:10px;">
+
+ <option>Cyber / Fraud</option>
+
+ <option>Banking / Fintech</option>
+
+ <option>Legal / Compliance</option>
+
+ <option>Healthcare (non-diagnostic)</option>
+
+ <option>Insurance</option>
+
+ <option>Government / Public</option>
+
+ <option>E-commerce</option>
+
+ <option>Education / Research</option>
+
+ <option>Enterprise Security</option>
+
+</select>
   <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here to analyze..."></textarea>
   <button><span id="analyze-btn">Analyze Risk Signals</span></button>
 
@@ -167,6 +195,21 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const lang = localStorage.getItem("veritas_lang") || "en";
   applyLang(lang);
 });
+</script>
+<script>
+
+function setLang(lang){
+
+ document.documentElement.lang = lang;
+
+ document.querySelectorAll("[data-en]").forEach(el=>{
+
+  el.innerText = lang==="hi" ? el.dataset.hi : el.dataset.en;
+
+ });
+
+}
+
 </script>
 </body>
 </html>
