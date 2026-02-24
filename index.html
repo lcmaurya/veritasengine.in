@@ -457,8 +457,8 @@ footer span { color: var(--accent); }
 </head>
 <body>
 
-<div id="warning-bar" id="warn-text">
-  This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.
+<div id="warning-bar">
+  <span id="warn-text">This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.</span>
 </div>
 
 <div id="app">
@@ -492,8 +492,8 @@ footer span { color: var(--accent); }
 
   <div class="card">
     <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+      <button class="lang-btn active" id="btn-en">EN</button>
+      <button class="lang-btn" id="btn-hi">हिंदी</button>
     </div>
 
     <div class="field-label" id="label-usecase">USE CASE</div>
@@ -511,9 +511,12 @@ footer span { color: var(--accent); }
 
     <div class="field-label" id="label-input">MESSAGE / SMS / LINK</div>
     <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
-    <div class="char-count"><span id="char-val">0</span> / 1000</div>
+    <div class="char-count" style="display:flex;justify-content:space-between;align-items:center;">
+      <button onclick="clearText()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:3px 10px;border-radius:5px;font-size:11px;cursor:pointer;font-family:'Space Mono',monospace;" id="clear-btn">✕ CLEAR</button>
+      <span><span id="char-val">0</span> / 1000</span>
+    </div>
 
-    <button id="analyze-btn" onclick="analyze()">
+    <button id="analyze-btn">
       <span id="btn-text">⚡ ANALYZE RISK SIGNALS</span>
     </button>
 
@@ -839,7 +842,16 @@ function showResult(r, t) {
   document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
+function clearText() {
+  document.getElementById('input-text').value = '';
+  document.getElementById('char-val').textContent = '0';
+  document.getElementById('result-card').style.display = 'none';
+}
+
 // Init
+document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
+document.getElementById('btn-hi').addEventListener('click', () => setLang('hi'));
+document.getElementById('analyze-btn').addEventListener('click', analyze);
 applyLang();
 updateStats();
 </script>
