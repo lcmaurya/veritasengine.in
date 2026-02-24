@@ -120,17 +120,23 @@ footer{
 }
 </style>
 </head>
+
 <body>
+
+<!-- TOP BANNER -->
 <div id="legal-marquee"
  data-en="⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user."
  data-hi="⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।">
 ⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user.
 </div>
 
+<!-- LANGUAGE SWITCH -->
 <div id="lang-switch">
   <button id="btn-en">EN</button>
   <button id="btn-hi">हिंदी</button>
 </div>
+
+<!-- APP -->
 <div id="app">
 
 <h1>🛡️ <span data-en="Veritas Guard" data-hi="वेरिटास गार्ड">Veritas Guard</span></h1>
@@ -156,8 +162,7 @@ footer{
 
 <textarea id="input-text"
  data-en="Paste SMS, WhatsApp message, or link here..."
- data-hi="SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ">
-</textarea>
+ data-hi="SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ"></textarea>
 
 <button id="analyze-btn">
   <span data-en="Analyze Risk Signals" data-hi="जोखिम संकेत जांचें">
@@ -182,11 +187,14 @@ footer{
 </details>
 
 </div>
+
 <footer
  data-en="© Veritas Engine — Open Risk Awareness Tool"
  data-hi="© वेरिटास इंजन — ओपन रिस्क अवेयरनेस टूल">
 © Veritas Engine — Open Risk Awareness Tool
 </footer>
+
+<!-- LANGUAGE SCRIPT -->
 <script>
 function applyLang(lang){
   document.documentElement.lang = lang;
@@ -207,22 +215,46 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("btn-en").onclick = ()=>applyLang("en");
   document.getElementById("btn-hi").onclick = ()=>applyLang("hi");
 });
+</script>
+
+<!-- ANALYSIS ENGINE -->
 <script>
-document.getElementById("analyze-btn").addEventListener("click", () => {
+const RULES = {
+  high: [/otp/i, /verify/i, /account\s*blocked/i, /urgent/i, /upi/i, /bank/i],
+  medium: [/offer/i, /reward/i, /cashback/i, /expire/i]
+};
+
+document.getElementById("analyze-btn").addEventListener("click", ()=>{
   const text = document.getElementById("input-text").value.trim();
   const usecase = document.getElementById("usecase").value;
 
-  if (!text) {
+  if(!text){
     alert("Please paste SMS / message / link first.");
     return;
   }
 
+  let score = 0;
+  let reasons = [];
+
+  RULES.high.forEach(r=>{
+    if(r.test(text)){ score+=3; reasons.push("High risk pattern detected"); }
+  });
+  RULES.medium.forEach(r=>{
+    if(r.test(text)){ score+=1; reasons.push("Medium risk pattern detected"); }
+  });
+
+  let level = "LOW";
+  if(score >= 6) level = "HIGH";
+  else if(score >= 3) level = "MEDIUM";
+
   alert(
     "Usecase: " + usecase + "\n\n" +
-    "Input received:\n" + text + "\n\n" +
-    "⚠️ Demo mode: analysis engine not connected yet."
+    "Risk Level: " + level + "\n" +
+    "Score: " + score + "\n\n" +
+    (reasons.length ? reasons.join("\n") : "No risky patterns detected.")
   );
 });
 </script>
+
 </body>
 </html>
