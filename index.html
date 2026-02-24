@@ -207,6 +207,22 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("btn-en").onclick = ()=>applyLang("en");
   document.getElementById("btn-hi").onclick = ()=>applyLang("hi");
 });
+<script>
+document.getElementById("analyze-btn").addEventListener("click", () => {
+  const text = document.getElementById("input-text").value.trim();
+  const usecase = document.getElementById("usecase").value;
+
+  if (!text) {
+    alert("Please paste SMS / message / link first.");
+    return;
+  }
+
+  alert(
+    "Usecase: " + usecase + "\n\n" +
+    "Input received:\n" + text + "\n\n" +
+    "⚠️ Demo mode: analysis engine not connected yet."
+  );
+});
 </script>
 </body>
 </html>
