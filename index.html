@@ -2,259 +2,846 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-store">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta http-equiv="Cache-Control" content="no-store">
 <title>Veritas Guard</title>
-
 <style>
-/* ===== GLOBAL ===== */
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont;
-  background:#0b1220;
-  color:#e5e7eb;
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
+
+:root {
+  --bg: #060910;
+  --surface: #0d1117;
+  --border: #1e2d3d;
+  --accent: #00d4ff;
+  --accent2: #ff4d6d;
+  --accent3: #00ff9d;
+  --warn: #ffaa00;
+  --text: #c9d1d9;
+  --muted: #586069;
+  --verdict-0: #00ff9d;
+  --verdict-1: #ffaa00;
+  --verdict-2: #ff7043;
+  --verdict-3: #ff4d6d;
 }
 
-/* ===== TOP WARNING ===== */
-#legal-marquee{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  z-index:1000;
-  background:#7c2d12;
-  color:#fff;
-  padding:8px 12px;
-  font-size:13px;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-/* ===== LANGUAGE SWITCH ===== */
-#lang-switch{
-  position:fixed;
-  top:44px;
-  right:12px;
-  z-index:1001;
-  display:flex;
-  gap:6px;
-}
-#lang-switch button{
-  padding:6px 10px;
-  font-size:13px;
-  border:none;
-  border-radius:6px;
-  background:#1e293b;
-  color:#e5e7eb;
-  cursor:pointer;
-}
-#lang-switch button.active{
-  background:#2563eb;
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
 }
 
-/* ===== APP CARD ===== */
-#app{
-  max-width:420px;
-  margin:110px auto 40px;
-  background:#0f172a;
-  border-radius:12px;
-  padding:20px;
-  box-shadow:0 0 40px rgba(0,0,0,.5);
+/* Top warning bar */
+#warning-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(255,77,109,0.15);
+  border-bottom: 1px solid rgba(255,77,109,0.3);
+  padding: 8px 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #ff4d6d;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(10px);
 }
 
-h1{
-  text-align:center;
-  margin:0 0 6px;
-}
-.tagline{
-  text-align:center;
-  font-size:13px;
-  color:#9ca3af;
+#warning-bar::before {
+  content: '⚠';
+  font-size: 14px;
+  flex-shrink: 0;
 }
 
-/* ===== FORM ===== */
-select, textarea, button{
-  width:100%;
-  border:none;
-  border-radius:8px;
-  background:#020617;
-  color:#e5e7eb;
-}
-select{
-  padding:8px;
-  margin:12px 0;
-}
-textarea{
-  height:90px;
-  padding:10px;
-}
-button{
-  margin-top:12px;
-  padding:12px;
-  font-size:16px;
-  background:#2563eb;
-  cursor:pointer;
+/* Main container */
+#app {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 70px 16px 40px;
 }
 
-.notice{
-  margin-top:10px;
-  font-size:12px;
-  color:#9ca3af;
-  text-align:center;
+/* Header */
+.header {
+  text-align: center;
+  padding: 24px 0 20px;
 }
 
-/* ===== DISCLAIMER ===== */
-details{
-  margin-top:14px;
-  background:#020617;
-  padding:12px;
-  border-radius:8px;
-  font-size:13px;
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
 }
 
-/* ===== FOOTER ===== */
-footer{
-  text-align:center;
-  font-size:12px;
-  color:#6b7280;
-  margin-bottom:30px;
+.logo-icon {
+  width: 42px; height: 42px;
+  background: linear-gradient(135deg, var(--accent), #0051ff);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  box-shadow: 0 0 20px rgba(0,212,255,0.3);
 }
+
+.logo-text {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(90deg, var(--accent), #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tagline {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* Stats bar */
+.stats-bar {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 16px 0 20px;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-val {
+  font-family: 'Space Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+/* Language toggle */
+.lang-toggle {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.lang-btn {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: rgba(0,212,255,0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Select */
+.field-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+  font-family: 'Space Mono', monospace;
+}
+
+select {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Syne', sans-serif;
+  font-size: 14px;
+  margin-bottom: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+select:focus { border-color: var(--accent); }
+
+/* Textarea */
+textarea {
+  width: 100%;
+  height: 100px;
+  padding: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  resize: none;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+}
+
+textarea:focus { border-color: var(--accent); }
+textarea::placeholder { color: var(--muted); }
+
+/* Char counter */
+.char-count {
+  text-align: right;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  margin-bottom: 14px;
+}
+
+/* Analyze button */
+#analyze-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), #0051ff);
+  border: none;
+  border-radius: 8px;
+  color: #000;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+#analyze-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(0,212,255,0.3);
+}
+
+#analyze-btn:active { transform: translateY(0); }
+
+#analyze-btn.loading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* No data notice */
+.no-data {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 12px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.no-data span::before { content: '✓ '; color: var(--accent3); }
+
+/* Result card */
+#result-card {
+  display: none;
+  background: var(--surface);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.verdict-icon {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.verdict-text h3 {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.verdict-text p {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* Confidence bar */
+.confidence-section {
+  padding: 0 20px 14px;
+}
+
+.confidence-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.confidence-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.confidence-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+}
+
+/* Reasons */
+.reasons-section {
+  padding: 0 20px 16px;
+}
+
+.reasons-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.reason-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  margin: 3px 3px 3px 0;
+  border: 1px solid;
+}
+
+/* Hash section */
+.hash-section {
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.3);
+  border-top: 1px solid var(--border);
+}
+
+.hash-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+.hash-key { color: var(--muted); }
+.hash-val { color: var(--accent); word-break: break-all; max-width: 60%; text-align: right; }
+
+/* Disclaimer */
+.disclaimer {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.disclaimer summary {
+  padding: 12px 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.disclaimer summary::after { content: '↓'; }
+.disclaimer[open] summary::after { content: '↑'; }
+
+.disclaimer-body {
+  padding: 0 16px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  padding-bottom: 20px;
+}
+
+footer span { color: var(--accent); }
+
+/* Verdict colors */
+.v0 { color: var(--verdict-0); border-color: rgba(0,255,157,0.2); background: rgba(0,255,157,0.08); }
+.v1 { color: var(--verdict-1); border-color: rgba(255,170,0,0.2); background: rgba(255,170,0,0.08); }
+.v2 { color: var(--verdict-2); border-color: rgba(255,112,67,0.2); background: rgba(255,112,67,0.08); }
+.v3 { color: var(--verdict-3); border-color: rgba(255,77,109,0.2); background: rgba(255,77,109,0.08); }
+
+.bg-v0 { background: rgba(0,255,157,0.15); }
+.bg-v1 { background: rgba(255,170,0,0.15); }
+.bg-v2 { background: rgba(255,112,67,0.15); }
+.bg-v3 { background: rgba(255,77,109,0.15); }
+
+.fill-v0 { background: var(--verdict-0); }
+.fill-v1 { background: var(--verdict-1); }
+.fill-v2 { background: var(--verdict-2); }
+.fill-v3 { background: var(--verdict-3); }
 </style>
 </head>
-
 <body>
 
-<!-- TOP BANNER -->
-<div id="legal-marquee"
- data-en="⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user."
- data-hi="⚠️ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।">
-⚠️ This tool analyzes text for known risk patterns. It does NOT detect fraud or make decisions. Final responsibility remains with the user.
+<div id="warning-bar" id="warn-text">
+  This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.
 </div>
 
-<!-- LANGUAGE SWITCH -->
-<div id="lang-switch">
-  <button id="btn-en">EN</button>
-  <button id="btn-hi">हिंदी</button>
-</div>
-
-<!-- APP -->
 <div id="app">
 
-<h1>🛡️ <span data-en="Veritas Guard" data-hi="वेरिटास गार्ड">Veritas Guard</span></h1>
-
-<div class="tagline">
-  <span data-en="Explain risk. Don't demand trust."
-        data-hi="जोखिम समझाइए। भरोसा मत मांगिए।">
-    Explain risk. Don't demand trust.
-  </span>
-</div>
-
-<select id="usecase">
-  <option data-en="Cyber / Fraud" data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
-  <option data-en="Banking / Fintech" data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
-  <option data-en="Legal / Compliance" data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
-  <option data-en="Healthcare (non-diagnostic)" data-hi="हेल्थकेयर (गैर-निदानात्मक)">Healthcare (non-diagnostic)</option>
-  <option data-en="Insurance" data-hi="बीमा">Insurance</option>
-  <option data-en="Government / Public" data-hi="सरकारी / सार्वजनिक">Government / Public</option>
-  <option data-en="E-commerce" data-hi="ई-कॉमर्स">E-commerce</option>
-  <option data-en="Education / Research" data-hi="शिक्षा / अनुसंधान">Education / Research</option>
-  <option data-en="Enterprise Security" data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
-</select>
-
-<textarea id="input-text"
- data-en="Paste SMS, WhatsApp message, or link here..."
- data-hi="SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ"></textarea>
-
-<button id="analyze-btn">
-  <span data-en="Analyze Risk Signals" data-hi="जोखिम संकेत जांचें">
-    Analyze Risk Signals
-  </span>
-</button>
-
-<div class="notice"
- data-en="No Login · No Permissions · No Data Stored"
- data-hi="कोई लॉगिन नहीं · कोई अनुमति नहीं · कोई डेटा संग्रह नहीं">
- No Login · No Permissions · No Data Stored
-</div>
-
-<details open>
-  <summary>
-    <b data-en="Legal Disclaimer" data-hi="कानूनी अस्वीकरण">Legal Disclaimer</b>
-  </summary>
-  <div
-   data-en="This tool analyzes text for commonly known risk patterns based on deterministic rules. It does not guarantee fraud detection accuracy and does not make decisions for you. Final responsibility always remains with the user."
-   data-hi="यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है। यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की होती है।">
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">🛡️</div>
+      <div class="logo-text" id="logo-title">Veritas Guard</div>
+    </div>
+    <div class="tagline" id="tagline-text">EXPLAIN RISK · DON'T DEMAND TRUST</div>
   </div>
-</details>
+
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-val" id="stat-scanned">0</div>
+      <div class="stat-label" id="stat-scanned-label">Scanned</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val" id="stat-flagged">0</div>
+      <div class="stat-label" id="stat-flagged-label">Flagged</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">15</div>
+      <div class="stat-label" id="stat-patterns-label">Patterns</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">v1.0</div>
+      <div class="stat-label">Engine</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+    </div>
+
+    <div class="field-label" id="label-usecase">USE CASE</div>
+    <select id="usecase">
+      <option value="cyber" data-en="Cyber / Fraud" data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
+      <option value="banking" data-en="Banking / Fintech" data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
+      <option value="legal" data-en="Legal / Compliance" data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
+      <option value="health" data-en="Healthcare" data-hi="हेल्थकेयर">Healthcare</option>
+      <option value="insurance" data-en="Insurance" data-hi="बीमा">Insurance</option>
+      <option value="govt" data-en="Government / Public" data-hi="सरकारी / सार्वजनिक">Government / Public</option>
+      <option value="ecom" data-en="E-commerce" data-hi="ई-कॉमर्स">E-commerce</option>
+      <option value="edu" data-en="Education / Research" data-hi="शिक्षा / अनुसंधान">Education / Research</option>
+      <option value="enterprise" data-en="Enterprise Security" data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
+    </select>
+
+    <div class="field-label" id="label-input">MESSAGE / SMS / LINK</div>
+    <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
+    <div class="char-count"><span id="char-val">0</span> / 1000</div>
+
+    <button id="analyze-btn" onclick="analyze()">
+      <span id="btn-text">⚡ ANALYZE RISK SIGNALS</span>
+    </button>
+
+    <div class="no-data">
+      <span id="nd1">No Login</span>
+      <span id="nd2">No Permissions</span>
+      <span id="nd3">No Data Stored</span>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div id="result-card"></div>
+
+  <!-- Disclaimer -->
+  <details class="disclaimer">
+    <summary id="disclaimer-title">Legal Disclaimer</summary>
+    <div class="disclaimer-body" id="disclaimer-body">
+      This tool analyzes text for commonly known risk patterns based on deterministic rules.
+      It does not guarantee fraud detection accuracy and does not make decisions for you.
+      Final responsibility always remains with the user.
+    </div>
+  </details>
+
+  <footer>
+    © <span>Veritas Engine</span> — Open Risk Awareness Tool
+  </footer>
 
 </div>
 
-<footer
- data-en="© Veritas Engine — Open Risk Awareness Tool"
- data-hi="© वेरिटास इंजन — ओपन रिस्क अवेयरनेस टूल">
-© Veritas Engine — Open Risk Awareness Tool
-</footer>
-
-<!-- LANGUAGE SCRIPT -->
 <script>
-function applyLang(lang){
-  document.documentElement.lang = lang;
-  localStorage.setItem("veritas_lang", lang);
+// ── VERITAS ENGINE v1.0 (Standalone) ──────────────────────────────────────
+// 15 Work Patterns — Rule-based, Deterministic, Explainable
 
-  document.querySelectorAll("[data-en]").forEach(el=>{
-    el.innerText = (lang==="hi") ? el.dataset.hi : el.dataset.en;
-  });
+const ENGINE = {
+  version: "1.0.0",
 
-  document.getElementById("btn-en").classList.toggle("active", lang==="en");
-  document.getElementById("btn-hi").classList.toggle("active", lang==="hi");
-}
+  patterns: {
+    // MODULE A — Message Text Analysis
+    A1_PAYMENT_GENUINE: {
+      rules: [/rs\.?\s*\d+\s*(credited|received|added)/i, /payment\s*(successful|success|done|complete)/i, /upi\s*txn\s*(successful|success)/i],
+      weight: -2, label: "PAYMENT_GENUINE", module: "A"
+    },
+    A2_FRAUD_SCAM_INTENT: {
+      rules: [/won\s*(prize|lottery|reward)/i, /click\s*(here|link|now)\s*(to\s*)?(verify|claim|win)/i, /send\s*(otp|money|amount)\s*(now|immediately|urgent)/i],
+      weight: 4, label: "FRAUD_SCAM_INTENT", module: "A"
+    },
+    A3_FAKE_LINK_PHISHING: {
+      rules: [/https?:\/\/(?![\w-]+\.(sbi|icici|hdfc|axis|rbi|gov|npci)\.)/i, /bit\.ly|tinyurl|goo\.gl|t\.co\/(?!witter)/i, /upi[-_]?secure|paytm[-_]?verify|bank[-_]?update/i],
+      weight: 5, label: "SUSPICIOUS_LINK", module: "A"
+    },
+    A4_PENALTY_CHARGE: {
+      rules: [/penalty\s*(of|rs|will)/i, /fine\s*(of|rs|will)\s*\d+/i, /your\s*account\s*will\s*be\s*(charged|debited|penalized)/i],
+      weight: 3, label: "PENALTY_THREAT", module: "A"
+    },
+    A5_PAYMENT_AMBIGUITY: {
+      rules: [/payment\s*(may\s*be\s*)?(failed|failure|unsuccessful|reversed)/i, /transaction\s*(pending|on\s*hold|under\s*review)/i],
+      weight: 2, label: "PAYMENT_AMBIGUITY", module: "A"
+    },
+    A6_THREAT_PRESSURE: {
+      rules: [/urgent(ly)?|immediately|right\s*now|don'?t\s*(delay|wait|ignore)/i, /last\s*(chance|opportunity|warning)/i, /expires?\s*(in\s*)?(today|\d+\s*(hours?|mins?|minutes?))/i],
+      weight: 3, label: "URGENCY_LANGUAGE", module: "A"
+    },
 
-document.addEventListener("DOMContentLoaded", ()=>{
-  const saved = localStorage.getItem("veritas_lang") || "en";
-  applyLang(saved);
+    // MODULE B — Proof & Trust
+    B1_UNVERIFIABLE_CLAIM: {
+      rules: [/guaranteed\s*(return|profit|income)/i, /100\s*%\s*(safe|secure|guaranteed)/i, /rbi\s*(approved|certified|verified)\s*(?!sandbox)/i],
+      weight: 4, label: "UNVERIFIABLE_CLAIM", module: "B"
+    },
+    B2_TAMPER_SIGNAL: {
+      rules: [/edited|modified|updated\s*on/i, /\[?\s*edited\s*\]?/i],
+      weight: 2, label: "TAMPER_SIGNAL", module: "B"
+    },
+    B3_INCONSISTENCY: {
+      rules: [/(?:rs|inr)\.?\s*(\d{1,3}(?:,\d{3})*|\d+).*(?:rs|inr)\.?\s*(\d{1,3}(?:,\d{3})*|\d+)/i],
+      weight: 2, label: "AMOUNT_INCONSISTENCY", module: "B"
+    },
 
-  document.getElementById("btn-en").onclick = ()=>applyLang("en");
-  document.getElementById("btn-hi").onclick = ()=>applyLang("hi");
-});
-</script>
+    // MODULE C — Pattern History
+    C1_REPEAT_FRAUD: {
+      rules: [/kyc\s*(expired?|update|verify|pending)/i, /your\s*kyc\s*(is\s*)?(incomplete|not\s*done|expired)/i],
+      weight: 4, label: "KYC_FRAUD_PATTERN", module: "C"
+    },
+    C2_TIMELINE_FRAUD: {
+      rules: [/within\s*(24|48|12|6)\s*hours?/i, /before\s*(midnight|today|tomorrow)\s*(or|else|otherwise)/i],
+      weight: 3, label: "DEADLINE_PRESSURE", module: "C"
+    },
+    C3_ESCALATION: {
+      rules: [/account\s*(blocked|suspended|frozen|locked)/i, /your\s*account\s*has\s*been\s*(blocked|suspended)/i],
+      weight: 4, label: "ACCOUNT_THREAT", module: "C"
+    },
 
-<!-- ANALYSIS ENGINE -->
-<script>
-const RULES = {
-  high: [/otp/i, /verify/i, /account\s*blocked/i, /urgent/i, /upi/i, /bank/i],
-  medium: [/offer/i, /reward/i, /cashback/i, /expire/i]
+    // MODULE D — Awareness & Safety
+    D1_MISINFORMATION: {
+      rules: [/government\s*(scheme|offer|gift|reward)/i, /pm\s*(modi|scheme|yojana)\s*(free|gift|money)/i, /free\s*(recharge|data|money|cash)/i],
+      weight: 3, label: "MISINFORMATION_PATTERN", module: "D"
+    },
+    D2_IMPERSONATION: {
+      rules: [/(?:sbi|hdfc|icici|axis|rbi|npci|paytm|phonepe|gpay)\s*(?:official|support|helpline|team)/i, /dear\s*(?:customer|user|member)\s*your/i, /impersonat/i],
+      weight: 4, label: "IMPERSONATION_SIGNAL", module: "D"
+    }
+  },
+
+  decide(input) {
+    const text = input || "";
+    let score = 0;
+    const fired = [];
+    const trace = [];
+
+    for (const [key, pattern] of Object.entries(this.patterns)) {
+      for (const rule of pattern.rules) {
+        if (rule.test(text)) {
+          score += pattern.weight;
+          if (!fired.includes(pattern.label)) {
+            fired.push(pattern.label);
+            trace.push({ pattern: key, label: pattern.label, module: pattern.module, weight: pattern.weight });
+          }
+          break;
+        }
+      }
+    }
+
+    let verdict;
+    if (score <= 0) verdict = 0;
+    else if (score <= 3) verdict = 1;
+    else if (score <= 6) verdict = 2;
+    else verdict = 3;
+
+    const confidence = Math.min(Math.abs(score) * 10, 95);
+
+    // Simple hash (proof simulation)
+    let hash = 0;
+    for (let i = 0; i < text.length; i++) {
+      hash = ((hash << 5) - hash) + text.charCodeAt(i);
+      hash |= 0;
+    }
+    const proofHash = Math.abs(hash).toString(16).padStart(8, '0') + Date.now().toString(16);
+
+    return { verdict, confidence, fired_rules: fired, trace, score, proof_hash: proofHash };
+  }
 };
 
-document.getElementById("analyze-btn").addEventListener("click", ()=>{
-  const text = document.getElementById("input-text").value.trim();
-  const usecase = document.getElementById("usecase").value;
+// ── UI Logic ────────────────────────────────────────────────────────────────
 
-  if(!text){
-    alert("Please paste SMS / message / link first.");
+let lang = localStorage.getItem('v_lang') || 'en';
+let scanCount = parseInt(localStorage.getItem('v_scan') || '0');
+let flagCount = parseInt(localStorage.getItem('v_flag') || '0');
+
+const T = {
+  en: {
+    warn: "⚠ This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.",
+    tagline: "EXPLAIN RISK · DON'T DEMAND TRUST",
+    labelUsecase: "USE CASE",
+    labelInput: "MESSAGE / SMS / LINK",
+    placeholder: "Paste SMS, WhatsApp message, or link here...",
+    btnText: "⚡ ANALYZE RISK SIGNALS",
+    nd1: "No Login", nd2: "No Permissions", nd3: "No Data Stored",
+    scanned: "Scanned", flagged: "Flagged", patterns: "Patterns",
+    disclaimerTitle: "Legal Disclaimer",
+    disclaimerBody: "This tool analyzes text for commonly known risk patterns based on deterministic rules. It does not guarantee fraud detection accuracy and does not make decisions for you. Final responsibility always remains with the user.",
+    verdictLabels: ["GENUINE / NORMAL", "NEEDS ATTENTION", "SUSPICIOUS", "FRAUD LIKELY"],
+    verdictDesc: ["No risk patterns detected", "Minor signals found — stay alert", "Multiple risk signals detected", "High risk — do not proceed"],
+    verdictEmoji: ["✅", "⚠️", "🔶", "🚨"],
+    confidenceLabel: "CONFIDENCE SCORE",
+    reasonsLabel: "TRIGGERED PATTERNS",
+    hashLabel: "PROOF HASH",
+    timeLabel: "TIMESTAMP",
+    noReasons: "No specific patterns triggered",
+    analyzing: "ANALYZING..."
+  },
+  hi: {
+    warn: "⚠ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    tagline: "जोखिम समझाइए · भरोसा मत मांगिए",
+    labelUsecase: "उपयोग का प्रकार",
+    labelInput: "संदेश / SMS / लिंक",
+    placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
+    btnText: "⚡ जोखिम संकेत जांचें",
+    nd1: "कोई लॉगिन नहीं", nd2: "कोई अनुमति नहीं", nd3: "कोई डेटा नहीं",
+    scanned: "जांचे गए", flagged: "संदिग्ध", patterns: "पैटर्न",
+    disclaimerTitle: "कानूनी अस्वीकरण",
+    disclaimerBody: "यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है। यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की होती है।",
+    verdictLabels: ["सामान्य / वास्तविक", "ध्यान दें", "संदिग्ध", "धोखाधड़ी संभव"],
+    verdictDesc: ["कोई जोखिम संकेत नहीं मिला", "छोटे संकेत मिले — सतर्क रहें", "कई जोखिम संकेत मिले", "उच्च जोखिम — आगे न बढ़ें"],
+    verdictEmoji: ["✅", "⚠️", "🔶", "🚨"],
+    confidenceLabel: "आत्मविश्वास स्कोर",
+    reasonsLabel: "सक्रिय पैटर्न",
+    hashLabel: "प्रूफ हैश",
+    timeLabel: "समय",
+    noReasons: "कोई विशेष पैटर्न नहीं मिला",
+    analyzing: "विश्लेषण हो रहा है..."
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  localStorage.setItem('v_lang', l);
+  applyLang();
+}
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById('warn-text').textContent = t.warn;
+  document.getElementById('tagline-text').textContent = t.tagline;
+  document.getElementById('label-usecase').textContent = t.labelUsecase;
+  document.getElementById('label-input').textContent = t.labelInput;
+  document.getElementById('input-text').placeholder = t.placeholder;
+  document.getElementById('btn-text').textContent = t.btnText;
+  document.getElementById('nd1').textContent = t.nd1;
+  document.getElementById('nd2').textContent = t.nd2;
+  document.getElementById('nd3').textContent = t.nd3;
+  document.getElementById('stat-scanned-label').textContent = t.scanned;
+  document.getElementById('stat-flagged-label').textContent = t.flagged;
+  document.getElementById('stat-patterns-label').textContent = t.patterns;
+  document.getElementById('disclaimer-title').textContent = t.disclaimerTitle;
+  document.getElementById('disclaimer-body').textContent = t.disclaimerBody;
+
+  // Select options
+  document.querySelectorAll('#usecase option').forEach(o => {
+    o.textContent = lang === 'hi' ? o.dataset.hi : o.dataset.en;
+  });
+
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
+}
+
+// Char counter
+document.getElementById('input-text').addEventListener('input', function() {
+  document.getElementById('char-val').textContent = this.value.length;
+});
+
+function updateStats() {
+  document.getElementById('stat-scanned').textContent = scanCount;
+  document.getElementById('stat-flagged').textContent = flagCount;
+}
+
+function analyze() {
+  const text = document.getElementById('input-text').value.trim();
+  const t = T[lang];
+
+  if (!text) {
+    document.getElementById('input-text').style.borderColor = 'var(--accent2)';
+    setTimeout(() => document.getElementById('input-text').style.borderColor = '', 1000);
     return;
   }
 
-  let score = 0;
-  let reasons = [];
+  const btn = document.getElementById('analyze-btn');
+  btn.classList.add('loading');
+  document.getElementById('btn-text').textContent = t.analyzing;
 
-  RULES.high.forEach(r=>{
-    if(r.test(text)){ score+=3; reasons.push("High risk pattern detected"); }
-  });
-  RULES.medium.forEach(r=>{
-    if(r.test(text)){ score+=1; reasons.push("Medium risk pattern detected"); }
-  });
+  setTimeout(() => {
+    const r = ENGINE.decide(text);
 
-  let level = "LOW";
-  if(score >= 6) level = "HIGH";
-  else if(score >= 3) level = "MEDIUM";
+    scanCount++;
+    if (r.verdict >= 2) flagCount++;
+    localStorage.setItem('v_scan', scanCount);
+    localStorage.setItem('v_flag', flagCount);
+    updateStats();
 
-  alert(
-    "Usecase: " + usecase + "\n\n" +
-    "Risk Level: " + level + "\n" +
-    "Score: " + score + "\n\n" +
-    (reasons.length ? reasons.join("\n") : "No risky patterns detected.")
-  );
-});
+    showResult(r, t);
+
+    btn.classList.remove('loading');
+    document.getElementById('btn-text').textContent = t.btnText;
+  }, 600);
+}
+
+function showResult(r, t) {
+  const v = r.verdict;
+  const vClass = `v${v}`;
+  const bgClass = `bg-v${v}`;
+  const fillClass = `fill-v${v}`;
+
+  const reasons = r.fired_rules.length > 0
+    ? r.fired_rules.map(rule => `<span class="reason-tag ${vClass}">${rule}</span>`).join('')
+    : `<span class="reason-tag" style="color:var(--muted);border-color:var(--border)">${t.noReasons}</span>`;
+
+  const now = new Date().toLocaleString();
+
+  document.getElementById('result-card').innerHTML = `
+    <div class="result-header ${bgClass}">
+      <div class="verdict-icon ${bgClass}" style="border: 2px solid currentColor" class="${vClass}">
+        ${t.verdictEmoji[v]}
+      </div>
+      <div class="verdict-text">
+        <h3 class="${vClass}">${t.verdictLabels[v]}</h3>
+        <p>${t.verdictDesc[v]}</p>
+      </div>
+    </div>
+
+    <div class="confidence-section">
+      <div class="confidence-label">
+        <span>${t.confidenceLabel}</span>
+        <span class="${vClass}">${r.confidence}%</span>
+      </div>
+      <div class="confidence-bar">
+        <div class="confidence-fill ${fillClass}" id="conf-fill"></div>
+      </div>
+    </div>
+
+    <div class="reasons-section">
+      <div class="reasons-title">${t.reasonsLabel}</div>
+      ${reasons}
+    </div>
+
+    <div class="hash-section">
+      <div class="hash-row">
+        <span class="hash-key">${t.hashLabel}</span>
+        <span class="hash-val">${r.proof_hash}</span>
+      </div>
+      <div class="hash-row">
+        <span class="hash-key">${t.timeLabel}</span>
+        <span class="hash-val" style="color:var(--muted)">${now}</span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('result-card').style.display = 'block';
+
+  // Animate confidence bar
+  setTimeout(() => {
+    const fill = document.getElementById('conf-fill');
+    if (fill) fill.style.width = r.confidence + '%';
+  }, 100);
+
+  document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Init
+applyLang();
+updateStats();
 </script>
-
 </body>
 </html>
