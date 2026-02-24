@@ -555,114 +555,21 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
-// ── VERITAS ENGINE v1.0 (Standalone) ──────────────────────────────────────
-// 15 Work Patterns — Rule-based, Deterministic, Explainable
+// ── VERITAS ENGINE — PLACEHOLDER ──────────────────────────────────────────
+// Asli engine yahan connect hoga — abhi UI ready hai
 
 const ENGINE = {
   version: "1.0.0",
-
-  patterns: {
-    // MODULE A — Message Text Analysis
-    A1_PAYMENT_GENUINE: {
-      rules: [/rs\.?\s*\d+\s*(credited|received|added)/i, /payment\s*(successful|success|done|complete)/i, /upi\s*txn\s*(successful|success)/i],
-      weight: -2, label: "PAYMENT_GENUINE", module: "A"
-    },
-    A2_FRAUD_SCAM_INTENT: {
-      rules: [/won\s*(prize|lottery|reward)/i, /click\s*(here|link|now)\s*(to\s*)?(verify|claim|win)/i, /send\s*(otp|money|amount)\s*(now|immediately|urgent)/i],
-      weight: 4, label: "FRAUD_SCAM_INTENT", module: "A"
-    },
-    A3_FAKE_LINK_PHISHING: {
-      rules: [/https?:\/\/(?![\w-]+\.(sbi|icici|hdfc|axis|rbi|gov|npci)\.)/i, /bit\.ly|tinyurl|goo\.gl|t\.co\/(?!witter)/i, /upi[-_]?secure|paytm[-_]?verify|bank[-_]?update/i],
-      weight: 5, label: "SUSPICIOUS_LINK", module: "A"
-    },
-    A4_PENALTY_CHARGE: {
-      rules: [/penalty\s*(of|rs|will)/i, /fine\s*(of|rs|will)\s*\d+/i, /your\s*account\s*will\s*be\s*(charged|debited|penalized)/i],
-      weight: 3, label: "PENALTY_THREAT", module: "A"
-    },
-    A5_PAYMENT_AMBIGUITY: {
-      rules: [/payment\s*(may\s*be\s*)?(failed|failure|unsuccessful|reversed)/i, /transaction\s*(pending|on\s*hold|under\s*review)/i],
-      weight: 2, label: "PAYMENT_AMBIGUITY", module: "A"
-    },
-    A6_THREAT_PRESSURE: {
-      rules: [/urgent(ly)?|immediately|right\s*now|don'?t\s*(delay|wait|ignore)/i, /last\s*(chance|opportunity|warning)/i, /expires?\s*(in\s*)?(today|\d+\s*(hours?|mins?|minutes?))/i],
-      weight: 3, label: "URGENCY_LANGUAGE", module: "A"
-    },
-
-    // MODULE B — Proof & Trust
-    B1_UNVERIFIABLE_CLAIM: {
-      rules: [/guaranteed\s*(return|profit|income)/i, /100\s*%\s*(safe|secure|guaranteed)/i, /rbi\s*(approved|certified|verified)\s*(?!sandbox)/i],
-      weight: 4, label: "UNVERIFIABLE_CLAIM", module: "B"
-    },
-    B2_TAMPER_SIGNAL: {
-      rules: [/edited|modified|updated\s*on/i, /\[?\s*edited\s*\]?/i],
-      weight: 2, label: "TAMPER_SIGNAL", module: "B"
-    },
-    B3_INCONSISTENCY: {
-      rules: [/(?:rs|inr)\.?\s*(\d{1,3}(?:,\d{3})*|\d+).*(?:rs|inr)\.?\s*(\d{1,3}(?:,\d{3})*|\d+)/i],
-      weight: 2, label: "AMOUNT_INCONSISTENCY", module: "B"
-    },
-
-    // MODULE C — Pattern History
-    C1_REPEAT_FRAUD: {
-      rules: [/kyc\s*(expired?|update|verify|pending)/i, /your\s*kyc\s*(is\s*)?(incomplete|not\s*done|expired)/i],
-      weight: 4, label: "KYC_FRAUD_PATTERN", module: "C"
-    },
-    C2_TIMELINE_FRAUD: {
-      rules: [/within\s*(24|48|12|6)\s*hours?/i, /before\s*(midnight|today|tomorrow)\s*(or|else|otherwise)/i],
-      weight: 3, label: "DEADLINE_PRESSURE", module: "C"
-    },
-    C3_ESCALATION: {
-      rules: [/account\s*(blocked|suspended|frozen|locked)/i, /your\s*account\s*has\s*been\s*(blocked|suspended)/i],
-      weight: 4, label: "ACCOUNT_THREAT", module: "C"
-    },
-
-    // MODULE D — Awareness & Safety
-    D1_MISINFORMATION: {
-      rules: [/government\s*(scheme|offer|gift|reward)/i, /pm\s*(modi|scheme|yojana)\s*(free|gift|money)/i, /free\s*(recharge|data|money|cash)/i],
-      weight: 3, label: "MISINFORMATION_PATTERN", module: "D"
-    },
-    D2_IMPERSONATION: {
-      rules: [/(?:sbi|hdfc|icici|axis|rbi|npci|paytm|phonepe|gpay)\s*(?:official|support|helpline|team)/i, /dear\s*(?:customer|user|member)\s*your/i, /impersonat/i],
-      weight: 4, label: "IMPERSONATION_SIGNAL", module: "D"
-    }
-  },
-
   decide(input) {
-    const text = input || "";
-    let score = 0;
-    const fired = [];
-    const trace = [];
-
-    for (const [key, pattern] of Object.entries(this.patterns)) {
-      for (const rule of pattern.rules) {
-        if (rule.test(text)) {
-          score += pattern.weight;
-          if (!fired.includes(pattern.label)) {
-            fired.push(pattern.label);
-            trace.push({ pattern: key, label: pattern.label, module: pattern.module, weight: pattern.weight });
-          }
-          break;
-        }
-      }
-    }
-
-    let verdict;
-    if (score <= 0) verdict = 0;
-    else if (score <= 3) verdict = 1;
-    else if (score <= 6) verdict = 2;
-    else verdict = 3;
-
-    const confidence = Math.min(Math.abs(score) * 10, 95);
-
-    // Simple hash (proof simulation)
-    let hash = 0;
-    for (let i = 0; i < text.length; i++) {
-      hash = ((hash << 5) - hash) + text.charCodeAt(i);
-      hash |= 0;
-    }
-    const proofHash = Math.abs(hash).toString(16).padStart(8, '0') + Date.now().toString(16);
-
-    return { verdict, confidence, fired_rules: fired, trace, score, proof_hash: proofHash };
+    // Yahan aapka asli engine ka decide() aayega
+    // Abhi sirf placeholder hai
+    return {
+      verdict: null,
+      confidence: 0,
+      fired_rules: [],
+      proof_hash: "engine-not-connected",
+      score: 0
+    };
   }
 };
 
@@ -805,6 +712,13 @@ function analyze() {
 
   setTimeout(() => {
     const r = ENGINE.decide(text);
+
+    if (r.verdict === null) {
+      alert(lang === 'hi' ? 'इंजन अभी कनेक्ट नहीं है।' : 'Engine not connected yet.');
+      btn.classList.remove('loading');
+      document.getElementById('btn-text').textContent = t.btnText;
+      return;
+    }
 
     scanCount++;
     if (r.verdict >= 2) flagCount++;
