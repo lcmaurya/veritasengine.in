@@ -9,5 +9,17 @@
   "theme_color": "#060910",
   "orientation": "portrait",
   "lang": "en",
-  "description": "Deterministic risk analysis tool for SMS, links and messages. No login. No data storage. Privacy-first."
+  "description": "Deterministic risk analysis tool for SMS, links and messages. No login. No data storage. Privacy-first.",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
