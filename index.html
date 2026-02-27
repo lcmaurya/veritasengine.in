@@ -570,11 +570,12 @@ function clearText() {
 // ── ANALYZE ────────────────────────────────────────────────────────────────
 async function analyze() {
   const text = document.getElementById('input-text').value.trim();
-  const t    = T[lang];
+  const t = T[lang];
 
   if (!text) {
-    document.getElementById('input-text').style.borderColor = 'var(--accent2)';
-    setTimeout(() => document.getElementById('input-text').style.borderColor = '', 1000);
+    const input = document.getElementById('input-text');
+    input.style.borderColor = 'var(--accent2)';
+    setTimeout(() => input.style.borderColor = '', 1000);
     return;
   }
 
@@ -587,20 +588,27 @@ async function analyze() {
   btn.classList.remove('loading');
   document.getElementById('btn-text').textContent = t.btnText;
 
-  if (!r || r.verdict === undefined || r.verdict === null) {
+  // 🔴 IMPORTANT FIX: decision check (NOT verdict)
+  if (!r || r.decision === undefined || r.decision === null) {
     alert(t.noEngine);
     return;
   }
 
   scanCount++;
-  if (r.verdict >= 2) flagCount++;
+  if (r.decision >= 2) flagCount++;
   localStorage.setItem('vg_scan', scanCount);
   localStorage.setItem('vg_flag', flagCount);
   updateStats();
 
-  lastResult = r;
+  // 🔁 UI compatibility: decision → verdict
+  const result = {
+    ...r,
+    verdict: r.decision
+  };
+
+  lastResult = result;
   lastInput  = text;
-  showResult(r, t);
+  showResult(result, t);
 }
 
 // ── SHOW RESULT ────────────────────────────────────────────────────────────
