@@ -1,0 +1,13 @@
+{
+  "name": "Veritas Guard",
+  "short_name": "Veritas",
+  "id": "veritasengine.guard",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#060910",
+  "theme_color": "#060910",
+  "orientation": "portrait",
+  "lang": "en",
+  "description": "Deterministic risk analysis tool for SMS, links and messages. No login. No data storage. Privacy-first."
+}
