@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas Guard</title>
+<title>Veritas Guard | AI Risk Engine</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
@@ -15,43 +15,45 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh}
-#app{max-width:480px;margin:auto;padding:80px 16px}
+#app{max-width:480px;margin:auto;padding:60px 16px}
 .header{text-align:center;margin-bottom:20px}
-.logo{display:flex;justify-content:center;gap:10px}
-.logo-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0051ff);display:flex;align-items:center;justify-content:center}
+.logo{display:flex;justify-content:center;gap:10px;align-items:center}
+.logo-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#0051ff);display:flex;align-items:center;justify-content:center;font-size:24px}
 .logo-text{font-size:26px;font-weight:800;background:linear-gradient(90deg,var(--accent),#fff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tagline{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:2px}
-.stats-bar{display:flex;gap:20px;justify-content:center;background:var(--surface);padding:12px;border-radius:10px;margin-bottom:14px}
-.stat{text-align:center}
+.tagline{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1px;margin-top:8px}
+.stats-bar{display:flex;gap:15px;justify-content:center;background:var(--surface);padding:12px;border-radius:10px;margin-bottom:14px;border:1px solid var(--border)}
+.stat{text-align:center;flex:1}
 .stat-val{font-family:'Space Mono',monospace;font-size:15px;color:var(--accent)}
-.stat-label{font-size:10px;color:var(--muted)}
+.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
 .lang-toggle{display:flex;gap:6px;margin-bottom:12px}
-.lang-btn{flex:1;padding:8px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
-.lang-btn.active{border-color:var(--accent);color:var(--accent)}
-.field-label{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:6px}
-textarea{width:100%;height:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:10px;font-family:'Space Mono',monospace}
-.char-row{display:flex;justify-content:space-between;margin:6px 0}
-#analyze-btn{width:100%;padding:14px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),#0051ff);font-weight:800;cursor:pointer}
-#analyze-btn.loading{opacity:.6;pointer-events:none}
-#result-card{display:none;margin-top:14px;background:var(--surface);border-radius:12px;overflow:hidden}
-.result-header{display:flex;gap:12px;padding:16px}
-.verdict-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.conf-section{padding:0 16px 12px}
-.conf-bar{height:6px;background:var(--border);border-radius:3px}
-.conf-fill{height:100%;width:0}
-.reason-tag{display:inline-block;margin:3px;padding:4px 10px;border-radius:20px;font-size:10px;border:1px solid}
+.lang-btn{flex:1;padding:10px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--muted);cursor:pointer;border-radius:6px;font-weight:600;transition:0.3s}
+.lang-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05)}
+.field-label{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:8px;display:block}
+textarea{width:100%;height:120px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:12px;font-family:'Space Mono',monospace;resize:none;transition:0.3s}
+textarea:focus{border-color:var(--accent);outline:none}
+.char-row{display:flex;justify-content:space-between;margin:8px 0;font-size:11px;color:var(--muted)}
+#clear-btn{background:transparent;border:none;color:var(--accent2);cursor:pointer;font-weight:bold}
+#analyze-btn{width:100%;padding:16px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),#0051ff);color:white;font-weight:800;cursor:pointer;font-size:16px;box-shadow:0 4px 15px rgba(0,81,255,0.3)}
+#analyze-btn.loading{opacity:.6;pointer-events:none;filter:grayscale(1)}
+#result-card{display:none;margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeIn 0.4s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+.result-header{display:flex;gap:15px;padding:16px;align-items:center}
+.verdict-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
+.conf-section{padding:0 16px 16px}
+.conf-bar-bg{height:8px;background:var(--border);border-radius:4px;margin-top:8px;overflow:hidden}
+.conf-fill{height:100%;width:0;transition:width 1s cubic-bezier(0.17, 0.67, 0.83, 0.67)}
+.reason-container{padding:12px 16px;border-top:1px solid var(--border);background:rgba(0,0,0,0.1)}
+.reason-tag{display:inline-block;margin:4px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
 .c0{color:var(--v0)} .c1{color:var(--v1)} .c2{color:var(--v2)} .c3{color:var(--v3)}
-.bg0{background:rgba(0,255,157,.12)} .bg1{background:rgba(255,170,0,.12)}
-.bg2{background:rgba(255,112,67,.12)} .bg3{background:rgba(255,77,109,.12)}
+.bg0{background:rgba(0,255,157,0.1)} .bg1{background:rgba(255,170,0,0.1)} .bg2{background:rgba(255,112,67,0.1)} .bg3{background:rgba(255,77,109,0.1)}
 .fill0{background:var(--v0)} .fill1{background:var(--v1)} .fill2{background:var(--v2)} .fill3{background:var(--v3)}
-footer{text-align:center;margin-top:16px;font-size:10px;color:var(--muted)}
+footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted);letter-spacing:1px}
 </style>
 </head>
 
 <body>
 <div id="app">
-
 <div class="header">
   <div class="logo">
     <div class="logo-icon">🛡️</div>
@@ -68,93 +70,111 @@ footer{text-align:center;margin-top:16px;font-size:10px;color:var(--muted)}
 
 <div class="card">
   <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en">EN</button>
+    <button class="lang-btn active" id="btn-en">ENGLISH</button>
     <button class="lang-btn" id="btn-hi">हिंदी</button>
   </div>
-
-  <div class="field-label" id="lbl-input">MESSAGE / SMS / LINK</div>
-  <textarea id="input-text" placeholder="Paste message here..."></textarea>
-
+  <label class="field-label" id="lbl-input">MESSAGE / SMS / LINK</label>
+  <textarea id="input-text" placeholder="Paste suspected message here..."></textarea>
   <div class="char-row">
     <button id="clear-btn">✕ CLEAR</button>
     <span><span id="char-val">0</span>/1000</span>
   </div>
-
   <button id="analyze-btn"><span id="btn-text">⚡ ANALYZE</span></button>
 </div>
 
 <div id="result-card"></div>
-
-<footer>© <span>Veritas Engine</span> — Open Risk Awareness Tool</footer>
+<footer>© VERITAS ENGINE — OPEN RISK AWARENESS TOOL</footer>
 </div>
 
 <script>
-/* ================= ENGINE ================= */
+/* ================= CONFIGURATION ================= */
 const ENGINE_URL = "https://api.veritasengine.in/decide";
+const i18n = {
+  en: { tagline: "EXPLAIN RISK · DON'T DEMAND TRUST", input: "MESSAGE / SMS / LINK", btn: "⚡ ANALYZE", verdicts: ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD"], reachError: "❌ Engine not reachable - Check Tunnel" },
+  hi: { tagline: "जोखिम समझें · भरोसे की मांग नहीं", input: "संदेश / SMS / लिंक", btn: "⚡ विश्लेषण करें", verdicts: ["सुरक्षित","ध्यान दें","संदिग्ध","धोखाधड़ी"], reachError: "❌ इंजन संपर्क से बाहर है - टनल जांचें" }
+};
+let curLang = 'en', scan=0, flag=0;
 
-async function callEngine(inputText){
-  try{
-    const r = await fetch(ENGINE_URL,{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({input:inputText})
-    });
-    if(!r.ok) throw new Error("engine down");
-    const d = await r.json();
-    return {
-      decision:d.decision,
-      confidence:d.confidence||0,
-      fired_rules:d.fired_rules||[],
-      hash:d.hash||"ok"
-    };
-  }catch(e){ return null; }
-}
-
-/* ================= STATE ================= */
-let scan=0, flag=0;
-
-/* ================= ANALYZE ================= */
+/* ================= CORE LOGIC ================= */
 document.addEventListener("DOMContentLoaded",()=>{
-  const $ = id=>document.getElementById(id);
+  const $ = id => document.getElementById(id);
+  const input = $("input-text");
 
-  $("input-text").oninput=()=>$("char-val").textContent=$("input-text").value.length;
-
-  $("clear-btn").onclick=()=>{
-    $("input-text").value="";
-    $("char-val").textContent="0";
-    $("result-card").style.display="none";
+  // Language Switch
+  const setLang = (l) => {
+    curLang = l;
+    $("btn-en").classList.toggle("active", l==='en');
+    $("btn-hi").classList.toggle("active", l==='hi');
+    $("tagline-text").textContent = i18n[l].tagline;
+    $("lbl-input").textContent = i18n[l].input;
+    $("btn-text").textContent = i18n[l].btn;
+    if($("result-card").style.display === "block") updateVerdictText();
   };
+  $("btn-en").onclick = () => setLang('en');
+  $("btn-hi").onclick = () => setLang('hi');
 
-  $("analyze-btn").onclick=async()=>{
-    const text=$("input-text").value.trim();
+  input.oninput = () => $("char-val").textContent = input.value.length;
+  $("clear-btn").onclick = () => { input.value=""; $("char-val").textContent="0"; $("result-card").style.display="none"; };
+
+  $("analyze-btn").onclick = async () => {
+    const text = input.value.trim();
     if(!text) return;
+    
     $("analyze-btn").classList.add("loading");
-    const r=await callEngine(text);
-    $("analyze-btn").classList.remove("loading");
-    if(!r){ alert("❌ Engine not reachable"); return; }
-
-    scan++; if(r.decision>=2) flag++;
-    $("stat-scanned").textContent=scan;
-    $("stat-flagged").textContent=flag;
-
-    showResult(r);
+    try {
+      const r = await fetch(ENGINE_URL, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({input: text})
+      });
+      const data = await r.json();
+      
+      scan++; if(data.decision >= 2) flag++;
+      $("stat-scanned").textContent = scan;
+      $("stat-flagged").textContent = flag;
+      
+      showResult(data);
+    } catch(e) {
+      alert(i18n[curLang].reachError);
+    } finally {
+      $("analyze-btn").classList.remove("loading");
+    }
   };
 });
 
-/* ================= RESULT ================= */
-function showResult(r){
-  const v=r.decision;
-  const rc=document.getElementById("result-card");
-  rc.innerHTML=`
-  <div class="result-header bg${v}">
-    <div class="verdict-icon bg${v}">${["✅","⚠️","🔶","🚨"][v]}</div>
-    <div><h3 class="c${v}">${["GENUINE","ATTENTION","SUSPICIOUS","FRAUD"][v]}</h3></div>
-  </div>
-  <div class="conf-section">
-    <div>${r.confidence}%</div>
-    <div class="conf-bar"><div class="conf-fill fill${v}" style="width:${r.confidence}%"></div></div>
-  </div>`;
-  rc.style.display="block";
+function showResult(data){
+  const v = data.decision;
+  const conf = data.confidence || 0;
+  const rules = data.fired_rules || [];
+  const rc = document.getElementById("result-card");
+  
+  let tagsHtml = rules.length > 0 ? 
+    `<div class="reason-container">` + rules.map(t => `<span class="reason-tag bg${v} c${v}">${t}</span>`).join('') + `</div>` : "";
+
+  rc.innerHTML = `
+    <div class="result-header bg${v}">
+      <div class="verdict-icon bg${v}">${["✅","⚠️","🔶","🚨"][v]}</div>
+      <div><h3 class="c${v}" id="verdict-title">${i18n[curLang].verdicts[v]}</h3></div>
+    </div>
+    <div class="conf-section">
+      <div style="display:flex; justify-content:space-between; font-size:11px; font-family:'Space Mono'">
+        <span>CONFIDENCE</span><span>${conf}%</span>
+      </div>
+      <div class="conf-bar-bg"><div class="conf-fill fill${v}" style="width:${conf}%"></div></div>
+    </div>
+    ${tagsHtml}`;
+  rc.style.display = "block";
+}
+
+function updateVerdictText() {
+  const title = document.getElementById("verdict-title");
+  if(title) {
+    // Current decision is inferred from the class applied to result-header
+    const header = document.querySelector(".result-header");
+    const vClass = Array.from(header.classList).find(c => c.startsWith('bg'));
+    const vIdx = vClass ? vClass.replace('bg','') : 0;
+    title.textContent = i18n[curLang].verdicts[vIdx];
+  }
 }
 </script>
 </body>
