@@ -898,8 +898,8 @@ document.getElementById('btn-hi').addEventListener('click', () => setLang('hi'))
 document.getElementById('analyze-btn').addEventListener('click', analyze);
 applyLang();
 updateStats();
-</script>
-  const ENGINE_URL = "https://api.veritasengine.in/decide";
+<script>
+const ENGINE_URL = "https://api.veritasengine.in/decide";
 
 async function callEngine(inputText) {
   try {
@@ -910,7 +910,6 @@ async function callEngine(inputText) {
     });
 
     const data = await res.json();
-
     return data; // { decision: 0|1|2|3 }
   } catch (e) {
     return null;
