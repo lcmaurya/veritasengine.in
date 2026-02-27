@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Cache-Control" content="no-store">
 <title>Veritas Guard</title>
-<link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#060910">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
 
@@ -557,16 +555,31 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
-async function veritasDecide(input) {
-  const res = await fetch("https://YOUR_ENGINE_URL/decide", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ input })
-  });
-  const data = await res.json();
-  return data.decision; // 0 / 1 / 2 / 3
+// ── VERITAS ENGINE CONNECTION ──────────────────────────────────────────────
+// Jab server ready ho — YOUR_ENGINE_URL ki jagah apna URL daalo
+
+const ENGINE_URL = "YOUR_ENGINE_URL/decide";
+
+async function callEngine(inputText) {
+  try {
+    const res = await fetch(ENGINE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: inputText })
+    });
+    const data = await res.json();
+    return {
+      verdict: data.verdict,          // 0 | 1 | 2 | 3
+      confidence: data.confidence,
+      fired_rules: data.fired_rules || [],
+      proof_hash: data.hash || "pending",
+      dsc: data.dsc || null
+    };
+  } catch(e) {
+    return null; // connection fail
+  }
 }
-</script>
+
 // ── UI Logic ────────────────────────────────────────────────────────────────
 
 let lang = localStorage.getItem('v_lang') || 'en';
@@ -690,7 +703,7 @@ function updateStats() {
   document.getElementById('stat-flagged').textContent = flagCount;
 }
 
-function analyze() {
+async function analyze() {
   const text = document.getElementById('input-text').value.trim();
   const t = T[lang];
 
@@ -704,10 +717,17 @@ function analyze() {
   btn.classList.add('loading');
   document.getElementById('btn-text').textContent = t.analyzing;
 
-  setTimeout(() => {
-    const r = ENGINE.decide(text);
+  setTimeout(async () => {
+    const r = await callEngine(text);
 
-    if (r.verdict === null) {
+    if (!r) {
+      alert(lang === 'hi' ? 'इंजन कनेक्ट नहीं है। URL सेट करें।' : 'Engine not connected. Set YOUR_ENGINE_URL.');
+      btn.classList.remove('loading');
+      document.getElementById('btn-text').textContent = t.btnText;
+      return;
+    }
+
+    if (r.verdict === null || r.verdict === undefined) {
       alert(lang === 'hi' ? 'इंजन अभी कनेक्ट नहीं है।' : 'Engine not connected yet.');
       btn.classList.remove('loading');
       document.getElementById('btn-text').textContent = t.btnText;
@@ -902,25 +922,6 @@ document.getElementById('btn-hi').addEventListener('click', () => setLang('hi'))
 document.getElementById('analyze-btn').addEventListener('click', analyze);
 applyLang();
 updateStats();
-<script>
-async function veritasDecide(input) {
-  const res = await fetch("https://YOUR_ENGINE_URL/decide", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ input })
-  });
-
-  const data = await res.json();
-  return data.decision; // 0,1,2,3
-}
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('SW registered', reg))
-      .catch(err => console.log('SW failed', err));
-  });
-}
 </script>
 </body>
 </html>
