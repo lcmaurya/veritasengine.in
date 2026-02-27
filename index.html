@@ -557,24 +557,16 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
-// ── VERITAS ENGINE — PLACEHOLDER ──────────────────────────────────────────
-// Asli engine yahan connect hoga — abhi UI ready hai
-
-const ENGINE = {
-  version: "1.0.0",
-  decide(input) {
-    // Yahan aapka asli engine ka decide() aayega
-    // Abhi sirf placeholder hai
-    return {
-      verdict: null,
-      confidence: 0,
-      fired_rules: [],
-      proof_hash: "engine-not-connected",
-      score: 0
-    };
-  }
-};
-
+async function veritasDecide(input) {
+  const res = await fetch("https://YOUR_ENGINE_URL/decide", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input })
+  });
+  const data = await res.json();
+  return data.decision; // 0 / 1 / 2 / 3
+}
+</script>
 // ── UI Logic ────────────────────────────────────────────────────────────────
 
 let lang = localStorage.getItem('v_lang') || 'en';
