@@ -439,7 +439,7 @@ async function callEngine(inputText) {
     });
     const data = await res.json();
     return {
-      verdict:     data.verdict,
+      verdict:     data.decision,
       confidence:  data.confidence  || 0,
       fired_rules: data.fired_rules || [],
       proof_hash:  data.hash        || "pending",
