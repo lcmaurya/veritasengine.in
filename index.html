@@ -911,6 +911,17 @@ document.getElementById('analyze-btn').addEventListener('click', analyze);
 applyLang();
 updateStats();
 <script>
+async function veritasDecide(input) {
+  const res = await fetch("https://YOUR_ENGINE_URL/decide", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ input })
+  });
+
+  const data = await res.json();
+  return data.decision; // 0,1,2,3
+}
+<script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js')
