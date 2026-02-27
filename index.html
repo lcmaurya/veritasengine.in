@@ -556,9 +556,8 @@ footer span { color: var(--accent); }
 
 <script>
 // ── VERITAS ENGINE CONNECTION ──────────────────────────────────────────────
-// Jab server ready ho — YOUR_ENGINE_URL ki jagah apna URL daalo
-
-  const ENGINE_URL = "https://api.veritasengine.in/decide";
+<script>
+const ENGINE_URL = "https://api.veritasengine.in/decide";
 
 async function callEngine(inputText) {
   try {
@@ -567,19 +566,21 @@ async function callEngine(inputText) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ input: inputText })
     });
+
     const data = await res.json();
+
     return {
-      verdict: data.verdict,          // 0 | 1 | 2 | 3
-      confidence: data.confidence,
-      fired_rules: data.fired_rules || [],
-      proof_hash: data.hash || "pending",
-      dsc: data.dsc || null
+      decision: data.decision,   // 0 | 1 | 2 | 3
+      confidence: data.confidence ?? null,
+      fired_rules: data.fired_rules ?? [],
+      hash: data.hash ?? null
     };
-  } catch(e) {
-    return null; // connection fail
+
+  } catch (e) {
+    return null; // engine unreachable
   }
 }
-
+</script>
 // ── UI Logic ────────────────────────────────────────────────────────────────
 
 let lang = localStorage.getItem('v_lang') || 'en';
