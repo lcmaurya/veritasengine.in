@@ -555,30 +555,7 @@ footer span { color: var(--accent); }
 </div>
 
 <script>
-// ── VERITAS ENGINE CONNECTION ──────────────────────────────────────────────
-const ENGINE_URL = "https://api.veritasengine.in/decide";
-
-async function callEngine(inputText) {
-  try {
-    const res = await fetch(ENGINE_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input: inputText })
-    });
-
-    const data = await res.json();
-
-    return {
-      decision: data.decision,   // 0 | 1 | 2 | 3
-      confidence: data.confidence ?? null,
-      fired_rules: data.fired_rules ?? [],
-      hash: data.hash ?? null
-    };
-
-  } catch (e) {
-    return null; // engine unreachable
-  }
-}
+  
 // ── UI Logic ────────────────────────────────────────────────────────────────
 
 let lang = localStorage.getItem('v_lang') || 'en';
@@ -921,6 +898,24 @@ document.getElementById('btn-hi').addEventListener('click', () => setLang('hi'))
 document.getElementById('analyze-btn').addEventListener('click', analyze);
 applyLang();
 updateStats();
+</script>
+  const ENGINE_URL = "https://api.veritasengine.in/decide";
+
+async function callEngine(inputText) {
+  try {
+    const res = await fetch(ENGINE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: inputText })
+    });
+
+    const data = await res.json();
+
+    return data; // { decision: 0|1|2|3 }
+  } catch (e) {
+    return null;
+  }
+}
 </script>
 </body>
 </html>
