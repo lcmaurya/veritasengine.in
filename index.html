@@ -15,13 +15,12 @@
   --accent: #00d4ff;
   --accent2: #ff4d6d;
   --accent3: #00ff9d;
-  --warn: #ffaa00;
   --text: #c9d1d9;
   --muted: #586069;
-  --verdict-0: #00ff9d;
-  --verdict-1: #ffaa00;
-  --verdict-2: #ff7043;
-  --verdict-3: #ff4d6d;
+  --v0: #00ff9d;
+  --v1: #ffaa00;
+  --v2: #ff7043;
+  --v3: #ff4d6d;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -34,7 +33,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Grid background */
 body::before {
   content: '';
   position: fixed;
@@ -47,7 +45,6 @@ body::before {
   z-index: 0;
 }
 
-/* Top warning bar */
 #warning-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -57,28 +54,23 @@ body::before {
   padding: 8px 0;
   font-family: 'Space Mono', monospace;
   font-size: 13px;
-  color: #ffffff;
+  color: #fff;
   overflow: hidden;
   backdrop-filter: blur(10px);
 }
+
 #warn-text {
   display: inline-block;
   white-space: nowrap;
-  animation: marquee 18s linear infinite;
+  animation: marquee 20s linear infinite;
   padding-left: 100%;
 }
+
 @keyframes marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-200%); }
 }
 
-#warning-bar::before {
-  content: '⚠';
-  font-size: 14px;
-  flex-shrink: 0;
-}
-
-/* Main container */
 #app {
   position: relative;
   z-index: 1;
@@ -87,11 +79,7 @@ body::before {
   padding: 70px 16px 40px;
 }
 
-/* Header */
-.header {
-  text-align: center;
-  padding: 24px 0 20px;
-}
+.header { text-align: center; padding: 24px 0 20px; }
 
 .logo {
   display: inline-flex;
@@ -112,8 +100,7 @@ body::before {
 .logo-text {
   font-size: 26px;
   font-weight: 800;
-  letter-spacing: -0.5px;
-  background: linear-gradient(90deg, var(--accent), #ffffff);
+  background: linear-gradient(90deg, var(--accent), #fff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -126,7 +113,6 @@ body::before {
   text-transform: uppercase;
 }
 
-/* Stats bar */
 .stats-bar {
   display: flex;
   justify-content: center;
@@ -138,25 +124,10 @@ body::before {
   border-radius: 10px;
 }
 
-.stat {
-  text-align: center;
-}
+.stat { text-align: center; }
+.stat-val { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--accent); }
+.stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
-.stat-val {
-  font-family: 'Space Mono', monospace;
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.stat-label {
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-/* Card */
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -165,12 +136,7 @@ body::before {
   margin-bottom: 12px;
 }
 
-/* Language toggle */
-.lang-toggle {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 14px;
-}
+.lang-toggle { display: flex; gap: 6px; margin-bottom: 14px; }
 
 .lang-btn {
   flex: 1;
@@ -184,14 +150,12 @@ body::before {
   cursor: pointer;
   transition: all 0.2s;
 }
-
 .lang-btn.active {
   background: rgba(0,212,255,0.1);
   border-color: var(--accent);
   color: var(--accent);
 }
 
-/* Select */
 .field-label {
   font-size: 11px;
   color: var(--muted);
@@ -212,12 +176,9 @@ select {
   font-size: 14px;
   margin-bottom: 14px;
   outline: none;
-  transition: border-color 0.2s;
 }
-
 select:focus { border-color: var(--accent); }
 
-/* Textarea */
 textarea {
   width: 100%;
   height: 100px;
@@ -230,24 +191,32 @@ textarea {
   font-size: 12px;
   resize: none;
   outline: none;
-  transition: border-color 0.2s;
   line-height: 1.6;
 }
-
 textarea:focus { border-color: var(--accent); }
 textarea::placeholder { color: var(--muted); }
 
-/* Char counter */
-.char-count {
-  text-align: right;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
+.char-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-top: 4px;
   margin-bottom: 14px;
 }
 
-/* Analyze button */
+.clear-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 3px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+}
+
+.char-count { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+
 #analyze-btn {
   width: 100%;
   padding: 14px;
@@ -261,23 +230,10 @@ textarea::placeholder { color: var(--muted); }
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
 }
+#analyze-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(0,212,255,0.3); }
+#analyze-btn.loading { pointer-events: none; opacity: 0.7; }
 
-#analyze-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(0,212,255,0.3);
-}
-
-#analyze-btn:active { transform: translateY(0); }
-
-#analyze-btn.loading {
-  pointer-events: none;
-  opacity: 0.7;
-}
-
-/* No data notice */
 .no-data {
   display: flex;
   justify-content: center;
@@ -287,10 +243,8 @@ textarea::placeholder { color: var(--muted); }
   font-size: 10px;
   color: var(--muted);
 }
-
 .no-data span::before { content: '✓ '; color: var(--accent3); }
 
-/* Result card */
 #result-card {
   display: none;
   background: var(--surface);
@@ -299,111 +253,51 @@ textarea::placeholder { color: var(--muted); }
   margin-bottom: 12px;
   animation: slideIn 0.3s ease;
 }
-
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-.result-header {
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
+.result-header { padding: 16px 20px; display: flex; align-items: center; gap: 12px; }
+.verdict-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.verdict-text h3 { font-size: 18px; font-weight: 800; }
+.verdict-text p { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 2px; }
 
-.verdict-icon {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 22px;
-  flex-shrink: 0;
-}
+.conf-section { padding: 0 20px 14px; }
+.conf-label { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 6px; }
+.conf-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.conf-fill { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); width: 0%; }
 
-.verdict-text h3 {
-  font-size: 18px;
-  font-weight: 800;
-}
+.reasons-section { padding: 0 20px 16px; }
+.reasons-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.reason-tag { display: inline-block; padding: 4px 10px; border-radius: 20px; font-family: 'Space Mono', monospace; font-size: 10px; margin: 3px 3px 3px 0; border: 1px solid; }
 
-.verdict-text p {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 2px;
-}
+.hash-section { padding: 12px 20px; background: rgba(0,0,0,0.3); border-top: 1px solid var(--border); }
+.hash-row { display: flex; justify-content: space-between; align-items: flex-start; font-family: 'Space Mono', monospace; font-size: 10px; margin-bottom: 6px; }
+.hash-key { color: var(--muted); flex-shrink: 0; margin-right: 8px; }
+.hash-val { color: var(--accent); word-break: break-all; text-align: right; }
 
-/* Confidence bar */
-.confidence-section {
-  padding: 0 20px 14px;
-}
-
-.confidence-label {
-  display: flex;
-  justify-content: space-between;
+.share-section { padding: 14px 20px; border-top: 1px solid var(--border); }
+.share-title { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.share-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+.share-btn {
+  flex: 1;
+  min-width: 80px;
+  padding: 9px 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  color: var(--text);
   font-family: 'Space Mono', monospace;
   font-size: 11px;
-  color: var(--muted);
-  margin-bottom: 6px;
+  cursor: pointer;
+}
+.share-btn.primary {
+  background: rgba(0,212,255,0.1);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.confidence-bar {
-  height: 6px;
-  background: var(--border);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.confidence-fill {
-  height: 100%;
-  border-radius: 3px;
-  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 0%;
-}
-
-/* Reasons */
-.reasons-section {
-  padding: 0 20px 16px;
-}
-
-.reasons-title {
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-}
-
-.reason-tag {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  margin: 3px 3px 3px 0;
-  border: 1px solid;
-}
-
-/* Hash section */
-.hash-section {
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.3);
-  border-top: 1px solid var(--border);
-}
-
-.hash-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  margin-bottom: 4px;
-}
-
-.hash-key { color: var(--muted); }
-.hash-val { color: var(--accent); word-break: break-all; max-width: 60%; text-align: right; }
-
-/* Disclaimer */
 .disclaimer {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -411,7 +305,6 @@ textarea::placeholder { color: var(--muted); }
   overflow: hidden;
   margin-bottom: 12px;
 }
-
 .disclaimer summary {
   padding: 12px 16px;
   font-family: 'Space Mono', monospace;
@@ -422,51 +315,37 @@ textarea::placeholder { color: var(--muted); }
   display: flex;
   justify-content: space-between;
 }
-
 .disclaimer summary::after { content: '↓'; }
 .disclaimer[open] summary::after { content: '↑'; }
-
 .disclaimer-body {
-  padding: 0 16px 14px;
+  padding: 12px 16px 14px;
   font-size: 12px;
   color: var(--muted);
   line-height: 1.7;
   border-top: 1px solid var(--border);
-  padding-top: 12px;
 }
 
-/* Footer */
-footer {
-  text-align: center;
-  font-family: 'Space Mono', monospace;
-  font-size: 10px;
-  color: var(--muted);
-  padding-bottom: 20px;
-}
-
+footer { text-align: center; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); padding-bottom: 20px; }
 footer span { color: var(--accent); }
 
-/* Verdict colors */
-.v0 { color: var(--verdict-0); border-color: rgba(0,255,157,0.2); background: rgba(0,255,157,0.08); }
-.v1 { color: var(--verdict-1); border-color: rgba(255,170,0,0.2); background: rgba(255,170,0,0.08); }
-.v2 { color: var(--verdict-2); border-color: rgba(255,112,67,0.2); background: rgba(255,112,67,0.08); }
-.v3 { color: var(--verdict-3); border-color: rgba(255,77,109,0.2); background: rgba(255,77,109,0.08); }
-
-.bg-v0 { background: rgba(0,255,157,0.15); }
-.bg-v1 { background: rgba(255,170,0,0.15); }
-.bg-v2 { background: rgba(255,112,67,0.15); }
-.bg-v3 { background: rgba(255,77,109,0.15); }
-
-.fill-v0 { background: var(--verdict-0); }
-.fill-v1 { background: var(--verdict-1); }
-.fill-v2 { background: var(--verdict-2); }
-.fill-v3 { background: var(--verdict-3); }
+.c0 { color: var(--v0); border-color: rgba(0,255,157,0.3); background: rgba(0,255,157,0.08); }
+.c1 { color: var(--v1); border-color: rgba(255,170,0,0.3); background: rgba(255,170,0,0.08); }
+.c2 { color: var(--v2); border-color: rgba(255,112,67,0.3); background: rgba(255,112,67,0.08); }
+.c3 { color: var(--v3); border-color: rgba(255,77,109,0.3); background: rgba(255,77,109,0.08); }
+.bg0 { background: rgba(0,255,157,0.12); }
+.bg1 { background: rgba(255,170,0,0.12); }
+.bg2 { background: rgba(255,112,67,0.12); }
+.bg3 { background: rgba(255,77,109,0.12); }
+.fill0 { background: var(--v0); }
+.fill1 { background: var(--v1); }
+.fill2 { background: var(--v2); }
+.fill3 { background: var(--v3); }
 </style>
 </head>
 <body>
 
 <div id="warning-bar">
-  <span id="warn-text">This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.</span>
+  <span id="warn-text">⚠ This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.</span>
 </div>
 
 <div id="app">
@@ -474,7 +353,7 @@ footer span { color: var(--accent); }
   <div class="header">
     <div class="logo">
       <div class="logo-icon">🛡️</div>
-      <div class="logo-text" id="logo-title">Veritas Guard</div>
+      <div class="logo-text">Veritas Guard</div>
     </div>
     <div class="tagline" id="tagline-text">EXPLAIN RISK · DON'T DEMAND TRUST</div>
   </div>
@@ -482,15 +361,11 @@ footer span { color: var(--accent); }
   <div class="stats-bar">
     <div class="stat">
       <div class="stat-val" id="stat-scanned">0</div>
-      <div class="stat-label" id="stat-scanned-label">Scanned</div>
+      <div class="stat-label" id="lbl-scanned">Scanned</div>
     </div>
     <div class="stat">
       <div class="stat-val" id="stat-flagged">0</div>
-      <div class="stat-label" id="stat-flagged-label">Flagged</div>
-    </div>
-    <div class="stat">
-      <div class="stat-val">15</div>
-      <div class="stat-label" id="stat-patterns-label">Patterns</div>
+      <div class="stat-label" id="lbl-flagged">Flagged</div>
     </div>
     <div class="stat">
       <div class="stat-val">v1.0</div>
@@ -504,24 +379,25 @@ footer span { color: var(--accent); }
       <button class="lang-btn" id="btn-hi">हिंदी</button>
     </div>
 
-    <div class="field-label" id="label-usecase">USE CASE</div>
+    <div class="field-label" id="lbl-usecase">USE CASE</div>
     <select id="usecase">
-      <option value="cyber" data-en="Cyber / Fraud" data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
-      <option value="banking" data-en="Banking / Fintech" data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
-      <option value="legal" data-en="Legal / Compliance" data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
-      <option value="health" data-en="Healthcare" data-hi="हेल्थकेयर">Healthcare</option>
-      <option value="insurance" data-en="Insurance" data-hi="बीमा">Insurance</option>
-      <option value="govt" data-en="Government / Public" data-hi="सरकारी / सार्वजनिक">Government / Public</option>
-      <option value="ecom" data-en="E-commerce" data-hi="ई-कॉमर्स">E-commerce</option>
-      <option value="edu" data-en="Education / Research" data-hi="शिक्षा / अनुसंधान">Education / Research</option>
-      <option value="enterprise" data-en="Enterprise Security" data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
+      <option value="cyber"      data-en="Cyber / Fraud"        data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
+      <option value="banking"    data-en="Banking / Fintech"     data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
+      <option value="legal"      data-en="Legal / Compliance"    data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
+      <option value="health"     data-en="Healthcare"            data-hi="हेल्थकेयर">Healthcare</option>
+      <option value="insurance"  data-en="Insurance"             data-hi="बीमा">Insurance</option>
+      <option value="govt"       data-en="Government / Public"   data-hi="सरकारी / सार्वजनिक">Government / Public</option>
+      <option value="ecom"       data-en="E-commerce"            data-hi="ई-कॉमर्स">E-commerce</option>
+      <option value="edu"        data-en="Education / Research"  data-hi="शिक्षा / अनुसंधान">Education / Research</option>
+      <option value="enterprise" data-en="Enterprise Security"   data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
     </select>
 
-    <div class="field-label" id="label-input">MESSAGE / SMS / LINK</div>
+    <div class="field-label" id="lbl-input">MESSAGE / SMS / LINK</div>
     <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
-    <div class="char-count" style="display:flex;justify-content:space-between;align-items:center;">
-      <button onclick="clearText()" style="background:transparent;border:1px solid var(--border);color:var(--muted);padding:3px 10px;border-radius:5px;font-size:11px;cursor:pointer;font-family:'Space Mono',monospace;" id="clear-btn">✕ CLEAR</button>
-      <span><span id="char-val">0</span> / 1000</span>
+
+    <div class="char-row">
+      <button class="clear-btn" id="clear-btn">✕ CLEAR</button>
+      <span class="char-count"><span id="char-val">0</span> / 1000</span>
     </div>
 
     <button id="analyze-btn">
@@ -535,153 +411,166 @@ footer span { color: var(--accent); }
     </div>
   </div>
 
-  <!-- Result -->
   <div id="result-card"></div>
 
-  <!-- Disclaimer -->
   <details class="disclaimer">
-    <summary id="disclaimer-title">Legal Disclaimer</summary>
-    <div class="disclaimer-body" id="disclaimer-body">
+    <summary id="disc-title">Legal Disclaimer</summary>
+    <div class="disclaimer-body" id="disc-body">
       This tool analyzes text for commonly known risk patterns based on deterministic rules.
       It does not guarantee fraud detection accuracy and does not make decisions for you.
       Final responsibility always remains with the user.
     </div>
   </details>
 
-  <footer>
-    © <span>Veritas Engine</span> — Open Risk Awareness Tool
-  </footer>
+  <footer>© <span>Veritas Engine</span> — Open Risk Awareness Tool</footer>
 
 </div>
 
 <script>
-  
-// ── UI Logic ────────────────────────────────────────────────────────────────
+// ── ENGINE CONNECTION ──────────────────────────────────────────────────────
+const ENGINE_URL = "https://api.veritasengine.in/decide";
 
-let lang = localStorage.getItem('v_lang') || 'en';
-let scanCount = parseInt(localStorage.getItem('v_scan') || '0');
-let flagCount = parseInt(localStorage.getItem('v_flag') || '0');
+async function callEngine(inputText) {
+  try {
+    const res = await fetch(ENGINE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: inputText })
+    });
+    const data = await res.json();
+    return {
+      verdict:     data.verdict,
+      confidence:  data.confidence  || 0,
+      fired_rules: data.fired_rules || [],
+      proof_hash:  data.hash        || "pending",
+      dsc:         data.dsc         || null
+    };
+  } catch(e) {
+    return null;
+  }
+}
 
+// ── TRANSLATIONS ───────────────────────────────────────────────────────────
 const T = {
   en: {
-    warn: "⚠ This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.",
-    tagline: "EXPLAIN RISK · DON'T DEMAND TRUST",
-    labelUsecase: "USE CASE",
-    labelInput: "MESSAGE / SMS / LINK",
-    placeholder: "Paste SMS, WhatsApp message, or link here...",
-    btnText: "⚡ ANALYZE RISK SIGNALS",
+    warn:         "⚠ This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user.",
+    tagline:      "EXPLAIN RISK · DON'T DEMAND TRUST",
+    lblUsecase:   "USE CASE",
+    lblInput:     "MESSAGE / SMS / LINK",
+    placeholder:  "Paste SMS, WhatsApp message, or link here...",
+    btnText:      "⚡ ANALYZE RISK SIGNALS",
+    analyzing:    "ANALYZING...",
     nd1: "No Login", nd2: "No Permissions", nd3: "No Data Stored",
-    scanned: "Scanned", flagged: "Flagged", patterns: "Patterns",
-    disclaimerTitle: "Legal Disclaimer",
-    disclaimerBody: "This tool analyzes text for commonly known risk patterns based on deterministic rules. It does not guarantee fraud detection accuracy and does not make decisions for you. Final responsibility always remains with the user.",
-    verdictLabels: ["GENUINE / NORMAL", "NEEDS ATTENTION", "SUSPICIOUS", "FRAUD LIKELY"],
-    verdictDesc: ["No risk patterns detected", "Minor signals found — stay alert", "Multiple risk signals detected", "High risk — do not proceed"],
-    verdictEmoji: ["✅", "⚠️", "🔶", "🚨"],
-    confidenceLabel: "CONFIDENCE SCORE",
+    scanned: "Scanned", flagged: "Flagged",
+    discTitle:    "Legal Disclaimer",
+    discBody:     "This tool analyzes text for commonly known risk patterns based on deterministic rules. It does not guarantee fraud detection accuracy and does not make decisions for you. Final responsibility always remains with the user.",
+    verdictLabel: ["GENUINE / NORMAL","NEEDS ATTENTION","SUSPICIOUS","FRAUD LIKELY"],
+    verdictDesc:  ["No risk patterns detected","Minor signals — stay alert","Multiple risk signals detected","High risk — do not proceed"],
+    verdictEmoji: ["✅","⚠️","🔶","🚨"],
+    confLabel:    "CONFIDENCE SCORE",
     reasonsLabel: "TRIGGERED PATTERNS",
-    hashLabel: "PROOF HASH",
-    timeLabel: "TIMESTAMP",
-    noReasons: "No specific patterns triggered",
-    analyzing: "ANALYZING...",
-    shareTitle: "SHARE REPORT",
-    btnCopy: "📋 Copy Text",
-    btnPdf: "📄 Download PDF",
-    btnShare: "📤 Share",
-    copied: "Copied!",
-    reportTitle: "VERITAS GUARD — RISK ANALYSIS REPORT",
-    reportEngine: "Engine: Veritas Engine v1.0",
-    reportPatterns: "Patterns Checked: 15",
-    reportVerdict: "VERDICT",
-    reportConfidence: "Confidence",
-    reportTriggered: "Triggered Patterns",
-    reportHash: "Proof Hash",
-    reportTime: "Timestamp",
+    hashLabel:    "PROOF HASH",
+    dscLabel:     "DSC STATUS",
+    timeLabel:    "TIMESTAMP",
+    noReasons:    "No specific patterns triggered",
+    shareTitle:   "SHARE REPORT",
+    btnCopy:      "📋 Copy",
+    btnPdf:       "📄 PDF",
+    btnShare:     "📤 Share",
+    copied:       "Copied!",
+    noEngine:     "Engine not connected yet.",
+    reportTitle:  "VERITAS GUARD — RISK ANALYSIS REPORT",
     reportFooter: "This report is generated by Veritas Guard. Final responsibility remains with the user.",
-    reportNone: "None"
+    reportNone:   "None"
   },
   hi: {
-    warn: "⚠ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
-    tagline: "जोखिम समझाइए · भरोसा मत मांगिए",
-    labelUsecase: "उपयोग का प्रकार",
-    labelInput: "संदेश / SMS / लिंक",
-    placeholder: "SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
-    btnText: "⚡ जोखिम संकेत जांचें",
+    warn:         "⚠ यह टूल केवल ज्ञात जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
+    tagline:      "जोखिम समझाइए · भरोसा मत मांगिए",
+    lblUsecase:   "उपयोग का प्रकार",
+    lblInput:     "संदेश / SMS / लिंक",
+    placeholder:  "SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
+    btnText:      "⚡ जोखिम संकेत जांचें",
+    analyzing:    "विश्लेषण हो रहा है...",
     nd1: "कोई लॉगिन नहीं", nd2: "कोई अनुमति नहीं", nd3: "कोई डेटा नहीं",
-    scanned: "जांचे गए", flagged: "संदिग्ध", patterns: "पैटर्न",
-    disclaimerTitle: "कानूनी अस्वीकरण",
-    disclaimerBody: "यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है। यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की होती है।",
-    verdictLabels: ["सामान्य / वास्तविक", "ध्यान दें", "संदिग्ध", "धोखाधड़ी संभव"],
-    verdictDesc: ["कोई जोखिम संकेत नहीं मिला", "छोटे संकेत मिले — सतर्क रहें", "कई जोखिम संकेत मिले", "उच्च जोखिम — आगे न बढ़ें"],
-    verdictEmoji: ["✅", "⚠️", "🔶", "🚨"],
-    confidenceLabel: "आत्मविश्वास स्कोर",
+    scanned: "जांचे गए", flagged: "संदिग्ध",
+    discTitle:    "कानूनी अस्वीकरण",
+    discBody:     "यह टूल केवल निर्धारित नियमों के आधार पर ज्ञात जोखिम पैटर्न का विश्लेषण करता है। यह धोखाधड़ी की गारंटी नहीं देता और कोई निर्णय नहीं लेता। अंतिम ज़िम्मेदारी उपयोगकर्ता की होती है।",
+    verdictLabel: ["सामान्य / वास्तविक","ध्यान दें","संदिग्ध","धोखाधड़ी संभव"],
+    verdictDesc:  ["कोई जोखिम संकेत नहीं मिला","छोटे संकेत मिले — सतर्क रहें","कई जोखिम संकेत मिले","उच्च जोखिम — आगे न बढ़ें"],
+    verdictEmoji: ["✅","⚠️","🔶","🚨"],
+    confLabel:    "आत्मविश्वास स्कोर",
     reasonsLabel: "सक्रिय पैटर्न",
-    hashLabel: "प्रूफ हैश",
-    timeLabel: "समय",
-    noReasons: "कोई विशेष पैटर्न नहीं मिला",
-    analyzing: "विश्लेषण हो रहा है...",
-    shareTitle: "रिपोर्ट शेयर करें",
-    btnCopy: "📋 टेक्स्ट कॉपी करें",
-    btnPdf: "📄 PDF डाउनलोड करें",
-    btnShare: "📤 शेयर करें",
-    copied: "कॉपी हो गया!",
-    reportTitle: "वेरिटास गार्ड — जोखिम विश्लेषण रिपोर्ट",
-    reportEngine: "इंजन: Veritas Engine v1.0",
-    reportPatterns: "जांचे गए पैटर्न: 15",
-    reportVerdict: "निर्णय",
-    reportConfidence: "आत्मविश्वास",
-    reportTriggered: "सक्रिय पैटर्न",
-    reportHash: "प्रूफ हैश",
-    reportTime: "समय",
+    hashLabel:    "प्रूफ हैश",
+    dscLabel:     "DSC स्थिति",
+    timeLabel:    "समय",
+    noReasons:    "कोई विशेष पैटर्न नहीं मिला",
+    shareTitle:   "रिपोर्ट शेयर करें",
+    btnCopy:      "📋 कॉपी",
+    btnPdf:       "📄 PDF",
+    btnShare:     "📤 शेयर",
+    copied:       "कॉपी हो गया!",
+    noEngine:     "इंजन अभी कनेक्ट नहीं है।",
+    reportTitle:  "वेरिटास गार्ड — जोखिम विश्लेषण रिपोर्ट",
     reportFooter: "यह रिपोर्ट वेरिटास गार्ड द्वारा तैयार की गई है। अंतिम ज़िम्मेदारी उपयोगकर्ता की है।",
-    reportNone: "कोई नहीं"
+    reportNone:   "कोई नहीं"
   }
 };
 
+// ── STATE ──────────────────────────────────────────────────────────────────
+let lang       = localStorage.getItem('vg_lang') || 'en';
+let scanCount  = parseInt(localStorage.getItem('vg_scan') || '0');
+let flagCount  = parseInt(localStorage.getItem('vg_flag') || '0');
+let lastResult = null;
+let lastInput  = '';
+
+// ── LANGUAGE ───────────────────────────────────────────────────────────────
 function setLang(l) {
   lang = l;
-  localStorage.setItem('v_lang', l);
+  localStorage.setItem('vg_lang', l);
   applyLang();
 }
 
 function applyLang() {
   const t = T[lang];
-  document.getElementById('warn-text').textContent = t.warn;
-  document.getElementById('tagline-text').textContent = t.tagline;
-  document.getElementById('label-usecase').textContent = t.labelUsecase;
-  document.getElementById('label-input').textContent = t.labelInput;
-  document.getElementById('input-text').placeholder = t.placeholder;
-  document.getElementById('btn-text').textContent = t.btnText;
-  document.getElementById('nd1').textContent = t.nd1;
-  document.getElementById('nd2').textContent = t.nd2;
-  document.getElementById('nd3').textContent = t.nd3;
-  document.getElementById('stat-scanned-label').textContent = t.scanned;
-  document.getElementById('stat-flagged-label').textContent = t.flagged;
-  document.getElementById('stat-patterns-label').textContent = t.patterns;
-  document.getElementById('disclaimer-title').textContent = t.disclaimerTitle;
-  document.getElementById('disclaimer-body').textContent = t.disclaimerBody;
-
-  // Select options
+  document.getElementById('warn-text').textContent     = t.warn;
+  document.getElementById('tagline-text').textContent  = t.tagline;
+  document.getElementById('lbl-usecase').textContent   = t.lblUsecase;
+  document.getElementById('lbl-input').textContent     = t.lblInput;
+  document.getElementById('input-text').placeholder    = t.placeholder;
+  document.getElementById('btn-text').textContent      = t.btnText;
+  document.getElementById('nd1').textContent           = t.nd1;
+  document.getElementById('nd2').textContent           = t.nd2;
+  document.getElementById('nd3').textContent           = t.nd3;
+  document.getElementById('lbl-scanned').textContent   = t.scanned;
+  document.getElementById('lbl-flagged').textContent   = t.flagged;
+  document.getElementById('disc-title').textContent    = t.discTitle;
+  document.getElementById('disc-body').textContent     = t.discBody;
   document.querySelectorAll('#usecase option').forEach(o => {
     o.textContent = lang === 'hi' ? o.dataset.hi : o.dataset.en;
   });
-
   document.getElementById('btn-en').classList.toggle('active', lang === 'en');
   document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
 }
 
-// Char counter
-document.getElementById('input-text').addEventListener('input', function() {
-  document.getElementById('char-val').textContent = this.value.length;
-});
-
+// ── STATS ──────────────────────────────────────────────────────────────────
 function updateStats() {
   document.getElementById('stat-scanned').textContent = scanCount;
   document.getElementById('stat-flagged').textContent = flagCount;
 }
 
+// ── CLEAR ──────────────────────────────────────────────────────────────────
+function clearText() {
+  document.getElementById('input-text').value        = '';
+  document.getElementById('char-val').textContent    = '0';
+  document.getElementById('result-card').style.display = 'none';
+  lastResult = null;
+  lastInput  = '';
+}
+
+// ── ANALYZE ────────────────────────────────────────────────────────────────
 async function analyze() {
   const text = document.getElementById('input-text').value.trim();
-  const t = T[lang];
+  const t    = T[lang];
 
   if (!text) {
     document.getElementById('input-text').style.borderColor = 'var(--accent2)';
@@ -693,67 +582,62 @@ async function analyze() {
   btn.classList.add('loading');
   document.getElementById('btn-text').textContent = t.analyzing;
 
-  setTimeout(async () => {
-    const r = await callEngine(text);
+  const r = await callEngine(text);
 
-    if (!r) {
-      alert(lang === 'hi' ? 'इंजन कनेक्ट नहीं है। URL सेट करें।' : 'Engine not connected. Set YOUR_ENGINE_URL.');
-      btn.classList.remove('loading');
-      document.getElementById('btn-text').textContent = t.btnText;
-      return;
-    }
+  btn.classList.remove('loading');
+  document.getElementById('btn-text').textContent = t.btnText;
 
-    if (r.verdict === null || r.verdict === undefined) {
-      alert(lang === 'hi' ? 'इंजन अभी कनेक्ट नहीं है।' : 'Engine not connected yet.');
-      btn.classList.remove('loading');
-      document.getElementById('btn-text').textContent = t.btnText;
-      return;
-    }
+  if (!r || r.verdict === undefined || r.verdict === null) {
+    alert(t.noEngine);
+    return;
+  }
 
-    scanCount++;
-    if (r.verdict >= 2) flagCount++;
-    localStorage.setItem('v_scan', scanCount);
-    localStorage.setItem('v_flag', flagCount);
-    updateStats();
+  scanCount++;
+  if (r.verdict >= 2) flagCount++;
+  localStorage.setItem('vg_scan', scanCount);
+  localStorage.setItem('vg_flag', flagCount);
+  updateStats();
 
-    showResult(r, t);
-    window._lastResult = r;
-
-    btn.classList.remove('loading');
-    document.getElementById('btn-text').textContent = t.btnText;
-  }, 600);
+  lastResult = r;
+  lastInput  = text;
+  showResult(r, t);
 }
 
+// ── SHOW RESULT ────────────────────────────────────────────────────────────
 function showResult(r, t) {
-  const v = r.verdict;
-  const vClass = `v${v}`;
-  const bgClass = `bg-v${v}`;
-  const fillClass = `fill-v${v}`;
+  const v  = r.verdict;
+  const vc = 'c' + v;
+  const bg = 'bg' + v;
+  const fi = 'fill' + v;
 
-  const reasons = r.fired_rules.length > 0
-    ? r.fired_rules.map(rule => `<span class="reason-tag ${vClass}">${rule}</span>`).join('')
+  const reasons = r.fired_rules && r.fired_rules.length > 0
+    ? r.fired_rules.map(rule => `<span class="reason-tag ${vc}">${rule}</span>`).join('')
     : `<span class="reason-tag" style="color:var(--muted);border-color:var(--border)">${t.noReasons}</span>`;
+
+  const dscRow = r.dsc
+    ? `<div class="hash-row"><span class="hash-key">${t.dscLabel}</span><span class="hash-val" style="color:var(--accent3)">${r.dsc.status}</span></div>`
+    : '';
 
   const now = new Date().toLocaleString();
 
   document.getElementById('result-card').innerHTML = `
-    <div class="result-header ${bgClass}">
-      <div class="verdict-icon ${bgClass}" style="border: 2px solid currentColor" class="${vClass}">
+    <div class="result-header ${bg}">
+      <div class="verdict-icon ${bg}">
         ${t.verdictEmoji[v]}
       </div>
       <div class="verdict-text">
-        <h3 class="${vClass}">${t.verdictLabels[v]}</h3>
+        <h3 class="${vc}">${t.verdictLabel[v]}</h3>
         <p>${t.verdictDesc[v]}</p>
       </div>
     </div>
 
-    <div class="confidence-section">
-      <div class="confidence-label">
-        <span>${t.confidenceLabel}</span>
-        <span class="${vClass}">${r.confidence}%</span>
+    <div class="conf-section">
+      <div class="conf-label">
+        <span>${t.confLabel}</span>
+        <span class="${vc}">${r.confidence}%</span>
       </div>
-      <div class="confidence-bar">
-        <div class="confidence-fill ${fillClass}" id="conf-fill"></div>
+      <div class="conf-bar">
+        <div class="conf-fill ${fi}" id="conf-fill"></div>
       </div>
     </div>
 
@@ -767,64 +651,65 @@ function showResult(r, t) {
         <span class="hash-key">${t.hashLabel}</span>
         <span class="hash-val">${r.proof_hash}</span>
       </div>
+      ${dscRow}
       <div class="hash-row">
         <span class="hash-key">${t.timeLabel}</span>
         <span class="hash-val" style="color:var(--muted)">${now}</span>
       </div>
     </div>
 
-    <div style="padding:14px 20px;border-top:1px solid var(--border);">
-      <div style="font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">${t.shareTitle}</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button id="copy-btn" onclick="copyText()" style="flex:1;min-width:100px;padding:9px 8px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;">${t.btnCopy}</button>
-        <button id="pdf-btn" onclick="downloadPdf()" style="flex:1;min-width:100px;padding:9px 8px;background:transparent;border:1px solid var(--border);border-radius:7px;color:var(--text);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;">${t.btnPdf}</button>
-        <button id="share-btn" onclick="shareText()" style="flex:1;min-width:100px;padding:9px 8px;background:rgba(0,212,255,0.1);border:1px solid var(--accent);border-radius:7px;color:var(--accent);font-family:'Space Mono',monospace;font-size:11px;cursor:pointer;">${t.btnShare}</button>
+    <div class="share-section">
+      <div class="share-title">${t.shareTitle}</div>
+      <div class="share-btns">
+        <button class="share-btn" id="copy-btn" onclick="copyReport()">${t.btnCopy}</button>
+        <button class="share-btn" id="pdf-btn"  onclick="downloadPdf()">${t.btnPdf}</button>
+        <button class="share-btn primary" id="share-btn" onclick="shareReport()">${t.btnShare}</button>
       </div>
     </div>
   `;
 
   document.getElementById('result-card').style.display = 'block';
-
-  // Animate confidence bar
   setTimeout(() => {
     const fill = document.getElementById('conf-fill');
     if (fill) fill.style.width = r.confidence + '%';
   }, 100);
-
   document.getElementById('result-card').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function buildReportText(r, t, inputText, usecase) {
-  const patterns = r.fired_rules.length > 0 ? r.fired_rules.join(', ') : t.reportNone;
-  return `
-${t.reportTitle}
-${'='.repeat(40)}
-${t.reportEngine}
-${t.reportPatterns}
-${t.timeLabel}: ${new Date().toLocaleString()}
-
-${t.reportVerdict}: ${t.verdictEmoji[r.verdict]} ${t.verdictLabels[r.verdict]}
-${t.reportConfidence}: ${r.confidence}%
-${t.reportTriggered}: ${patterns}
-${t.reportHash}: ${r.proof_hash}
-
---- ${lang === 'hi' ? 'विश्लेषित संदेश' : 'Analyzed Message'} ---
-${inputText}
-
-${'='.repeat(40)}
-${t.reportFooter}
-  `.trim();
+// ── REPORT BUILDER ─────────────────────────────────────────────────────────
+function buildReport(t) {
+  if (!lastResult) return '';
+  const r        = lastResult;
+  const patterns = r.fired_rules && r.fired_rules.length > 0 ? r.fired_rules.join(', ') : t.reportNone;
+  const dscLine  = r.dsc ? t.dscLabel + ': ' + r.dsc.status + '\n' : '';
+  return (t.reportTitle + '\n' +
+    '='.repeat(44) + '\n' +
+    t.timeLabel + ': ' + new Date().toLocaleString() + '\n\n' +
+    t.verdictLabel[r.verdict] + ' ' + t.verdictEmoji[r.verdict] + '\n' +
+    t.confLabel + ': ' + r.confidence + '%\n' +
+    t.reasonsLabel + ': ' + patterns + '\n' +
+    t.hashLabel + ': ' + r.proof_hash + '\n' +
+    dscLine + '\n' +
+    '--- ' + (lang === 'hi' ? 'विश्लेषित संदेश' : 'Analyzed Message') + ' ---\n' +
+    lastInput + '\n\n' +
+    '='.repeat(44) + '\n' +
+    t.reportFooter).trim();
 }
 
-function shareText() {
+function copyReport() {
   const t = T[lang];
-  if (!window._lastResult) return;
-  const inputText = document.getElementById('input-text').value.trim();
-  const usecase = document.getElementById('usecase').value;
-  const text = buildReportText(window._lastResult, t, inputText, usecase);
+  navigator.clipboard.writeText(buildReport(t)).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = t.copied;
+    setTimeout(() => btn.textContent = t.btnCopy, 2000);
+  });
+}
 
+function shareReport() {
+  const t    = T[lang];
+  const text = buildReport(t);
   if (navigator.share) {
-    navigator.share({ title: t.reportTitle, text: text });
+    navigator.share({ title: t.reportTitle, text });
   } else {
     navigator.clipboard.writeText(text).then(() => {
       const btn = document.getElementById('share-btn');
@@ -834,87 +719,55 @@ function shareText() {
   }
 }
 
-function copyText() {
-  const t = T[lang];
-  if (!window._lastResult) return;
-  const inputText = document.getElementById('input-text').value.trim();
-  const text = buildReportText(window._lastResult, t, inputText, '');
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = document.getElementById('copy-btn');
-    btn.textContent = t.copied;
-    setTimeout(() => btn.textContent = t.btnCopy, 2000);
-  });
-}
-
 function downloadPdf() {
   const t = T[lang];
-  if (!window._lastResult) return;
-  const r = window._lastResult;
-  const inputText = document.getElementById('input-text').value.trim();
-  const now = new Date().toLocaleString();
-  const patterns = r.fired_rules.length > 0 ? r.fired_rules.join(', ') : t.reportNone;
+  if (!lastResult) return;
+  const r        = lastResult;
+  const patterns = r.fired_rules && r.fired_rules.length > 0 ? r.fired_rules.join(', ') : t.reportNone;
+  const dscRow   = r.dsc ? '<div class="row"><span class="lbl">' + t.dscLabel + '</span><span>' + r.dsc.status + '</span></div>' : '';
+  const now      = new Date().toLocaleString();
 
-  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8">
-  <style>
-    body{font-family:Arial,sans-serif;max-width:600px;margin:40px auto;padding:20px;color:#111;}
-    h1{font-size:18px;border-bottom:2px solid #333;padding-bottom:8px;}
-    .verdict{font-size:22px;font-weight:bold;margin:16px 0;}
-    .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;font-size:13px;}
-    .label{color:#666;}
-    .hash{font-family:monospace;font-size:11px;word-break:break-all;}
-    .msg{background:#f5f5f5;padding:12px;border-radius:6px;font-size:13px;margin:12px 0;}
-    .footer{margin-top:24px;font-size:11px;color:#999;text-align:center;}
-  </style></head><body>
-  <h1>${t.reportTitle}</h1>
-  <div class="row"><span class="label">${t.reportEngine}</span></div>
-  <div class="row"><span class="label">${t.reportPatterns}</span></div>
-  <div class="row"><span class="label">${t.timeLabel}</span><span>${now}</span></div>
-  <div class="verdict">${t.verdictEmoji[r.verdict]} ${t.verdictLabels[r.verdict]}</div>
-  <div class="row"><span class="label">${t.reportConfidence}</span><span>${r.confidence}%</span></div>
-  <div class="row"><span class="label">${t.reportTriggered}</span><span>${patterns}</span></div>
-  <div class="row"><span class="label">${t.reportHash}</span><span class="hash">${r.proof_hash}</span></div>
-  <div class="msg"><b>${lang === 'hi' ? 'विश्लेषित संदेश:' : 'Analyzed Message:'}</b><br>${inputText}</div>
-  <div class="footer">${t.reportFooter}</div>
-  </body></html>`;
+  const html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><style>' +
+    'body{font-family:Arial,sans-serif;max-width:600px;margin:40px auto;padding:20px;color:#111;}' +
+    'h1{font-size:17px;border-bottom:2px solid #333;padding-bottom:8px;margin-bottom:16px;}' +
+    '.verdict{font-size:22px;font-weight:bold;margin:12px 0;}' +
+    '.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #eee;font-size:13px;}' +
+    '.lbl{color:#666;}' +
+    '.hash{font-family:monospace;font-size:11px;word-break:break-all;}' +
+    '.msg{background:#f5f5f5;padding:12px;border-radius:6px;font-size:13px;margin:12px 0;line-height:1.6;}' +
+    '.footer{margin-top:24px;font-size:11px;color:#999;text-align:center;}' +
+    '</style></head><body>' +
+    '<h1>' + t.reportTitle + '</h1>' +
+    '<div class="row"><span class="lbl">' + t.timeLabel + '</span><span>' + now + '</span></div>' +
+    '<div class="verdict">' + t.verdictEmoji[r.verdict] + ' ' + t.verdictLabel[r.verdict] + '</div>' +
+    '<div class="row"><span class="lbl">' + t.confLabel + '</span><span>' + r.confidence + '%</span></div>' +
+    '<div class="row"><span class="lbl">' + t.reasonsLabel + '</span><span>' + patterns + '</span></div>' +
+    '<div class="row"><span class="lbl">' + t.hashLabel + '</span><span class="hash">' + r.proof_hash + '</span></div>' +
+    dscRow +
+    '<div class="msg"><b>' + (lang === 'hi' ? 'विश्लेषित संदेश:' : 'Analyzed Message:') + '</b><br>' + lastInput + '</div>' +
+    '<div class="footer">' + t.reportFooter + '</div>' +
+    '</body></html>';
 
-  const blob = new Blob([html], {type: 'text/html'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `veritas-report-${Date.now()}.html`;
+  const blob = new Blob([html], { type: 'text/html' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'veritas-report-' + Date.now() + '.html';
   a.click();
   URL.revokeObjectURL(url);
 }
 
-function clearText() {
-  document.getElementById('input-text').value = '';
-  document.getElementById('char-val').textContent = '0';
-  document.getElementById('result-card').style.display = 'none';
-}
-
-// Init
+// ── INIT ───────────────────────────────────────────────────────────────────
 document.getElementById('btn-en').addEventListener('click', () => setLang('en'));
 document.getElementById('btn-hi').addEventListener('click', () => setLang('hi'));
 document.getElementById('analyze-btn').addEventListener('click', analyze);
+document.getElementById('clear-btn').addEventListener('click', clearText);
+document.getElementById('input-text').addEventListener('input', function() {
+  document.getElementById('char-val').textContent = this.value.length;
+});
+
 applyLang();
 updateStats();
-<script>
-const ENGINE_URL = "https://api.veritasengine.in/decide";
-
-async function callEngine(inputText) {
-  try {
-    const res = await fetch(ENGINE_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ input: inputText })
-    });
-
-    const data = await res.json();
-    return data; // { decision: 0|1|2|3 }
-  } catch (e) {
-    return null;
-  }
-}
 </script>
 </body>
 </html>
