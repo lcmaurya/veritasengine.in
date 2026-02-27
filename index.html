@@ -439,12 +439,12 @@ async function callEngine(inputText) {
     });
     const data = await res.json();
     return {
-      verdict:     data.decision,
-      confidence:  data.confidence  || 0,
-      fired_rules: data.fired_rules || [],
-      proof_hash:  data.hash        || "pending",
-      dsc:         data.dsc         || null
-    };
+  verdict: data.decision,      // ← MAIN FIX
+  confidence: data.confidence ?? 0,
+  fired_rules: data.fired_rules ?? [],
+  proof_hash: data.hash ?? "ok",
+  dsc: data.dsc ?? null
+};
   } catch(e) {
     return null;
   }
