@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Veritas Guard | Sealed Risk Engine</title>
+<title>Veritas Guard | Sealed Engine</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
 :root{
@@ -15,52 +15,55 @@
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 body{background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min-height:100vh; line-height:1.5;}
 
-/* SUNLIGHT OPTIMIZATION */
-#warning-bar{position:fixed; top:0; width:100%; z-index:1000; background:rgba(255,45,85,0.15); border-bottom:1px solid var(--accent2); padding:10px 0; backdrop-filter:blur(15px); font-family:'Space Mono',monospace; font-size:12px;}
+.header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+.status-pill {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(0,0,0,0.6); border: 1px solid var(--border);
+  padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace;
+  font-size: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+.limit-badge {
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace;
+  font-size: 10px; color: var(--accent3);
+}
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--v0); box-shadow: 0 0 10px var(--v0); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+#warning-bar{position:fixed; top:0; width:100%; z-index:1000; background:rgba(255,45,85,0.15); border-bottom:1px solid var(--accent2); padding:10px 0; backdrop-filter:blur(15px); font-family:'Space Mono',monospace; font-size:11px; overflow:hidden;}
 #warn-text{display:block; white-space:nowrap; animation:marquee 15s linear infinite;}
 @keyframes marquee{0%{transform:translateX(100%)} 100%{transform:translateX(-100%)}}
 
-#app{max-width:480px; margin:0 auto; padding:80px 16px 40px;}
+#app{max-width:480px; margin:0 auto; padding:90px 16px 40px;}
 .logo-text{font-size:28px; font-weight:800; background:linear-gradient(90deg, var(--accent), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 15px rgba(0,242,255,0.4);}
 
-.stats-bar{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:20px 0; background:var(--surface); border:1px solid var(--border); padding:15px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.5);}
+.stats-bar{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:15px 0; background:var(--surface); border:1px solid var(--border); padding:15px; border-radius:12px;}
 .stat-val{font-family:'Space Mono',monospace; font-size:18px; color:var(--accent); font-weight:700;}
-.stat-label{font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:1px;}
+.stat-label{font-size:9px; color:var(--muted); text-transform:uppercase;}
 
-.card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; box-shadow:0 20px 40px rgba(0,0,0,0.4); margin-bottom:15px;}
-.lang-toggle{display:flex; gap:8px; margin-bottom:20px;}
-.lang-btn{flex:1; padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; color:var(--muted); font-family:'Space Mono',monospace; cursor:pointer; transition:0.3s;}
-.lang-btn.active{border-color:var(--accent); color:var(--accent); background:rgba(0,242,255,0.1); box-shadow:0 0 15px rgba(0,242,255,0.2);}
-
+.card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:15px;}
 textarea{width:100%; height:120px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:#fff; padding:15px; font-family:'Space Mono',monospace; font-size:14px; margin:10px 0; resize:none;}
-textarea:focus{border-color:var(--accent); box-shadow:0 0 10px rgba(0,242,255,0.1); outline:none;}
+textarea:focus{border-color:var(--accent); outline:none;}
 
-#analyze-btn{width:100%; padding:18px; background:linear-gradient(135deg, var(--accent), #0066ff); border:none; border-radius:10px; color:#000; font-weight:800; font-size:16px; cursor:pointer; transition:0.3s; text-transform:uppercase;}
-#analyze-btn:active{transform:scale(0.98);}
+#analyze-btn{width:100%; padding:18px; background:linear-gradient(135deg, var(--accent), #0066ff); border:none; border-radius:10px; color:#000; font-weight:800; font-size:16px; cursor:pointer;}
+#analyze-btn.disabled { background: #1a222d; color: #444; pointer-events: none; }
 
-/* RESULTS POLISH */
 #result-card{display:none; background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-top:15px; overflow:hidden; animation:slideUp 0.4s ease-out;}
 @keyframes slideUp{from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)}}
 
 .result-header{padding:20px; display:flex; align-items:center; gap:15px;}
-.verdict-icon{width:56px; height:56px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:28px; box-shadow:inset 0 0 20px rgba(0,0,0,0.2);}
-
 .conf-bar{height:10px; background:rgba(255,255,255,0.05); border-radius:5px; margin:10px 0; overflow:hidden;}
 .conf-fill{height:100%; width:0; transition:width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);}
 
 .trace-panel{padding:15px; background:rgba(0,0,0,0.2); border-top:1px solid var(--border); margin-top:10px;}
-.trace-title{font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); margin-bottom:8px; display:flex; justify-content:space-between;}
 .integrity-badge{font-size:9px; background:var(--v0); color:#000; padding:2px 6px; border-radius:4px; font-weight:800;}
-
-.share-btn{flex:1; padding:12px; background:transparent; border:1px solid var(--border); border-radius:8px; color:var(--text); font-family:'Space Mono',monospace; font-size:12px; cursor:pointer;}
-.share-btn.primary{background:var(--accent); color:#000; font-weight:700; border:none;}
 
 footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font-family:'Space Mono',monospace;}
 </style>
 </head>
 <body>
 
-<div id="warning-bar"><span id="warn-text"></span></div>
+<div id="warning-bar"><span id="warn-text">⚠ Analysis engine active. Final responsibility remains with the user.</span></div>
 
 <div id="app">
   <div class="header">
@@ -68,26 +71,30 @@ footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font
       <div class="logo-icon">🛡️</div>
       <div class="logo-text">Veritas Guard</div>
     </div>
-    <div class="tagline" id="tagline-text"></div>
+  </div>
+
+  <div class="header-meta">
+    <div class="status-pill">
+      <div class="status-dot" id="engine-dot"></div>
+      <span id="engine-status">ENGINE: ONLINE</span>
+      <span style="color:var(--accent); font-weight:700; margin-left:5px;" id="engine-ms">-- ms</span>
+    </div>
+    <div class="limit-badge">DAILY LIMIT: <span id="limit-count">0/5</span></div>
   </div>
 
   <div class="stats-bar">
-    <div class="stat"><div class="stat-val" id="stat-scanned">0</div><div class="stat-label" id="lbl-scanned"></div></div>
-    <div class="stat"><div class="stat-val" id="stat-flagged">0</div><div class="stat-label" id="lbl-flagged"></div></div>
+    <div class="stat"><div class="stat-val" id="stat-scanned">0</div><div class="stat-label">Scanned</div></div>
+    <div class="stat"><div class="stat-val" id="stat-flagged">0</div><div class="stat-label">Flagged</div></div>
     <div class="stat"><div class="stat-val">v1.1</div><div class="stat-label">Sealed</div></div>
   </div>
 
   <div class="card">
-    <div class="lang-toggle">
-      <button class="lang-btn" id="btn-en">ENGLISH</button>
-      <button class="lang-btn" id="btn-hi">हिंदी</button>
-    </div>
-    <textarea id="input-text" spellcheck="false"></textarea>
+    <textarea id="input-text" placeholder="Paste suspected message..."></textarea>
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
-        <button id="clear-btn" style="background:none; border:none; color:var(--accent2); font-size:12px; cursor:pointer; font-family:'Space Mono'">✕ CLEAR</button>
+        <button id="clear-btn" style="background:none; border:none; color:var(--accent2); font-size:12px; cursor:pointer;">✕ CLEAR</button>
         <span style="font-size:10px; color:var(--muted); font-family:'Space Mono'"><span id="char-val">0</span>/1000</span>
     </div>
-    <button id="analyze-btn"><span id="btn-text"></span></button>
+    <button id="analyze-btn">⚡ ANALYZE SIGNALS</button>
   </div>
 
   <div id="result-card"></div>
@@ -96,129 +103,103 @@ footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font
 
 <script>
 const ENGINE_URL = "https://api.veritasengine.in/decide";
-let lang = localStorage.getItem('vg_lang') || 'en';
-let scanCount = 0, flagCount = 0, lastResult = null, lastInput = '';
+const SCAN_LIMIT = 5;
+const DEV_KEY = "DEV_UNLOCK_69"; // Aapka secret bypass key
 
-const T = {
-  en: {
-    warn: "⚠ This tool analyzes risk patterns. Final responsibility remains with the user.",
-    tagline: "EXPLAIN RISK · DON'T DEMAND TRUST",
-    placeholder: "Paste suspected message or link...",
-    btnText: "⚡ ANALYZE SIGNALS", analyzing: "SEALING DATA...",
-    scanned: "Scanned", flagged: "Flagged",
-    confLabel: "ENGINE CONFIDENCE", reasonsLabel: "RULES FIRED",
-    verdictLabel: ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD LIKELY"],
-    verdictDesc: ["Safe to proceed","Stay alert","Multiple risks","High risk - Stop"],
-    verdictEmoji: ["✅","⚠️","🔶","🚨"],
-    shareTitle: "AUDIT EXPORT", btnCopy: "Copy", btnPdf: "Audit PDF", btnShare: "Share"
-  },
-  hi: {
-    warn: "⚠ यह टूल केवल जोखिम पैटर्न दिखाता है। अंतिम ज़िम्मेदारी आपकी है।",
-    tagline: "जोखिम समझें · भरोसा मत मांगें",
-    placeholder: "संदेश या लिंक यहाँ चिपकाएँ...",
-    btnText: "⚡ जोखिम जांचें", analyzing: "डेटा सील हो रहा है...",
-    scanned: "जांचे गए", flagged: "संदिग्ध",
-    confLabel: "इंजन स्कोर", reasonsLabel: "सक्रिय नियम",
-    verdictLabel: ["सुरक्षित","ध्यान दें","संदिग्ध","धोखाधड़ी"],
-    verdictDesc: ["आगे बढ़ सकते हैं","सतर्क रहें","कई जोखिम मिले","खतरा - रुकें"],
-    verdictEmoji: ["✅","⚠️","🔶","🚨"],
-    shareTitle: "ऑडिट रिपोर्ट", btnCopy: "कॉपी", btnPdf: "PDF रिपोर्ट", btnShare: "शेयर"
-  }
-};
-
-async function callEngine(txt) {
-  try {
-    const res = await fetch(ENGINE_URL, {
-      method: "POST", headers: {"Content-Type":"application/json"},
-      body: JSON.stringify({input: txt})
-    });
-    return await res.json();
-  } catch(e) { return null; }
+/* LIMIT LOGIC */
+function getDailyScans() {
+  const today = new Date().toDateString();
+  const stored = JSON.parse(localStorage.getItem('vg_usage') || '{}');
+  return stored.date === today ? stored.count : 0;
 }
 
-function applyLang() {
-  const t = T[lang];
-  document.getElementById('warn-text').textContent = t.warn;
-  document.getElementById('tagline-text').textContent = t.tagline;
-  document.getElementById('input-text').placeholder = t.placeholder;
-  document.getElementById('btn-text').textContent = t.btnText;
-  document.getElementById('lbl-scanned').textContent = t.scanned;
-  document.getElementById('lbl-flagged').textContent = t.flagged;
-  document.getElementById('btn-en').classList.toggle('active', lang==='en');
-  document.getElementById('btn-hi').classList.toggle('active', lang==='hi');
+function updateLimitUI() {
+  const count = getDailyScans();
+  document.getElementById('limit-count').textContent = `${count}/${SCAN_LIMIT}`;
+  const btn = document.getElementById('analyze-btn');
+  if (count >= SCAN_LIMIT) {
+    btn.classList.add('disabled');
+    btn.textContent = "LIMIT EXCEEDED! BACK TOMORROW";
+  } else {
+    btn.classList.remove('disabled');
+    btn.textContent = "⚡ ANALYZE SIGNALS";
+  }
+}
+
+async function checkEnginePulse() {
+  const start = Date.now();
+  try {
+    const res = await fetch(ENGINE_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input:"ping"}) });
+    if(res.ok) document.getElementById('engine-ms').textContent = (Date.now()-start)+"ms";
+  } catch(e) { document.getElementById('engine-status').textContent="OFFLINE"; }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  applyLang();
-  document.getElementById('btn-en').onclick = () => { lang='en'; applyLang(); };
-  document.getElementById('btn-hi').onclick = () => { lang='hi'; applyLang(); };
+  updateLimitUI();
+  checkEnginePulse();
+  setInterval(checkEnginePulse, 30000);
+
   document.getElementById('input-text').oninput = (e) => document.getElementById('char-val').textContent = e.target.value.length;
   document.getElementById('clear-btn').onclick = () => { document.getElementById('input-text').value=''; document.getElementById('result-card').style.display='none'; };
 
   document.getElementById('analyze-btn').onclick = async () => {
-    const text = document.getElementById('input-text').value.trim();
-    if(!text) return;
+    const input = document.getElementById('input-text').value.trim();
+    
+    // DEV BYPASS CHECK
+    if(input === DEV_KEY) {
+        localStorage.setItem('vg_usage', JSON.stringify({ date: new Date().toDateString(), count: 0 }));
+        updateLimitUI();
+        alert("Developer mode: Limit Reset!");
+        document.getElementById('input-text').value = '';
+        return;
+    }
+
+    if (getDailyScans() >= SCAN_LIMIT) return;
+    if(!input) return;
+
     const btn = document.getElementById('analyze-btn');
-    btn.classList.add('loading');
-    document.getElementById('btn-text').textContent = T[lang].analyzing;
-    
-    const r = await callEngine(text);
-    btn.classList.remove('loading');
-    document.getElementById('btn-text').textContent = T[lang].btnText;
-    
-    if(!r) { alert("Engine unreachable"); return; }
-    scanCount++; if(r.decision >= 2) flagCount++;
-    document.getElementById('stat-scanned').textContent = scanCount;
-    document.getElementById('stat-flagged').textContent = flagCount;
-    lastResult = r; lastInput = text;
-    showResult(r);
+    btn.textContent = "SEALING DATA...";
+    btn.style.opacity = "0.6";
+
+    try {
+      const res = await fetch(ENGINE_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input: input}) });
+      const r = await res.json();
+      
+      const today = new Date().toDateString();
+      localStorage.setItem('vg_usage', JSON.stringify({ date: today, count: getDailyScans() + 1 }));
+      updateLimitUI();
+
+      document.getElementById('stat-scanned').textContent = parseInt(document.getElementById('stat-scanned').textContent)+1;
+      if(r.decision >= 2) document.getElementById('stat-flagged').textContent = parseInt(document.getElementById('stat-flagged').textContent)+1;
+      
+      showResult(r);
+    } catch(e) { alert("Engine error"); }
+    btn.style.opacity = "1";
   };
 });
 
 function showResult(r) {
-  const v = r.decision; const t = T[lang];
+  const v = r.decision;
   const rc = document.getElementById('result-card');
-  const reasons = (r.fired_rules || []).map(rule => `<span style="display:inline-block; margin:2px; padding:4px 8px; border-radius:4px; font-size:10px; background:rgba(255,255,255,0.05); color:var(--v${v}); border:1px solid var(--v${v})">${rule}</span>`).join('');
+  const emojis = ["✅","⚠️","🔶","🚨"];
+  const labels = ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD LIKELY"];
   
   rc.innerHTML = `
-    <div class="result-header" style="background:rgba(var(--bg),0.5); border-bottom:1px solid var(--border)">
-      <div class="verdict-icon" style="background:var(--v${v})">${t.verdictEmoji[v]}</div>
-      <div>
-        <h3 style="color:var(--v${v})">${t.verdictLabel[v]}</h3>
-        <p style="font-size:11px; color:var(--muted)">${t.verdictDesc[v]}</p>
+    <div class="result-header" style="border-bottom:1px solid var(--border)">
+      <div style="width:50px; height:50px; border-radius:50%; background:var(--v${v}); display:flex; align-items:center; justify-content:center; font-size:24px;">${emojis[v]}</div>
+      <div style="margin-left:15px">
+        <h3 style="color:var(--v${v})">${labels[v]}</h3>
+        <p style="font-size:10px; color:var(--muted)">Pattern analysis complete.</p>
       </div>
     </div>
     <div style="padding:20px">
-      <div style="display:flex; justify-content:space-between; font-size:10px; font-family:'Space Mono'">
-        <span>${t.confLabel}</span><span style="color:var(--v${v})">${r.confidence}%</span>
-      </div>
+      <div style="display:flex; justify-content:space-between; font-size:10px; font-family:'Space Mono'"><span>CONFIDENCE</span><span style="color:var(--v${v})">${r.confidence}%</span></div>
       <div class="conf-bar"><div class="conf-fill" style="width:${r.confidence}%; background:var(--v${v})"></div></div>
-      <div style="margin-top:15px">
-        <div style="font-size:10px; color:var(--muted); margin-bottom:5px">${t.reasonsLabel}</div>
-        ${reasons}
-      </div>
     </div>
-    <div class="trace-panel">
-      <div class="trace-title"><span>ENGINE PROOF (SHA256)</span><span class="integrity-badge">SEALED OK</span></div>
-      <div style="font-family:'Space Mono'; font-size:9px; color:var(--accent); word-break:break-all">${r.hash}</div>
-    </div>
-    <div style="padding:15px; display:flex; gap:10px">
-        <button class="share-btn primary" onclick="shareReport()">${t.btnShare}</button>
-        <button class="share-btn" onclick="copyReport()">${t.btnCopy}</button>
-    </div>
+    <div class="trace-panel"><div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-bottom:5px;"><span>INTEGRITY HASH</span><span class="integrity-badge">SEALED OK</span></div><div style="font-family:'Space Mono'; font-size:9px; color:var(--accent); word-break:break-all">${r.hash}</div></div>
   `;
   rc.style.display = 'block';
   rc.scrollIntoView({behavior:'smooth'});
-}
-
-function shareReport() {
-    const t = T[lang];
-    const report = `VERITAS GUARD REPORT\nVerdict: ${t.verdictLabel[lastResult.decision]}\nConfidence: ${lastResult.confidence}%\nHash: ${lastResult.hash}\nMessage: ${lastInput}`;
-    if(navigator.share) navigator.share({text: report});
-}
-function copyReport() {
-    navigator.clipboard.writeText(lastInput);
-    alert(lang==='hi'?'कॉपी हो गया!':'Copied!');
 }
 </script>
 </body>
