@@ -13,36 +13,44 @@
   --v0:#00ff88; --v1:#ffb800; --v2:#ff6b00; --v3:#ff2d55;
 }
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
-body{background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min-height:100vh; line-height:1.5;}
+body{background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min-height:100vh; line-height:1.5; padding-top:40px;}
 
+/* 1. RUNNING BANNER */
 #warning-bar{position:fixed; top:0; width:100%; z-index:1000; background:rgba(255,45,85,0.15); border-bottom:1px solid var(--accent2); padding:10px 0; backdrop-filter:blur(15px); font-family:'Space Mono',monospace; font-size:11px; overflow:hidden;}
 #warn-text{display:block; white-space:nowrap; animation:marquee 15s linear infinite;}
 @keyframes marquee{0%{transform:translateX(100%)} 100%{transform:translateX(-100%)}}
 
-#app{max-width:480px; margin:0 auto; padding:80px 16px 40px;}
-.header{display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:20px;}
+#app{max-width:480px; margin:0 auto; padding:40px 16px;}
+
+/* 2. LOGO: SHIELD ON RIGHT */
+.header{display:flex; justify-content:center; align-items:center; gap:12px; margin-bottom:25px;}
 .logo-text{font-size:28px; font-weight:800; background:linear-gradient(90deg, var(--accent), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
 .logo-icon{font-size:26px; filter: drop-shadow(0 0 10px var(--accent));}
 
+/* 3. WIDGETS */
 .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.status-pill { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace; font-size: 10px; }
+.status-pill { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono'; font-size: 10px; }
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--v0); box-shadow: 0 0 10px var(--v0); animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-.limit-badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent3); }
+.limit-badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono'; font-size: 10px; color: var(--accent3); }
 
+/* 4. MAIN UI */
 .stats-bar{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:15px 0; background:var(--surface); border:1px solid var(--border); padding:15px; border-radius:12px;}
-.stat-val{font-family:'Space Mono',monospace; font-size:18px; color:var(--accent); font-weight:700;}
+.stat-val{font-family:'Space Mono'; font-size:18px; color:var(--accent); font-weight:700;}
 .stat-label{font-size:9px; color:var(--muted); text-transform:uppercase;}
 
 .card{background:var(--surface); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:15px;}
 .lang-toggle{display:flex; gap:8px; margin-bottom:20px;}
-.lang-btn{flex:1; padding:10px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; color:var(--muted); font-family:'Space Mono'; cursor:pointer;}
+.lang-btn{flex:1; padding:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:8px; color:var(--muted); font-family:'Space Mono'; cursor:pointer;}
 .lang-btn.active{border-color:var(--accent); color:var(--accent); background:rgba(0,242,255,0.1);}
 
 textarea{width:100%; height:120px; background:var(--bg); border:1px solid var(--border); border-radius:10px; color:#fff; padding:15px; font-family:'Space Mono'; font-size:14px; margin:10px 0; resize:none; outline:none;}
-#analyze-btn{width:100%; padding:18px; background:linear-gradient(135deg, var(--accent), #0066ff); border:none; border-radius:10px; color:#000; font-weight:800; font-size:16px; cursor:pointer;}
-#analyze-btn.disabled { background: #1a222d; color: #444; pointer-events: none; }
 
+#analyze-btn{width:100%; padding:18px; background:linear-gradient(135deg, var(--accent), #0066ff); border:none; border-radius:10px; color:#000; font-weight:800; font-size:16px; cursor:pointer;}
+/* FIX: Removed pointer-events:none to allow DEV unlock even when disabled */
+#analyze-btn.disabled { background: #1a222d; color: #555; cursor: not-allowed; }
+
+/* 5. RESULTS & ACTIONS */
 #result-card{display:none; background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-top:15px; overflow:hidden;}
 .conf-bar{height:10px; background:rgba(255,255,255,0.05); border-radius:5px; margin:10px 0; overflow:hidden;}
 .conf-fill{height:100%; width:0; transition:width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);}
@@ -56,7 +64,7 @@ footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font
 </head>
 <body>
 
-<div id="warning-bar"><span id="warn-text">⚠ Analysis engine active. Final responsibility remains with the user.</span></div>
+<div id="warning-bar"><span id="warn-text"></span></div>
 
 <div id="app">
   <div class="header">
@@ -74,17 +82,17 @@ footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font
   </div>
 
   <div class="stats-bar">
-    <div class="stat"><div class="stat-val" id="stat-scanned">0</div><div class="stat-label" id="lbl-scanned">Scanned</div></div>
-    <div class="stat"><div class="stat-val" id="stat-flagged">0</div><div class="stat-label" id="lbl-flagged">Flagged</div></div>
+    <div class="stat"><div class="stat-val" id="stat-scanned">0</div><div class="stat-label" id="lbl-scan">Scanned</div></div>
+    <div class="stat"><div class="stat-val" id="stat-flagged">0</div><div class="stat-label" id="lbl-flag">Flagged</div></div>
     <div class="stat"><div class="stat-val">v1.1</div><div class="stat-label">Sealed</div></div>
   </div>
 
   <div class="card">
     <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-en">ENGLISH</button>
+      <button class="lang-btn" id="btn-en">ENGLISH</button>
       <button class="lang-btn" id="btn-hi">हिंदी</button>
     </div>
-    <textarea id="input-text" placeholder="Paste suspected message..."></textarea>
+    <textarea id="input-text" spellcheck="false"></textarea>
     <div style="display:flex; justify-content:space-between; margin-bottom:15px;">
         <button id="clear-btn" style="background:none; border:none; color:var(--accent2); font-size:12px; cursor:pointer;">✕ CLEAR</button>
         <span style="font-size:10px; color:var(--muted); font-family:'Space Mono'"><span id="char-val">0</span>/1000</span>
@@ -101,13 +109,14 @@ const ENGINE_URL = "https://api.veritasengine.in/decide";
 const SCAN_LIMIT = 5;
 const DEV_KEY = "DEV_UNLOCK_69";
 let lang = localStorage.getItem('vg_lang') || 'en';
-let scanCount = 0, flagCount = 0, lastResult = null, lastInput = '';
+let lastResult = null, lastInput = '';
 
 const T = {
-  en: { warn: "⚠ Analysis engine active. Final responsibility remains with the user.", btn: "⚡ ANALYZE SIGNALS", analyzing: "SEALING DATA...", limit: "LIMIT EXCEEDED!", scanned: "Scanned", flagged: "Flagged", copy: "COPY", share: "SHARE" },
-  hi: { warn: "⚠ विश्लेषण इंजन सक्रिय। अंतिम ज़िम्मेदारी आपकी है।", btn: "⚡ जोखिम जांचें", analyzing: "सील हो रहा है...", limit: "सीमा समाप्त!", scanned: "जांचे गए", flagged: "संदिग्ध", copy: "कॉपी", share: "शेयर" }
+  en: { warn: "⚠ Analysis engine active. Final responsibility remains with the user.", btn: "⚡ ANALYZE SIGNALS", analyzing: "SEALING DATA...", limit: "LIMIT EXCEEDED!", scanned: "Scanned", flagged: "Flagged", share: "SHARE", copy: "COPY" },
+  hi: { warn: "⚠ विश्लेषण इंजन सक्रिय। अंतिम ज़िम्मेदारी आपकी है।", btn: "⚡ जोखिम जांचें", analyzing: "सील हो रहा है...", limit: "सीमा समाप्त!", scanned: "जांचे गए", flagged: "संदिग्ध", share: "शेयर", copy: "कॉपी" }
 };
 
+/* 🛠️ CORE LOGIC FIXES */
 function getDailyScans() {
   const stored = JSON.parse(localStorage.getItem('vg_usage') || '{}');
   return stored.date === new Date().toDateString() ? stored.count : 0;
@@ -115,8 +124,9 @@ function getDailyScans() {
 
 function updateLimitUI() {
   const count = getDailyScans();
-  document.getElementById('limit-count').textContent = `${count}/${SCAN_LIMIT}`;
   const btn = document.getElementById('analyze-btn');
+  document.getElementById('limit-count').textContent = `${count}/${SCAN_LIMIT}`;
+  
   if (count >= SCAN_LIMIT) {
     btn.classList.add('disabled');
     btn.textContent = T[lang].limit;
@@ -126,7 +136,7 @@ function updateLimitUI() {
   }
 }
 
-async function checkEnginePulse() {
+async function checkPulse() {
   const start = Date.now();
   try {
     const res = await fetch(ENGINE_URL, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input:"ping"})});
@@ -137,26 +147,35 @@ async function checkEnginePulse() {
 function applyLang() {
   const t = T[lang];
   document.getElementById('warn-text').textContent = t.warn;
-  document.getElementById('input-text').placeholder = lang==='en'?"Paste suspected message...":"संदेश यहाँ चिपकाएँ...";
-  document.getElementById('lbl-scanned').textContent = t.scanned;
-  document.getElementById('lbl-flagged').textContent = t.flagged;
+  document.getElementById('input-text').placeholder = lang==='en'?"Paste message...":"संदेश यहाँ चिपकाएँ...";
+  document.getElementById('lbl-scan').textContent = t.scanned;
+  document.getElementById('lbl-flag').textContent = t.flagged;
   document.getElementById('btn-en').classList.toggle('active', lang==='en');
   document.getElementById('btn-hi').classList.toggle('active', lang==='hi');
   updateLimitUI();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  applyLang(); checkEnginePulse(); setInterval(checkEnginePulse, 30000);
-  
+  applyLang(); checkPulse(); setInterval(checkPulse, 30000);
+
   document.getElementById('btn-en').onclick = () => { lang='en'; localStorage.setItem('vg_lang','en'); applyLang(); };
   document.getElementById('btn-hi').onclick = () => { lang='hi'; localStorage.setItem('vg_lang','hi'); applyLang(); };
   document.getElementById('input-text').oninput = (e) => document.getElementById('char-val').textContent = e.target.value.length;
   document.getElementById('clear-btn').onclick = () => { document.getElementById('input-text').value=''; document.getElementById('result-card').style.display='none'; };
 
-  // FIX: DIRECT BUTTON BINDING
+  // ⚡ FIX: BUTTON ALWAYS CLICKABLE FOR DEV_KEY
   document.getElementById('analyze-btn').onclick = async function() {
     const input = document.getElementById('input-text').value.trim();
-    if(input === DEV_KEY) { localStorage.setItem('vg_usage', JSON.stringify({date:new Date().toDateString(), count:0})); updateLimitUI(); alert("Developer Reset!"); return; }
+    
+    // DEV BYPASS (Even if button looks disabled)
+    if(input === DEV_KEY) {
+        localStorage.setItem('vg_usage', JSON.stringify({date:new Date().toDateString(), count:0}));
+        updateLimitUI();
+        alert("Developer Bypass: Limits Reset!");
+        document.getElementById('input-text').value = '';
+        return;
+    }
+
     if (getDailyScans() >= SCAN_LIMIT || !input) return;
 
     this.textContent = T[lang].analyzing;
@@ -169,14 +188,14 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem('vg_usage', JSON.stringify({date:new Date().toDateString(), count:getDailyScans()+1}));
       updateLimitUI();
       
-      scanCount++; if(r.decision >= 2) flagCount++;
-      document.getElementById('stat-scanned').textContent = scanCount;
-      document.getElementById('stat-flagged').textContent = flagCount;
+      document.getElementById('stat-scanned').textContent = parseInt(document.getElementById('stat-scanned').textContent)+1;
+      if(r.decision >= 2) document.getElementById('stat-flagged').textContent = parseInt(document.getElementById('stat-flagged').textContent)+1;
+      
       lastResult = r; lastInput = input;
       showResult(r);
     } catch(e) { alert("Engine Error"); }
     this.style.opacity = "1";
-    this.textContent = T[lang].btn;
+    updateLimitUI();
   };
 });
 
@@ -203,7 +222,7 @@ function showResult(r) {
   rc.style.display = 'block'; rc.scrollIntoView({behavior:'smooth'});
 }
 
-function shareReport() { const report = `Result: ${lastResult.decision}\nHash: ${lastResult.hash}`; if(navigator.share) navigator.share({text: report}); }
+function shareReport() { navigator.share({text: `Result: ${lastResult.decision}\nHash: ${lastResult.hash}`}); }
 function copyReport() { navigator.clipboard.writeText(lastInput); alert(lang==='hi'?"कॉपी!":"Copied!"); }
 </script>
 </body>
