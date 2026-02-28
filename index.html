@@ -6,149 +6,184 @@
 <title>Veritas Guard — Risk Awareness Tool</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg:#0a0010;--surface:#110022;--surface2:#1a0035;
-  --border:#3d1a6e;--border2:#5a2a9e;
-  --purple:#9b59f5;--purple2:#7c3aed;--purple3:#c084fc;
-  --white:#f5f0ff;--muted:#8b7aa8;
-  --v0:#22c55e;--v1:#eab308;--v2:#f97316;--v3:#ef4444;
-  --glow:0 0 20px rgba(155,89,245,0.3);
+:root{
+  --bg:#08000f;--surface:#11001f;--surface2:#1a0032;
+  --border:#3a1660;--border2:#5c2a96;
+  --purple:#8b5cf6;--purple2:#7c3aed;--purple3:#a78bfa;
+  --accent:#00ffd5;--white:#f0e8ff;--muted:rgba(240,232,255,0.55);
+  --v0:#22c55e;--v1:#facc15;--v2:#fb923c;--v3:#f87171;
+  --glow:0 0 24px rgba(139,92,246,0.35);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--white);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(155,89,245,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(155,89,245,.04) 1px,transparent 1px);background-size:32px 32px;pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;width:500px;height:500px;background:radial-gradient(circle,rgba(124,58,237,.15) 0%,transparent 70%);top:-100px;right:-100px;pointer-events:none;z-index:0}
-#app{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:16px 14px 60px}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0}
+body::after{content:'';position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none;z-index:0}
+#app{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:14px 12px 60px}
 
 /* MARQUEE */
-#warn-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(124,58,237,.2);border-bottom:1px solid var(--border2);padding:6px 0;overflow:hidden;backdrop-filter:blur(12px)}
-#warn-text{display:inline-block;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--purple3);animation:marquee 25s linear infinite;padding-left:100%}
+#warn-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(124,58,237,.25);border-bottom:1px solid var(--border2);padding:5px 0;overflow:hidden;backdrop-filter:blur(12px)}
+#warn-text{display:inline-block;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#c4b5fd;animation:marquee 28s linear infinite;padding-left:100%}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-200%)}}
 
 /* HEADER */
-.header{text-align:center;padding:52px 0 20px}
-.logo-wrap{display:inline-flex;align-items:center;gap:12px;margin-bottom:6px}
-.logo-icon{width:44px;height:44px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:var(--glow),inset 0 1px 0 rgba(255,255,255,.1)}
-.logo-name{font-size:28px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--purple3),var(--white));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tagline{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
-.engine-badge{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:4px 12px;background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#22c55e;cursor:pointer}
-.engine-badge .dot{width:6px;height:6px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.header{text-align:center;padding:48px 0 16px}
+.logo-wrap{display:inline-flex;align-items:center;gap:10px;margin-bottom:5px}
+.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:var(--glow)}
+.logo-name{font-size:26px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#a78bfa,#f0e8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tagline{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.engine-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:rgba(0,255,213,.08);border:1px solid rgba(0,255,213,.25);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);cursor:pointer}
+.engine-badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* STATS */
-.stats-bar{display:flex;gap:8px;margin:14px 0}
-.stat-box{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 8px;text-align:center}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:700;color:var(--purple3)}
-.stat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+/* STATS — NEVER BLANK, NEVER HIDDEN */
+.stats-bar{display:flex;gap:8px;margin:12px 0}
+.stat-box{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent)}
+.stat-lbl{font-size:9px;color:rgba(240,232,255,.7);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
 
 /* RATE BAR */
-.rate-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between}
-.rate-left{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
-.rate-left span{color:var(--purple3);font-weight:600}
-.rate-dots{display:flex;gap:4px}
-.rate-dot{width:8px;height:8px;border-radius:50%;background:var(--purple2);transition:all .3s}
-.rate-dot.used{background:var(--border);opacity:.4}
+.rate-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.rate-left{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+.rate-left strong{color:var(--accent)}
+.rate-dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
+.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--purple2)}
+.rate-dot.used{background:var(--border);opacity:.5}
+.rate-exhausted{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#f87171;text-align:center;padding:8px 14px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;margin-top:6px;display:none}
+.rate-exhausted.show{display:block}
 
 /* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:10px}
-.lang-row{display:flex;gap:6px;margin-bottom:14px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
+.lang-row{display:flex;gap:6px;margin-bottom:12px}
 .lang-btn{flex:1;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s}
-.lang-btn.active{background:rgba(155,89,245,.15);border-color:var(--purple);color:var(--purple3)}
-.field-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:14px;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239b59f5' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-select:focus{border-color:var(--purple)}
-select option{background:#1a0035;color:var(--white)}
-textarea{width:100%;height:110px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:none;outline:none;line-height:1.6;transition:border-color .2s}
-textarea:focus{border-color:var(--purple);box-shadow:0 0 0 2px rgba(155,89,245,.1)}
+.lang-btn.active{background:rgba(139,92,246,.2);border-color:var(--purple3);color:var(--purple3)}
+.field-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:12px;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238b5cf6' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+select:focus{border-color:var(--purple3)}
+select option{background:#1a0032;color:var(--white)}
+textarea{width:100%;height:108px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:none;outline:none;line-height:1.6;transition:border-color .2s}
+textarea:focus{border-color:var(--purple3);box-shadow:0 0 0 2px rgba(139,92,246,.1)}
 textarea::placeholder{color:var(--muted)}
-.char-row{display:flex;justify-content:space-between;align-items:center;margin-top:6px;margin-bottom:14px}
+.char-row{display:flex;justify-content:space-between;align-items:center;margin-top:5px;margin-bottom:12px}
 .clear-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Mono',monospace;cursor:pointer;transition:all .2s}
-.clear-btn:hover{border-color:var(--purple);color:var(--purple3)}
+.clear-btn:hover{border-color:var(--purple3);color:var(--purple3)}
 .char-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
 
 /* ANALYZE BTN */
-#analyze-btn{width:100%;padding:15px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border:none;border-radius:10px;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;letter-spacing:0.5px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(124,58,237,.4);position:relative;overflow:hidden}
-#analyze-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(124,58,237,.5)}
-#analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-#analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);animation:shimmer 1s infinite}
+#analyze-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border:none;border-radius:10px;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(124,58,237,.4);position:relative;overflow:hidden}
+#analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 28px rgba(124,58,237,.5)}
+#analyze-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+#analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);animation:shimmer 1s infinite}
 @keyframes shimmer{to{left:100%}}
-.trust-row{display:flex;justify-content:center;gap:14px;margin-top:10px;flex-wrap:wrap}
+.trust-row{display:flex;justify-content:center;gap:12px;margin-top:8px;flex-wrap:wrap}
 .trust-item{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
-.trust-item::before{content:'✓ ';color:var(--purple)}
+.trust-item::before{content:'✓ ';color:var(--accent)}
+
+/* RESULT */
+#result-card{display:none;background:var(--surface);border-radius:14px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);animation:slideIn .3s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.result-header{padding:16px;display:flex;align-items:center;gap:12px}
+.verdict-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;font-weight:900;font-family:'IBM Plex Mono',monospace}
+.verdict-label{font-size:21px;font-weight:900}
+.verdict-desc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
+
+/* HASHCHAIN BADGE */
+.hash-badge{margin:0 16px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,255,213,.07);border:1px solid rgba(0,255,213,.2);border-radius:8px;cursor:pointer}
+.hash-badge-icon{font-size:14px;color:var(--accent);flex-shrink:0}
+.hash-badge-text{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent)}
+.hash-badge-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:1px;word-break:break-all}
+
+/* SUMMARY */
+.summary-line{padding:0 16px 12px;font-size:13px;color:var(--white);line-height:1.5;border-bottom:1px solid var(--border)}
+
+/* CONFIDENCE */
+.conf-wrap{padding:12px 16px}
+.conf-top{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px}
+.conf-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
+.conf-fill{height:100%;border-radius:3px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.conf-note{font-size:9px;color:var(--muted);margin-top:4px}
+
+/* RULES */
+.rules-wrap{padding:0 16px 12px}
+.collapsible-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--purple3);cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;gap:4px;margin-bottom:6px;color:var(--purple3)}
+.arrow{display:inline-block;transition:transform .2s;font-style:normal;margin-right:2px}
+.arrow.open{transform:rotate(90deg)}
+.collapsible-body{display:none;flex-wrap:wrap;gap:5px}
+.collapsible-body.open{display:flex}
+.trace-inner{display:none}
+.trace-inner.open{display:block}
+.rule-tag{padding:4px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid;display:inline-block}
+.trace-wrap{padding:0 16px 12px}
+.trace-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.trace-val{color:var(--purple3)}
+
+/* SHARE + COPY — NEVER HIDDEN */
+.actions-wrap{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.action-btn{flex:1;padding:10px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s;font-weight:600}
+.btn-share{background:var(--purple2);border:none;color:#fff}
+.btn-share:hover{background:var(--purple3);color:#000}
+.btn-copy{background:transparent;border:1px solid var(--border);color:var(--muted)}
+.btn-copy:hover{border-color:var(--accent);color:var(--accent)}
+
+/* TOAST */
+#toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:8px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:300;opacity:0;transition:opacity .3s;pointer-events:none}
+#toast.show{opacity:1}
+
+/* SAFE NOTICE */
+.safe-notice{padding:10px 16px;background:rgba(139,92,246,.06);border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.6}
+
+/* FEEDBACK */
+.feedback-wrap{padding:10px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.feedback-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+.fb-btn{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s}
+.fb-btn:hover{border-color:var(--purple3);color:var(--purple3)}
+.fb-btn.selected{background:rgba(139,92,246,.15);border-color:var(--purple3);color:var(--purple3)}
+.fb-thanks{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);display:none}
+.fb-thanks.show{display:inline}
 
 /* EXAMPLES */
 .examples-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
-.examples-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
 .example-btns{display:flex;flex-direction:column;gap:6px}
 .ex-btn{width:100%;padding:9px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;text-align:left;transition:all .2s}
-.ex-btn:hover{border-color:var(--purple);color:var(--purple3);background:rgba(155,89,245,.05)}
+.ex-btn:hover{border-color:var(--purple3);color:var(--purple3);background:rgba(139,92,246,.05)}
 
-/* RESULT */
-#result-card{display:none;background:var(--surface);border-radius:14px;overflow:hidden;margin-bottom:10px;animation:slideIn .3s ease;border:1px solid var(--border)}
-@keyframes slideIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.result-header{padding:18px;display:flex;align-items:center;gap:14px}
-.verdict-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;font-weight:900}
-.verdict-label{font-size:20px;font-weight:900;letter-spacing:-0.3px}
-.verdict-desc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px}
-.summary-line{padding:0 18px 14px;font-size:13px;color:var(--white);opacity:.8;border-bottom:1px solid var(--border)}
-.conf-wrap{padding:14px 18px}
-.conf-top{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:6px}
-.conf-note{font-size:9px;color:var(--muted);margin-top:4px}
-.conf-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-.conf-fill{height:100%;border-radius:3px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.rules-wrap{padding:0 18px 14px}
-.collapsible-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--purple);cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;gap:4px;margin-bottom:8px}
-.collapsible-btn::before{content:'▶ ';font-size:8px;display:inline-block;transition:transform .2s}
-.collapsible-btn.open::before{transform:rotate(90deg)}
-.collapsible-body{display:none;flex-wrap:wrap;gap:6px}
-.collapsible-body.open{display:flex}
-.trace-body-inner{display:none}
-.trace-body-inner.open{display:block}
-.rule-tag{padding:4px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid;display:inline-block;margin:2px}
-.trace-wrap{padding:0 18px 14px}
-.trace-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.trace-row span:last-child{color:var(--purple3)}
-.hash-wrap{padding:12px 18px;background:rgba(0,0,0,.3);border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;font-family:'IBM Plex Mono',monospace;font-size:9px}
-.hash-key{color:var(--muted);flex-shrink:0;margin-right:8px}
-.hash-val{color:var(--purple);word-break:break-all;text-align:right}
-.safe-notice{padding:12px 18px;background:rgba(155,89,245,.06);border-top:1px solid var(--border);font-size:11px;color:var(--muted)}
-.feedback-wrap{padding:12px 18px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px}
-.feedback-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);flex-shrink:0}
-.fb-btn{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s}
-.fb-btn:hover{border-color:var(--purple);color:var(--purple3)}
-.fb-btn.selected{background:rgba(155,89,245,.15);border-color:var(--purple);color:var(--purple3)}
-
-/* DISCLAIMER */
-.disclaimer-always{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:11px;color:var(--muted);line-height:1.7}
-.disclaimer-always strong{color:var(--purple3);display:block;margin-bottom:4px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:1px;font-style:normal}
+/* DISCLAIMER — ALWAYS VISIBLE */
+.disclaimer-always{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.disclaimer-always strong{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#f87171;letter-spacing:1px;margin-bottom:6px}
+.disclaimer-always p{font-size:12px;color:rgba(240,232,255,.75);line-height:1.7}
 
 /* TRANSPARENCY */
 .transparency{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px}
-.transparency-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.trans-list{display:flex;flex-direction:column;gap:6px}
+.trans-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
 .trans-item{font-size:12px;color:var(--white);display:flex;align-items:center;gap:8px}
-.trans-item::before{content:'◆';color:var(--purple);font-size:8px;flex-shrink:0}
+.trans-item::before{content:'◆';color:var(--purple3);font-size:8px;flex-shrink:0}
 
-footer{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);padding:20px 0 10px;line-height:1.8}
-footer span{color:var(--purple)}
+/* TRUST FOOTER */
+.trust-footer{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-align:center}
+.tf-row1{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);margin-bottom:4px}
+.tf-row1 span{color:var(--accent)}
+.tf-row2{font-size:11px;color:var(--muted)}
+
+footer{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);padding:16px 0 8px;line-height:1.9}
+footer span{color:var(--purple3)}
 
 /* MODALS */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
 .modal-overlay.show{display:flex}
-.modal-box{background:var(--surface2);border:1px solid var(--border2);border-radius:16px;padding:28px;max-width:360px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5),var(--glow)}
-.modal-icon{font-size:40px;margin-bottom:12px}
-.modal-title{font-size:18px;font-weight:700;color:var(--purple3);margin-bottom:8px}
-.modal-text{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.modal-box{background:var(--surface2);border:1px solid var(--border2);border-radius:16px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6),var(--glow)}
+.modal-icon{font-size:38px;margin-bottom:10px}
+.modal-title{font-size:17px;font-weight:700;color:var(--purple3);margin-bottom:8px}
+.modal-text{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:16px}
 .modal-close{padding:10px 24px;background:var(--purple2);border:none;border-radius:8px;color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
 
 /* VERDICT COLORS */
 .v0{color:var(--v0)}.v1{color:var(--v1)}.v2{color:var(--v2)}.v3{color:var(--v3)}
-.bg0{background:rgba(34,197,94,.12)}.bg1{background:rgba(234,179,8,.12)}.bg2{background:rgba(249,115,22,.12)}.bg3{background:rgba(239,68,68,.12)}
+.bg0{background:rgba(34,197,94,.12)}.bg1{background:rgba(250,204,21,.12)}.bg2{background:rgba(251,146,60,.12)}.bg3{background:rgba(248,113,113,.12)}
 .fill0{background:var(--v0)}.fill1{background:var(--v1)}.fill2{background:var(--v2)}.fill3{background:var(--v3)}
 .rt0{color:var(--v0);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.08)}
-.rt1{color:var(--v1);border-color:rgba(234,179,8,.3);background:rgba(234,179,8,.08)}
-.rt2{color:var(--v2);border-color:rgba(249,115,22,.3);background:rgba(249,115,22,.08)}
-.rt3{color:var(--v3);border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.08)}
+.rt1{color:var(--v1);border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.08)}
+.rt2{color:var(--v2);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.08)}
+.rt3{color:var(--v3);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.08)}
 </style>
 </head>
 <body>
@@ -159,6 +194,7 @@ footer span{color:var(--purple)}
 
 <div id="app">
 
+  <!-- HEADER -->
   <div class="header">
     <div class="logo-wrap">
       <div class="logo-icon">🛡️</div>
@@ -171,26 +207,30 @@ footer span{color:var(--purple)}
     </div>
   </div>
 
+  <!-- STATS — NEVER BLANK -->
   <div class="stats-bar">
     <div class="stat-box">
-      <div class="stat-val" id="stat-total">—</div>
+      <div class="stat-val" id="stat-total">0</div>
       <div class="stat-lbl" id="lbl-total">Total Scans</div>
     </div>
     <div class="stat-box">
-      <div class="stat-val" id="stat-today">—</div>
+      <div class="stat-val" id="stat-today">0</div>
       <div class="stat-lbl" id="lbl-today">Today</div>
     </div>
     <div class="stat-box">
-      <div class="stat-val" id="stat-pct">—</div>
-      <div class="stat-lbl">Flagged %</div>
+      <div class="stat-val" id="stat-flagged">0</div>
+      <div class="stat-lbl">Flagged</div>
     </div>
   </div>
 
+  <!-- RATE LIMIT BAR -->
   <div class="rate-bar">
-    <div class="rate-left" id="rate-text">Remaining today: <span id="rate-num">10</span>/10</div>
+    <div class="rate-left" id="rate-text">Remaining: <strong id="rate-num">10</strong>/10</div>
     <div class="rate-dots" id="rate-dots"></div>
   </div>
+  <div class="rate-exhausted" id="rate-exhausted" id="rate-msg">Daily limit reached. Try again later.</div>
 
+  <!-- MAIN INPUT CARD -->
   <div class="card">
     <div class="lang-row">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
@@ -228,10 +268,12 @@ footer span{color:var(--purple)}
     </div>
   </div>
 
+  <!-- RESULT CARD -->
   <div id="result-card"></div>
 
+  <!-- EXAMPLES -->
   <div class="examples-section">
-    <div class="examples-title" id="ex-title">TRY AN EXAMPLE</div>
+    <div class="section-title" id="ex-title">TRY AN EXAMPLE</div>
     <div class="example-btns">
       <button class="ex-btn" id="ex1" onclick="loadExample(0)">🚨 Try scam example</button>
       <button class="ex-btn" id="ex2" onclick="loadExample(1)">🏦 Try bank SMS example</button>
@@ -239,13 +281,15 @@ footer span{color:var(--purple)}
     </div>
   </div>
 
+  <!-- DISCLAIMER — ALWAYS VISIBLE, FIXED WORDING -->
   <div class="disclaimer-always">
     <strong id="disc-title">⚠ DISCLAIMER</strong>
-    <span id="disc-body">This is a risk-awareness tool, not a final verdict. False positives and false negatives are possible. Genuine messages can sometimes look risky. Fraudsters often copy official language.</span>
+    <p id="disc-body">This tool analyzes messages for known risk patterns. It does not confirm fraud. Final responsibility remains with the user.</p>
   </div>
 
+  <!-- HOW IT WORKS -->
   <div class="transparency">
-    <div class="transparency-title" id="trans-title">HOW THIS WORKS</div>
+    <div class="section-title" id="trans-title">HOW THIS WORKS</div>
     <div class="trans-list">
       <div class="trans-item" id="tr1">No login required</div>
       <div class="trans-item" id="tr2">No message content stored</div>
@@ -254,8 +298,17 @@ footer span{color:var(--purple)}
     </div>
   </div>
 
-  <footer>© <span>Veritas Engine</span> — Open Risk Awareness Tool<br><span>ENGINE v1.1</span> · RULES FROZEN</footer>
+  <!-- TRUST FOOTER -->
+  <div class="trust-footer">
+    <div class="tf-row1">ENGINE <span>v1.1</span> · STATUS: <span>RULES FROZEN</span></div>
+    <div class="tf-row2">Deterministic engine · No guessing · No message storage</div>
+  </div>
+
+  <footer>© <span>Veritas Engine</span> — Open Risk Awareness Tool</footer>
 </div>
+
+<!-- TOAST -->
+<div id="toast">Proof copied ✓</div>
 
 <!-- LIMIT MODAL -->
 <div class="modal-overlay" id="limit-modal">
@@ -272,8 +325,18 @@ footer span{color:var(--purple)}
   <div class="modal-box">
     <div class="modal-icon">🛡️</div>
     <div class="modal-title">About Veritas Guard</div>
-    <div class="modal-text">This tool explains risk signals in messages.<br><br>It does NOT block, verify, report, or guarantee anything.<br><br>Engine: v1.1 · Rules: FROZEN<br>Powered by deterministic pattern rules.</div>
+    <div class="modal-text">This tool explains risk signals in messages.<br><br>It does NOT block, verify, report, or guarantee anything.<br><br>Engine: v1.1 · Rules: FROZEN<br>Powered by deterministic pattern rules — not AI.</div>
     <button class="modal-close" onclick="document.getElementById('info-popup').classList.remove('show')">Close</button>
+  </div>
+</div>
+
+<!-- HASHCHAIN TOOLTIP -->
+<div class="modal-overlay" id="hash-popup">
+  <div class="modal-box">
+    <div class="modal-icon">🔒</div>
+    <div class="modal-title">Hashchain Verified</div>
+    <div class="modal-text">Result is hash-sealed.<br>Engine rules cannot change without re-seal.<br><br>This ensures the engine you see is the engine that ran.</div>
+    <button class="modal-close" onclick="document.getElementById('hash-popup').classList.remove('show')">OK</button>
   </div>
 </div>
 
@@ -291,88 +354,100 @@ const EXAMPLES = [
 const T = {
   en: {
     tagline:"EXPLAIN RISK · DON'T DEMAND TRUST",
-    lblUsecase:"USE CASE",lblInput:"MESSAGE / SMS / LINK",
+    lblUsecase:"USE CASE", lblInput:"MESSAGE / SMS / LINK",
     placeholder:"Paste SMS, WhatsApp message, or link here...",
-    btnText:"⚡ ANALYZE RISK SIGNALS",analyzing:"ANALYZING...",
-    nd1:"No Login",nd2:"No Storage",nd3:"Deterministic Rules",
-    lblTotal:"Total Scans",lblToday:"Today",
-    rateText:"Remaining today:",
+    btnText:"⚡ ANALYZE RISK SIGNALS", analyzing:"ANALYZING...",
+    nd1:"No Login", nd2:"No Storage", nd3:"Deterministic Rules",
+    lblTotal:"Total Scans", lblToday:"Today",
+    rateText:"Remaining:", rateExhausted:"Daily limit reached. Try again later.",
     discTitle:"⚠ DISCLAIMER",
-    discBody:"This is a risk-awareness tool, not a final verdict. False positives and false negatives are possible.",
+    discBody:"This tool analyzes messages for known risk patterns. It does not confirm fraud. Final responsibility remains with the user.",
     transTitle:"HOW THIS WORKS",
-    tr1:"No login required",tr2:"No message content stored",
-    tr3:"Deterministic rules — not AI guessing",tr4:"Hash-sealed engine version",
+    tr1:"No login required", tr2:"No message content stored",
+    tr3:"Deterministic rules — not AI guessing", tr4:"Hash-sealed engine version",
     exTitle:"TRY AN EXAMPLE",
-    ex1:"🚨 Try scam example",ex2:"🏦 Try bank SMS example",ex3:"🏛️ Try government advisory example",
+    ex1:"🚨 Try scam example", ex2:"🏦 Try bank SMS example", ex3:"🏛️ Try government advisory example",
     modalTitle:"Daily Limit Reached",
     modalText:"You have used all 10 analyses for today.<br>Please try again after 24 hours.",
     verdictLabel:["NORMAL","ATTENTION","SUSPICIOUS","FRAUD LIKELY"],
     verdictDesc:["No risk patterns detected","Minor signals — stay alert","Multiple risk signals detected","High risk — do not proceed"],
     verdictEmoji:["✓","!","⚠","✖"],
-    confLabel:"CONFIDENCE",confNote:"Confidence reflects rule strength, not certainty",
-    rulesLabel:"TRIGGERED RULES",traceLabel:"TRACE (Advanced)",
-    safeNotice:"Genuine messages can sometimes look risky. Fraudsters often copy official language.",
-    fbLabel:"Was this helpful?",fbYes:"Helpful",fbNo:"Not Helpful",
-    hashLabel:"ENGINE HASH",noRules:"No specific rules triggered",
     summaries:{
-      0:"No risk patterns were detected in this message.",
-      1:"Minor signals detected. Review carefully before proceeding.",
-      2:"Multiple risk signals found. Treat with caution.",
-      3:"High-risk patterns detected. Do not share details or make payments."
-    }
+      0:"No known fraud patterns detected in this message.",
+      1:"Some risk indicators were detected. Please verify carefully.",
+      2:"Some risk indicators were detected. Please verify carefully.",
+      3:"Strong scam indicators detected. Do not proceed."
+    },
+    confLabel:"CONFIDENCE", confNote:"Confidence reflects rule strength, not certainty",
+    rulesLabel:"TRIGGERED RULES", traceLabel:"TRACE (Advanced)",
+    hashVerified:"✔ Hashchain Verified",
+    hashSub:"Result is hash-sealed. Click to learn more.",
+    safeNotice:"Genuine messages can sometimes look risky. Fraudsters often copy official language.",
+    fbLabel:"Was this helpful?", fbYes:"Helpful", fbNo:"Not Helpful",
+    fbThanks:"Thanks. Feedback recorded (anonymous).",
+    shareBtn:"SHARE", copyBtn:"COPY PROOF",
+    toastMsg:"Proof copied ✓",
+    noRules:"No specific rules triggered"
   },
   hi: {
     tagline:"जोखिम समझाइए · भरोसा मत मांगिए",
-    lblUsecase:"उपयोग का प्रकार",lblInput:"संदेश / SMS / लिंक",
+    lblUsecase:"उपयोग का प्रकार", lblInput:"संदेश / SMS / लिंक",
     placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
-    btnText:"⚡ जोखिम संकेत जांचें",analyzing:"विश्लेषण हो रहा है...",
-    nd1:"कोई लॉगिन नहीं",nd2:"कोई स्टोरेज नहीं",nd3:"निर्धारित नियम",
-    lblTotal:"कुल जाँचें",lblToday:"आज",
-    rateText:"आज शेष:",
+    btnText:"⚡ जोखिम संकेत जांचें", analyzing:"विश्लेषण हो रहा है...",
+    nd1:"कोई लॉगिन नहीं", nd2:"कोई स्टोरेज नहीं", nd3:"निर्धारित नियम",
+    lblTotal:"कुल जाँचें", lblToday:"आज",
+    rateText:"शेष:", rateExhausted:"दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।",
     discTitle:"⚠ अस्वीकरण",
-    discBody:"यह एक जोखिम-जागरूकता टूल है, अंतिम निर्णय नहीं। गलत परिणाम संभव हैं।",
+    discBody:"यह टूल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम जिम्मेदारी उपयोगकर्ता की है।",
     transTitle:"यह कैसे काम करता है",
-    tr1:"कोई लॉगिन आवश्यक नहीं",tr2:"कोई संदेश सामग्री संग्रहीत नहीं",
-    tr3:"निर्धारित नियम — AI अनुमान नहीं",tr4:"हैश-सील्ड इंजन संस्करण",
+    tr1:"कोई लॉगिन आवश्यक नहीं", tr2:"कोई संदेश सामग्री संग्रहीत नहीं",
+    tr3:"निर्धारित नियम — AI अनुमान नहीं", tr4:"हैश-सील्ड इंजन संस्करण",
     exTitle:"उदाहरण आज़माएं",
-    ex1:"🚨 स्कैम उदाहरण",ex2:"🏦 बैंक SMS उदाहरण",ex3:"🏛️ सरकारी सलाह उदाहरण",
+    ex1:"🚨 स्कैम उदाहरण", ex2:"🏦 बैंक SMS उदाहरण", ex3:"🏛️ सरकारी सलाह उदाहरण",
     modalTitle:"दैनिक सीमा समाप्त",
     modalText:"आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।",
     verdictLabel:["सामान्य","ध्यान दें","संदिग्ध","धोखाधड़ी संभव"],
     verdictDesc:["कोई जोखिम पैटर्न नहीं मिला","छोटे संकेत मिले — सतर्क रहें","कई जोखिम संकेत मिले","उच्च जोखिम — आगे न बढ़ें"],
     verdictEmoji:["✓","!","⚠","✖"],
-    confLabel:"आत्मविश्वास स्कोर",confNote:"यह स्कोर नियम की ताकत दर्शाता है, निश्चितता नहीं",
-    rulesLabel:"सक्रिय नियम",traceLabel:"ट्रेस (उन्नत)",
-    safeNotice:"वास्तविक संदेश भी जोखिम भरे लग सकते हैं। ठग अक्सर आधिकारिक भाषा की नकल करते हैं।",
-    fbLabel:"क्या यह सहायक था?",fbYes:"सहायक",fbNo:"सहायक नहीं",
-    hashLabel:"इंजन हैश",noRules:"कोई विशेष नियम नहीं मिला",
     summaries:{
-      0:"इस संदेश में कोई जोखिम पैटर्न नहीं मिला।",
-      1:"छोटे संकेत मिले। आगे बढ़ने से पहले ध्यान से जाँचें।",
-      2:"कई जोखिम संकेत मिले। सतर्क रहें।",
-      3:"उच्च-जोखिम पैटर्न मिले। विवरण साझा न करें।"
-    }
+      0:"इस संदेश में कोई ज्ञात फ्रॉड पैटर्न नहीं मिला।",
+      1:"कुछ जोखिम संकेत मिले। कृपया ध्यान से जाँचें।",
+      2:"कुछ जोखिम संकेत मिले। कृपया ध्यान से जाँचें।",
+      3:"मजबूत स्कैम संकेत मिले। आगे न बढ़ें।"
+    },
+    confLabel:"आत्मविश्वास स्कोर", confNote:"यह स्कोर नियम की ताकत दर्शाता है, निश्चितता नहीं",
+    rulesLabel:"सक्रिय नियम", traceLabel:"ट्रेस (उन्नत)",
+    hashVerified:"✔ हैशचेन सत्यापित",
+    hashSub:"परिणाम हैश-सील्ड है। अधिक जानने के लिए क्लिक करें।",
+    safeNotice:"वास्तविक संदेश भी जोखिम भरे लग सकते हैं। ठग अक्सर आधिकारिक भाषा की नकल करते हैं।",
+    fbLabel:"क्या यह सहायक था?", fbYes:"सहायक", fbNo:"सहायक नहीं",
+    fbThanks:"धन्यवाद। फीडबैक दर्ज (गुमनाम)।",
+    shareBtn:"शेयर", copyBtn:"प्रूफ कॉपी",
+    toastMsg:"प्रूफ कॉपी हो गया ✓",
+    noRules:"कोई विशेष नियम नहीं मिला"
   }
 };
 
 let lang = localStorage.getItem('vg_lang') || 'en';
+let lastResult = null;
 
-/* RATE LIMIT */
+/* ── RATE LIMIT ── */
 function getRateData() {
   const today = new Date().toDateString();
   try {
     const d = JSON.parse(localStorage.getItem('vg_rate') || '{}');
     if (d.date !== today) return { date: today, used: 0 };
     return d;
-  } catch(e) { return { date: today, used: 0 }; }
+  } catch(e) { return { date: new Date().toDateString(), used: 0 }; }
 }
 function saveRateData(d) { localStorage.setItem('vg_rate', JSON.stringify(d)); }
 function getRem() { return Math.max(0, DAILY_LIMIT - getRateData().used); }
 function incUse() { const d = getRateData(); d.used++; saveRateData(d); }
+
 function renderRateBar() {
   const rem = getRem();
   const t = T[lang];
-  document.getElementById('rate-text').innerHTML = t.rateText + ' <span id="rate-num">' + rem + '</span>/' + DAILY_LIMIT;
+  document.getElementById('rate-text').innerHTML = t.rateText + ' <strong id="rate-num">' + rem + '</strong>/' + DAILY_LIMIT;
   const el = document.getElementById('rate-dots');
   el.innerHTML = '';
   for (let i = 0; i < DAILY_LIMIT; i++) {
@@ -380,21 +455,31 @@ function renderRateBar() {
     d.className = 'rate-dot' + (i >= rem ? ' used' : '');
     el.appendChild(d);
   }
+  const btn = document.getElementById('analyze-btn');
+  const exMsg = document.getElementById('rate-exhausted');
+  if (rem <= 0) {
+    btn.disabled = true;
+    exMsg.textContent = t.rateExhausted;
+    exMsg.classList.add('show');
+  } else {
+    btn.disabled = false;
+    exMsg.classList.remove('show');
+  }
 }
 
-/* STATS */
+/* ── STATS ── */
 async function loadStats() {
   try {
-    const res = await fetch('https://api.veritasengine.in/stats');
+    const res = await fetch('https://api.veritasengine.in/stats', { signal: AbortSignal.timeout(4000) });
     if (!res.ok) return;
     const d = await res.json();
     if (d.total !== undefined) document.getElementById('stat-total').textContent = d.total;
     if (d.today !== undefined) document.getElementById('stat-today').textContent = d.today;
-    if (d.flagged_pct !== undefined) document.getElementById('stat-pct').textContent = d.flagged_pct + '%';
-  } catch(e) {}
+    if (d.flagged !== undefined) document.getElementById('stat-flagged').textContent = d.flagged;
+  } catch(e) { /* keep 0 defaults */ }
 }
 
-/* ENGINE */
+/* ── ENGINE ── */
 async function callEngine(text) {
   try {
     const res = await fetch(ENGINE_URL, {
@@ -415,18 +500,15 @@ async function callEngine(text) {
   } catch(e) { return null; }
 }
 
-/* ANALYZE */
+/* ── ANALYZE ── */
 async function doAnalyze() {
   const text = document.getElementById('input-text').value.trim();
   if (!text) {
-    document.getElementById('input-text').style.borderColor = '#ef4444';
+    document.getElementById('input-text').style.borderColor = '#f87171';
     setTimeout(() => document.getElementById('input-text').style.borderColor = '', 1000);
     return;
   }
   if (getRem() <= 0) {
-    const t = T[lang];
-    document.getElementById('modal-title').textContent = t.modalTitle;
-    document.getElementById('modal-text').innerHTML = t.modalText;
     document.getElementById('limit-modal').classList.add('show');
     return;
   }
@@ -444,16 +526,18 @@ async function doAnalyze() {
 
   if (!r || r.verdict === undefined) {
     alert('❌ Engine not reachable — check server');
+    renderRateBar();
     return;
   }
 
   incUse();
   renderRateBar();
+  lastResult = r;
   loadStats();
   showResult(r, t);
 }
 
-/* SHOW RESULT */
+/* ── SHOW RESULT ── */
 function showResult(r, t) {
   const v = r.verdict;
   const rulesHTML = r.fired_rules && r.fired_rules.length > 0
@@ -461,36 +545,60 @@ function showResult(r, t) {
     : '<span class="rule-tag" style="color:var(--muted);border-color:var(--border)">' + t.noRules + '</span>';
 
   const traceHTML = (r.trace || []).map(step =>
-    '<div class="trace-row"><span>' + (step.step || '—') + '</span><span>' + (step.score !== undefined ? step.score : '—') + '</span></div>'
-  ).join('') || '<div class="trace-row"><span>—</span><span>—</span></div>';
+    '<div class="trace-row"><span>' + (step.step || '—') + '</span><span class="trace-val">' + (step.score !== undefined ? step.score : (step.weight !== undefined ? '+' + step.weight : '—')) + '</span></div>'
+  ).join('') || '<div class="trace-row"><span>—</span><span class="trace-val">—</span></div>';
 
   const el = document.getElementById('result-card');
   el.innerHTML =
+    /* VERDICT HEADER */
     '<div class="result-header bg' + v + '">' +
       '<div class="verdict-icon bg' + v + ' v' + v + '">' + t.verdictEmoji[v] + '</div>' +
-      '<div><div class="verdict-label v' + v + '">' + t.verdictLabel[v] + '</div>' +
-      '<div class="verdict-desc">' + t.verdictDesc[v] + '</div></div>' +
+      '<div>' +
+        '<div class="verdict-label v' + v + '">' + t.verdictLabel[v] + '</div>' +
+        '<div class="verdict-desc">' + t.verdictDesc[v] + '</div>' +
+      '</div>' +
     '</div>' +
+    /* SUMMARY LINE */
     '<div class="summary-line">' + t.summaries[v] + '</div>' +
+    /* HASHCHAIN BADGE */
+    '<div class="hash-badge" onclick="document.getElementById(\'hash-popup\').classList.add(\'show\')">' +
+      '<span class="hash-badge-icon">🔒</span>' +
+      '<div><div class="hash-badge-text">' + t.hashVerified + '</div>' +
+      '<div class="hash-badge-sub">' + (r.hash || 'pending') + '</div></div>' +
+    '</div>' +
+    /* CONFIDENCE */
     '<div class="conf-wrap">' +
       '<div class="conf-top"><span>' + t.confLabel + '</span><span class="v' + v + '">' + (r.confidence||0) + '%</span></div>' +
       '<div class="conf-bar"><div class="conf-fill fill' + v + '" id="conf-fill"></div></div>' +
       '<div class="conf-note">' + t.confNote + '</div>' +
     '</div>' +
+    /* RULES — COLLAPSED */
     '<div class="rules-wrap">' +
-      '<button class="collapsible-btn" id="rules-btn" onclick="toggle(\'rules-btn\',\'rules-body\')">' + t.rulesLabel + '</button>' +
+      '<button class="collapsible-btn" onclick="toggle(\'rules-arrow\',\'rules-body\')">' +
+        '<i class="arrow" id="rules-arrow">▶</i> ' + t.rulesLabel +
+      '</button>' +
       '<div class="collapsible-body" id="rules-body">' + rulesHTML + '</div>' +
     '</div>' +
+    /* TRACE — COLLAPSED */
     '<div class="trace-wrap">' +
-      '<button class="collapsible-btn" id="trace-btn" onclick="toggle(\'trace-btn\',\'trace-inner\')">' + t.traceLabel + '</button>' +
-      '<div class="trace-body-inner" id="trace-inner">' + traceHTML + '</div>' +
+      '<button class="collapsible-btn" onclick="toggle(\'trace-arrow\',\'trace-inner\')">' +
+        '<i class="arrow" id="trace-arrow">▶</i> ' + t.traceLabel +
+      '</button>' +
+      '<div class="trace-inner" id="trace-inner">' + traceHTML + '</div>' +
     '</div>' +
-    '<div class="hash-wrap"><span class="hash-key">' + t.hashLabel + '</span><span class="hash-val">' + (r.hash||'pending') + '</span></div>' +
+    /* SHARE + COPY — ALWAYS VISIBLE */
+    '<div class="actions-wrap">' +
+      '<button class="action-btn btn-share" onclick="shareResult()">' + t.shareBtn + '</button>' +
+      '<button class="action-btn btn-copy" id="copy-btn" onclick="copyProof()">' + t.copyBtn + '</button>' +
+    '</div>' +
+    /* SAFE NOTICE */
     '<div class="safe-notice">' + t.safeNotice + '</div>' +
+    /* FEEDBACK */
     '<div class="feedback-wrap">' +
       '<span class="feedback-lbl">' + t.fbLabel + '</span>' +
       '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">' + t.fbYes + '</button>' +
       '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">' + t.fbNo + '</button>' +
+      '<span class="fb-thanks" id="fb-thanks">' + t.fbThanks + '</span>' +
     '</div>';
 
   el.style.display = 'block';
@@ -498,40 +606,92 @@ function showResult(r, t) {
   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-function toggle(btnId, bodyId) {
-  document.getElementById(btnId).classList.toggle('open');
-  document.getElementById(bodyId).classList.toggle('open');
+/* ── COLLAPSIBLE ── */
+function toggle(arrowId, bodyId) {
+  const arrow = document.getElementById(arrowId);
+  const body  = document.getElementById(bodyId);
+  if (!arrow || !body) return;
+  arrow.classList.toggle('open');
+  body.classList.toggle('open');
 }
 
+/* ── SHARE / COPY ── */
+function buildProofText() {
+  if (!lastResult) return '';
+  const r = lastResult;
+  const t = T[lang];
+  return (
+    'VERITAS GUARD — RISK ANALYSIS\n' +
+    '================================\n' +
+    'Verdict: ' + t.verdictLabel[r.verdict] + '\n' +
+    'Confidence: ' + (r.confidence||0) + '%\n' +
+    'Rules: ' + ((r.fired_rules||[]).join(', ') || 'None') + '\n' +
+    'Hash: ' + (r.hash||'pending') + '\n' +
+    'Time: ' + new Date().toLocaleString() + '\n' +
+    '================================\n' +
+    'veritasengine.in'
+  );
+}
+
+function copyProof() {
+  const text = buildProofText();
+  if (!text) return;
+  navigator.clipboard.writeText(text).then(() => showToast(T[lang].toastMsg));
+}
+
+function shareResult() {
+  const text = buildProofText();
+  if (!text) return;
+  if (navigator.share) {
+    navigator.share({ title: 'Veritas Guard Report', text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast(T[lang].toastMsg));
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+/* ── FEEDBACK ── */
 function giveFb(type) {
   const yes = document.getElementById('fb-yes');
   const no  = document.getElementById('fb-no');
+  const thanks = document.getElementById('fb-thanks');
   if (yes) yes.classList.toggle('selected', type === 'yes');
   if (no)  no.classList.toggle('selected', type === 'no');
+  if (thanks) thanks.classList.add('show');
 }
 
+/* ── EXAMPLES ── */
 function loadExample(i) {
-  document.getElementById('input-text').value = EXAMPLES[i];
+  const inp = document.getElementById('input-text');
+  inp.value = EXAMPLES[i];
   document.getElementById('char-val').textContent = EXAMPLES[i].length;
+  inp.focus();
 }
 
-/* LANG */
+/* ── LANG ── */
 function setLang(l) {
   lang = l;
   localStorage.setItem('vg_lang', l);
   applyLang();
 }
+
 function applyLang() {
   const t = T[lang];
-  const ids = {
-    'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,
-    'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,
-    'lbl-total':t.lblTotal,'lbl-today':t.lblToday,
-    'disc-title':t.discTitle,'disc-body':t.discBody,
-    'trans-title':t.transTitle,'tr1':t.tr1,'tr2':t.tr2,'tr3':t.tr3,'tr4':t.tr4,
-    'ex-title':t.exTitle,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3
+  const map = {
+    'tagline-text': t.tagline, 'lbl-usecase': t.lblUsecase, 'lbl-input': t.lblInput,
+    'btn-text': t.btnText, 'nd1': t.nd1, 'nd2': t.nd2, 'nd3': t.nd3,
+    'lbl-total': t.lblTotal, 'lbl-today': t.lblToday,
+    'disc-title': t.discTitle, 'disc-body': t.discBody,
+    'trans-title': t.transTitle, 'tr1': t.tr1, 'tr2': t.tr2, 'tr3': t.tr3, 'tr4': t.tr4,
+    'ex-title': t.exTitle, 'ex1': t.ex1, 'ex2': t.ex2, 'ex3': t.ex3
   };
-  for (const [id, val] of Object.entries(ids)) {
+  for (const [id, val] of Object.entries(map)) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
   }
@@ -544,17 +704,18 @@ function applyLang() {
   renderRateBar();
 }
 
-/* DEV BYPASS — type code in textarea */
+/* ── DEV BYPASS ── */
 document.addEventListener('input', function(e) {
   if (e.target.id === 'input-text' && e.target.value.trim() === DEV_CODE) {
     const d = getRateData(); d.used = 0; saveRateData(d);
     e.target.value = '';
     document.getElementById('char-val').textContent = '0';
     renderRateBar();
-    alert('✅ Dev: Daily limit reset!');
+    showToast('✅ Dev: Limit reset!');
   }
 });
 
+/* ── INIT ── */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('input-text').addEventListener('input', function() {
     document.getElementById('char-val').textContent = this.value.length;
@@ -563,6 +724,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('input-text').value = '';
     document.getElementById('char-val').textContent = '0';
     document.getElementById('result-card').style.display = 'none';
+    lastResult = null;
   });
   applyLang();
   loadStats();
