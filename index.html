@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Veritas Guard | Sealed Engine</title>
+<title>Veritas Guard | Live Sealed Engine</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
 :root{
@@ -15,6 +15,7 @@
 *{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
 body{background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min-height:100vh; line-height:1.5;}
 
+/* STATUS PILL WIDGET */
 .header-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
 .status-pill {
   display: flex; align-items: center; gap: 8px;
@@ -22,20 +23,15 @@ body{background:var(--bg); color:var(--text); font-family:'Syne',sans-serif; min
   padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace;
   font-size: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
-.limit-badge {
-  background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-  padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace;
-  font-size: 10px; color: var(--accent3);
-}
 .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--v0); box-shadow: 0 0 10px var(--v0); animation: pulse 1.5s infinite; }
 @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.limit-badge { background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 8px 14px; border-radius: 25px; font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent3); }
 
-#warning-bar{position:fixed; top:0; width:100%; z-index:1000; background:rgba(255,45,85,0.15); border-bottom:1px solid var(--accent2); padding:10px 0; backdrop-filter:blur(15px); font-family:'Space Mono',monospace; font-size:11px; overflow:hidden;}
-#warn-text{display:block; white-space:nowrap; animation:marquee 15s linear infinite;}
-@keyframes marquee{0%{transform:translateX(100%)} 100%{transform:translateX(-100%)}}
-
-#app{max-width:480px; margin:0 auto; padding:90px 16px 40px;}
-.logo-text{font-size:28px; font-weight:800; background:linear-gradient(90deg, var(--accent), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; text-shadow:0 0 15px rgba(0,242,255,0.4);}
+#app{max-width:480px; margin:0 auto; padding:40px 16px;}
+.header{text-align:center; padding-bottom:20px}
+.logo{display:inline-flex; align-items:center; gap:12px;}
+.logo-text{font-size:28px; font-weight:800; background:linear-gradient(90deg, var(--accent), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent;}
+.logo-icon{font-size:26px; filter: drop-shadow(0 0 10px var(--accent));}
 
 .stats-bar{display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:15px 0; background:var(--surface); border:1px solid var(--border); padding:15px; border-radius:12px;}
 .stat-val{font-family:'Space Mono',monospace; font-size:18px; color:var(--accent); font-weight:700;}
@@ -48,9 +44,7 @@ textarea:focus{border-color:var(--accent); outline:none;}
 #analyze-btn{width:100%; padding:18px; background:linear-gradient(135deg, var(--accent), #0066ff); border:none; border-radius:10px; color:#000; font-weight:800; font-size:16px; cursor:pointer;}
 #analyze-btn.disabled { background: #1a222d; color: #444; pointer-events: none; }
 
-#result-card{display:none; background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-top:15px; overflow:hidden; animation:slideUp 0.4s ease-out;}
-@keyframes slideUp{from{opacity:0; transform:translateY(20px)} to{opacity:1; transform:translateY(0)}}
-
+#result-card{display:none; background:var(--surface); border:1px solid var(--border); border-radius:16px; margin-top:15px; overflow:hidden;}
 .result-header{padding:20px; display:flex; align-items:center; gap:15px;}
 .conf-bar{height:10px; background:rgba(255,255,255,0.05); border-radius:5px; margin:10px 0; overflow:hidden;}
 .conf-fill{height:100%; width:0; transition:width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1);}
@@ -58,18 +52,20 @@ textarea:focus{border-color:var(--accent); outline:none;}
 .trace-panel{padding:15px; background:rgba(0,0,0,0.2); border-top:1px solid var(--border); margin-top:10px;}
 .integrity-badge{font-size:9px; background:var(--v0); color:#000; padding:2px 6px; border-radius:4px; font-weight:800;}
 
+.btn-group{display:flex; gap:10px; padding:15px;}
+.action-btn{flex:1; padding:12px; background:transparent; border:1px solid var(--border); border-radius:8px; color:#fff; font-family:'Space Mono',monospace; font-size:12px; cursor:pointer;}
+.btn-share{background:var(--accent); color:#000; font-weight:bold; border:none;}
+
 footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font-family:'Space Mono',monospace;}
 </style>
 </head>
 <body>
 
-<div id="warning-bar"><span id="warn-text">⚠ Analysis engine active. Final responsibility remains with the user.</span></div>
-
 <div id="app">
   <div class="header">
     <div class="logo">
-      <div class="logo-icon">🛡️</div>
       <div class="logo-text">Veritas Guard</div>
+      <div class="logo-icon">🛡️</div>
     </div>
   </div>
 
@@ -104,9 +100,9 @@ footer{text-align:center; padding:30px; font-size:10px; color:var(--muted); font
 <script>
 const ENGINE_URL = "https://api.veritasengine.in/decide";
 const SCAN_LIMIT = 5;
-const DEV_KEY = "DEV_UNLOCK_69"; // Aapka secret bypass key
+const DEV_KEY = "DEV_UNLOCK_69";
+let scanCount = 0, flagCount = 0, lastResult = null, lastInput = '';
 
-/* LIMIT LOGIC */
 function getDailyScans() {
   const today = new Date().toDateString();
   const stored = JSON.parse(localStorage.getItem('vg_usage') || '{}');
@@ -144,48 +140,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById('analyze-btn').onclick = async () => {
     const input = document.getElementById('input-text').value.trim();
-    
-    // DEV BYPASS CHECK
     if(input === DEV_KEY) {
         localStorage.setItem('vg_usage', JSON.stringify({ date: new Date().toDateString(), count: 0 }));
-        updateLimitUI();
-        alert("Developer mode: Limit Reset!");
-        document.getElementById('input-text').value = '';
-        return;
+        updateLimitUI(); alert("Developer Mode: Limit Reset!");
+        document.getElementById('input-text').value = ''; return;
     }
-
-    if (getDailyScans() >= SCAN_LIMIT) return;
-    if(!input) return;
-
+    if (getDailyScans() >= SCAN_LIMIT || !input) return;
+    
     const btn = document.getElementById('analyze-btn');
-    btn.textContent = "SEALING DATA...";
-    btn.style.opacity = "0.6";
+    btn.textContent = "SEALING DATA..."; btn.style.opacity = "0.6";
 
     try {
       const res = await fetch(ENGINE_URL, { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({input: input}) });
       const r = await res.json();
-      
-      const today = new Date().toDateString();
-      localStorage.setItem('vg_usage', JSON.stringify({ date: today, count: getDailyScans() + 1 }));
+      localStorage.setItem('vg_usage', JSON.stringify({ date: new Date().toDateString(), count: getDailyScans() + 1 }));
       updateLimitUI();
-
-      document.getElementById('stat-scanned').textContent = parseInt(document.getElementById('stat-scanned').textContent)+1;
-      if(r.decision >= 2) document.getElementById('stat-flagged').textContent = parseInt(document.getElementById('stat-flagged').textContent)+1;
-      
-      showResult(r);
+      scanCount++; if(r.decision >= 2) flagCount++;
+      document.getElementById('stat-scanned').textContent = scanCount;
+      document.getElementById('stat-flagged').textContent = flagCount;
+      lastResult = r; lastInput = input; showResult(r);
     } catch(e) { alert("Engine error"); }
     btn.style.opacity = "1";
   };
 });
 
 function showResult(r) {
-  const v = r.decision;
-  const rc = document.getElementById('result-card');
-  const emojis = ["✅","⚠️","🔶","🚨"];
-  const labels = ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD LIKELY"];
+  const v = r.decision; const rc = document.getElementById('result-card');
+  const emojis = ["✅","⚠️","🔶","🚨"]; const labels = ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD LIKELY"];
   
   rc.innerHTML = `
-    <div class="result-header" style="border-bottom:1px solid var(--border)">
+    <div class="result-header">
       <div style="width:50px; height:50px; border-radius:50%; background:var(--v${v}); display:flex; align-items:center; justify-content:center; font-size:24px;">${emojis[v]}</div>
       <div style="margin-left:15px">
         <h3 style="color:var(--v${v})">${labels[v]}</h3>
@@ -197,9 +181,20 @@ function showResult(r) {
       <div class="conf-bar"><div class="conf-fill" style="width:${r.confidence}%; background:var(--v${v})"></div></div>
     </div>
     <div class="trace-panel"><div style="display:flex; justify-content:space-between; font-size:10px; color:var(--muted); margin-bottom:5px;"><span>INTEGRITY HASH</span><span class="integrity-badge">SEALED OK</span></div><div style="font-family:'Space Mono'; font-size:9px; color:var(--accent); word-break:break-all">${r.hash}</div></div>
+    <div class="btn-group">
+        <button class="action-btn btn-share" onclick="shareReport()">SHARE</button>
+        <button class="action-btn" onclick="copyReport()">COPY</button>
+    </div>
   `;
-  rc.style.display = 'block';
-  rc.scrollIntoView({behavior:'smooth'});
+  rc.style.display = 'block'; rc.scrollIntoView({behavior:'smooth'});
+}
+
+function shareReport() {
+    const report = `VERITAS GUARD REPORT\nVerdict: ${lastResult.decision}\nConfidence: ${lastResult.confidence}%\nHash: ${lastResult.hash}\nMessage: ${lastInput}`;
+    if(navigator.share) navigator.share({text: report});
+}
+function copyReport() {
+    navigator.clipboard.writeText(lastInput); alert("Copied!");
 }
 </script>
 </body>
