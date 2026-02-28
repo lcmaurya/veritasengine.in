@@ -9,12 +9,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap');
 :root{
 --bg:#060910;--surface:#0d1117;--border:#1e2d3d;
---accent:#00d4ff;--accent2:#ff4d6d;--accent3:#00ff9d;
+--accent:#00d4ff;--accent2:#ff4d6d;
 --text:#c9d1d9;--muted:#586069;
 --v0:#00ff9d;--v1:#ffaa00;--v2:#ff7043;--v3:#ff4d6d
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-height:100vh}
+body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif}
 #app{max-width:480px;margin:auto;padding:60px 16px}
 .header{text-align:center;margin-bottom:20px}
 .logo{display:flex;justify-content:center;gap:10px;align-items:center}
@@ -27,28 +27,30 @@ body{background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;min-he
 .stat-label{font-size:10px;color:var(--muted);text-transform:uppercase}
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
 .lang-toggle{display:flex;gap:6px;margin-bottom:12px}
-.lang-btn{flex:1;padding:10px;border:1px solid var(--border);background:rgba(255,255,255,0.02);color:var(--muted);cursor:pointer;border-radius:6px;font-weight:600;transition:0.3s}
-.lang-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(0,212,255,0.05)}
-.field-label{font-size:11px;font-family:'Space Mono',monospace;color:var(--muted);margin-bottom:8px;display:block}
-textarea{width:100%;height:120px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:12px;font-family:'Space Mono',monospace;resize:none;transition:0.3s}
-textarea:focus{border-color:var(--accent);outline:none}
+.lang-btn{flex:1;padding:10px;border:1px solid var(--border);background:#0a0f16;color:var(--muted);cursor:pointer;border-radius:6px;font-weight:600}
+.lang-btn.active{border-color:var(--accent);color:var(--accent)}
+textarea{width:100%;height:120px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:12px;font-family:'Space Mono',monospace}
 .char-row{display:flex;justify-content:space-between;margin:8px 0;font-size:11px;color:var(--muted)}
-#clear-btn{background:transparent;border:none;color:var(--accent2);cursor:pointer;font-weight:bold}
-#analyze-btn{width:100%;padding:16px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),#0051ff);color:white;font-weight:800;cursor:pointer;font-size:16px;box-shadow:0 4px 15px rgba(0,81,255,0.3)}
-#analyze-btn.loading{opacity:.6;pointer-events:none;filter:grayscale(1)}
-#result-card{display:none;margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeIn 0.4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)}}
+#clear-btn{background:none;border:none;color:var(--accent2);cursor:pointer;font-weight:bold}
+#analyze-btn{width:100%;padding:16px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--accent),#0051ff);color:white;font-weight:800;cursor:pointer}
+#analyze-btn.loading{opacity:.6;pointer-events:none}
+#result-card{display:none;margin-top:16px;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 .result-header{display:flex;gap:15px;padding:16px;align-items:center}
 .verdict-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px}
 .conf-section{padding:0 16px 16px}
-.conf-bar-bg{height:8px;background:var(--border);border-radius:4px;margin-top:8px;overflow:hidden}
-.conf-fill{height:100%;width:0;transition:width 1s cubic-bezier(0.17, 0.67, 0.83, 0.67)}
-.reason-container{padding:12px 16px;border-top:1px solid var(--border);background:rgba(0,0,0,0.1)}
+.conf-bar-bg{height:8px;background:var(--border);border-radius:4px;margin-top:8px}
+.conf-fill{height:100%}
+.reason-container{padding:12px 16px;border-top:1px solid var(--border)}
 .reason-tag{display:inline-block;margin:4px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:600;border:1px solid}
+.trace-box{border-top:1px solid var(--border);padding:12px 16px;font-family:'Space Mono',monospace;font-size:11px;background:#080c12}
+.trace-row{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted)}
+.trace-toggle{cursor:pointer;color:var(--accent);font-size:11px;margin-top:6px}
+footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted)}
 .c0{color:var(--v0)} .c1{color:var(--v1)} .c2{color:var(--v2)} .c3{color:var(--v3)}
-.bg0{background:rgba(0,255,157,0.1)} .bg1{background:rgba(255,170,0,0.1)} .bg2{background:rgba(255,112,67,0.1)} .bg3{background:rgba(255,77,109,0.1)}
-.fill0{background:var(--v0)} .fill1{background:var(--v1)} .fill2{background:var(--v2)} .fill3{background:var(--v3)}
-footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted);letter-spacing:1px}
+.bg0{background:rgba(0,255,157,0.1)} .bg1{background:rgba(255,170,0,0.1)}
+.bg2{background:rgba(255,112,67,0.1)} .bg3{background:rgba(255,77,109,0.1)}
+.fill0{background:var(--v0)} .fill1{background:var(--v1)}
+.fill2{background:var(--v2)} .fill3{background:var(--v3)}
 </style>
 </head>
 
@@ -59,7 +61,7 @@ footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted);lette
     <div class="logo-icon">🛡️</div>
     <div class="logo-text">Veritas Guard</div>
   </div>
-  <div class="tagline" id="tagline-text">EXPLAIN RISK · DON'T DEMAND TRUST</div>
+  <div class="tagline">EXPLAIN RISK · DON'T DEMAND TRUST</div>
 </div>
 
 <div class="stats-bar">
@@ -69,17 +71,12 @@ footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted);lette
 </div>
 
 <div class="card">
-  <div class="lang-toggle">
-    <button class="lang-btn active" id="btn-en">ENGLISH</button>
-    <button class="lang-btn" id="btn-hi">हिंदी</button>
-  </div>
-  <label class="field-label" id="lbl-input">MESSAGE / SMS / LINK</label>
-  <textarea id="input-text" placeholder="Paste suspected message here..."></textarea>
+  <textarea id="input-text" placeholder="Paste message here…"></textarea>
   <div class="char-row">
     <button id="clear-btn">✕ CLEAR</button>
     <span><span id="char-val">0</span>/1000</span>
   </div>
-  <button id="analyze-btn"><span id="btn-text">⚡ ANALYZE</span></button>
+  <button id="analyze-btn">⚡ ANALYZE</button>
 </div>
 
 <div id="result-card"></div>
@@ -87,94 +84,47 @@ footer{text-align:center;margin-top:20px;font-size:10px;color:var(--muted);lette
 </div>
 
 <script>
-/* ================= CONFIGURATION ================= */
 const ENGINE_URL = "https://api.veritasengine.in/decide";
-const i18n = {
-  en: { tagline: "EXPLAIN RISK · DON'T DEMAND TRUST", input: "MESSAGE / SMS / LINK", btn: "⚡ ANALYZE", verdicts: ["GENUINE","ATTENTION","SUSPICIOUS","FRAUD"], reachError: "❌ Engine not reachable - Check Tunnel" },
-  hi: { tagline: "जोखिम समझें · भरोसे की मांग नहीं", input: "संदेश / SMS / लिंक", btn: "⚡ विश्लेषण करें", verdicts: ["सुरक्षित","ध्यान दें","संदिग्ध","धोखाधड़ी"], reachError: "❌ इंजन संपर्क से बाहर है - टनल जांचें" }
+let scan=0, flag=0;
+
+const verdictIcons=["✅","⚠️","🔶","🚨"];
+const verdictLabels=["GENUINE","ATTENTION","SUSPICIOUS","FRAUD"];
+
+const input=document.getElementById("input-text");
+input.oninput=()=>document.getElementById("char-val").textContent=input.value.length;
+document.getElementById("clear-btn").onclick=()=>{input.value="";document.getElementById("char-val").textContent=0};
+
+document.getElementById("analyze-btn").onclick=async()=>{
+const text=input.value.trim(); if(!text)return;
+document.getElementById("analyze-btn").classList.add("loading");
+try{
+const r=await fetch(ENGINE_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({input:text})});
+const d=await r.json();
+scan++; if(d.decision>=2)flag++;
+document.getElementById("stat-scanned").textContent=scan;
+document.getElementById("stat-flagged").textContent=flag;
+render(d);
+}catch{alert("Engine not reachable")}
+finally{document.getElementById("analyze-btn").classList.remove("loading")}
 };
-let curLang = 'en', scan=0, flag=0;
 
-/* ================= CORE LOGIC ================= */
-document.addEventListener("DOMContentLoaded",()=>{
-  const $ = id => document.getElementById(id);
-  const input = $("input-text");
-
-  // Language Switch
-  const setLang = (l) => {
-    curLang = l;
-    $("btn-en").classList.toggle("active", l==='en');
-    $("btn-hi").classList.toggle("active", l==='hi');
-    $("tagline-text").textContent = i18n[l].tagline;
-    $("lbl-input").textContent = i18n[l].input;
-    $("btn-text").textContent = i18n[l].btn;
-    if($("result-card").style.display === "block") updateVerdictText();
-  };
-  $("btn-en").onclick = () => setLang('en');
-  $("btn-hi").onclick = () => setLang('hi');
-
-  input.oninput = () => $("char-val").textContent = input.value.length;
-  $("clear-btn").onclick = () => { input.value=""; $("char-val").textContent="0"; $("result-card").style.display="none"; };
-
-  $("analyze-btn").onclick = async () => {
-    const text = input.value.trim();
-    if(!text) return;
-    
-    $("analyze-btn").classList.add("loading");
-    try {
-      const r = await fetch(ENGINE_URL, {
-        method: "POST",
-        headers: {"Content-Type":"application/json"},
-        body: JSON.stringify({input: text})
-      });
-      const data = await r.json();
-      
-      scan++; if(data.decision >= 2) flag++;
-      $("stat-scanned").textContent = scan;
-      $("stat-flagged").textContent = flag;
-      
-      showResult(data);
-    } catch(e) {
-      alert(i18n[curLang].reachError);
-    } finally {
-      $("analyze-btn").classList.remove("loading");
-    }
-  };
-});
-
-function showResult(data){
-  const v = data.decision;
-  const conf = data.confidence || 0;
-  const rules = data.fired_rules || [];
-  const rc = document.getElementById("result-card");
-  
-  let tagsHtml = rules.length > 0 ? 
-    `<div class="reason-container">` + rules.map(t => `<span class="reason-tag bg${v} c${v}">${t}</span>`).join('') + `</div>` : "";
-
-  rc.innerHTML = `
-    <div class="result-header bg${v}">
-      <div class="verdict-icon bg${v}">${["✅","⚠️","🔶","🚨"][v]}</div>
-      <div><h3 class="c${v}" id="verdict-title">${i18n[curLang].verdicts[v]}</h3></div>
-    </div>
-    <div class="conf-section">
-      <div style="display:flex; justify-content:space-between; font-size:11px; font-family:'Space Mono'">
-        <span>CONFIDENCE</span><span>${conf}%</span>
-      </div>
-      <div class="conf-bar-bg"><div class="conf-fill fill${v}" style="width:${conf}%"></div></div>
-    </div>
-    ${tagsHtml}`;
-  rc.style.display = "block";
-}
-
-function updateVerdictText() {
-  const title = document.getElementById("verdict-title");
-  if(title) {
-    // Current decision is inferred from the class applied to result-header
-    const header = document.querySelector(".result-header");
-    const vClass = Array.from(header.classList).find(c => c.startsWith('bg'));
-    const vIdx = vClass ? vClass.replace('bg','') : 0;
-    title.textContent = i18n[curLang].verdicts[vIdx];
-  }
+function render(d){
+const v=d.decision||0, conf=d.confidence||0;
+const rules=d.fired_rules||[], trace=d.trace||[];
+let traceHtml=trace.map(t=>`<div class="trace-row"><span>${t.step}</span><span>${t.score}</span></div>`).join("");
+document.getElementById("result-card").innerHTML=`
+<div class="result-header bg${v}">
+  <div class="verdict-icon bg${v}">${verdictIcons[v]}</div>
+  <div><h3 class="c${v}">${verdictLabels[v]}</h3></div>
+</div>
+<div class="conf-section">
+  <div style="display:flex;justify-content:space-between;font-size:11px"><span>CONFIDENCE</span><span>${conf}%</span></div>
+  <div class="conf-bar-bg"><div class="conf-fill fill${v}" style="width:${conf}%"></div></div>
+</div>
+<div class="reason-container">${rules.map(r=>`<span class="reason-tag bg${v} c${v}">${r}</span>`).join("")}</div>
+${trace.length?`<div class="trace-box"><div class="trace-toggle">TRACE</div>${traceHtml}</div>`:""}
+`;
+document.getElementById("result-card").style.display="block";
 }
 </script>
 </body>
