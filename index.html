@@ -4,265 +4,327 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600;700&family=Outfit:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ══════════════════════════════════════
+   VERITAS GUARD v1.5 — DAYLIGHT THEME
+   High contrast · Outdoor readable
+══════════════════════════════════════ */
 :root{
-  --bg:#08000f;--surface:#11001f;--surface2:#1a0032;
-  --border:#3a1660;--border2:#5c2a96;
-  --purple:#8b5cf6;--purple2:#7c3aed;--purple3:#a78bfa;
-  --accent:#00ffd5;--white:#f0e8ff;--muted:rgba(240,232,255,0.55);
-  --v0:#6366f1;--v1:#22c55e;--v2:#fb923c;--v3:#f87171;
-  --glow:0 0 24px rgba(139,92,246,0.35);
+  --bg:#f0ede8;
+  --bg2:#e8e4de;
+  --surface:#ffffff;
+  --surface2:#f7f5f2;
+  --border:#d4cfc8;
+  --border-strong:#b8b2aa;
+  --ink:#1a1714;
+  --ink2:#3d3830;
+  --ink3:#6b6560;
+  --accent:#1a1714;
+  --brand:#c8410a;
+  --brand2:#a33208;
+  --brand-light:#fdf0eb;
+  --v0:#4a5568;--v0bg:#edf2f7;--v0border:#cbd5e0;
+  --v1:#276749;--v1bg:#f0fff4;--v1border:#9ae6b4;
+  --v2:#c05621;--v2bg:#fffaf0;--v2border:#fbd38d;
+  --v3:#9b2335;--v3bg:#fff5f5;--v3border:#feb2b2;
+  --mono:'Space Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --radius:10px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 16px rgba(0,0,0,.12),0 12px 32px rgba(0,0,0,.08);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--white);font-family:'Outfit',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(139,92,246,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.03) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;z-index:0}
-body::after{content:'';position:fixed;width:600px;height:600px;background:radial-gradient(circle,rgba(124,58,237,.12) 0%,transparent 70%);top:-150px;right:-150px;pointer-events:none;z-index:0}
-#app{position:relative;z-index:1;max-width:500px;margin:0 auto;padding:14px 12px 60px}
 
-/* MARQUEE */
-#warn-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(124,58,237,.25);border-bottom:1px solid var(--border2);padding:5px 0;overflow:hidden;backdrop-filter:blur(12px)}
-#warn-text{display:inline-block;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#c4b5fd;animation:marquee 28s linear infinite;padding-left:100%}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+
+/* WARN BAR */
+#warn-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--ink);padding:6px 0;overflow:hidden}
+#warn-text{display:inline-block;white-space:nowrap;font-family:var(--mono);font-size:10px;color:#a8a29e;animation:marquee 32s linear infinite;padding-left:100%}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-200%)}}
 
+#app{max-width:480px;margin:0 auto;padding:60px 14px 60px}
+
 /* HEADER */
-.header{text-align:center;padding:48px 0 16px}
-.logo-wrap{display:inline-flex;align-items:center;gap:10px;margin-bottom:5px}
-.logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:var(--glow)}
-.logo-name{font-size:26px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#a78bfa,#f0e8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.tagline{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
+.logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
+.logo-icon{width:36px;height:36px;background:var(--brand);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-name{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-1px}
+.tagline{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
 
-/* ENGINE BADGE — disappears if not verified */
-.engine-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:rgba(0,255,213,.08);border:1px solid rgba(0,255,213,.25);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);cursor:pointer}
-.engine-badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
-.engine-badge.unverified{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.25);color:#f87171}
-.engine-badge.unverified .dot{background:#f87171}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+/* ENGINE STATUS PILL */
+.engine-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-family:var(--mono);font-size:10px;border:1.5px solid;cursor:pointer;transition:all .2s;margin-bottom:4px}
+.engine-pill.online{background:#f0fff4;border-color:#9ae6b4;color:#276749}
+.engine-pill.offline{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
+.engine-pill.checking{background:var(--surface2);border-color:var(--border);color:var(--ink3)}
+.engine-pill .dot{width:6px;height:6px;border-radius:50%;animation:blink 2s infinite}
+.engine-pill.online .dot{background:#276749}
+.engine-pill.offline .dot{background:#9b2335}
+.engine-pill.checking .dot{background:var(--ink3)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-/* TRUST BADGE — hard-locked indicator */
-#trust-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;padding:4px 14px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.15);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);transition:all .3s}
+/* TRUST BADGE — always visible when verified */
+#trust-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-family:var(--mono);font-size:9px;border:1.5px solid;margin-top:4px;transition:all .3s}
+#trust-badge.locked{background:#f0fff4;border-color:#9ae6b4;color:#276749}
+#trust-badge.warn{background:#fffaf0;border-color:#fbd38d;color:#c05621}
 #trust-badge.hidden{display:none}
-#trust-badge.warn{background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.2);color:#f87171}
 
 /* STATS */
-.stats-bar{display:flex;gap:8px;margin:12px 0}
-.stat-box{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center}
-.stat-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent)}
-.stat-lbl{font-size:9px;color:rgba(240,232,255,.7);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
-.stat-caption{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(240,232,255,.3);margin-top:2px}
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+.stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 8px;text-align:center;box-shadow:var(--shadow)}
+.stat-num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--brand);line-height:1}
+.stat-lbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-weight:600}
+.stat-sub{font-family:var(--mono);font-size:8px;color:var(--border-strong);margin-top:1px}
 
 /* RATE BAR */
-.rate-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-.rate-left{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
-.rate-left strong{color:var(--accent)}
-.rate-dots{display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end}
-.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--purple2)}
-.rate-dot.used{background:var(--border);opacity:.5}
-.rate-exhausted{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#f87171;text-align:center;padding:8px 14px;background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);border-radius:8px;margin-bottom:8px;display:none}
-.rate-exhausted.show{display:block}
+.rate-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+.rate-label{font-family:var(--mono);font-size:11px;color:var(--ink2)}
+.rate-label strong{color:var(--brand)}
+.rate-dots{display:flex;gap:3px}
+.rdot{width:7px;height:7px;border-radius:50%;background:var(--brand)}
+.rdot.used{background:var(--border)}
+.rate-warn{background:#fff5f5;border:1.5px solid #feb2b2;border-radius:var(--radius);padding:8px 14px;font-family:var(--mono);font-size:11px;color:#9b2335;text-align:center;margin-bottom:8px;display:none}
+.rate-warn.show{display:block}
 
-/* CARD */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px}
-.lang-row{display:flex;gap:6px;margin-bottom:12px}
-.lang-btn{flex:1;padding:8px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s}
-.lang-btn.active{background:rgba(139,92,246,.2);border-color:var(--purple3);color:var(--purple3)}
-.field-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
-select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:12px;outline:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%238b5cf6' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
-select:focus{border-color:var(--purple3)}
-select option{background:#1a0032;color:var(--white)}
-textarea{width:100%;height:108px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);font-family:'IBM Plex Mono',monospace;font-size:12px;resize:none;outline:none;line-height:1.6;transition:border-color .2s}
-textarea:focus{border-color:var(--purple3);box-shadow:0 0 0 2px rgba(139,92,246,.1)}
-textarea::placeholder{color:var(--muted)}
+/* INPUT CARD */
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.lang-row{display:flex;gap:6px;margin-bottom:14px}
+.lang-btn{flex:1;padding:7px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--ink3);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
+.lang-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.field-lbl{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;font-weight:700}
+select{width:100%;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--sans);font-size:13px;margin-bottom:12px;outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%231a1714' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;font-weight:500}
+select:focus{border-color:var(--ink)}
+select option{background:#fff;color:var(--ink)}
+textarea{width:100%;height:110px;padding:11px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:12px;resize:none;outline:none;line-height:1.65;transition:border-color .2s}
+textarea:focus{border-color:var(--ink);background:#fff}
+textarea::placeholder{color:var(--border-strong)}
 .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:5px;margin-bottom:12px}
-.clear-btn{background:transparent;border:1px solid var(--border);color:var(--muted);padding:4px 10px;border-radius:6px;font-size:11px;font-family:'IBM Plex Mono',monospace;cursor:pointer;transition:all .2s}
-.clear-btn:hover{border-color:var(--purple3);color:var(--purple3)}
-.char-count{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
+.clear-btn{background:transparent;border:1.5px solid var(--border);color:var(--ink3);padding:4px 10px;border-radius:5px;font-size:10px;font-family:var(--mono);cursor:pointer;transition:all .2s;font-weight:700}
+.clear-btn:hover{border-color:var(--ink);color:var(--ink)}
+.char-count{font-family:var(--mono);font-size:10px;color:var(--ink3)}
 
-/* ANALYZE BTN */
-#analyze-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border:none;border-radius:10px;color:#fff;font-family:'Outfit',sans-serif;font-weight:700;font-size:15px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(124,58,237,.4);position:relative;overflow:hidden}
-#analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 28px rgba(124,58,237,.5)}
-#analyze-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-#analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);animation:shimmer 1s infinite}
+/* ANALYZE BUTTON */
+#analyze-btn{width:100%;padding:14px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(200,65,10,.3);position:relative;overflow:hidden}
+#analyze-btn:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,65,10,.35)}
+#analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+#analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 1s infinite}
 @keyframes shimmer{to{left:100%}}
-.trust-row{display:flex;justify-content:center;gap:12px;margin-top:8px;flex-wrap:wrap}
-.trust-item{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted)}
-.trust-item::before{content:'✓ ';color:var(--accent)}
+.trust-pills{display:flex;justify-content:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.tpill{font-family:var(--mono);font-size:9px;color:var(--ink3);display:flex;align-items:center;gap:3px}
+.tpill::before{content:'✓';color:var(--v1);font-weight:700}
 
-/* RESULT */
-#result-card{display:none;background:var(--surface);border-radius:14px;overflow:hidden;margin-bottom:10px;border:1px solid var(--border);animation:slideIn .3s ease}
-@keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.result-header{padding:16px;display:flex;align-items:center;gap:12px}
-.verdict-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;font-weight:900}
-.verdict-label{font-size:19px;font-weight:900;line-height:1.2}
-.verdict-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px}
-.verdict-code{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-top:2px}
+/* RESULT CARD */
+#result-card{display:none;border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1.5px solid var(--border);box-shadow:var(--shadow-lg);animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-/* MANDATORY DISCLAIMER inside result */
-.result-disclaimer{padding:10px 16px;background:rgba(248,113,113,.06);border-bottom:1px solid rgba(248,113,113,.15);font-family:'IBM Plex Mono',monospace;font-size:10px;color:#f87171;line-height:1.6}
+/* VERDICT HEADER */
+.verdict-header{padding:16px;display:flex;align-items:flex-start;gap:13px}
+.verdict-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid;font-family:var(--mono);font-weight:700}
+.verdict-main{flex:1;min-width:0}
+.verdict-name{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.1}
+.verdict-sub{font-size:12px;margin-top:3px;font-weight:500}
+.verdict-code{font-family:var(--mono);font-size:9px;margin-top:4px;opacity:.6}
+
+/* HASHCHAIN STRIP — ALWAYS VISIBLE ✅ */
+.hash-strip{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface2)}
+.hash-verified-badge{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+.hash-check{font-size:14px;flex-shrink:0}
+.hash-texts{min-width:0}
+.hash-title{font-family:var(--mono);font-size:10px;font-weight:700;color:#276749}
+.hash-val{font-family:var(--mono);font-size:9px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
+.hash-actions{display:flex;gap:5px;flex-shrink:0}
+.hash-btn{padding:3px 9px;background:transparent;border:1.5px solid var(--border);border-radius:5px;font-family:var(--mono);font-size:9px;color:var(--ink2);cursor:pointer;transition:all .2s;font-weight:700}
+.hash-btn:hover{border-color:var(--ink);color:var(--ink)}
+
+/* RESULT DISCLAIMER */
+.result-disc{padding:9px 16px;font-family:var(--mono);font-size:10px;border-bottom:1px solid var(--border)}
 
 /* SUMMARY */
-.summary-line{padding:10px 16px 12px;font-size:13px;color:var(--white);line-height:1.5;border-bottom:1px solid var(--border)}
+.summary{padding:13px 16px;font-size:13px;line-height:1.6;font-weight:500;border-bottom:1px solid var(--border)}
 
-/* HASHCHAIN STRIP */
-.hash-strip{margin:0 16px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,255,213,.06);border:1px solid rgba(0,255,213,.18);border-radius:8px}
-.hash-strip-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
-.hash-strip-icon{font-size:14px;color:var(--accent);flex-shrink:0}
-.hash-strip-texts{min-width:0}
-.hash-strip-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent)}
-.hash-strip-val{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hash-copy-btn{flex-shrink:0;font-size:11px;color:var(--muted);padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:transparent;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s}
-.hash-copy-btn:hover{color:var(--accent);border-color:var(--accent)}
-.hash-learn{flex-shrink:0;font-size:10px;color:var(--purple3);text-decoration:none;font-family:'IBM Plex Mono',monospace;padding:3px 8px;border:1px solid var(--border);border-radius:5px;transition:all .2s}
-.hash-learn:hover{border-color:var(--purple3)}
+/* SIGNAL BREAKDOWN — NEW: shows P/M/A/X/C */
+.signals-wrap{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
+.signals-title{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:8px;font-weight:700}
+.signals-grid{display:flex;gap:6px;flex-wrap:wrap}
+.signal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:var(--mono);font-size:10px;border:1.5px solid;font-weight:700}
+.signal-chip.active-chip{background:var(--v3bg);border-color:var(--v3border);color:var(--v3)}
+.signal-chip.inactive-chip{background:var(--surface2);border-color:var(--border);color:var(--ink3)}
+.signal-def{font-size:9px;color:var(--ink3);margin-top:6px;line-height:1.5;font-family:var(--mono)}
 
 /* CONFIDENCE */
-.conf-wrap{padding:12px 16px}
-.conf-top{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px}
-.conf-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
-.conf-fill{height:100%;border-radius:3px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.conf-label{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-top:5px}
-.conf-note{font-size:9px;color:var(--muted);margin-top:3px}
+.conf-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
+.conf-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;color:var(--ink2);margin-bottom:6px;font-weight:700}
+.conf-pct{font-size:16px;font-weight:700}
+.conf-track{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.conf-fill{height:100%;border-radius:4px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.conf-band{font-family:var(--mono);font-size:9px;margin-top:5px;font-weight:700}
+.conf-note{font-size:10px;color:var(--ink3);margin-top:3px;line-height:1.5}
 
-/* RULES + TRACE */
-.section-wrap{padding:0 16px 12px}
-.collapsible-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--purple3);cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.arrow{display:inline-block;transition:transform .2s;font-style:normal;font-size:8px}
-.arrow.open{transform:rotate(90deg)}
-.collapsible-body{display:none;flex-wrap:wrap;gap:5px}
-.collapsible-body.open{display:flex}
-.trace-inner{display:none}
-.trace-inner.open{display:block}
-.rule-tag{padding:4px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid;display:inline-block}
-.trace-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
-.trace-val{color:var(--purple3)}
-.trace-note{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-bottom:6px}
+/* TRIGGERED RULES */
+.rules-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
+.section-hdr{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:7px;font-weight:700;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+.caret{font-size:8px;transition:transform .2s;display:inline-block}
+.caret.open{transform:rotate(90deg)}
+.rules-body{display:none;flex-wrap:wrap;gap:5px}
+.rules-body.open{display:flex}
+.rule-tag{padding:4px 10px;border-radius:5px;font-family:var(--mono);font-size:10px;border:1.5px solid;font-weight:700}
 
-/* SHARE + COPY */
-.actions-wrap{padding:12px 16px;border-top:1px solid var(--border)}
-.actions-btns{display:flex;gap:8px}
-.action-btn{flex:1;padding:10px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s;font-weight:600}
-.btn-share{background:var(--purple2);border:none;color:#fff}
-.btn-share:hover{opacity:.85}
-.btn-copy{background:transparent;border:1px solid var(--border);color:var(--muted)}
-.btn-copy:hover{border-color:var(--accent);color:var(--accent)}
-.actions-note{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;text-align:center}
+/* TRACE */
+.trace-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
+.trace-note{font-family:var(--mono);font-size:9px;color:var(--ink3);margin-bottom:6px}
+.trace-body{display:none}
+.trace-body.open{display:block}
+.trace-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink2)}
+.trace-val{color:var(--brand);font-weight:700}
+
+/* ACTIONS */
+.actions-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
+.action-btns{display:flex;gap:8px}
+.act-btn{flex:1;padding:10px;border-radius:7px;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700;letter-spacing:.3px}
+.btn-share{background:var(--brand);border:none;color:#fff}
+.btn-share:hover{background:var(--brand2)}
+.btn-copy{background:transparent;border:1.5px solid var(--border-strong);color:var(--ink2)}
+.btn-copy:hover{border-color:var(--ink);color:var(--ink);background:var(--surface2)}
+.action-note{font-family:var(--mono);font-size:9px;color:var(--ink3);text-align:center;margin-top:6px}
 
 /* SAFE NOTICE */
-.safe-notice{padding:10px 16px;background:rgba(139,92,246,.05);border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.6}
+.safe-notice{padding:10px 16px;background:var(--surface2);font-size:11px;color:var(--ink3);line-height:1.6;border-bottom:1px solid var(--border)}
 
 /* FEEDBACK */
-.feedback-wrap{padding:10px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.feedback-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
-.fb-btn{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .3s}
-.fb-btn.selected{background:rgba(139,92,246,.15);border-color:var(--purple3);color:var(--purple3);opacity:.7}
-.fb-btn:disabled{opacity:.4;cursor:not-allowed}
-.fb-thanks{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);display:none;width:100%;margin-top:4px}
-.fb-thanks.show{display:block}
-.fb-once{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);width:100%;margin-top:2px}
+.fb-wrap{padding:11px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface)}
+.fb-lbl{font-family:var(--mono);font-size:10px;color:var(--ink3);font-weight:700}
+.fb-btn{padding:5px 13px;background:transparent;border:1.5px solid var(--border);border-radius:20px;font-size:11px;color:var(--ink3);cursor:pointer;font-family:var(--mono);transition:all .2s;font-weight:700}
+.fb-btn.sel{background:var(--ink);border-color:var(--ink);color:#fff}
+.fb-btn:disabled{opacity:.5;cursor:not-allowed}
+.fb-thanks{font-family:var(--mono);font-size:10px;color:#276749;display:none;font-weight:700}
+.fb-thanks.show{display:inline}
+.fb-once{font-family:var(--mono);font-size:9px;color:var(--border-strong);width:100%;margin-top:2px}
 
 /* EXAMPLES */
-.examples-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
-.section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.section-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-bottom:10px}
-.example-btns{display:flex;flex-direction:column;gap:6px}
-.ex-btn{width:100%;padding:9px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;text-align:left;transition:all .2s}
-.ex-btn:hover{border-color:var(--purple3);color:var(--purple3);background:rgba(139,92,246,.05)}
+.examples-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.sec-title{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;font-weight:700}
+.sec-sub{font-family:var(--mono);font-size:9px;color:var(--border-strong);margin-bottom:10px}
+.ex-btns{display:flex;flex-direction:column;gap:6px}
+.ex-btn{width:100%;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:7px;color:var(--ink2);font-family:var(--mono);font-size:11px;cursor:pointer;text-align:left;transition:all .2s;font-weight:700}
+.ex-btn:hover{border-color:var(--ink);color:var(--ink);background:#fff}
 
 /* DISCLAIMER */
-.disclaimer-always{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px}
-.disclaimer-always strong{display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;color:#f87171;letter-spacing:1px;margin-bottom:6px}
-.disclaimer-always p{font-size:12px;color:rgba(240,232,255,.75);line-height:1.7}
+.disc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.disc-title{font-family:var(--mono);font-size:9px;color:var(--brand);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.disc-body{font-size:12px;color:var(--ink2);line-height:1.7}
 
-/* TRANSPARENCY */
-.transparency{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px}
-.trans-list{display:flex;flex-direction:column;gap:7px;margin-top:10px}
-.trans-item{font-size:12px;color:var(--white);display:flex;align-items:center;gap:8px}
-.trans-item::before{content:'◆';color:var(--purple3);font-size:8px;flex-shrink:0}
+/* HOW IT WORKS */
+.how-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.how-list{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.how-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink2);line-height:1.5}
+.how-item::before{content:'◆';color:var(--brand);font-size:8px;flex-shrink:0;margin-top:3px}
 
 /* TRUST FOOTER */
-.trust-footer{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-align:center}
-.tf-row1{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);margin-bottom:4px}
-.tf-row1 span{color:var(--accent)}
-.tf-row2{font-size:11px;color:var(--muted)}
+.trust-footer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 16px;margin-bottom:10px;text-align:center;box-shadow:var(--shadow)}
+.tf1{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;margin-bottom:3px}
+.tf1 span{color:var(--brand)}
+.tf2{font-size:11px;color:var(--ink3)}
 
-footer{text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);padding:16px 0 8px;line-height:1.9}
-footer span{color:var(--purple3)}
+footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border-strong);padding:12px 0 8px;line-height:2}
 
 /* TOAST */
-#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--accent);border-radius:8px;padding:8px 18px;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--accent);z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:12px;color:#fff;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--shadow-lg)}
 #toast.show{opacity:1}
 
 /* MODALS */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,.7);z-index:200;align-items:center;justify-content:center;padding:20px}
 .modal-overlay.show{display:flex}
-.modal-box{background:var(--surface2);border:1px solid var(--border2);border-radius:16px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6),var(--glow)}
-.modal-icon{font-size:38px;margin-bottom:10px}
-.modal-title{font-size:17px;font-weight:700;color:var(--purple3);margin-bottom:8px}
-.modal-text{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:16px}
-.modal-close{padding:10px 24px;background:var(--purple2);border:none;border-radius:8px;color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
+.modal-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
+.modal-icon{font-size:36px;margin-bottom:10px}
+.modal-title{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.modal-text{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.8;margin-bottom:16px}
+.modal-close{padding:10px 24px;background:var(--brand);border:none;border-radius:7px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer}
 
-/* VERDICT COLORS — v0=UNKNOWN,v1=LOW,v2=SUSPICIOUS,v3=HIGH */
-.v0{color:var(--v0)}.v1{color:var(--v1)}.v2{color:var(--v2)}.v3{color:var(--v3)}
-.bg0{background:rgba(99,102,241,.12)}.bg1{background:rgba(34,197,94,.10)}.bg2{background:rgba(251,146,60,.12)}.bg3{background:rgba(248,113,113,.12)}
-.fill0{background:var(--v0)}.fill1{background:var(--v1)}.fill2{background:var(--v2)}.fill3{background:var(--v3)}
-.rt0{color:var(--v0);border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.08)}
-.rt1{color:var(--v1);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.08)}
-.rt2{color:var(--v2);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.08)}
-.rt3{color:var(--v3);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.08)}
-.cl0{color:rgba(99,102,241,.8)}.cl1{color:rgba(34,197,94,.8)}.cl2{color:rgba(251,146,60,.8)}.cl3{color:rgba(248,113,113,.8)}
+/* VERDICT COLOR CLASSES */
+.v0-header{background:var(--v0bg);border-bottom:1px solid var(--v0border)}
+.v0-icon{border-color:var(--v0border);color:var(--v0);background:var(--v0bg)}
+.v0-name{color:var(--v0)}
+.v0-disc{background:#edf2f7;border-color:var(--v0border);color:var(--v0)}
+.v0-fill{background:var(--v0)}
+.v0-band{color:var(--v0)}
+.v0-tag{background:var(--v0bg);border-color:var(--v0border);color:var(--v0)}
+
+.v1-header{background:var(--v1bg);border-bottom:1px solid var(--v1border)}
+.v1-icon{border-color:var(--v1border);color:var(--v1);background:var(--v1bg)}
+.v1-name{color:var(--v1)}
+.v1-disc{background:#f0fff4;border-color:var(--v1border);color:var(--v1)}
+.v1-fill{background:var(--v1)}
+.v1-band{color:var(--v1)}
+.v1-tag{background:var(--v1bg);border-color:var(--v1border);color:var(--v1)}
+
+.v2-header{background:var(--v2bg);border-bottom:1px solid var(--v2border)}
+.v2-icon{border-color:var(--v2border);color:var(--v2);background:var(--v2bg)}
+.v2-name{color:var(--v2)}
+.v2-disc{background:#fffaf0;border-color:var(--v2border);color:var(--v2)}
+.v2-fill{background:var(--v2)}
+.v2-band{color:var(--v2)}
+.v2-tag{background:var(--v2bg);border-color:var(--v2border);color:var(--v2)}
+
+.v3-header{background:var(--v3bg);border-bottom:1px solid var(--v3border)}
+.v3-icon{border-color:var(--v3border);color:var(--v3);background:var(--v3bg)}
+.v3-name{color:var(--v3)}
+.v3-disc{background:#fff5f5;border-color:var(--v3border);color:var(--v3)}
+.v3-fill{background:var(--v3)}
+.v3-band{color:var(--v3)}
+.v3-tag{background:var(--v3bg);border-color:var(--v3border);color:var(--v3)}
 </style>
 </head>
 <body>
 
 <div id="warn-bar">
-  <span id="warn-text">⚠ This tool analyzes text for known risk patterns only. It does NOT confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</span>
+  <span id="warn-text">⚠ This tool analyzes text for known risk patterns only. It does NOT confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user. · यह टूल केवल जोखिम पैटर्न दिखाता है — धोखाधड़ी की पुष्टि नहीं करता।</span>
 </div>
 
 <div id="app">
 
   <!-- HEADER -->
   <div class="header">
-    <div class="logo-wrap">
-      <div class="logo-icon">🛡️</div>
+    <div class="logo-row">
+      <div class="logo-icon">🛡</div>
       <div class="logo-name">Veritas Guard</div>
     </div>
     <div class="tagline" id="tagline-text">DETERMINISTIC RISK SIGNALS · NO GUESSING</div>
-
-    <!-- ENGINE BADGE — dynamic from /health -->
-    <div class="engine-badge" id="engine-badge" onclick="document.getElementById('info-popup').classList.add('show')">
-      <div class="dot"></div>
-      <span id="engine-ver-text">ENGINE — CHECKING...</span>
+    <div>
+      <div class="engine-pill checking" id="engine-pill" onclick="showInfoModal()">
+        <div class="dot"></div>
+        <span id="engine-pill-text">ENGINE — CHECKING...</span>
+      </div>
     </div>
-
-    <!-- TRUST BADGE — disappears if not verified -->
-    <div id="trust-badge">🔒 Rules Hard-Locked · <span id="trust-ver">...</span></div>
+    <div>
+      <div id="trust-badge" class="hidden">🔒 <span id="trust-badge-text">Rules Hard-Locked · ...</span></div>
+    </div>
   </div>
 
   <!-- STATS -->
-  <div class="stats-bar">
-    <div class="stat-box">
-      <div class="stat-val" id="stat-total">0</div>
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-num" id="stat-total">0</div>
       <div class="stat-lbl" id="lbl-total">Total Scans</div>
-      <div class="stat-caption">Session-based</div>
+      <div class="stat-sub">Session</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-val" id="stat-today">0</div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-today">0</div>
       <div class="stat-lbl" id="lbl-today">Today</div>
-      <div class="stat-caption">Resets midnight</div>
+      <div class="stat-sub">Resets midnight</div>
     </div>
-    <div class="stat-box">
-      <div class="stat-val" id="stat-flagged">0</div>
+    <div class="stat-card">
+      <div class="stat-num" id="stat-flagged">0</div>
       <div class="stat-lbl">Flagged</div>
-      <div class="stat-caption">Risk found</div>
+      <div class="stat-sub">Risk found</div>
     </div>
   </div>
 
   <!-- RATE BAR -->
-  <div class="rate-bar">
-    <div class="rate-left" id="rate-text">Remaining: <strong>10</strong>/10</div>
+  <div class="rate-wrap">
+    <div class="rate-label" id="rate-label">Remaining: <strong id="rate-num">10</strong>/10</div>
     <div class="rate-dots" id="rate-dots"></div>
   </div>
-  <div class="rate-exhausted" id="rate-exhausted">Daily limit reached. Try again later.</div>
+  <div class="rate-warn" id="rate-warn">Daily limit reached. Try again later.</div>
 
   <!-- INPUT CARD -->
   <div class="card">
@@ -270,7 +332,7 @@ footer span{color:var(--purple3)}
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
     </div>
-    <div class="field-label" id="lbl-usecase">USE CASE</div>
+    <div class="field-lbl" id="lbl-usecase">USE CASE</div>
     <select id="usecase">
       <option value="cyber"      data-en="Cyber / Fraud"        data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
       <option value="banking"    data-en="Banking / Fintech"     data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
@@ -282,19 +344,19 @@ footer span{color:var(--purple3)}
       <option value="edu"        data-en="Education / Research"  data-hi="शिक्षा / अनुसंधान">Education / Research</option>
       <option value="enterprise" data-en="Enterprise Security"   data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
     </select>
-    <div class="field-label" id="lbl-input">MESSAGE / SMS / LINK</div>
-    <textarea id="input-text" placeholder="Paste SMS, WhatsApp message, or link here..." maxlength="1000"></textarea>
+    <div class="field-lbl" id="lbl-input">MESSAGE / SMS / LINK</div>
+    <textarea id="input-text" maxlength="1000" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
     <div class="char-row">
       <button class="clear-btn" id="clear-btn">✕ CLEAR</button>
-      <span class="char-count"><span id="char-val">0</span> / 1000</span>
+      <span class="char-count"><span id="char-val">0</span>/1000</span>
     </div>
     <button id="analyze-btn" onclick="doAnalyze()">
       <span id="btn-text">⚡ ANALYZE RISK SIGNALS</span>
     </button>
-    <div class="trust-row">
-      <span class="trust-item" id="nd1">No Login</span>
-      <span class="trust-item" id="nd2">No Storage</span>
-      <span class="trust-item" id="nd3">Deterministic Rules</span>
+    <div class="trust-pills">
+      <span class="tpill" id="nd1">No Login</span>
+      <span class="tpill" id="nd2">No Storage</span>
+      <span class="tpill" id="nd3">Deterministic Rules</span>
     </div>
   </div>
 
@@ -302,72 +364,81 @@ footer span{color:var(--purple3)}
   <div id="result-card"></div>
 
   <!-- EXAMPLES -->
-  <div class="examples-section">
-    <div class="section-title" id="ex-title">TRY AN EXAMPLE</div>
-    <div class="section-sub" id="ex-sub">Examples are simulated messages</div>
-    <div class="example-btns">
-      <button class="ex-btn" id="ex1" onclick="loadExample(0)">🚨 Try scam example</button>
-      <button class="ex-btn" id="ex2" onclick="loadExample(1)">🏦 Try bank SMS example</button>
-      <button class="ex-btn" id="ex3" onclick="loadExample(2)">🏛️ Try government advisory example</button>
+  <div class="examples-card">
+    <div class="sec-title" id="ex-title">TRY AN EXAMPLE</div>
+    <div class="sec-sub" id="ex-sub">Examples are simulated messages</div>
+    <div class="ex-btns">
+      <button class="ex-btn" id="ex1" onclick="loadEx(0)">🚨 Try scam example</button>
+      <button class="ex-btn" id="ex2" onclick="loadEx(1)">🏦 Try bank SMS example</button>
+      <button class="ex-btn" id="ex3" onclick="loadEx(2)">🏛 Try government advisory example</button>
     </div>
   </div>
 
-  <!-- DISCLAIMER — fixed legal wording -->
-  <div class="disclaimer-always">
-    <strong id="disc-title">⚠ DISCLAIMER</strong>
-    <p id="disc-body">This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</p>
+  <!-- DISCLAIMER -->
+  <div class="disc-card">
+    <div class="disc-title" id="disc-title">⚠ DISCLAIMER</div>
+    <p class="disc-body" id="disc-body">This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</p>
   </div>
 
   <!-- HOW IT WORKS -->
-  <div class="transparency">
-    <div class="section-title" id="trans-title">HOW THIS WORKS</div>
-    <div class="trans-list">
-      <div class="trans-item" id="tr1">No login required</div>
-      <div class="trans-item" id="tr2">No message content stored</div>
-      <div class="trans-item" id="tr3">Deterministic rules — no guessing, no prediction</div>
-      <div class="trans-item" id="tr4">Hash-sealed engine — rules cannot change without re-seal</div>
+  <div class="how-card">
+    <div class="sec-title" id="how-title">HOW THIS WORKS</div>
+    <div class="how-list">
+      <div class="how-item" id="how1">No login required</div>
+      <div class="how-item" id="how2">No message content stored</div>
+      <div class="how-item" id="how3">Deterministic rules — no guessing, no prediction</div>
+      <div class="how-item" id="how4">Hash-sealed engine — rules cannot change without re-seal</div>
     </div>
   </div>
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
-    <div class="tf-row1">ENGINE <span id="footer-ver">v1.2</span> · STATUS: <span>RULES FROZEN</span></div>
-    <div class="tf-row2">Deterministic engine · No guessing · No message storage</div>
+    <div class="tf1">ENGINE <span id="footer-ver">v1.5</span> · STATUS: <span>RULES FROZEN</span></div>
+    <div class="tf2">Deterministic engine · No guessing · No message storage</div>
   </div>
 
-  <footer>© <span>Veritas Engine</span> — Open Risk Awareness Tool</footer>
+  <footer>© Veritas Engine — Open Risk Awareness Tool</footer>
 </div>
 
 <!-- TOAST -->
 <div id="toast"></div>
 
+<!-- INFO MODAL -->
+<div class="modal-overlay" id="info-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🛡</div>
+    <div class="modal-title">About Veritas Guard</div>
+    <div class="modal-text" id="info-modal-text">
+      Veritas Guard analyzes text for known risk patterns using deterministic rules.<br><br>
+      It does NOT block, verify, report, or guarantee anything.<br><br>
+      Low risk does NOT mean safe.<br><br>
+      Powered by deterministic pattern rules — not AI.
+    </div>
+    <button class="modal-close" onclick="closeModal('info-modal')">UNDERSTOOD</button>
+  </div>
+</div>
+
+<!-- HASHCHAIN MODAL -->
+<div class="modal-overlay" id="hash-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🔒</div>
+    <div class="modal-title">Hashchain Verified</div>
+    <div class="modal-text">
+      Result is hash-sealed. Engine rules cannot change without re-seal.<br><br>
+      This ensures the engine that ran is exactly the version shown.<br><br>
+      You can share this result as cryptographic proof.
+    </div>
+    <button class="modal-close" onclick="closeModal('hash-modal')">UNDERSTOOD</button>
+  </div>
+</div>
+
 <!-- LIMIT MODAL -->
 <div class="modal-overlay" id="limit-modal">
   <div class="modal-box">
     <div class="modal-icon">⏳</div>
-    <div class="modal-title" id="modal-title">Daily Limit Reached</div>
-    <div class="modal-text" id="modal-text">You have used all 10 analyses for today.<br>Please try again after 24 hours.</div>
-    <button class="modal-close" onclick="document.getElementById('limit-modal').classList.remove('show')">UNDERSTOOD</button>
-  </div>
-</div>
-
-<!-- INFO POPUP -->
-<div class="modal-overlay" id="info-popup">
-  <div class="modal-box">
-    <div class="modal-icon">🛡️</div>
-    <div class="modal-title">About Veritas Guard</div>
-    <div class="modal-text" id="info-text">Veritas Guard analyzes text for known risk patterns using deterministic rules.<br><br>It does NOT block, verify, report, or guarantee anything.<br><br>Low risk does NOT mean safe.<br><br>Powered by deterministic pattern rules — not AI.</div>
-    <button class="modal-close" onclick="document.getElementById('info-popup').classList.remove('show')">UNDERSTOOD</button>
-  </div>
-</div>
-
-<!-- HASHCHAIN POPUP -->
-<div class="modal-overlay" id="hash-popup">
-  <div class="modal-box">
-    <div class="modal-icon">🔒</div>
-    <div class="modal-title">Hashchain Verified</div>
-    <div class="modal-text">Result is hash-sealed. Engine rules cannot change without re-seal.<br><br>This ensures the engine that ran is exactly the version shown.<br><br>You can share this result as cryptographic proof.</div>
-    <button class="modal-close" onclick="document.getElementById('hash-popup').classList.remove('show')">UNDERSTOOD</button>
+    <div class="modal-title" id="limit-title">Daily Limit Reached</div>
+    <div class="modal-text" id="limit-text">You have used all 10 analyses for today.<br>Please try again after 24 hours.</div>
+    <button class="modal-close" onclick="closeModal('limit-modal')">OK</button>
   </div>
 </div>
 
@@ -375,583 +446,531 @@ footer span{color:var(--purple3)}
 /* ══════════════════════════════════
    CONFIG
 ══════════════════════════════════ */
-const ENGINE_BASE  = "https://api.veritasengine.in";
-const ENGINE_URL   = ENGINE_BASE + "/decide";
-const HEALTH_URL   = ENGINE_BASE + "/health";
-const STATS_URL    = ENGINE_BASE + "/stats";
-const DAILY_LIMIT  = 10;
-const DEV_CODE     = "VERITAS-DEV-2026";
-
-/* ══════════════════════════════════
-   v1.2 DECISION MAPPING (FINAL – ENGINE CONTRACT)
-0 = NORMAL
-1 = ATTENTION
-2 = SUSPICIOUS
-3 = HIGH_RISK
-══════════════════════════════════ */
-/*
-  ENGINE v1.2 DECISION BEHAVIOR:
-  0 = NORMAL    → conf  0–20%  → very weak / no signals
-  1 = ATTENTION → conf 20–45%  → partial / early signals
-  2 = SUSPECT   → conf 45–75%  → multiple known patterns
-  3 = HIGH_RISK → conf 75–100% → strong + confirmed fraud
-*/
-const DECISION_MAP = {
-  en: {
-    label:   [
-      "No Pattern Detected",          // 0 – NORMAL
-      "Attention Required",           // 1 – ATTENTION
-      "Suspicious Patterns Found",    // 2 – SUSPECT
-      "High Risk – Likely Scam"       // 3 – HIGH_RISK
-    ],
-    sub: [
-      "No known risk signals in this message",         // 0
-      "Weak or partial risk signals detected",         // 1
-      "Multiple known suspicious patterns detected",   // 2
-      "Strong, confirmed fraud pattern signals"        // 3
-    ],
-    code: [
-      "DECISION: 0 · NORMAL",
-      "DECISION: 1 · ATTENTION",
-      "DECISION: 2 · SUSPECT",
-      "DECISION: 3 · HIGH_RISK"
-    ],
-    confRange: [
-      "Signal strength: 0–20%",   // 0
-      "Signal strength: 20–45%",  // 1
-      "Signal strength: 45–75%",  // 2
-      "Signal strength: 75–100%"  // 3
-    ],
-    summary: [
-      "No known risk patterns were found in this message. This does NOT mean the message is safe.",
-      "Weak risk indicators detected. Verify the sender before taking any action.",
-      "Multiple risk patterns detected. Do not click links or share any details.",
-      "Strong scam indicators detected. Do not proceed, share details, or make payments."
-    ],
-    // conf label based on raw % — shown below bar
-    confBands: [
-      { max: 20,  label: "Very low signal — no strong patterns matched",    cls: "cl0" },
-      { max: 45,  label: "Weak signal — partial or early patterns matched", cls: "cl1" },
-      { max: 75,  label: "Moderate signal — multiple patterns matched",     cls: "cl2" },
-      { max: 101, label: "Strong signal — confirmed high-risk patterns",    cls: "cl3" }
-    ],
-    confNote: "Confidence reflects pattern match strength only. It does NOT confirm fraud or guarantee safety.",
-    emoji:    ["—","!","⚠","✖"],
-    rulesLabel: "TRIGGERED RULES",
-    traceLabel: "TRACE",
-    traceNote:  "Technical details for auditors",
-    hashVerified: "Hashchain Verified",
-    hashCopy: "Copy Hash",
-    hashLearn: "Learn more",
-    hashCopied: "Verification hash copied",
-    safeNotice: "Genuine messages can sometimes match risk patterns. This engine does not guarantee legitimacy.",
-    disclaimer: "This engine does not guarantee safety or fraud. Results are pattern-based only.",
-    fbLabel: "Was this helpful?", fbYes: "Helpful", fbNo: "Not Helpful",
-    fbThanks: "Thanks. Feedback recorded (anonymous).",
-    fbOnce: "One feedback per result.",
-    shareBtn: "SHARE", copyBtn: "COPY PROOF",
-    actionsNote: "Shares verdict, confidence % & proof hash",
-    toastCopied: "Proof copied ✓",
-    noRules: "No specific patterns triggered"
-  },
-  hi: {
-    label:   [
-      "कोई पैटर्न नहीं मिला",         // 0 – NORMAL
-      "ध्यान दें",                    // 1 – ATTENTION
-      "संदिग्ध पैटर्न मिले",          // 2 – SUSPECT
-      "उच्च जोखिम – संभावित स्कैम"   // 3 – HIGH_RISK
-    ],
-    sub: [
-      "इस संदेश में कोई ज्ञात जोखिम संकेत नहीं",      // 0
-      "कमजोर या आंशिक जोखिम संकेत मिले",              // 1
-      "कई ज्ञात संदिग्ध पैटर्न मिले",                  // 2
-      "मजबूत, पुष्ट धोखाधड़ी पैटर्न संकेत"            // 3
-    ],
-    code: [
-      "निर्णय: 0 · सामान्य",
-      "निर्णय: 1 · ध्यान दें",
-      "निर्णय: 2 · संदिग्ध",
-      "निर्णय: 3 · उच्च जोखिम"
-    ],
-    confRange: [
-      "संकेत शक्ति: 0–20%",
-      "संकेत शक्ति: 20–45%",
-      "संकेत शक्ति: 45–75%",
-      "संकेत शक्ति: 75–100%"
-    ],
-    summary: [
-      "इस संदेश में कोई ज्ञात जोखिम पैटर्न नहीं मिला। इसका अर्थ यह नहीं कि संदेश सुरक्षित है।",
-      "कमजोर जोखिम संकेत मिले। कोई भी कार्रवाई करने से पहले प्रेषक की पुष्टि करें।",
-      "कई जोखिम पैटर्न मिले। कोई लिंक क्लिक न करें और कोई विवरण साझा न करें।",
-      "मजबूत स्कैम संकेत मिले। आगे न बढ़ें, विवरण साझा न करें और कोई भुगतान न करें।"
-    ],
-    confBands: [
-      { max: 20,  label: "बहुत कम संकेत — कोई मजबूत पैटर्न नहीं मिला",   cls: "cl0" },
-      { max: 45,  label: "कमजोर संकेत — आंशिक पैटर्न मिले",              cls: "cl1" },
-      { max: 75,  label: "मध्यम संकेत — कई पैटर्न मिले",                 cls: "cl2" },
-      { max: 101, label: "मजबूत संकेत — उच्च जोखिम पैटर्न की पुष्टि",   cls: "cl3" }
-    ],
-    confNote: "विश्वास स्कोर केवल पैटर्न मिलान की ताकत दर्शाता है। यह धोखाधड़ी की पुष्टि नहीं करता।",
-    emoji:    ["—","!","⚠","✖"],
-    rulesLabel: "सक्रिय नियम",
-    traceLabel: "ट्रेस",
-    traceNote:  "ऑडिटर के लिए तकनीकी विवरण",
-    hashVerified: "हैशचेन सत्यापित",
-    hashCopy: "हैश कॉपी",
-    hashLearn: "और जानें",
-    hashCopied: "सत्यापन हैश कॉपी हो गया",
-    safeNotice: "वास्तविक संदेश भी जोखिम पैटर्न से मेल खा सकते हैं। यह इंजन वैधता की गारंटी नहीं देता।",
-    disclaimer: "यह इंजन सुरक्षा या धोखाधड़ी की गारंटी नहीं देता। परिणाम केवल पैटर्न-आधारित हैं।",
-    fbLabel: "क्या यह सहायक था?", fbYes: "सहायक", fbNo: "सहायक नहीं",
-    fbThanks: "धन्यवाद। फीडबैक दर्ज (गुमनाम)।",
-    fbOnce: "प्रति परिणाम एक फीडबैक।",
-    shareBtn: "शेयर", copyBtn: "प्रूफ कॉपी",
-    actionsNote: "निर्णय, विश्वास % और प्रूफ हैश शेयर होगा",
-    toastCopied: "प्रूफ कॉपी हो गया ✓",
-    noRules: "कोई विशेष पैटर्न नहीं मिला"
-  }
-};
-
-const T = {
-  en: {
-    tagline:"DETERMINISTIC RISK SIGNALS · NO GUESSING",
-    lblUsecase:"USE CASE", lblInput:"MESSAGE / SMS / LINK",
-    placeholder:"Paste SMS, WhatsApp message, or link here...",
-    btnText:"⚡ ANALYZE RISK SIGNALS", analyzing:"ANALYZING...",
-    nd1:"No Login", nd2:"No Storage", nd3:"Deterministic Rules",
-    lblTotal:"Total Scans", lblToday:"Today",
-    rateText:"Remaining:", rateExhausted:"Daily limit reached. Try again later.",
-    discTitle:"⚠ DISCLAIMER",
-    discBody:"This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.",
-    transTitle:"HOW THIS WORKS",
-    tr1:"No login required", tr2:"No message content stored",
-    tr3:"Deterministic rules — no guessing, no prediction",
-    tr4:"Hash-sealed engine — rules cannot change without re-seal",
-    exTitle:"TRY AN EXAMPLE", exSub:"Examples are simulated messages",
-    ex1:"🚨 Try scam example", ex2:"🏦 Try bank SMS example", ex3:"🏛️ Try government advisory example",
-    modalTitle:"Daily Limit Reached",
-    modalText:"You have used all 10 analyses for today.<br>Please try again after 24 hours."
-  },
-  hi: {
-    tagline:"निर्धारित जोखिम संकेत · कोई अनुमान नहीं",
-    lblUsecase:"उपयोग का प्रकार", lblInput:"संदेश / SMS / लिंक",
-    placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
-    btnText:"⚡ जोखिम संकेत जांचें", analyzing:"विश्लेषण हो रहा है...",
-    nd1:"कोई लॉगिन नहीं", nd2:"कोई स्टोरेज नहीं", nd3:"निर्धारित नियम",
-    lblTotal:"कुल जाँचें", lblToday:"आज",
-    rateText:"शेष:", rateExhausted:"दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।",
-    discTitle:"⚠ अस्वीकरण",
-    discBody:"यह टूल केवल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। कम जोखिम का अर्थ सुरक्षित नहीं है। अंतिम जिम्मेदारी उपयोगकर्ता की है।",
-    transTitle:"यह कैसे काम करता है",
-    tr1:"कोई लॉगिन आवश्यक नहीं", tr2:"कोई संदेश सामग्री संग्रहीत नहीं",
-    tr3:"निर्धारित नियम — कोई अनुमान नहीं",
-    tr4:"हैश-सील्ड इंजन — री-सील के बिना नियम नहीं बदल सकते",
-    exTitle:"उदाहरण आज़माएं", exSub:"ये नकली संदेश हैं — केवल उदाहरण के लिए",
-    ex1:"🚨 स्कैम उदाहरण", ex2:"🏦 बैंक SMS उदाहरण", ex3:"🏛️ सरकारी सलाह उदाहरण",
-    modalTitle:"दैनिक सीमा समाप्त",
-    modalText:"आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।"
-  }
-};
+const ENGINE_BASE = "https://api.veritasengine.in";
+const DAILY_LIMIT = 10;
+const DEV_CODE    = "VERITAS-DEV-2026";
 
 const EXAMPLES = [
-  "Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim your prize. Visit: bit.ly/claim-now",
-  "Sent Rs.1,250 from HDFC Bank A/c XX1234 to Amazon Pay. UPI Ref 9837264512",
-  "Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in for official information."
+  "Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim. Visit: bit.ly/claim-now",
+  "Sent Rs.1,250 from HDFC Bank A/c XX1234 to Amazon Pay. UPI Ref 9837264512. Not you? Call 1800-XXX-XXXX",
+  "Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in only."
 ];
+
+/* ══ SIGNAL EXPLANATIONS — P/M/A/X/C ══ */
+const SIGNAL_META = {
+  P:{ label:'P — Phishing',    en:'Impersonation / identity fraud keywords', hi:'पहचान धोखाधड़ी संकेत' },
+  M:{ label:'M — Money',       en:'Monetary request or reward signal',        hi:'पैसे की मांग या इनाम संकेत' },
+  A:{ label:'A — Amount',      en:'Specific amount pattern detected',         hi:'राशि पैटर्न मिला' },
+  X:{ label:'X — External',    en:'Suspicious external link detected',        hi:'संदिग्ध बाहरी लिंक' },
+  C:{ label:'C — Call-to-Act', en:'Urgency / action demand detected',         hi:'तत्कालता / कार्रवाई की मांग' }
+};
+
+/* ══ DECISION MAP — engine v1.5 ══
+   0=NORMAL 1=ATTENTION 2=SUSPECT 3=HIGH_RISK
+══ */
+const DM = {
+  en:{
+    label:  ['No Pattern Detected','Attention Required','Suspicious Patterns Found','High Risk — Likely Scam'],
+    sub:    ['No known risk signals in this message','Weak or partial risk signals detected','Multiple risk patterns detected','Strong, confirmed fraud pattern signals'],
+    code:   ['DECISION 0 · NORMAL','DECISION 1 · ATTENTION','DECISION 2 · SUSPECT','DECISION 3 · HIGH_RISK'],
+    range:  ['Signal 0–20%','Signal 20–45%','Signal 45–75%','Signal 75–100%'],
+    emoji:  ['—','!','⚠','✖'],
+    disc:   [
+      'No patterns found. This does NOT mean the message is safe.',
+      'Weak signals detected. Verify sender before any action.',
+      'Multiple risk patterns found. Do not click links or share details.',
+      'Strong scam signals. Do not proceed, share details, or make payments.'
+    ],
+    summary:[
+      'No known risk patterns were found. This does NOT guarantee the message is legitimate.',
+      'Weak risk indicators detected. Verify the sender before taking any action.',
+      'Multiple risk patterns detected. Do not click any links or share personal details.',
+      'Strong scam indicators detected. Do not proceed, share details, or make payments.'
+    ],
+    bands:[
+      {max:20, label:'Very low signal — no strong patterns matched'},
+      {max:45, label:'Weak signal — partial patterns matched'},
+      {max:75, label:'Moderate signal — multiple patterns matched'},
+      {max:101,label:'Strong signal — high-risk patterns confirmed'}
+    ],
+    confNote:'Confidence = pattern match strength only. Does NOT confirm fraud or guarantee safety.',
+    noRules:'No specific patterns triggered',
+    ruleHdr:'TRIGGERED RULES',traceHdr:'TRACE (Auditors)',traceNote:'Technical signal breakdown — for advanced users',
+    hashTitle:'✅ Hashchain Verified',hashCopy:'Copy Hash',hashLearn:'Learn more',hashCopied:'Verification hash copied',
+    safeNotice:'Genuine messages can sometimes match risk patterns. This engine does not guarantee legitimacy.',
+    disc:'This engine does not confirm safety or fraud. Results are pattern-based only.',
+    fbLbl:'Was this helpful?',fbYes:'Helpful',fbNo:'Not Helpful',
+    fbThanks:'Thanks. Feedback recorded (anonymous).',fbOnce:'One feedback per result.',
+    share:'SHARE',copy:'COPY PROOF',actNote:'Shares verdict, confidence % & proof hash',
+    toastCopy:'Proof copied ✓',toastHash:'Hash copied ✓',noRulesTag:'No patterns triggered'
+  },
+  hi:{
+    label:  ['कोई पैटर्न नहीं','ध्यान दें','संदिग्ध पैटर्न मिले','उच्च जोखिम — संभावित स्कैम'],
+    sub:    ['इस संदेश में कोई ज्ञात जोखिम नहीं','कमजोर या आंशिक जोखिम संकेत','कई जोखिम पैटर्न मिले','मजबूत पुष्ट धोखाधड़ी संकेत'],
+    code:   ['निर्णय 0 · सामान्य','निर्णय 1 · ध्यान दें','निर्णय 2 · संदिग्ध','निर्णय 3 · उच्च जोखिम'],
+    range:  ['संकेत 0–20%','संकेत 20–45%','संकेत 45–75%','संकेत 75–100%'],
+    emoji:  ['—','!','⚠','✖'],
+    disc:   [
+      'कोई पैटर्न नहीं मिला। इसका अर्थ सुरक्षित नहीं है।',
+      'कमजोर संकेत मिले। कोई कार्रवाई से पहले जाँचें।',
+      'कई जोखिम पैटर्न मिले। लिंक क्लिक न करें।',
+      'मजबूत स्कैम संकेत। आगे न बढ़ें।'
+    ],
+    summary:[
+      'कोई ज्ञात जोखिम पैटर्न नहीं मिला। यह वैधता की गारंटी नहीं है।',
+      'कमजोर जोखिम संकेत मिले। कोई भी कार्रवाई से पहले प्रेषक की जाँच करें।',
+      'कई जोखिम पैटर्न मिले। कोई लिंक क्लिक न करें और विवरण साझा न करें।',
+      'मजबूत स्कैम संकेत मिले। आगे न बढ़ें, विवरण साझा न करें।'
+    ],
+    bands:[
+      {max:20, label:'बहुत कम संकेत — कोई मजबूत पैटर्न नहीं'},
+      {max:45, label:'कमजोर संकेत — आंशिक पैटर्न मिले'},
+      {max:75, label:'मध्यम संकेत — कई पैटर्न मिले'},
+      {max:101,label:'मजबूत संकेत — उच्च जोखिम पुष्टि'}
+    ],
+    confNote:'विश्वास स्कोर = केवल पैटर्न मिलान। यह धोखाधड़ी की पुष्टि नहीं करता।',
+    noRules:'कोई विशेष पैटर्न नहीं मिला',
+    ruleHdr:'सक्रिय नियम',traceHdr:'ट्रेस (ऑडिटर)',traceNote:'तकनीकी संकेत विवरण — उन्नत उपयोगकर्ताओं के लिए',
+    hashTitle:'✅ हैशचेन सत्यापित',hashCopy:'हैश कॉपी',hashLearn:'और जानें',hashCopied:'हैश कॉपी हो गया',
+    safeNotice:'वास्तविक संदेश भी पैटर्न से मेल खा सकते हैं। यह इंजन वैधता की गारंटी नहीं देता।',
+    disc:'यह इंजन सुरक्षा या धोखाधड़ी की गारंटी नहीं देता। परिणाम पैटर्न-आधारित हैं।',
+    fbLbl:'क्या यह सहायक था?',fbYes:'सहायक',fbNo:'सहायक नहीं',
+    fbThanks:'धन्यवाद। फीडबैक दर्ज।',fbOnce:'प्रति परिणाम एक फीडबैक।',
+    share:'शेयर',copy:'प्रूफ कॉपी',actNote:'निर्णय, विश्वास % और प्रूफ हैश शेयर होगा',
+    toastCopy:'प्रूफ कॉपी हो गया ✓',toastHash:'हैश कॉपी हो गया ✓',noRulesTag:'कोई पैटर्न नहीं मिला'
+  }
+};
+
+const TXT = {
+  en:{
+    tagline:'DETERMINISTIC RISK SIGNALS · NO GUESSING',
+    lblUsecase:'USE CASE',lblInput:'MESSAGE / SMS / LINK',
+    placeholder:'Paste SMS, WhatsApp message, or link here...',
+    btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',
+    nd1:'No Login',nd2:'No Storage',nd3:'Deterministic Rules',
+    lblTotal:'Total Scans',lblToday:'Today',
+    rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',
+    discTitle:'⚠ DISCLAIMER',
+    discBody:'This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.',
+    howTitle:'HOW THIS WORKS',
+    how1:'No login required',how2:'No message content stored',
+    how3:'Deterministic rules — no guessing, no prediction',
+    how4:'Hash-sealed engine — rules cannot change without re-seal',
+    exTitle:'TRY AN EXAMPLE',exSub:'Examples are simulated messages',
+    ex1:'🚨 Try scam example',ex2:'🏦 Try bank SMS example',ex3:'🏛 Try government advisory example',
+    limitTitle:'Daily Limit Reached',limitText:'You have used all 10 analyses for today.<br>Please try again after 24 hours.'
+  },
+  hi:{
+    tagline:'निर्धारित जोखिम संकेत · कोई अनुमान नहीं',
+    lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',
+    placeholder:'SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...',
+    btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',
+    nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',
+    lblTotal:'कुल जाँचें',lblToday:'आज',
+    rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।',
+    discTitle:'⚠ अस्वीकरण',
+    discBody:'यह टूल केवल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। कम जोखिम सुरक्षित नहीं है।',
+    howTitle:'यह कैसे काम करता है',
+    how1:'कोई लॉगिन आवश्यक नहीं',how2:'कोई संदेश सामग्री संग्रहीत नहीं',
+    how3:'निर्धारित नियम — कोई अनुमान नहीं',
+    how4:'हैश-सील्ड इंजन — री-सील के बिना नियम नहीं बदलते',
+    exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं — उदाहरण के लिए',
+    ex1:'🚨 स्कैम उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',
+    limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।'
+  }
+};
 
 let lang = localStorage.getItem('vg_lang') || 'en';
 let lastResult = null;
 let lastHash = '';
-let engineVerified = false;
 let engineVersion = '';
+let engineVerified = false;
 
-/* ══ HEALTH CHECK — fetch version dynamically ══ */
+/* ══ HEALTH CHECK ══ */
 async function checkHealth() {
-  const badge = document.getElementById('engine-badge');
-  const trustBadge = document.getElementById('trust-badge');
-  const trustVer = document.getElementById('trust-ver');
+  const pill = document.getElementById('engine-pill');
+  const pillText = document.getElementById('engine-pill-text');
+  const badge = document.getElementById('trust-badge');
+  const badgeText = document.getElementById('trust-badge-text');
   const footerVer = document.getElementById('footer-ver');
-  const engVerText = document.getElementById('engine-ver-text');
-  const infoText = document.getElementById('info-text');
-
   try {
-    const res = await fetch(HEALTH_URL, { signal: AbortSignal.timeout(5000) });
-    if (!res.ok) throw new Error('health fail');
-    const d = await res.json();
-
-    const ver = d.version || d.engine_version || 'unknown';
+    const r = await fetch(ENGINE_BASE + '/health', { signal: AbortSignal.timeout(5000) });
+    if (!r.ok) throw new Error('not ok');
+    const d = await r.json();
+    engineVersion = d.version || 'unknown';
     const frozen = d.rules_frozen !== false;
-    const hashOk = d.hashchain_verified !== false;
-
-    engineVersion = ver;
-    engineVerified = frozen && hashOk;
-
-    engVerText.textContent = 'ENGINE ' + ver + ' — ONLINE';
-    trustVer.textContent = ver;
-    footerVer.textContent = ver;
-
+    const hcOk   = d.hashchain_verified !== false;
+    engineVerified = frozen && hcOk;
+    pillText.textContent = 'ENGINE ' + engineVersion + ' — ONLINE';
+    pill.className = 'engine-pill online';
+    footerVer.textContent = engineVersion;
     if (engineVerified) {
-      badge.classList.remove('unverified');
-      trustBadge.classList.remove('hidden','warn');
+      badge.className = 'locked';
+      badgeText.textContent = 'Rules Hard-Locked · ' + engineVersion;
+      document.getElementById('trust-badge').style.display = 'inline-flex';
     } else {
-      badge.classList.add('unverified');
-      trustBadge.classList.add('warn');
-      trustBadge.textContent = '⚠ Engine verification failed';
+      badge.className = 'warn';
+      badgeText.textContent = 'Engine Not Fully Verified';
+      document.getElementById('trust-badge').style.display = 'inline-flex';
     }
-
-    if (infoText) {
-      infoText.innerHTML =
-        'Engine version: <strong>' + ver + '</strong><br>' +
-        'Rules frozen: ' + (frozen ? '✔ Yes' : '✖ No') + '<br>' +
-        'Hashchain: ' + (hashOk ? '✔ Verified' : '✖ Not verified') + '<br><br>' +
-        'This tool does NOT confirm fraud.<br>Low risk does NOT mean safe.';
-    }
+    const infoText = document.getElementById('info-modal-text');
+    if (infoText) infoText.innerHTML =
+      'Engine: <strong>' + engineVersion + '</strong><br>' +
+      'Rules frozen: ' + (frozen ? '✅ Yes' : '❌ No') + '<br>' +
+      'Hashchain: ' + (hcOk ? '✅ Verified' : '❌ Not verified') + '<br><br>' +
+      'This tool does NOT confirm fraud.<br>Low risk does NOT mean safe.';
   } catch(e) {
-    engVerText.textContent = 'ENGINE — UNREACHABLE';
-    badge.classList.add('unverified');
-    trustBadge.classList.add('warn');
-    trustBadge.textContent = '⚠ Engine unreachable';
+    pillText.textContent = 'ENGINE — UNREACHABLE';
+    pill.className = 'engine-pill offline';
+    badge.className = 'warn';
+    badgeText.textContent = '⚠ Engine unreachable';
+    document.getElementById('trust-badge').style.display = 'inline-flex';
+    document.getElementById('analyze-btn').disabled = true;
   }
 }
 
 /* ══ RATE LIMIT ══ */
-function getRateData() {
-  const today = new Date().toDateString();
-  try {
-    const d = JSON.parse(localStorage.getItem('vg_rate') || '{}');
-    return d.date === today ? d : { date: today, used: 0 };
-  } catch(e) { return { date: new Date().toDateString(), used: 0 }; }
+function getRD() {
+  const t = new Date().toDateString();
+  try { const d=JSON.parse(localStorage.getItem('vg_rate')||'{}'); return d.date===t?d:{date:t,used:0}; }
+  catch(e){ return {date:new Date().toDateString(),used:0}; }
 }
-function saveRateData(d) { localStorage.setItem('vg_rate', JSON.stringify(d)); }
-function getRem() { return Math.max(0, DAILY_LIMIT - getRateData().used); }
-function incUse() { const d = getRateData(); d.used++; saveRateData(d); }
+function saveRD(d){ localStorage.setItem('vg_rate',JSON.stringify(d)); }
+function getRem(){ return Math.max(0, DAILY_LIMIT - getRD().used); }
+function incUse(){ const d=getRD(); d.used++; saveRD(d); }
 
-function renderRateBar() {
+function renderRate() {
   const rem = getRem();
-  const t = T[lang];
-  document.getElementById('rate-text').innerHTML = t.rateText + ' <strong>' + rem + '</strong>/' + DAILY_LIMIT;
+  const t = TXT[lang];
+  document.getElementById('rate-label').innerHTML = t.rateText + ' <strong id="rate-num">' + rem + '</strong>/10';
   const el = document.getElementById('rate-dots');
   el.innerHTML = '';
-  for (let i = 0; i < DAILY_LIMIT; i++) {
-    const d = document.createElement('div');
-    d.className = 'rate-dot' + (i >= rem ? ' used' : '');
+  for (let i=0;i<DAILY_LIMIT;i++){
+    const d=document.createElement('div');
+    d.className='rdot'+(i>=rem?' used':'');
     el.appendChild(d);
   }
   const btn = document.getElementById('analyze-btn');
-  const exMsg = document.getElementById('rate-exhausted');
-  if (rem <= 0) {
-    btn.disabled = true;
-    exMsg.textContent = t.rateExhausted;
-    exMsg.classList.add('show');
+  const warn = document.getElementById('rate-warn');
+  if (rem<=0) {
+    btn.disabled=true;
+    warn.textContent=t.rateWarn;
+    warn.classList.add('show');
   } else {
-    btn.disabled = false;
-    exMsg.classList.remove('show');
+    if(engineVerified||document.getElementById('engine-pill').classList.contains('online')) btn.disabled=false;
+    warn.classList.remove('show');
   }
 }
 
 /* ══ STATS ══ */
 async function loadStats() {
   try {
-    const res = await fetch(STATS_URL, { signal: AbortSignal.timeout(4000) });
-    if (!res.ok) return;
-    const d = await res.json();
-    if (d.total   !== undefined) document.getElementById('stat-total').textContent   = d.total;
-    if (d.today   !== undefined) document.getElementById('stat-today').textContent   = d.today;
-    if (d.flagged !== undefined) document.getElementById('stat-flagged').textContent = d.flagged;
-  } catch(e) {}
+    const r = await fetch(ENGINE_BASE+'/stats',{signal:AbortSignal.timeout(4000)});
+    if(!r.ok) return;
+    const d = await r.json();
+    if(d.total!==undefined) document.getElementById('stat-total').textContent=d.total;
+    if(d.today!==undefined) document.getElementById('stat-today').textContent=d.today;
+    if(d.flagged!==undefined) document.getElementById('stat-flagged').textContent=d.flagged;
+  } catch(e){}
 }
 
 /* ══ ENGINE CALL ══ */
 async function callEngine(text) {
-  try {
-    const res = await fetch(ENGINE_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ input: text })
-    });
-    if (!res.ok) throw new Error('engine error');
-    const data = await res.json();
-    return {
-      verdict:     data.decision,
-      confidence:  data.confidence  || 0,
-      fired_rules: data.fired_rules || [],
-      trace:       data.trace       || [],
-      intent:      data.intent      || '',
-      hash:        data.hash        || 'pending'
-    };
-  } catch(e) { return null; }
+  const r = await fetch(ENGINE_BASE+'/decide',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({input:text})
+  });
+  if(!r.ok) throw new Error('engine error');
+  return r.json();
 }
 
 /* ══ ANALYZE ══ */
 async function doAnalyze() {
   const text = document.getElementById('input-text').value.trim();
   if (!text) {
-    document.getElementById('input-text').style.borderColor = '#f87171';
-    setTimeout(() => document.getElementById('input-text').style.borderColor = '', 1000);
+    const ta = document.getElementById('input-text');
+    ta.style.borderColor='#9b2335';
+    setTimeout(()=>ta.style.borderColor='',1000);
     return;
   }
-  if (getRem() <= 0) {
-    document.getElementById('limit-modal').classList.add('show');
-    return;
-  }
-  const t = T[lang];
-  const dm = DECISION_MAP[lang];
+  if (getRem()<=0) { openModal('limit-modal'); return; }
+  const dm = DM[lang];
+  const t  = TXT[lang];
   const btn = document.getElementById('analyze-btn');
-  btn.disabled = true;
-  btn.classList.add('loading');
-  document.getElementById('btn-text').textContent = t.analyzing;
-
-  const r = await callEngine(text);
-
-  btn.disabled = false;
-  btn.classList.remove('loading');
-  document.getElementById('btn-text').textContent = t.btnText;
-
-  if (!r || r.verdict === undefined) {
+  btn.disabled=true; btn.classList.add('loading');
+  document.getElementById('btn-text').textContent=t.analyzing;
+  try {
+    const r = await callEngine(text);
+    incUse(); renderRate(); loadStats();
+    lastResult = r;
+    lastHash = r.hash||'';
+    renderResult(r, dm);
+  } catch(e) {
     alert('❌ Engine not reachable — check server');
-    renderRateBar();
-    return;
+  } finally {
+    btn.classList.remove('loading');
+    document.getElementById('btn-text').textContent=t.btnText;
+    renderRate();
   }
-
-  incUse();
-  renderRateBar();
-  lastResult = r;
-  lastHash = r.hash || '';
-  loadStats();
-  showResult(r, dm);
 }
 
-/* ══ CONF LABEL — engine behavior bands ══
-   0=NORMAL 0-20% | 1=ATTENTION 20-45% | 2=SUSPECT 45-75% | 3=HIGH_RISK 75-100%
-*/
-function confLabel(conf, dm) {
-  for (const band of dm.confBands) {
-    if (conf < band.max) return { label: band.label, cls: band.cls };
-  }
-  return { label: dm.confBands[3].label, cls: dm.confBands[3].cls };
+/* ══ PARSE SIGNALS from fired_rules ══ */
+function parseSignals(fired_rules) {
+  const active = new Set();
+  (fired_rules||[]).forEach(r => {
+    if(/PHISH|KYC|IMPERSON|IDENTITY/i.test(r)) active.add('P');
+    if(/MONEY|PAYMENT|TRANSFER|LOTTERY|FEE/i.test(r)) active.add('M');
+    if(/AMOUNT|RUPEE|RS\.|₹|CASHBACK/i.test(r)) active.add('A');
+    if(/LINK|URL|DOMAIN|HTTP|\.NET|\.XYZ|\.IN/i.test(r)) active.add('X');
+    if(/URGENT|BLOCK|SUSPEND|VERIFY|OTP|CLICK|ACTION|CLAIM/i.test(r)) active.add('C');
+    // Also check rule name prefixes
+    if(r.startsWith('RULE_P')) active.add('P');
+    if(r.startsWith('RULE_M')) active.add('M');
+    if(r.startsWith('RULE_A')) active.add('A');
+    if(r.startsWith('RULE_X')) active.add('X');
+    if(r.startsWith('RULE_C')) active.add('C');
+    // INTEGER_MATH_HIGH — high risk multi-signal
+    if(r==='RULE_INTEGER_MATH_HIGH') { active.add('A');active.add('C');active.add('X'); }
+  });
+  return active;
+}
+
+/* ══ GET CONF BAND ══ */
+function getBand(conf, dm) {
+  for(const b of dm.bands) if(conf<b.max) return b.label;
+  return dm.bands[3].label;
 }
 
 /* ══ TRUNCATE HASH ══ */
-function trunc(h) {
-  if (!h || h.length < 14) return h;
-  return h.slice(0,6) + '···' + h.slice(-6);
-}
+function trunc(h){ return (!h||h.length<14)?h:h.slice(0,8)+'···'+h.slice(-6); }
 
-/* ══ SHOW RESULT ══ */
-function showResult(r, dm) {
-  const v    = r.verdict;
+/* ══ RENDER RESULT ══ */
+function renderResult(r, dm) {
+  const v    = r.decision !== undefined ? r.decision : (r.verdict||0);
   const conf = r.confidence || 0;
+  const rules = r.fired_rules || [];
+  const trace = r.trace || [];
+  const hash  = r.hash || 'pending';
+  const signals = parseSignals(rules);
+  const ver = engineVersion ? ' · ' + engineVersion : '';
+  const band = getBand(conf, dm);
 
-  const rulesHTML = r.fired_rules && r.fired_rules.length > 0
-    ? r.fired_rules.map(rule => '<span class="rule-tag rt' + v + '">' + rule + '</span>').join('')
-    : '<span class="rule-tag" style="color:var(--muted);border-color:var(--border)">' + dm.noRules + '</span>';
+  /* SIGNAL CHIPS HTML */
+  const sigHTML = ['P','M','A','X','C'].map(s => {
+    const active = signals.has(s);
+    const meta = SIGNAL_META[s];
+    const label = lang==='hi' ? s+' — '+meta.hi : meta.label;
+    return '<span class="signal-chip '+(active?'active-chip':'inactive-chip')+'" title="'+(lang==='hi'?meta.hi:meta.en)+'">'+(active?'●':'○')+' '+label+'</span>';
+  }).join('');
 
-  const traceHTML = (r.trace || []).map(step =>
-    '<div class="trace-row"><span>' + (step.step || '—') + '</span><span class="trace-val">' +
-    (step.score !== undefined ? step.score : (step.weight !== undefined ? '+' + step.weight : '—')) +
-    '</span></div>'
-  ).join('') || '<div class="trace-row"><span>—</span><span class="trace-val">—</span></div>';
+  const sigDefHTML = signals.size>0
+    ? '<div class="signal-def">'+
+        [...signals].map(s=>lang==='hi'?SIGNAL_META[s].hi:SIGNAL_META[s].en).join(' · ')
+      +'</div>'
+    : '';
 
-  const verStr = engineVersion ? ' · ' + engineVersion : '';
+  /* RULES HTML */
+  const rulesHTML = rules.length>0
+    ? rules.map(rule=>'<span class="rule-tag v'+v+'-tag">'+rule+'</span>').join('')
+    : '<span class="rule-tag" style="background:var(--surface2);border-color:var(--border);color:var(--ink3)">'+dm.noRulesTag+'</span>';
+
+  /* TRACE HTML */
+  const traceHTML = trace.length>0
+    ? trace.map(s=>'<div class="trace-row"><span>'+(s.step||'—')+'</span><span class="trace-val">'+(s.score!==undefined?s.score:s.weight!==undefined?'+'+s.weight:'—')+'</span></div>').join('')
+    : '<div class="trace-row"><span>No trace data</span><span class="trace-val">—</span></div>';
 
   const el = document.getElementById('result-card');
   el.innerHTML =
     /* VERDICT HEADER */
-    '<div class="result-header bg' + v + '">' +
-      '<div class="verdict-icon bg' + v + ' v' + v + '">' + dm.emoji[v] + '</div>' +
-      '<div>' +
-        '<div class="verdict-label v' + v + '">' + dm.label[v] + '</div>' +
-        '<div class="verdict-sub">' + dm.sub[v] + '</div>' +
-        '<div class="verdict-code">' + dm.code[v] + ' · ' + dm.confRange[v] + '</div>' +
-      '</div>' +
-    '</div>' +
-    /* MANDATORY DISCLAIMER — every result card */
-    '<div class="result-disclaimer">⚠ ' + dm.disclaimer + '</div>' +
+    '<div class="verdict-header v'+v+'-header">' +
+      '<div class="verdict-icon v'+v+'-icon">'+dm.emoji[v]+'</div>' +
+      '<div class="verdict-main">' +
+        '<div class="verdict-name v'+v+'-name">'+dm.label[v]+'</div>'+
+        '<div class="verdict-sub">'+dm.sub[v]+'</div>'+
+        '<div class="verdict-code">'+dm.code[v]+' · '+dm.range[v]+'</div>'+
+      '</div>'+
+    '</div>'+
+    /* HASHCHAIN — ALWAYS VISIBLE ✅ */
+    '<div class="hash-strip">'+
+      '<div class="hash-verified-badge">'+
+        '<span class="hash-check">✅</span>'+
+        '<div class="hash-texts">'+
+          '<div class="hash-title">'+dm.hashTitle+ver+'</div>'+
+          '<div class="hash-val">'+trunc(hash)+'</div>'+
+        '</div>'+
+      '</div>'+
+      '<div class="hash-actions">'+
+        '<button class="hash-btn" onclick="copyHash()">'+dm.hashCopy+'</button>'+
+        '<button class="hash-btn" onclick="openModal(\'hash-modal\')">'+dm.hashLearn+'</button>'+
+      '</div>'+
+    '</div>'+
+    /* RESULT DISCLAIMER */
+    '<div class="result-disc v'+v+'-disc">⚠ '+dm.disc[v]+'</div>'+
     /* SUMMARY */
-    '<div class="summary-line">' + dm.summary[v] + '</div>' +
-    /* HASHCHAIN STRIP */
-    '<div class="hash-strip">' +
-      '<div class="hash-strip-left">' +
-        '<span class="hash-strip-icon">🔒</span>' +
-        '<div class="hash-strip-texts">' +
-          '<div class="hash-strip-label">' + dm.hashVerified + verStr + '</div>' +
-          '<div class="hash-strip-val">' + trunc(r.hash) + '</div>' +
-        '</div>' +
-      '</div>' +
-      '<button class="hash-copy-btn" onclick="copyHash()">' + dm.hashCopy + '</button>' +
-      '<a class="hash-learn" href="#" onclick="event.preventDefault();document.getElementById(\'hash-popup\').classList.add(\'show\')">' + dm.hashLearn + '</a>' +
-    '</div>' +
+    '<div class="summary">'+dm.summary[v]+'</div>'+
+    /* SIGNAL BREAKDOWN — P/M/A/X/C */
+    '<div class="signals-wrap">'+
+      '<div class="signals-title">SIGNAL BREAKDOWN</div>'+
+      '<div class="signals-grid">'+sigHTML+'</div>'+
+      sigDefHTML+
+    '</div>'+
     /* CONFIDENCE */
-    '<div class="conf-wrap">' +
-      '<div class="conf-top"><span>' + DECISION_MAP[lang].rulesLabel.replace('TRIGGERED ','') + ' CONFIDENCE</span><span class="v' + v + '">' + conf + '%</span></div>' +
-      '<div class="conf-bar"><div class="conf-fill fill' + v + '" id="conf-fill"></div></div>' +
-      '<div class="conf-label ' + confLabel(conf,dm).cls + '">' + confLabel(conf,dm).label + '</div>' +
-      '<div class="conf-note">' + dm.confNote + '</div>' +
-    '</div>' +
+    '<div class="conf-wrap">'+
+      '<div class="conf-top"><span>CONFIDENCE</span><span class="conf-pct v'+v+'-name">'+conf+'%</span></div>'+
+      '<div class="conf-track"><div class="conf-fill v'+v+'-fill" id="conf-fill"></div></div>'+
+      '<div class="conf-band v'+v+'-band">'+band+'</div>'+
+      '<div class="conf-note">'+dm.confNote+'</div>'+
+    '</div>'+
     /* TRIGGERED RULES */
-    '<div class="section-wrap">' +
-      '<button class="collapsible-btn" onclick="toggle(\'ra\',\'rb\')">' +
-        '<i class="arrow" id="ra">▶</i> ' + dm.rulesLabel +
-      '</button>' +
-      '<div class="collapsible-body" id="rb">' + rulesHTML + '</div>' +
-    '</div>' +
+    '<div class="rules-wrap">'+
+      '<div class="section-hdr" onclick="toggleSec(\'ra\',\'rb\')"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
+      '<div class="rules-body" id="rb">'+rulesHTML+'</div>'+
+    '</div>'+
     /* TRACE */
-    '<div class="section-wrap">' +
-      '<button class="collapsible-btn" onclick="toggle(\'ta\',\'tb\')">' +
-        '<i class="arrow" id="ta">▶</i> 🔒 ' + dm.traceLabel +
-      '</button>' +
-      '<div class="trace-note">' + dm.traceNote + '</div>' +
-      '<div class="trace-inner" id="tb">' + traceHTML + '</div>' +
-    '</div>' +
-    /* SHARE + COPY — always visible */
-    '<div class="actions-wrap">' +
-      '<div class="actions-btns">' +
-        '<button class="action-btn btn-share" onclick="shareResult()">' + dm.shareBtn + '</button>' +
-        '<button class="action-btn btn-copy" onclick="copyProof()">' + dm.copyBtn + '</button>' +
-      '</div>' +
-      '<div class="actions-note">' + dm.actionsNote + '</div>' +
-    '</div>' +
+    '<div class="trace-wrap">'+
+      '<div class="section-hdr" onclick="toggleSec(\'ta\',\'tb\')"><span class="caret" id="ta">▶</span> 🔒 '+dm.traceHdr+'</div>'+
+      '<div class="trace-note">'+dm.traceNote+'</div>'+
+      '<div class="trace-body" id="tb">'+traceHTML+'</div>'+
+    '</div>'+
+    /* ACTIONS */
+    '<div class="actions-wrap">'+
+      '<div class="action-btns">'+
+        '<button class="act-btn btn-share" onclick="shareResult()">'+dm.share+'</button>'+
+        '<button class="act-btn btn-copy" onclick="copyProof()">'+dm.copy+'</button>'+
+      '</div>'+
+      '<div class="action-note">'+dm.actNote+'</div>'+
+    '</div>'+
     /* SAFE NOTICE */
-    '<div class="safe-notice">' + dm.safeNotice + '</div>' +
+    '<div class="safe-notice">'+dm.safeNotice+'</div>'+
     /* FEEDBACK */
-    '<div class="feedback-wrap">' +
-      '<span class="feedback-lbl">' + dm.fbLabel + '</span>' +
-      '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">' + dm.fbYes + '</button>' +
-      '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">' + dm.fbNo + '</button>' +
-      '<span class="fb-thanks" id="fb-thanks">' + dm.fbThanks + '</span>' +
-      '<span class="fb-once">' + dm.fbOnce + '</span>' +
+    '<div class="fb-wrap">'+
+      '<span class="fb-lbl">'+dm.fbLbl+'</span>'+
+      '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">'+dm.fbYes+'</button>'+
+      '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">'+dm.fbNo+'</button>'+
+      '<span class="fb-thanks" id="fb-thanks">'+dm.fbThanks+'</span>'+
+      '<span class="fb-once">'+dm.fbOnce+'</span>'+
     '</div>';
 
-  el.style.display = 'block';
-  setTimeout(() => { const f = document.getElementById('conf-fill'); if(f) f.style.width = conf + '%'; }, 100);
-  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  el.style.display='block';
+  setTimeout(()=>{ const f=document.getElementById('conf-fill'); if(f) f.style.width=conf+'%'; },100);
+  el.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
 /* ══ HELPERS ══ */
-function toggle(arrowId, bodyId) {
-  const a = document.getElementById(arrowId);
-  const b = document.getElementById(bodyId);
-  if (a) a.classList.toggle('open');
-  if (b) b.classList.toggle('open');
+function toggleSec(caretId, bodyId) {
+  const c=document.getElementById(caretId);
+  const b=document.getElementById(bodyId);
+  if(c) c.classList.toggle('open');
+  if(b) b.classList.toggle('open');
 }
 
 function copyHash() {
-  if (!lastHash) return;
-  navigator.clipboard.writeText(lastHash).then(() => showToast(DECISION_MAP[lang].hashCopied));
+  if(!lastHash) return;
+  navigator.clipboard.writeText(lastHash).then(()=>showToast(DM[lang].hashCopied));
 }
 
 function buildProof() {
-  if (!lastResult) return '';
-  const r  = lastResult;
-  const dm = DECISION_MAP[lang];
-  return (
-    'VERITAS GUARD — RISK ANALYSIS\n' +
-    '================================\n' +
-    'Decision   : ' + dm.label[r.verdict] + '\n' +
-    'Code       : ' + dm.code[r.verdict] + '\n' +
-    'Confidence : ' + (r.confidence||0) + '%\n' +
-    'Rules      : ' + ((r.fired_rules||[]).join(', ') || 'None') + '\n' +
-    'Hash       : ' + (r.hash||'pending') + '\n' +
-    'Engine     : ' + (engineVersion||'unknown') + ' · RULES FROZEN\n' +
-    'Time       : ' + new Date().toLocaleString() + '\n' +
-    '================================\n' +
-    'NOTE: Low risk does NOT mean safe.\n' +
-    'veritasengine.in'
-  );
+  if(!lastResult) return '';
+  const r=lastResult; const dm=DM[lang];
+  const v=r.decision!==undefined?r.decision:(r.verdict||0);
+  return 'VERITAS GUARD — RISK ANALYSIS\n'+
+    '================================\n'+
+    'Verdict    : '+dm.label[v]+'\n'+
+    'Decision   : '+dm.code[v]+'\n'+
+    'Confidence : '+(r.confidence||0)+'%\n'+
+    'Signals    : '+(r.fired_rules||[]).join(', ')||'None'+'\n'+
+    'Hash       : '+(r.hash||'pending')+'\n'+
+    'Engine     : '+(engineVersion||'unknown')+' · RULES FROZEN\n'+
+    'Time       : '+new Date().toLocaleString()+'\n'+
+    '================================\n'+
+    'NOTE: Low risk does NOT mean safe.\n'+
+    'veritasengine.in';
 }
 
 function copyProof() {
-  const text = buildProof();
-  if (!text) return;
-  navigator.clipboard.writeText(text).then(() => showToast(DECISION_MAP[lang].toastCopied));
+  const t=buildProof(); if(!t) return;
+  navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));
 }
 
 function shareResult() {
-  const text = buildProof();
-  if (!text) return;
-  if (navigator.share) {
-    navigator.share({ title: 'Veritas Guard — Risk Analysis', text });
-  } else {
-    navigator.clipboard.writeText(text).then(() => showToast(DECISION_MAP[lang].toastCopied));
-  }
-}
-
-function showToast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  setTimeout(() => el.classList.remove('show'), 2500);
+  const t=buildProof(); if(!t) return;
+  if(navigator.share) navigator.share({title:'Veritas Guard — Risk Analysis',text:t});
+  else navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));
 }
 
 function giveFb(type) {
-  const yes = document.getElementById('fb-yes');
-  const no  = document.getElementById('fb-no');
-  const thanks = document.getElementById('fb-thanks');
-  if (!yes || !no) return;
-  yes.disabled = true; no.disabled = true;
-  yes.classList.toggle('selected', type === 'yes');
-  no.classList.toggle('selected', type === 'no');
-  if (thanks) thanks.classList.add('show');
+  const y=document.getElementById('fb-yes');
+  const n=document.getElementById('fb-no');
+  const thanks=document.getElementById('fb-thanks');
+  if(!y||!n) return;
+  y.disabled=true; n.disabled=true;
+  y.classList.toggle('sel',type==='yes');
+  n.classList.toggle('sel',type==='no');
+  if(thanks) thanks.classList.add('show');
 }
 
-function loadExample(i) {
-  const inp = document.getElementById('input-text');
-  inp.value = EXAMPLES[i];
-  document.getElementById('char-val').textContent = EXAMPLES[i].length;
+function showToast(msg) {
+  const el=document.getElementById('toast');
+  el.textContent=msg; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function showInfoModal(){ openModal('info-modal'); }
+
+function loadEx(i) {
+  const inp=document.getElementById('input-text');
+  inp.value=EXAMPLES[i];
+  document.getElementById('char-val').textContent=EXAMPLES[i].length;
   inp.focus();
 }
 
 /* ══ LANG ══ */
-function setLang(l) {
-  lang = l;
-  localStorage.setItem('vg_lang', l);
-  applyLang();
-}
+function setLang(l) { lang=l; localStorage.setItem('vg_lang',l); applyLang(); }
 
 function applyLang() {
-  const t = T[lang];
-  const map = {
+  const t=TXT[lang]; const dm=DM[lang];
+  const map={
     'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,
     'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,
     'lbl-total':t.lblTotal,'lbl-today':t.lblToday,
     'disc-title':t.discTitle,'disc-body':t.discBody,
-    'trans-title':t.transTitle,'tr1':t.tr1,'tr2':t.tr2,'tr3':t.tr3,'tr4':t.tr4,
-    'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3
+    'how-title':t.howTitle,'how1':t.how1,'how2':t.how2,'how3':t.how3,'how4':t.how4,
+    'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3,
+    'limit-title':t.limitTitle
   };
-  for (const [id, val] of Object.entries(map)) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val;
-  }
-  document.getElementById('input-text').placeholder = t.placeholder;
-  document.querySelectorAll('#usecase option').forEach(o => {
-    o.textContent = lang === 'hi' ? o.dataset.hi : o.dataset.en;
+  for(const [id,val] of Object.entries(map)){ const el=document.getElementById(id); if(el) el.textContent=val; }
+  const lt=document.getElementById('limit-text'); if(lt) lt.innerHTML=t.limitText;
+  document.getElementById('input-text').placeholder=t.placeholder;
+  document.querySelectorAll('#usecase option').forEach(o=>{
+    o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;
   });
-  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
-  document.getElementById('btn-hi').classList.toggle('active', lang === 'hi');
-  renderRateBar();
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
+  renderRate();
 }
 
 /* ══ DEV BYPASS ══ */
-document.addEventListener('input', function(e) {
-  if (e.target.id === 'input-text' && e.target.value.trim() === DEV_CODE) {
-    const d = getRateData(); d.used = 0; saveRateData(d);
-    e.target.value = '';
-    document.getElementById('char-val').textContent = '0';
-    renderRateBar();
-    showToast('✅ Dev: Limit reset!');
+document.addEventListener('input', e=>{
+  if(e.target.id==='input-text' && e.target.value.trim()===DEV_CODE){
+    const d=getRD(); d.used=0; saveRD(d);
+    e.target.value=''; document.getElementById('char-val').textContent='0';
+    renderRate(); showToast('✅ Dev: Limit reset!');
   }
 });
 
 /* ══ INIT ══ */
-document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('input-text').addEventListener('input', function() {
-    document.getElementById('char-val').textContent = this.value.length;
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('input-text').addEventListener('input',function(){
+    document.getElementById('char-val').textContent=this.value.length;
   });
-  document.getElementById('clear-btn').addEventListener('click', () => {
-    document.getElementById('input-text').value = '';
-    document.getElementById('char-val').textContent = '0';
-    document.getElementById('result-card').style.display = 'none';
-    lastResult = null; lastHash = '';
+  document.getElementById('clear-btn').addEventListener('click',()=>{
+    document.getElementById('input-text').value='';
+    document.getElementById('char-val').textContent='0';
+    document.getElementById('result-card').style.display='none';
+    lastResult=null; lastHash='';
   });
   applyLang();
   checkHealth();
