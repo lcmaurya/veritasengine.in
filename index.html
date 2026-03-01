@@ -11,7 +11,7 @@
   --border:#3a1660;--border2:#5c2a96;
   --purple:#8b5cf6;--purple2:#7c3aed;--purple3:#a78bfa;
   --accent:#00ffd5;--white:#f0e8ff;--muted:rgba(240,232,255,0.55);
-  --v0:#22c55e;--v1:#facc15;--v2:#fb923c;--v3:#f87171;
+  --v0:#6366f1;--v1:#22c55e;--v2:#fb923c;--v3:#f87171;
   --glow:0 0 24px rgba(139,92,246,0.35);
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -31,16 +31,25 @@ body::after{content:'';position:fixed;width:600px;height:600px;background:radial
 .logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--purple2),#4c1d95);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:var(--glow)}
 .logo-name{font-size:26px;font-weight:900;letter-spacing:-0.5px;background:linear-gradient(135deg,#a78bfa,#f0e8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .tagline{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+
+/* ENGINE BADGE — disappears if not verified */
 .engine-badge{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 12px;background:rgba(0,255,213,.08);border:1px solid rgba(0,255,213,.25);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);cursor:pointer}
 .engine-badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+.engine-badge.unverified{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.25);color:#f87171}
+.engine-badge.unverified .dot{background:#f87171}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* TRUST BADGE — hard-locked indicator */
+#trust-badge{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:6px;padding:4px 14px;background:rgba(0,255,213,.05);border:1px solid rgba(0,255,213,.15);border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--accent);transition:all .3s}
+#trust-badge.hidden{display:none}
+#trust-badge.warn{background:rgba(248,113,113,.07);border-color:rgba(248,113,113,.2);color:#f87171}
 
 /* STATS */
 .stats-bar{display:flex;gap:8px;margin:12px 0}
-.stat-box{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center;cursor:default}
+.stat-box{flex:1;background:rgba(255,255,255,.06);border:1px solid var(--border);border-radius:10px;padding:10px 6px;text-align:center}
 .stat-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent)}
 .stat-lbl{font-size:9px;color:rgba(240,232,255,.7);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
-.stat-caption{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(240,232,255,.35);margin-top:2px}
+.stat-caption{font-family:'IBM Plex Mono',monospace;font-size:8px;color:rgba(240,232,255,.3);margin-top:2px}
 
 /* RATE BAR */
 .rate-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
@@ -84,22 +93,27 @@ textarea::placeholder{color:var(--muted)}
 @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 .result-header{padding:16px;display:flex;align-items:center;gap:12px}
 .verdict-icon{width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;font-weight:900}
-.verdict-label{font-size:21px;font-weight:900}
-.verdict-desc{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:2px}
-.verdict-guarantee{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(248,113,113,.7);margin-top:3px}
+.verdict-label{font-size:19px;font-weight:900;line-height:1.2}
+.verdict-sub{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);margin-top:3px}
+.verdict-code{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-top:2px}
+
+/* MANDATORY DISCLAIMER inside result */
+.result-disclaimer{padding:10px 16px;background:rgba(248,113,113,.06);border-bottom:1px solid rgba(248,113,113,.15);font-family:'IBM Plex Mono',monospace;font-size:10px;color:#f87171;line-height:1.6}
 
 /* SUMMARY */
-.summary-line{padding:0 16px 12px;font-size:13px;color:var(--white);line-height:1.5;border-bottom:1px solid var(--border)}
+.summary-line{padding:10px 16px 12px;font-size:13px;color:var(--white);line-height:1.5;border-bottom:1px solid var(--border)}
 
 /* HASHCHAIN STRIP */
-.hash-strip{margin:0 16px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,255,213,.07);border:1px solid rgba(0,255,213,.2);border-radius:8px;cursor:pointer}
+.hash-strip{margin:0 16px 12px;display:flex;align-items:center;gap:8px;padding:8px 12px;background:rgba(0,255,213,.06);border:1px solid rgba(0,255,213,.18);border-radius:8px}
 .hash-strip-left{display:flex;align-items:center;gap:8px;flex:1;min-width:0}
 .hash-strip-icon{font-size:14px;color:var(--accent);flex-shrink:0}
 .hash-strip-texts{min-width:0}
 .hash-strip-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent)}
 .hash-strip-val{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.hash-copy-icon{flex-shrink:0;font-size:13px;color:var(--muted);padding:2px 6px;border:1px solid var(--border);border-radius:5px;transition:all .2s}
-.hash-copy-icon:hover{color:var(--accent);border-color:var(--accent)}
+.hash-copy-btn{flex-shrink:0;font-size:11px;color:var(--muted);padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:transparent;cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .2s}
+.hash-copy-btn:hover{color:var(--accent);border-color:var(--accent)}
+.hash-learn{flex-shrink:0;font-size:10px;color:var(--purple3);text-decoration:none;font-family:'IBM Plex Mono',monospace;padding:3px 8px;border:1px solid var(--border);border-radius:5px;transition:all .2s}
+.hash-learn:hover{border-color:var(--purple3)}
 
 /* CONFIDENCE */
 .conf-wrap{padding:12px 16px}
@@ -107,10 +121,10 @@ textarea::placeholder{color:var(--muted)}
 .conf-bar{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
 .conf-fill{height:100%;border-radius:3px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
 .conf-label{font-family:'IBM Plex Mono',monospace;font-size:9px;margin-top:5px}
-.conf-note{font-size:9px;color:var(--muted);margin-top:2px}
+.conf-note{font-size:9px;color:var(--muted);margin-top:3px}
 
-/* RULES */
-.rules-wrap{padding:0 16px 12px}
+/* RULES + TRACE */
+.section-wrap{padding:0 16px 12px}
 .collapsible-btn{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--purple3);cursor:pointer;background:none;border:none;padding:0;display:flex;align-items:center;gap:6px;margin-bottom:6px}
 .arrow{display:inline-block;transition:transform .2s;font-style:normal;font-size:8px}
 .arrow.open{transform:rotate(90deg)}
@@ -119,32 +133,28 @@ textarea::placeholder{color:var(--muted)}
 .trace-inner{display:none}
 .trace-inner.open{display:block}
 .rule-tag{padding:4px 10px;border-radius:20px;font-family:'IBM Plex Mono',monospace;font-size:10px;border:1px solid;display:inline-block}
-
-/* TRACE */
-.trace-wrap{padding:0 16px 12px}
-.trace-btn-wrap{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-.trace-lock{font-size:10px;color:var(--muted)}
 .trace-row{display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .trace-val{color:var(--purple3)}
+.trace-note{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-bottom:6px}
 
 /* SHARE + COPY */
 .actions-wrap{padding:12px 16px;border-top:1px solid var(--border)}
 .actions-btns{display:flex;gap:8px}
 .action-btn{flex:1;padding:10px;border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;cursor:pointer;transition:all .2s;font-weight:600}
 .btn-share{background:var(--purple2);border:none;color:#fff}
-.btn-share:hover{background:var(--purple3);color:#000}
+.btn-share:hover{opacity:.85}
 .btn-copy{background:transparent;border:1px solid var(--border);color:var(--muted)}
 .btn-copy:hover{border-color:var(--accent);color:var(--accent)}
 .actions-note{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--muted);margin-top:6px;text-align:center}
 
 /* SAFE NOTICE */
-.safe-notice{padding:10px 16px;background:rgba(139,92,246,.06);border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.6}
+.safe-notice{padding:10px 16px;background:rgba(139,92,246,.05);border-top:1px solid var(--border);font-size:11px;color:var(--muted);line-height:1.6}
 
 /* FEEDBACK */
 .feedback-wrap{padding:10px 16px;border-top:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .feedback-lbl{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted)}
 .fb-btn{padding:5px 12px;background:transparent;border:1px solid var(--border);border-radius:20px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'IBM Plex Mono',monospace;transition:all .3s}
-.fb-btn.selected,.fb-btn:disabled.selected{background:rgba(139,92,246,.15);border-color:var(--purple3);color:var(--purple3);opacity:.7}
+.fb-btn.selected{background:rgba(139,92,246,.15);border-color:var(--purple3);color:var(--purple3);opacity:.7}
 .fb-btn:disabled{opacity:.4;cursor:not-allowed}
 .fb-thanks{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--accent);display:none;width:100%;margin-top:4px}
 .fb-thanks.show{display:block}
@@ -152,7 +162,7 @@ textarea::placeholder{color:var(--muted)}
 
 /* EXAMPLES */
 .examples-section{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:10px}
-.section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.section-title{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
 .section-sub{font-family:'IBM Plex Mono',monospace;font-size:9px;color:rgba(240,232,255,.3);margin-bottom:10px}
 .example-btns{display:flex;flex-direction:column;gap:6px}
 .ex-btn{width:100%;padding:9px 12px;background:transparent;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'IBM Plex Mono',monospace;font-size:11px;cursor:pointer;text-align:left;transition:all .2s}
@@ -169,7 +179,7 @@ textarea::placeholder{color:var(--muted)}
 .trans-item{font-size:12px;color:var(--white);display:flex;align-items:center;gap:8px}
 .trans-item::before{content:'◆';color:var(--purple3);font-size:8px;flex-shrink:0}
 
-/* TRUST FOOTER BAR */
+/* TRUST FOOTER */
 .trust-footer{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:10px;text-align:center}
 .tf-row1{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--white);margin-bottom:4px}
 .tf-row1 span{color:var(--accent)}
@@ -191,21 +201,21 @@ footer span{color:var(--purple3)}
 .modal-text{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);line-height:1.8;margin-bottom:16px}
 .modal-close{padding:10px 24px;background:var(--purple2);border:none;border-radius:8px;color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;cursor:pointer}
 
-/* VERDICT COLORS */
+/* VERDICT COLORS — v0=UNKNOWN,v1=LOW,v2=SUSPICIOUS,v3=HIGH */
 .v0{color:var(--v0)}.v1{color:var(--v1)}.v2{color:var(--v2)}.v3{color:var(--v3)}
-.bg0{background:rgba(34,197,94,.12)}.bg1{background:rgba(250,204,21,.12)}.bg2{background:rgba(251,146,60,.12)}.bg3{background:rgba(248,113,113,.12)}
+.bg0{background:rgba(99,102,241,.12)}.bg1{background:rgba(34,197,94,.10)}.bg2{background:rgba(251,146,60,.12)}.bg3{background:rgba(248,113,113,.12)}
 .fill0{background:var(--v0)}.fill1{background:var(--v1)}.fill2{background:var(--v2)}.fill3{background:var(--v3)}
-.rt0{color:var(--v0);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.08)}
-.rt1{color:var(--v1);border-color:rgba(250,204,21,.3);background:rgba(250,204,21,.08)}
+.rt0{color:var(--v0);border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.08)}
+.rt1{color:var(--v1);border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.08)}
 .rt2{color:var(--v2);border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.08)}
 .rt3{color:var(--v3);border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.08)}
-.cl0{color:rgba(34,197,94,.8)}.cl1{color:rgba(250,204,21,.8)}.cl2{color:rgba(251,146,60,.8)}.cl3{color:rgba(248,113,113,.8)}
+.cl0{color:rgba(99,102,241,.8)}.cl1{color:rgba(34,197,94,.8)}.cl2{color:rgba(251,146,60,.8)}.cl3{color:rgba(248,113,113,.8)}
 </style>
 </head>
 <body>
 
 <div id="warn-bar">
-  <span id="warn-text">⚠ This tool analyzes text for known risk patterns. It does NOT confirm fraud. Final responsibility remains with the user. ⚠ यह टूल केवल जोखिम पैटर्न दिखाता है — धोखाधड़ी की पुष्टि नहीं करता।</span>
+  <span id="warn-text">⚠ This tool analyzes text for known risk patterns only. It does NOT confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</span>
 </div>
 
 <div id="app">
@@ -216,26 +226,31 @@ footer span{color:var(--purple3)}
       <div class="logo-icon">🛡️</div>
       <div class="logo-name">Veritas Guard</div>
     </div>
-    <div class="tagline" id="tagline-text">EXPLAIN RISK · DON'T DEMAND TRUST</div>
-    <div class="engine-badge" onclick="document.getElementById('info-popup').classList.add('show')">
+    <div class="tagline" id="tagline-text">DETERMINISTIC RISK SIGNALS · NO GUESSING</div>
+
+    <!-- ENGINE BADGE — dynamic from /health -->
+    <div class="engine-badge" id="engine-badge" onclick="document.getElementById('info-popup').classList.add('show')">
       <div class="dot"></div>
-      <span>ENGINE v1.2 — ONLINE</span>
+      <span id="engine-ver-text">ENGINE — CHECKING...</span>
     </div>
+
+    <!-- TRUST BADGE — disappears if not verified -->
+    <div id="trust-badge">🔒 Rules Hard-Locked · <span id="trust-ver">...</span></div>
   </div>
 
-  <!-- STATS — default 0, never blank -->
+  <!-- STATS -->
   <div class="stats-bar">
-    <div class="stat-box" title="Counts reset automatically">
+    <div class="stat-box">
       <div class="stat-val" id="stat-total">0</div>
       <div class="stat-lbl" id="lbl-total">Total Scans</div>
-      <div class="stat-caption" id="cap-session">Session-based</div>
+      <div class="stat-caption">Session-based</div>
     </div>
-    <div class="stat-box" title="Counts reset automatically">
+    <div class="stat-box">
       <div class="stat-val" id="stat-today">0</div>
       <div class="stat-lbl" id="lbl-today">Today</div>
-      <div class="stat-caption" id="cap-today">Resets at midnight</div>
+      <div class="stat-caption">Resets midnight</div>
     </div>
-    <div class="stat-box" title="Counts reset automatically">
+    <div class="stat-box">
       <div class="stat-val" id="stat-flagged">0</div>
       <div class="stat-lbl">Flagged</div>
       <div class="stat-caption">Risk found</div>
@@ -244,12 +259,12 @@ footer span{color:var(--purple3)}
 
   <!-- RATE BAR -->
   <div class="rate-bar">
-    <div class="rate-left" id="rate-text">Remaining: <strong id="rate-num">10</strong>/10</div>
+    <div class="rate-left" id="rate-text">Remaining: <strong>10</strong>/10</div>
     <div class="rate-dots" id="rate-dots"></div>
   </div>
   <div class="rate-exhausted" id="rate-exhausted">Daily limit reached. Try again later.</div>
 
-  <!-- MAIN INPUT CARD -->
+  <!-- INPUT CARD -->
   <div class="card">
     <div class="lang-row">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
@@ -283,7 +298,7 @@ footer span{color:var(--purple3)}
     </div>
   </div>
 
-  <!-- RESULT CARD (built dynamically) -->
+  <!-- RESULT CARD -->
   <div id="result-card"></div>
 
   <!-- EXAMPLES -->
@@ -297,10 +312,10 @@ footer span{color:var(--purple3)}
     </div>
   </div>
 
-  <!-- DISCLAIMER — fixed wording -->
+  <!-- DISCLAIMER — fixed legal wording -->
   <div class="disclaimer-always">
     <strong id="disc-title">⚠ DISCLAIMER</strong>
-    <p id="disc-body">This tool analyzes messages for known risk patterns. It does not confirm fraud. Final responsibility remains with the user.</p>
+    <p id="disc-body">This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</p>
   </div>
 
   <!-- HOW IT WORKS -->
@@ -309,14 +324,14 @@ footer span{color:var(--purple3)}
     <div class="trans-list">
       <div class="trans-item" id="tr1">No login required</div>
       <div class="trans-item" id="tr2">No message content stored</div>
-      <div class="trans-item" id="tr3">Deterministic rules — not AI guessing</div>
-      <div class="trans-item" id="tr4">Hash-sealed engine version</div>
+      <div class="trans-item" id="tr3">Deterministic rules — no guessing, no prediction</div>
+      <div class="trans-item" id="tr4">Hash-sealed engine — rules cannot change without re-seal</div>
     </div>
   </div>
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
-    <div class="tf-row1">ENGINE <span>v1.2</span> · STATUS: <span>RULES FROZEN</span></div>
+    <div class="tf-row1">ENGINE <span id="footer-ver">v1.2</span> · STATUS: <span>RULES FROZEN</span></div>
     <div class="tf-row2">Deterministic engine · No guessing · No message storage</div>
   </div>
 
@@ -332,7 +347,7 @@ footer span{color:var(--purple3)}
     <div class="modal-icon">⏳</div>
     <div class="modal-title" id="modal-title">Daily Limit Reached</div>
     <div class="modal-text" id="modal-text">You have used all 10 analyses for today.<br>Please try again after 24 hours.</div>
-    <button class="modal-close" onclick="document.getElementById('limit-modal').classList.remove('show')">OK</button>
+    <button class="modal-close" onclick="document.getElementById('limit-modal').classList.remove('show')">UNDERSTOOD</button>
   </div>
 </div>
 
@@ -341,7 +356,7 @@ footer span{color:var(--purple3)}
   <div class="modal-box">
     <div class="modal-icon">🛡️</div>
     <div class="modal-title">About Veritas Guard</div>
-    <div class="modal-text">This tool explains risk signals in messages.<br><br>It does NOT block, verify, report, or guarantee anything.<br><br>Engine: v1.2 · Rules: FROZEN<br>Powered by deterministic pattern rules — not AI.</div>
+    <div class="modal-text" id="info-text">Veritas Guard analyzes text for known risk patterns using deterministic rules.<br><br>It does NOT block, verify, report, or guarantee anything.<br><br>Low risk does NOT mean safe.<br><br>Powered by deterministic pattern rules — not AI.</div>
     <button class="modal-close" onclick="document.getElementById('info-popup').classList.remove('show')">UNDERSTOOD</button>
   </div>
 </div>
@@ -351,15 +366,133 @@ footer span{color:var(--purple3)}
   <div class="modal-box">
     <div class="modal-icon">🔒</div>
     <div class="modal-title">Hashchain Verified</div>
-    <div class="modal-text">Result is hash-sealed. Engine rules cannot change without re-seal.<br><br>This ensures the engine you see is exactly the engine that ran your analysis.<br><br>You can share this result with proof.</div>
+    <div class="modal-text">Result is hash-sealed. Engine rules cannot change without re-seal.<br><br>This ensures the engine that ran is exactly the version shown.<br><br>You can share this result as cryptographic proof.</div>
     <button class="modal-close" onclick="document.getElementById('hash-popup').classList.remove('show')">UNDERSTOOD</button>
   </div>
 </div>
 
 <script>
-const ENGINE_URL  = "https://api.veritasengine.in/decide";
-const DAILY_LIMIT = 10;
-const DEV_CODE    = "VERITAS-DEV-2026";
+/* ══════════════════════════════════
+   CONFIG
+══════════════════════════════════ */
+const ENGINE_BASE  = "https://api.veritasengine.in";
+const ENGINE_URL   = ENGINE_BASE + "/decide";
+const HEALTH_URL   = ENGINE_BASE + "/health";
+const STATS_URL    = ENGINE_BASE + "/stats";
+const DAILY_LIMIT  = 10;
+const DEV_CODE     = "VERITAS-DEV-2026";
+
+/* ══════════════════════════════════
+   V1.2 DECISION MAPPING (EXACT)
+   0=UNKNOWN 1=LOW_RISK 2=SUSPICIOUS 3=HIGH_RISK
+══════════════════════════════════ */
+const DECISION_MAP = {
+  en: {
+    label:   ["Unknown Risk",           "Low Risk Detected",       "Suspicious Patterns Found",    "High Risk – Likely Scam"],
+    sub:     ["Insufficient signal",    "Some patterns detected",  "Multiple risk patterns found", "Strong scam indicators"],
+    code:    ["DECISION: 0 · UNKNOWN",  "DECISION: 1 · LOW_RISK",  "DECISION: 2 · SUSPICIOUS",     "DECISION: 3 · HIGH_RISK"],
+    summary: [
+      "Risk level could not be determined from available patterns.",
+      "Some risk indicators were detected. This does NOT mean the message is safe.",
+      "Multiple risk patterns detected. Exercise caution before proceeding.",
+      "Strong scam indicators detected. Do not share details or make payments."
+    ],
+    confLow:  "Low signal strength",
+    confMid:  "Moderate signal strength",
+    confHigh: "High signal strength",
+    confNote: "Low confidence does NOT mean safe. High confidence does NOT guarantee fraud.",
+    emoji:    ["?","⚠","⚠","✖"],
+    rulesLabel: "TRIGGERED RULES",
+    traceLabel: "TRACE",
+    traceNote:  "Technical details for auditors",
+    hashVerified: "Hashchain Verified",
+    hashCopy: "Copy Hash",
+    hashLearn: "Learn more",
+    hashCopied: "Verification hash copied",
+    safeNotice: "Genuine messages can sometimes match risk patterns. This engine does not guarantee legitimacy.",
+    disclaimer: "Low risk does NOT mean safe. This engine does not guarantee legitimacy.",
+    fbLabel: "Was this helpful?", fbYes: "Helpful", fbNo: "Not Helpful",
+    fbThanks: "Thanks. Feedback recorded (anonymous).",
+    fbOnce: "One feedback per result.",
+    shareBtn: "SHARE", copyBtn: "COPY PROOF",
+    actionsNote: "Shares verdict, confidence % & proof hash",
+    toastCopied: "Proof copied ✓",
+    noRules: "No specific patterns triggered"
+  },
+  hi: {
+    label:   ["अज्ञात जोखिम",           "कम जोखिम पाया गया",         "संदिग्ध पैटर्न मिले",           "उच्च जोखिम – संभावित स्कैम"],
+    sub:     ["पर्याप्त संकेत नहीं",    "कुछ पैटर्न मिले",           "कई जोखिम पैटर्न मिले",          "मजबूत स्कैम संकेत"],
+    code:    ["निर्णय: 0 · अज्ञात",    "निर्णय: 1 · कम जोखिम",      "निर्णय: 2 · संदिग्ध",           "निर्णय: 3 · उच्च जोखिम"],
+    summary: [
+      "उपलब्ध पैटर्न से जोखिम स्तर निर्धारित नहीं किया जा सका।",
+      "कुछ जोखिम संकेत मिले। इसका अर्थ यह नहीं कि संदेश सुरक्षित है।",
+      "कई जोखिम पैटर्न मिले। आगे बढ़ने से पहले सतर्क रहें।",
+      "मजबूत स्कैम संकेत मिले। विवरण साझा न करें और कोई भुगतान न करें।"
+    ],
+    confLow:  "कम संकेत शक्ति",
+    confMid:  "मध्यम संकेत शक्ति",
+    confHigh: "उच्च संकेत शक्ति",
+    confNote: "कम स्कोर का अर्थ सुरक्षित नहीं है। उच्च स्कोर धोखाधड़ी की गारंटी नहीं है।",
+    emoji:    ["?","⚠","⚠","✖"],
+    rulesLabel: "सक्रिय नियम",
+    traceLabel: "ट्रेस",
+    traceNote:  "ऑडिटर के लिए तकनीकी विवरण",
+    hashVerified: "हैशचेन सत्यापित",
+    hashCopy: "हैश कॉपी",
+    hashLearn: "और जानें",
+    hashCopied: "सत्यापन हैश कॉपी हो गया",
+    safeNotice: "वास्तविक संदेश भी जोखिम पैटर्न से मेल खा सकते हैं। यह इंजन वैधता की गारंटी नहीं देता।",
+    disclaimer: "कम जोखिम का अर्थ सुरक्षित नहीं है। यह इंजन वैधता की गारंटी नहीं देता।",
+    fbLabel: "क्या यह सहायक था?", fbYes: "सहायक", fbNo: "सहायक नहीं",
+    fbThanks: "धन्यवाद। फीडबैक दर्ज (गुमनाम)।",
+    fbOnce: "प्रति परिणाम एक फीडबैक।",
+    shareBtn: "शेयर", copyBtn: "प्रूफ कॉपी",
+    actionsNote: "निर्णय, विश्वास % और प्रूफ हैश शेयर होगा",
+    toastCopied: "प्रूफ कॉपी हो गया ✓",
+    noRules: "कोई विशेष पैटर्न नहीं मिला"
+  }
+};
+
+const T = {
+  en: {
+    tagline:"DETERMINISTIC RISK SIGNALS · NO GUESSING",
+    lblUsecase:"USE CASE", lblInput:"MESSAGE / SMS / LINK",
+    placeholder:"Paste SMS, WhatsApp message, or link here...",
+    btnText:"⚡ ANALYZE RISK SIGNALS", analyzing:"ANALYZING...",
+    nd1:"No Login", nd2:"No Storage", nd3:"Deterministic Rules",
+    lblTotal:"Total Scans", lblToday:"Today",
+    rateText:"Remaining:", rateExhausted:"Daily limit reached. Try again later.",
+    discTitle:"⚠ DISCLAIMER",
+    discBody:"This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.",
+    transTitle:"HOW THIS WORKS",
+    tr1:"No login required", tr2:"No message content stored",
+    tr3:"Deterministic rules — no guessing, no prediction",
+    tr4:"Hash-sealed engine — rules cannot change without re-seal",
+    exTitle:"TRY AN EXAMPLE", exSub:"Examples are simulated messages",
+    ex1:"🚨 Try scam example", ex2:"🏦 Try bank SMS example", ex3:"🏛️ Try government advisory example",
+    modalTitle:"Daily Limit Reached",
+    modalText:"You have used all 10 analyses for today.<br>Please try again after 24 hours."
+  },
+  hi: {
+    tagline:"निर्धारित जोखिम संकेत · कोई अनुमान नहीं",
+    lblUsecase:"उपयोग का प्रकार", lblInput:"संदेश / SMS / लिंक",
+    placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
+    btnText:"⚡ जोखिम संकेत जांचें", analyzing:"विश्लेषण हो रहा है...",
+    nd1:"कोई लॉगिन नहीं", nd2:"कोई स्टोरेज नहीं", nd3:"निर्धारित नियम",
+    lblTotal:"कुल जाँचें", lblToday:"आज",
+    rateText:"शेष:", rateExhausted:"दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।",
+    discTitle:"⚠ अस्वीकरण",
+    discBody:"यह टूल केवल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। कम जोखिम का अर्थ सुरक्षित नहीं है। अंतिम जिम्मेदारी उपयोगकर्ता की है।",
+    transTitle:"यह कैसे काम करता है",
+    tr1:"कोई लॉगिन आवश्यक नहीं", tr2:"कोई संदेश सामग्री संग्रहीत नहीं",
+    tr3:"निर्धारित नियम — कोई अनुमान नहीं",
+    tr4:"हैश-सील्ड इंजन — री-सील के बिना नियम नहीं बदल सकते",
+    exTitle:"उदाहरण आज़माएं", exSub:"ये नकली संदेश हैं — केवल उदाहरण के लिए",
+    ex1:"🚨 स्कैम उदाहरण", ex2:"🏦 बैंक SMS उदाहरण", ex3:"🏛️ सरकारी सलाह उदाहरण",
+    modalTitle:"दैनिक सीमा समाप्त",
+    modalText:"आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।"
+  }
+};
 
 const EXAMPLES = [
   "Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim your prize. Visit: bit.ly/claim-now",
@@ -367,136 +500,62 @@ const EXAMPLES = [
   "Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in for official information."
 ];
 
-// Confidence level labels per verdict
-const CONF_LABELS = {
-  en: {
-    low:  "Low risk signals detected",
-    mid:  "Moderate risk signals detected",
-    high: "Strong risk signals detected",
-    note: "Low confidence ≠ unsafe. High confidence ≠ guaranteed fraud."
-  },
-  hi: {
-    low:  "कम जोखिम संकेत मिले",
-    mid:  "मध्यम जोखिम संकेत मिले",
-    high: "मजबूत जोखिम संकेत मिले",
-    note: "कम स्कोर का मतलब सुरक्षित नहीं है।"
-  }
-};
-
-const T = {
-  en: {
-    tagline:"EXPLAIN RISK · DON'T DEMAND TRUST",
-    lblUsecase:"USE CASE", lblInput:"MESSAGE / SMS / LINK",
-    placeholder:"Paste SMS, WhatsApp message, or link here...",
-    btnText:"⚡ ANALYZE RISK SIGNALS", analyzing:"ANALYZING...",
-    nd1:"No Login", nd2:"No Storage", nd3:"Deterministic Rules",
-    lblTotal:"Total Scans", lblToday:"Today",
-    capSession:"Session-based", capToday:"Resets at midnight",
-    rateText:"Remaining:", rateExhausted:"Daily limit reached. Try again later.",
-    discTitle:"⚠ DISCLAIMER",
-    discBody:"This tool analyzes messages for known risk patterns. It does not confirm fraud. Final responsibility remains with the user.",
-    transTitle:"HOW THIS WORKS",
-    tr1:"No login required", tr2:"No message content stored",
-    tr3:"Deterministic rules — not AI guessing", tr4:"Hash-sealed engine version",
-    exTitle:"TRY AN EXAMPLE", exSub:"Examples are simulated messages",
-    ex1:"🚨 Try scam example", ex2:"🏦 Try bank SMS example", ex3:"🏛️ Try government advisory example",
-    modalTitle:"Daily Limit Reached",
-    modalText:"You have used all 10 analyses for today.<br>Please try again after 24 hours.",
-    verdictLabel:["NORMAL","ATTENTION","SUSPICIOUS","FRAUD LIKELY"],
-    verdictDesc:[
-      "No known risk patterns detected",
-      "Minor signals — stay alert",
-      "Multiple risk signals detected",
-      "High risk — do not proceed"
-    ],
-    verdictGuarantee:[
-      "This does not guarantee legitimacy",
-      "Verify before proceeding",
-      "Please verify carefully",
-      "Do not share details or make payments"
-    ],
-    verdictEmoji:["✓","!","⚠","✖"],
-    summaries:{
-      0:"No known fraud patterns detected in this message.",
-      1:"Some risk indicators were detected. Please verify carefully.",
-      2:"Some risk indicators were detected. Please verify carefully.",
-      3:"Strong scam indicators detected. Do not proceed."
-    },
-    confLabel:"CONFIDENCE",
-    rulesLabel:"TRIGGERED RULES", traceLabel:"TRACE",
-    traceAudience:"Technical details for auditors",
-    hashVerified:"✔ Hashchain Verified — v1.2",
-    hashTooltip:"Click to learn more",
-    hashCopied:"Verification hash copied",
-    safeNotice:"Genuine messages can sometimes look risky. Fraudsters often copy official language.",
-    fbLabel:"Was this helpful?", fbYes:"Helpful", fbNo:"Not Helpful",
-    fbThanks:"Thanks. Feedback recorded (anonymous).",
-    fbOnce:"You can submit feedback once per result.",
-    shareBtn:"SHARE", copyBtn:"COPY PROOF",
-    actionsNote:"Shares verdict, confidence & proof hash",
-    toastCopied:"Proof copied ✓",
-    noRules:"No specific rules triggered"
-  },
-  hi: {
-    tagline:"जोखिम समझाइए · भरोसा मत मांगिए",
-    lblUsecase:"उपयोग का प्रकार", lblInput:"संदेश / SMS / लिंक",
-    placeholder:"SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...",
-    btnText:"⚡ जोखिम संकेत जांचें", analyzing:"विश्लेषण हो रहा है...",
-    nd1:"कोई लॉगिन नहीं", nd2:"कोई स्टोरेज नहीं", nd3:"निर्धारित नियम",
-    lblTotal:"कुल जाँचें", lblToday:"आज",
-    capSession:"सत्र-आधारित", capToday:"आधी रात को रीसेट",
-    rateText:"शेष:", rateExhausted:"दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।",
-    discTitle:"⚠ अस्वीकरण",
-    discBody:"यह टूल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। अंतिम जिम्मेदारी उपयोगकर्ता की है।",
-    transTitle:"यह कैसे काम करता है",
-    tr1:"कोई लॉगिन आवश्यक नहीं", tr2:"कोई संदेश सामग्री संग्रहीत नहीं",
-    tr3:"निर्धारित नियम — AI अनुमान नहीं", tr4:"हैश-सील्ड इंजन संस्करण",
-    exTitle:"उदाहरण आज़माएं", exSub:"ये नकली संदेश हैं — केवल उदाहरण के लिए",
-    ex1:"🚨 स्कैम उदाहरण", ex2:"🏦 बैंक SMS उदाहरण", ex3:"🏛️ सरकारी सलाह उदाहरण",
-    modalTitle:"दैनिक सीमा समाप्त",
-    modalText:"आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।",
-    verdictLabel:["सामान्य","ध्यान दें","संदिग्ध","धोखाधड़ी संभव"],
-    verdictDesc:[
-      "कोई ज्ञात जोखिम पैटर्न नहीं मिला",
-      "छोटे संकेत मिले — सतर्क रहें",
-      "कई जोखिम संकेत मिले",
-      "उच्च जोखिम — आगे न बढ़ें"
-    ],
-    verdictGuarantee:[
-      "यह वैधता की गारंटी नहीं देता",
-      "आगे बढ़ने से पहले जाँचें",
-      "कृपया ध्यान से जाँचें",
-      "विवरण साझा न करें"
-    ],
-    verdictEmoji:["✓","!","⚠","✖"],
-    summaries:{
-      0:"इस संदेश में कोई ज्ञात फ्रॉड पैटर्न नहीं मिला।",
-      1:"कुछ जोखिम संकेत मिले। कृपया ध्यान से जाँचें।",
-      2:"कुछ जोखिम संकेत मिले। कृपया ध्यान से जाँचें।",
-      3:"मजबूत स्कैम संकेत मिले। आगे न बढ़ें।"
-    },
-    confLabel:"आत्मविश्वास स्कोर",
-    rulesLabel:"सक्रिय नियम", traceLabel:"ट्रेस",
-    traceAudience:"ऑडिटर के लिए तकनीकी विवरण",
-    hashVerified:"✔ हैशचेन सत्यापित — v1.2",
-    hashTooltip:"अधिक जानने के लिए क्लिक करें",
-    hashCopied:"सत्यापन हैश कॉपी हो गया",
-    safeNotice:"वास्तविक संदेश भी जोखिम भरे लग सकते हैं। ठग अक्सर आधिकारिक भाषा की नकल करते हैं।",
-    fbLabel:"क्या यह सहायक था?", fbYes:"सहायक", fbNo:"सहायक नहीं",
-    fbThanks:"धन्यवाद। फीडबैक दर्ज (गुमनाम)।",
-    fbOnce:"आप प्रति परिणाम एक बार फीडबैक दे सकते हैं।",
-    shareBtn:"शेयर", copyBtn:"प्रूफ कॉपी",
-    actionsNote:"निर्णय, विश्वास स्कोर और प्रूफ हैश शेयर होगा",
-    toastCopied:"प्रूफ कॉपी हो गया ✓",
-    noRules:"कोई विशेष नियम नहीं मिला"
-  }
-};
-
 let lang = localStorage.getItem('vg_lang') || 'en';
 let lastResult = null;
 let lastHash = '';
+let engineVerified = false;
+let engineVersion = '';
 
-/* ── RATE LIMIT ── */
+/* ══ HEALTH CHECK — fetch version dynamically ══ */
+async function checkHealth() {
+  const badge = document.getElementById('engine-badge');
+  const trustBadge = document.getElementById('trust-badge');
+  const trustVer = document.getElementById('trust-ver');
+  const footerVer = document.getElementById('footer-ver');
+  const engVerText = document.getElementById('engine-ver-text');
+  const infoText = document.getElementById('info-text');
+
+  try {
+    const res = await fetch(HEALTH_URL, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error('health fail');
+    const d = await res.json();
+
+    const ver = d.version || d.engine_version || 'unknown';
+    const frozen = d.rules_frozen !== false;
+    const hashOk = d.hashchain_verified !== false;
+
+    engineVersion = ver;
+    engineVerified = frozen && hashOk;
+
+    engVerText.textContent = 'ENGINE ' + ver + ' — ONLINE';
+    trustVer.textContent = ver;
+    footerVer.textContent = ver;
+
+    if (engineVerified) {
+      badge.classList.remove('unverified');
+      trustBadge.classList.remove('hidden','warn');
+    } else {
+      badge.classList.add('unverified');
+      trustBadge.classList.add('warn');
+      trustBadge.textContent = '⚠ Engine verification failed';
+    }
+
+    if (infoText) {
+      infoText.innerHTML =
+        'Engine version: <strong>' + ver + '</strong><br>' +
+        'Rules frozen: ' + (frozen ? '✔ Yes' : '✖ No') + '<br>' +
+        'Hashchain: ' + (hashOk ? '✔ Verified' : '✖ Not verified') + '<br><br>' +
+        'This tool does NOT confirm fraud.<br>Low risk does NOT mean safe.';
+    }
+  } catch(e) {
+    engVerText.textContent = 'ENGINE — UNREACHABLE';
+    badge.classList.add('unverified');
+    trustBadge.classList.add('warn');
+    trustBadge.textContent = '⚠ Engine unreachable';
+  }
+}
+
+/* ══ RATE LIMIT ══ */
 function getRateData() {
   const today = new Date().toDateString();
   try {
@@ -531,19 +590,19 @@ function renderRateBar() {
   }
 }
 
-/* ── STATS ── */
+/* ══ STATS ══ */
 async function loadStats() {
   try {
-    const res = await fetch('https://api.veritasengine.in/stats', { signal: AbortSignal.timeout(4000) });
+    const res = await fetch(STATS_URL, { signal: AbortSignal.timeout(4000) });
     if (!res.ok) return;
     const d = await res.json();
-    if (d.total    !== undefined) document.getElementById('stat-total').textContent   = d.total;
-    if (d.today    !== undefined) document.getElementById('stat-today').textContent   = d.today;
-    if (d.flagged  !== undefined) document.getElementById('stat-flagged').textContent = d.flagged;
+    if (d.total   !== undefined) document.getElementById('stat-total').textContent   = d.total;
+    if (d.today   !== undefined) document.getElementById('stat-today').textContent   = d.today;
+    if (d.flagged !== undefined) document.getElementById('stat-flagged').textContent = d.flagged;
   } catch(e) {}
 }
 
-/* ── ENGINE ── */
+/* ══ ENGINE CALL ══ */
 async function callEngine(text) {
   try {
     const res = await fetch(ENGINE_URL, {
@@ -564,7 +623,7 @@ async function callEngine(text) {
   } catch(e) { return null; }
 }
 
-/* ── ANALYZE ── */
+/* ══ ANALYZE ══ */
 async function doAnalyze() {
   const text = document.getElementById('input-text').value.trim();
   if (!text) {
@@ -577,6 +636,7 @@ async function doAnalyze() {
     return;
   }
   const t = T[lang];
+  const dm = DECISION_MAP[lang];
   const btn = document.getElementById('analyze-btn');
   btn.disabled = true;
   btn.classList.add('loading');
@@ -599,103 +659,105 @@ async function doAnalyze() {
   lastResult = r;
   lastHash = r.hash || '';
   loadStats();
-  showResult(r, t);
+  showResult(r, dm);
 }
 
-/* ── CONFIDENCE LABEL ── */
-function getConfLabel(conf, v) {
-  const cl = CONF_LABELS[lang];
-  if (conf < 35) return { text: cl.low, note: cl.note };
-  if (conf < 70) return { text: cl.mid, note: cl.note };
-  return { text: cl.high, note: cl.note };
+/* ══ CONF LABEL ══ */
+function confLabel(conf, dm) {
+  if (conf < 35) return dm.confLow;
+  if (conf < 70) return dm.confMid;
+  return dm.confHigh;
 }
 
-/* ── TRUNCATE HASH ── */
-function truncHash(h) {
-  if (!h || h.length < 12) return h;
-  return h.slice(0, 6) + '...' + h.slice(-6);
+/* ══ TRUNCATE HASH ══ */
+function trunc(h) {
+  if (!h || h.length < 14) return h;
+  return h.slice(0,6) + '···' + h.slice(-6);
 }
 
-/* ── SHOW RESULT ── */
-function showResult(r, t) {
-  const v = r.verdict;
+/* ══ SHOW RESULT ══ */
+function showResult(r, dm) {
+  const v    = r.verdict;
   const conf = r.confidence || 0;
-  const cl = getConfLabel(conf, v);
 
   const rulesHTML = r.fired_rules && r.fired_rules.length > 0
     ? r.fired_rules.map(rule => '<span class="rule-tag rt' + v + '">' + rule + '</span>').join('')
-    : '<span class="rule-tag" style="color:var(--muted);border-color:var(--border)">' + t.noRules + '</span>';
+    : '<span class="rule-tag" style="color:var(--muted);border-color:var(--border)">' + dm.noRules + '</span>';
 
   const traceHTML = (r.trace || []).map(step =>
     '<div class="trace-row"><span>' + (step.step || '—') + '</span><span class="trace-val">' +
-    (step.score !== undefined ? step.score : (step.weight !== undefined ? '+' + step.weight : '—')) + '</span></div>'
+    (step.score !== undefined ? step.score : (step.weight !== undefined ? '+' + step.weight : '—')) +
+    '</span></div>'
   ).join('') || '<div class="trace-row"><span>—</span><span class="trace-val">—</span></div>';
+
+  const verStr = engineVersion ? ' · ' + engineVersion : '';
 
   const el = document.getElementById('result-card');
   el.innerHTML =
     /* VERDICT HEADER */
     '<div class="result-header bg' + v + '">' +
-      '<div class="verdict-icon bg' + v + ' v' + v + '">' + t.verdictEmoji[v] + '</div>' +
+      '<div class="verdict-icon bg' + v + ' v' + v + '">' + dm.emoji[v] + '</div>' +
       '<div>' +
-        '<div class="verdict-label v' + v + '">' + t.verdictLabel[v] + '</div>' +
-        '<div class="verdict-desc">' + t.verdictDesc[v] + '</div>' +
-        '<div class="verdict-guarantee">' + t.verdictGuarantee[v] + '</div>' +
+        '<div class="verdict-label v' + v + '">' + dm.label[v] + '</div>' +
+        '<div class="verdict-sub">' + dm.sub[v] + '</div>' +
+        '<div class="verdict-code">' + dm.code[v] + '</div>' +
       '</div>' +
     '</div>' +
+    /* MANDATORY DISCLAIMER — every result card */
+    '<div class="result-disclaimer">⚠ ' + dm.disclaimer + '</div>' +
     /* SUMMARY */
-    '<div class="summary-line">' + t.summaries[v] + '</div>' +
+    '<div class="summary-line">' + dm.summary[v] + '</div>' +
     /* HASHCHAIN STRIP */
-    '<div class="hash-strip" onclick="document.getElementById(\'hash-popup\').classList.add(\'show\')">' +
+    '<div class="hash-strip">' +
       '<div class="hash-strip-left">' +
         '<span class="hash-strip-icon">🔒</span>' +
         '<div class="hash-strip-texts">' +
-          '<div class="hash-strip-label">' + t.hashVerified + '</div>' +
-          '<div class="hash-strip-val">' + truncHash(r.hash) + ' · ' + t.hashTooltip + '</div>' +
+          '<div class="hash-strip-label">' + dm.hashVerified + verStr + '</div>' +
+          '<div class="hash-strip-val">' + trunc(r.hash) + '</div>' +
         '</div>' +
       '</div>' +
-      '<span class="hash-copy-icon" onclick="event.stopPropagation();copyHash()" title="Copy hash">⧉</span>' +
+      '<button class="hash-copy-btn" onclick="copyHash()">' + dm.hashCopy + '</button>' +
+      '<a class="hash-learn" href="#" onclick="event.preventDefault();document.getElementById(\'hash-popup\').classList.add(\'show\')">' + dm.hashLearn + '</a>' +
     '</div>' +
     /* CONFIDENCE */
     '<div class="conf-wrap">' +
-      '<div class="conf-top"><span>' + t.confLabel + '</span><span class="v' + v + '">' + conf + '%</span></div>' +
+      '<div class="conf-top"><span>' + DECISION_MAP[lang].rulesLabel.replace('TRIGGERED ','') + ' CONFIDENCE</span><span class="v' + v + '">' + conf + '%</span></div>' +
       '<div class="conf-bar"><div class="conf-fill fill' + v + '" id="conf-fill"></div></div>' +
-      '<div class="conf-label cl' + v + '">' + cl.text + '</div>' +
-      '<div class="conf-note">' + cl.note + '</div>' +
+      '<div class="conf-label cl' + v + '">' + confLabel(conf, dm) + '</div>' +
+      '<div class="conf-note">' + dm.confNote + '</div>' +
     '</div>' +
-    /* RULES */
-    '<div class="rules-wrap">' +
-      '<button class="collapsible-btn" onclick="toggle(\'rules-arrow\',\'rules-body\')">' +
-        '<i class="arrow" id="rules-arrow">▶</i> ' + t.rulesLabel +
+    /* TRIGGERED RULES */
+    '<div class="section-wrap">' +
+      '<button class="collapsible-btn" onclick="toggle(\'ra\',\'rb\')">' +
+        '<i class="arrow" id="ra">▶</i> ' + dm.rulesLabel +
       '</button>' +
-      '<div class="collapsible-body" id="rules-body">' + rulesHTML + '</div>' +
+      '<div class="collapsible-body" id="rb">' + rulesHTML + '</div>' +
     '</div>' +
     /* TRACE */
-    '<div class="trace-wrap">' +
-      '<div class="trace-btn-wrap">' +
-        '<button class="collapsible-btn" onclick="toggle(\'trace-arrow\',\'trace-inner\')" style="margin-bottom:0">' +
-          '<i class="arrow" id="trace-arrow">▶</i> <span class="trace-lock">🔒</span> ' + t.traceLabel +
-        '</button>' +
-      '</div>' +
-      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:9px;color:var(--muted);margin-bottom:6px">' + t.traceAudience + '</div>' +
-      '<div class="trace-inner" id="trace-inner">' + traceHTML + '</div>' +
+    '<div class="section-wrap">' +
+      '<button class="collapsible-btn" onclick="toggle(\'ta\',\'tb\')">' +
+        '<i class="arrow" id="ta">▶</i> 🔒 ' + dm.traceLabel +
+      '</button>' +
+      '<div class="trace-note">' + dm.traceNote + '</div>' +
+      '<div class="trace-inner" id="tb">' + traceHTML + '</div>' +
     '</div>' +
     /* SHARE + COPY — always visible */
     '<div class="actions-wrap">' +
       '<div class="actions-btns">' +
-        '<button class="action-btn btn-share" onclick="shareResult()">' + t.shareBtn + '</button>' +
-        '<button class="action-btn btn-copy" onclick="copyProof()">' + t.copyBtn + '</button>' +
+        '<button class="action-btn btn-share" onclick="shareResult()">' + dm.shareBtn + '</button>' +
+        '<button class="action-btn btn-copy" onclick="copyProof()">' + dm.copyBtn + '</button>' +
       '</div>' +
-      '<div class="actions-note">' + t.actionsNote + '</div>' +
+      '<div class="actions-note">' + dm.actionsNote + '</div>' +
     '</div>' +
     /* SAFE NOTICE */
-    '<div class="safe-notice">' + t.safeNotice + '</div>' +
+    '<div class="safe-notice">' + dm.safeNotice + '</div>' +
     /* FEEDBACK */
     '<div class="feedback-wrap">' +
-      '<span class="feedback-lbl">' + t.fbLabel + '</span>' +
-      '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">' + t.fbYes + '</button>' +
-      '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">' + t.fbNo + '</button>' +
-      '<span class="fb-thanks" id="fb-thanks">' + t.fbThanks + '</span>' +
-      '<span class="fb-once">' + t.fbOnce + '</span>' +
+      '<span class="feedback-lbl">' + dm.fbLabel + '</span>' +
+      '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">' + dm.fbYes + '</button>' +
+      '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">' + dm.fbNo + '</button>' +
+      '<span class="fb-thanks" id="fb-thanks">' + dm.fbThanks + '</span>' +
+      '<span class="fb-once">' + dm.fbOnce + '</span>' +
     '</div>';
 
   el.style.display = 'block';
@@ -703,7 +765,7 @@ function showResult(r, t) {
   el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-/* ── TOGGLE SECTIONS ── */
+/* ══ HELPERS ══ */
 function toggle(arrowId, bodyId) {
   const a = document.getElementById(arrowId);
   const b = document.getElementById(bodyId);
@@ -711,27 +773,27 @@ function toggle(arrowId, bodyId) {
   if (b) b.classList.toggle('open');
 }
 
-/* ── COPY HASH ── */
 function copyHash() {
   if (!lastHash) return;
-  navigator.clipboard.writeText(lastHash).then(() => showToast(T[lang].hashCopied));
+  navigator.clipboard.writeText(lastHash).then(() => showToast(DECISION_MAP[lang].hashCopied));
 }
 
-/* ── BUILD PROOF TEXT ── */
 function buildProof() {
   if (!lastResult) return '';
-  const r = lastResult;
-  const t = T[lang];
+  const r  = lastResult;
+  const dm = DECISION_MAP[lang];
   return (
     'VERITAS GUARD — RISK ANALYSIS\n' +
     '================================\n' +
-    'Verdict    : ' + t.verdictLabel[r.verdict] + '\n' +
+    'Decision   : ' + dm.label[r.verdict] + '\n' +
+    'Code       : ' + dm.code[r.verdict] + '\n' +
     'Confidence : ' + (r.confidence||0) + '%\n' +
     'Rules      : ' + ((r.fired_rules||[]).join(', ') || 'None') + '\n' +
     'Hash       : ' + (r.hash||'pending') + '\n' +
-    'Engine     : v1.2 · RULES FROZEN\n' +
+    'Engine     : ' + (engineVersion||'unknown') + ' · RULES FROZEN\n' +
     'Time       : ' + new Date().toLocaleString() + '\n' +
     '================================\n' +
+    'NOTE: Low risk does NOT mean safe.\n' +
     'veritasengine.in'
   );
 }
@@ -739,20 +801,19 @@ function buildProof() {
 function copyProof() {
   const text = buildProof();
   if (!text) return;
-  navigator.clipboard.writeText(text).then(() => showToast(T[lang].toastCopied));
+  navigator.clipboard.writeText(text).then(() => showToast(DECISION_MAP[lang].toastCopied));
 }
 
 function shareResult() {
   const text = buildProof();
   if (!text) return;
   if (navigator.share) {
-    navigator.share({ title: 'Veritas Guard — Analysis Proof', text });
+    navigator.share({ title: 'Veritas Guard — Risk Analysis', text });
   } else {
-    navigator.clipboard.writeText(text).then(() => showToast(T[lang].toastCopied));
+    navigator.clipboard.writeText(text).then(() => showToast(DECISION_MAP[lang].toastCopied));
   }
 }
 
-/* ── TOAST ── */
 function showToast(msg) {
   const el = document.getElementById('toast');
   el.textContent = msg;
@@ -760,20 +821,17 @@ function showToast(msg) {
   setTimeout(() => el.classList.remove('show'), 2500);
 }
 
-/* ── FEEDBACK — lock after click ── */
 function giveFb(type) {
   const yes = document.getElementById('fb-yes');
   const no  = document.getElementById('fb-no');
   const thanks = document.getElementById('fb-thanks');
   if (!yes || !no) return;
-  yes.disabled = true;
-  no.disabled  = true;
+  yes.disabled = true; no.disabled = true;
   yes.classList.toggle('selected', type === 'yes');
   no.classList.toggle('selected', type === 'no');
   if (thanks) thanks.classList.add('show');
 }
 
-/* ── EXAMPLES ── */
 function loadExample(i) {
   const inp = document.getElementById('input-text');
   inp.value = EXAMPLES[i];
@@ -781,7 +839,7 @@ function loadExample(i) {
   inp.focus();
 }
 
-/* ── LANG ── */
+/* ══ LANG ══ */
 function setLang(l) {
   lang = l;
   localStorage.setItem('vg_lang', l);
@@ -794,7 +852,6 @@ function applyLang() {
     'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,
     'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,
     'lbl-total':t.lblTotal,'lbl-today':t.lblToday,
-    'cap-session':t.capSession,'cap-today':t.capToday,
     'disc-title':t.discTitle,'disc-body':t.discBody,
     'trans-title':t.transTitle,'tr1':t.tr1,'tr2':t.tr2,'tr3':t.tr3,'tr4':t.tr4,
     'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3
@@ -812,7 +869,7 @@ function applyLang() {
   renderRateBar();
 }
 
-/* ── DEV BYPASS ── */
+/* ══ DEV BYPASS ══ */
 document.addEventListener('input', function(e) {
   if (e.target.id === 'input-text' && e.target.value.trim() === DEV_CODE) {
     const d = getRateData(); d.used = 0; saveRateData(d);
@@ -823,7 +880,7 @@ document.addEventListener('input', function(e) {
   }
 });
 
-/* ── INIT ── */
+/* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('input-text').addEventListener('input', function() {
     document.getElementById('char-val').textContent = this.value.length;
@@ -835,6 +892,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lastResult = null; lastHash = '';
   });
   applyLang();
+  checkHealth();
   loadStats();
 });
 </script>
