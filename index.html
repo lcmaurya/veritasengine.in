@@ -386,22 +386,54 @@ const DEV_CODE     = "VERITAS-DEV-2026";
    V1.2 DECISION MAPPING (EXACT)
    0=UNKNOWN 1=LOW_RISK 2=SUSPICIOUS 3=HIGH_RISK
 ══════════════════════════════════ */
+/*
+  ENGINE v1.2 DECISION BEHAVIOR:
+  0 = NORMAL    → conf  0–20%  → very weak / no signals
+  1 = ATTENTION → conf 20–45%  → partial / early signals
+  2 = SUSPECT   → conf 45–75%  → multiple known patterns
+  3 = HIGH_RISK → conf 75–100% → strong + confirmed fraud
+*/
 const DECISION_MAP = {
   en: {
-    label:   ["Unknown Risk",           "Low Risk Detected",       "Suspicious Patterns Found",    "High Risk – Likely Scam"],
-    sub:     ["Insufficient signal",    "Some patterns detected",  "Multiple risk patterns found", "Strong scam indicators"],
-    code:    ["DECISION: 0 · UNKNOWN",  "DECISION: 1 · LOW_RISK",  "DECISION: 2 · SUSPICIOUS",     "DECISION: 3 · HIGH_RISK"],
-    summary: [
-      "Risk level could not be determined from available patterns.",
-      "Some risk indicators were detected. This does NOT mean the message is safe.",
-      "Multiple risk patterns detected. Exercise caution before proceeding.",
-      "Strong scam indicators detected. Do not share details or make payments."
+    label:   [
+      "No Pattern Detected",          // 0 – NORMAL
+      "Attention Required",           // 1 – ATTENTION
+      "Suspicious Patterns Found",    // 2 – SUSPECT
+      "High Risk – Likely Scam"       // 3 – HIGH_RISK
     ],
-    confLow:  "Low signal strength",
-    confMid:  "Moderate signal strength",
-    confHigh: "High signal strength",
-    confNote: "Low confidence does NOT mean safe. High confidence does NOT guarantee fraud.",
-    emoji:    ["?","⚠","⚠","✖"],
+    sub: [
+      "No known risk signals in this message",         // 0
+      "Weak or partial risk signals detected",         // 1
+      "Multiple known suspicious patterns detected",   // 2
+      "Strong, confirmed fraud pattern signals"        // 3
+    ],
+    code: [
+      "DECISION: 0 · NORMAL",
+      "DECISION: 1 · ATTENTION",
+      "DECISION: 2 · SUSPECT",
+      "DECISION: 3 · HIGH_RISK"
+    ],
+    confRange: [
+      "Signal strength: 0–20%",   // 0
+      "Signal strength: 20–45%",  // 1
+      "Signal strength: 45–75%",  // 2
+      "Signal strength: 75–100%"  // 3
+    ],
+    summary: [
+      "No known risk patterns were found in this message. This does NOT mean the message is safe.",
+      "Weak risk indicators detected. Verify the sender before taking any action.",
+      "Multiple risk patterns detected. Do not click links or share any details.",
+      "Strong scam indicators detected. Do not proceed, share details, or make payments."
+    ],
+    // conf label based on raw % — shown below bar
+    confBands: [
+      { max: 20,  label: "Very low signal — no strong patterns matched",    cls: "cl0" },
+      { max: 45,  label: "Weak signal — partial or early patterns matched", cls: "cl1" },
+      { max: 75,  label: "Moderate signal — multiple patterns matched",     cls: "cl2" },
+      { max: 101, label: "Strong signal — confirmed high-risk patterns",    cls: "cl3" }
+    ],
+    confNote: "Confidence reflects pattern match strength only. It does NOT confirm fraud or guarantee safety.",
+    emoji:    ["—","!","⚠","✖"],
     rulesLabel: "TRIGGERED RULES",
     traceLabel: "TRACE",
     traceNote:  "Technical details for auditors",
@@ -410,7 +442,7 @@ const DECISION_MAP = {
     hashLearn: "Learn more",
     hashCopied: "Verification hash copied",
     safeNotice: "Genuine messages can sometimes match risk patterns. This engine does not guarantee legitimacy.",
-    disclaimer: "Low risk does NOT mean safe. This engine does not guarantee legitimacy.",
+    disclaimer: "This engine does not guarantee safety or fraud. Results are pattern-based only.",
     fbLabel: "Was this helpful?", fbYes: "Helpful", fbNo: "Not Helpful",
     fbThanks: "Thanks. Feedback recorded (anonymous).",
     fbOnce: "One feedback per result.",
@@ -420,20 +452,44 @@ const DECISION_MAP = {
     noRules: "No specific patterns triggered"
   },
   hi: {
-    label:   ["अज्ञात जोखिम",           "कम जोखिम पाया गया",         "संदिग्ध पैटर्न मिले",           "उच्च जोखिम – संभावित स्कैम"],
-    sub:     ["पर्याप्त संकेत नहीं",    "कुछ पैटर्न मिले",           "कई जोखिम पैटर्न मिले",          "मजबूत स्कैम संकेत"],
-    code:    ["निर्णय: 0 · अज्ञात",    "निर्णय: 1 · कम जोखिम",      "निर्णय: 2 · संदिग्ध",           "निर्णय: 3 · उच्च जोखिम"],
-    summary: [
-      "उपलब्ध पैटर्न से जोखिम स्तर निर्धारित नहीं किया जा सका।",
-      "कुछ जोखिम संकेत मिले। इसका अर्थ यह नहीं कि संदेश सुरक्षित है।",
-      "कई जोखिम पैटर्न मिले। आगे बढ़ने से पहले सतर्क रहें।",
-      "मजबूत स्कैम संकेत मिले। विवरण साझा न करें और कोई भुगतान न करें।"
+    label:   [
+      "कोई पैटर्न नहीं मिला",         // 0 – NORMAL
+      "ध्यान दें",                    // 1 – ATTENTION
+      "संदिग्ध पैटर्न मिले",          // 2 – SUSPECT
+      "उच्च जोखिम – संभावित स्कैम"   // 3 – HIGH_RISK
     ],
-    confLow:  "कम संकेत शक्ति",
-    confMid:  "मध्यम संकेत शक्ति",
-    confHigh: "उच्च संकेत शक्ति",
-    confNote: "कम स्कोर का अर्थ सुरक्षित नहीं है। उच्च स्कोर धोखाधड़ी की गारंटी नहीं है।",
-    emoji:    ["?","⚠","⚠","✖"],
+    sub: [
+      "इस संदेश में कोई ज्ञात जोखिम संकेत नहीं",      // 0
+      "कमजोर या आंशिक जोखिम संकेत मिले",              // 1
+      "कई ज्ञात संदिग्ध पैटर्न मिले",                  // 2
+      "मजबूत, पुष्ट धोखाधड़ी पैटर्न संकेत"            // 3
+    ],
+    code: [
+      "निर्णय: 0 · सामान्य",
+      "निर्णय: 1 · ध्यान दें",
+      "निर्णय: 2 · संदिग्ध",
+      "निर्णय: 3 · उच्च जोखिम"
+    ],
+    confRange: [
+      "संकेत शक्ति: 0–20%",
+      "संकेत शक्ति: 20–45%",
+      "संकेत शक्ति: 45–75%",
+      "संकेत शक्ति: 75–100%"
+    ],
+    summary: [
+      "इस संदेश में कोई ज्ञात जोखिम पैटर्न नहीं मिला। इसका अर्थ यह नहीं कि संदेश सुरक्षित है।",
+      "कमजोर जोखिम संकेत मिले। कोई भी कार्रवाई करने से पहले प्रेषक की पुष्टि करें।",
+      "कई जोखिम पैटर्न मिले। कोई लिंक क्लिक न करें और कोई विवरण साझा न करें।",
+      "मजबूत स्कैम संकेत मिले। आगे न बढ़ें, विवरण साझा न करें और कोई भुगतान न करें।"
+    ],
+    confBands: [
+      { max: 20,  label: "बहुत कम संकेत — कोई मजबूत पैटर्न नहीं मिला",   cls: "cl0" },
+      { max: 45,  label: "कमजोर संकेत — आंशिक पैटर्न मिले",              cls: "cl1" },
+      { max: 75,  label: "मध्यम संकेत — कई पैटर्न मिले",                 cls: "cl2" },
+      { max: 101, label: "मजबूत संकेत — उच्च जोखिम पैटर्न की पुष्टि",   cls: "cl3" }
+    ],
+    confNote: "विश्वास स्कोर केवल पैटर्न मिलान की ताकत दर्शाता है। यह धोखाधड़ी की पुष्टि नहीं करता।",
+    emoji:    ["—","!","⚠","✖"],
     rulesLabel: "सक्रिय नियम",
     traceLabel: "ट्रेस",
     traceNote:  "ऑडिटर के लिए तकनीकी विवरण",
@@ -442,7 +498,7 @@ const DECISION_MAP = {
     hashLearn: "और जानें",
     hashCopied: "सत्यापन हैश कॉपी हो गया",
     safeNotice: "वास्तविक संदेश भी जोखिम पैटर्न से मेल खा सकते हैं। यह इंजन वैधता की गारंटी नहीं देता।",
-    disclaimer: "कम जोखिम का अर्थ सुरक्षित नहीं है। यह इंजन वैधता की गारंटी नहीं देता।",
+    disclaimer: "यह इंजन सुरक्षा या धोखाधड़ी की गारंटी नहीं देता। परिणाम केवल पैटर्न-आधारित हैं।",
     fbLabel: "क्या यह सहायक था?", fbYes: "सहायक", fbNo: "सहायक नहीं",
     fbThanks: "धन्यवाद। फीडबैक दर्ज (गुमनाम)।",
     fbOnce: "प्रति परिणाम एक फीडबैक।",
@@ -662,11 +718,14 @@ async function doAnalyze() {
   showResult(r, dm);
 }
 
-/* ══ CONF LABEL ══ */
+/* ══ CONF LABEL — engine behavior bands ══
+   0=NORMAL 0-20% | 1=ATTENTION 20-45% | 2=SUSPECT 45-75% | 3=HIGH_RISK 75-100%
+*/
 function confLabel(conf, dm) {
-  if (conf < 35) return dm.confLow;
-  if (conf < 70) return dm.confMid;
-  return dm.confHigh;
+  for (const band of dm.confBands) {
+    if (conf < band.max) return { label: band.label, cls: band.cls };
+  }
+  return { label: dm.confBands[3].label, cls: dm.confBands[3].cls };
 }
 
 /* ══ TRUNCATE HASH ══ */
@@ -700,7 +759,7 @@ function showResult(r, dm) {
       '<div>' +
         '<div class="verdict-label v' + v + '">' + dm.label[v] + '</div>' +
         '<div class="verdict-sub">' + dm.sub[v] + '</div>' +
-        '<div class="verdict-code">' + dm.code[v] + '</div>' +
+        '<div class="verdict-code">' + dm.code[v] + ' · ' + dm.confRange[v] + '</div>' +
       '</div>' +
     '</div>' +
     /* MANDATORY DISCLAIMER — every result card */
@@ -723,7 +782,7 @@ function showResult(r, dm) {
     '<div class="conf-wrap">' +
       '<div class="conf-top"><span>' + DECISION_MAP[lang].rulesLabel.replace('TRIGGERED ','') + ' CONFIDENCE</span><span class="v' + v + '">' + conf + '%</span></div>' +
       '<div class="conf-bar"><div class="conf-fill fill' + v + '" id="conf-fill"></div></div>' +
-      '<div class="conf-label cl' + v + '">' + confLabel(conf, dm) + '</div>' +
+      '<div class="conf-label ' + confLabel(conf,dm).cls + '">' + confLabel(conf,dm).label + '</div>' +
       '<div class="conf-note">' + dm.confNote + '</div>' +
     '</div>' +
     /* TRIGGERED RULES */
