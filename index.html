@@ -2,345 +2,279 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
-<!-- Tesseract.js — Browser OCR, No API needed -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════
-   VERITAS GUARD v1.5 — DAYLIGHT THEME
-   High contrast · Outdoor readable
-══════════════════════════════════════ */
+/* ═══════════════════════════════════════════
+   VERITAS GUARD v1.5 — DAYLIGHT READABLE
+   Explainer + Integrity tool · Not enforcement
+═══════════════════════════════════════════ */
 :root{
-  --bg:#f0ede8;
-  --bg2:#e8e4de;
-  --surface:#ffffff;
-  --surface2:#f7f5f2;
-  --border:#d4cfc8;
-  --border-strong:#b8b2aa;
-  --ink:#1a1714;
-  --ink2:#3d3830;
-  --ink3:#6b6560;
-  --accent:#1a1714;
-  --brand:#1d4ed8;
-  --brand2:#1e40af;
-  --brand-light:#eff6ff;
-  --v0:#4a5568;--v0bg:#edf2f7;--v0border:#cbd5e0;
-  --v1:#276749;--v1bg:#f0fff4;--v1border:#9ae6b4;
-  --v2:#c05621;--v2bg:#fffaf0;--v2border:#fbd38d;
-  --v3:#9b2335;--v3bg:#fff5f5;--v3border:#feb2b2;
+  --bg:#f0ede8; --bg2:#e8e4de;
+  --surface:#fff; --surface2:#f7f5f2;
+  --border:#d4cfc8; --border-strong:#b8b2aa;
+  --ink:#1a1714; --ink2:#3d3830; --ink3:#6b6560;
+  --brand:#1d4ed8; --brand2:#1e40af; --brand-light:#eff6ff;
+  --v0:#4a5568; --v0bg:#edf2f7; --v0bd:#cbd5e0;
+  --v1:#276749; --v1bg:#f0fff4; --v1bd:#9ae6b4;
+  --v2:#c05621; --v2bg:#fffaf0; --v2bd:#fbd38d;
+  --v3:#9b2335; --v3bg:#fff5f5; --v3bd:#feb2b2;
   --mono:'Space Mono',monospace;
   --sans:'DM Sans',sans-serif;
-  --radius:10px;
-  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
-  --shadow-lg:0 4px 16px rgba(0,0,0,.12),0 12px 32px rgba(0,0,0,.08);
+  --r:10px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
+  --sh-lg:0 4px 16px rgba(0,0,0,.12),0 12px 32px rgba(0,0,0,.08);
 }
-
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* WARN BAR */
-#warn-bar{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--ink);padding:6px 0;overflow:hidden}
+/* MARQUEE */
+#warn-bar{position:fixed;top:0;left:0;right:0;z-index:200;background:var(--ink);padding:6px 0;overflow:hidden}
 #warn-text{display:inline-block;white-space:nowrap;font-family:var(--mono);font-size:10px;color:#a8a29e;animation:marquee 32s linear infinite;padding-left:100%}
 @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-200%)}}
 
-#app{max-width:480px;margin:0 auto;padding:60px 14px 60px}
+#app{max-width:480px;margin:0 auto;padding:52px 14px 60px}
 
 /* HEADER */
-.header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
-.logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
-.logo-icon{width:36px;height:36px;background:#1d4ed8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.logo-name{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-1px}
-.tagline{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+.header{text-align:center;padding:24px 0 18px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.logo-row{display:inline-flex;align-items:center;gap:9px;margin-bottom:5px}
+.logo-icon{width:34px;height:34px;background:var(--brand);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.logo-name{font-family:var(--mono);font-size:21px;font-weight:700;color:var(--ink);letter-spacing:-1px}
+.tagline{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.no-ai-pill{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;font-family:var(--mono);font-size:9px;color:var(--ink3);margin-bottom:8px}
 
-/* ENGINE STATUS PILL */
-.engine-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-family:var(--mono);font-size:10px;border:1.5px solid;cursor:pointer;transition:all .2s;margin-bottom:4px}
+/* ENGINE PILL */
+.engine-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 13px;border-radius:20px;font-family:var(--mono);font-size:10px;border:1.5px solid;cursor:pointer;transition:all .2s;margin-bottom:3px}
 .engine-pill.online{background:#f0fff4;border-color:#9ae6b4;color:#276749}
 .engine-pill.offline{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
 .engine-pill.checking{background:var(--surface2);border-color:var(--border);color:var(--ink3)}
-.engine-pill .dot{width:6px;height:6px;border-radius:50%;animation:blink 2s infinite}
+.dot{width:6px;height:6px;border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
 .engine-pill.online .dot{background:#276749}
 .engine-pill.offline .dot{background:#9b2335}
 .engine-pill.checking .dot{background:var(--ink3)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* TRUST BADGE — always visible when verified */
-#trust-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-family:var(--mono);font-size:9px;border:1.5px solid;margin-top:4px;transition:all .3s}
-#trust-badge.locked{background:#f0fff4;border-color:#9ae6b4;color:#276749}
-#trust-badge.warn{background:#fffaf0;border-color:#fbd38d;color:#c05621}
-#trust-badge.hidden{display:none}
+#trust-badge{display:none;align-items:center;gap:5px;padding:3px 11px;border-radius:20px;font-family:var(--mono);font-size:9px;border:1.5px solid;margin-top:3px}
+#trust-badge.locked{display:inline-flex;background:#f0fff4;border-color:#9ae6b4;color:#276749}
+#trust-badge.warn{display:inline-flex;background:#fffaf0;border-color:#fbd38d;color:#c05621}
 
 /* STATS */
 .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 8px;text-align:center;box-shadow:var(--shadow)}
-.stat-num{font-family:var(--mono);font-size:22px;font-weight:700;color:#1d4ed8;line-height:1}
+.stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:10px 6px;text-align:center;box-shadow:var(--sh)}
+.stat-num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--brand);line-height:1}
 .stat-lbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-weight:600}
 .stat-sub{font-family:var(--mono);font-size:8px;color:var(--border-strong);margin-top:1px}
 
-/* RATE BAR */
-.rate-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow)}
+/* RATE */
+.rate-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:9px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh)}
 .rate-label{font-family:var(--mono);font-size:11px;color:var(--ink2)}
 .rate-label strong{color:var(--brand)}
 .rate-dots{display:flex;gap:3px}
 .rdot{width:7px;height:7px;border-radius:50%;background:var(--brand)}
 .rdot.used{background:var(--border)}
-.rate-warn{background:#fff5f5;border:1.5px solid #feb2b2;border-radius:var(--radius);padding:8px 14px;font-family:var(--mono);font-size:11px;color:#9b2335;text-align:center;margin-bottom:8px;display:none}
+.rate-warn{background:#fff5f5;border:1.5px solid #feb2b2;border-radius:var(--r);padding:8px 14px;font-family:var(--mono);font-size:11px;color:#9b2335;text-align:center;margin-bottom:8px;display:none}
 .rate-warn.show{display:block}
 
 /* INPUT CARD */
-.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
-.lang-row{display:flex;gap:6px;margin-bottom:14px}
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:15px;margin-bottom:10px;box-shadow:var(--sh)}
+.lang-row{display:flex;gap:6px;margin-bottom:13px}
 .lang-btn{flex:1;padding:7px;background:transparent;border:1.5px solid var(--border);border-radius:6px;color:var(--ink3);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
 .lang-btn.active{background:var(--ink);border-color:var(--ink);color:#fff}
 .field-lbl{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;font-weight:700}
-select{width:100%;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--sans);font-size:13px;margin-bottom:12px;outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%231a1714' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;font-weight:500}
+select{width:100%;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--sans);font-size:13px;margin-bottom:12px;outline:none;appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath fill='%231a1714' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;font-weight:500}
 select:focus{border-color:var(--ink)}
 select option{background:#fff;color:var(--ink)}
-textarea{width:100%;height:110px;padding:11px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:12px;resize:none;outline:none;line-height:1.65;transition:border-color .2s}
+textarea{width:100%;height:108px;padding:11px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:12px;resize:none;outline:none;line-height:1.65;transition:border-color .2s}
 textarea:focus{border-color:var(--ink);background:#fff}
 textarea::placeholder{color:var(--border-strong)}
 .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:5px;margin-bottom:12px}
-.clear-btn{background:#eff6ff;border:1.5px solid #1d4ed8;color:#1d4ed8;padding:4px 10px;border-radius:5px;font-size:10px;font-family:var(--mono);cursor:pointer;transition:all .2s;font-weight:700}
-.clear-btn:hover{border-color:#1e40af;color:#1e40af;background:#dbeafe}
+.clear-btn{background:#eff6ff;border:1.5px solid var(--brand);color:var(--brand);padding:4px 10px;border-radius:5px;font-size:10px;font-family:var(--mono);cursor:pointer;font-weight:700}
 .char-count{font-family:var(--mono);font-size:10px;color:var(--ink3)}
 
-/* ANALYZE BUTTON */
-#analyze-btn{width:100%;padding:14px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(29,78,216,.3);position:relative;overflow:hidden}
-#analyze-btn:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,78,216,.35)}
+/* IMAGE UPLOAD */
+.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.img-upload-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 13px;background:#eff6ff;border:1.5px dashed var(--brand);border-radius:6px;color:var(--brand);font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
+.img-upload-btn:hover{background:#dbeafe;border-style:solid}
+.img-upload-btn input{display:none}
+.img-preview-wrap{display:none;margin-bottom:8px;border-radius:6px;border:1.5px solid var(--brand)}
+.img-preview-wrap.show{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#eff6ff;flex-wrap:wrap}
+.img-thumb{width:50px;height:50px;object-fit:cover;border-radius:4px;border:1px solid var(--brand);flex-shrink:0}
+.img-info{flex:1;min-width:0}
+.img-filename{font-family:var(--mono);font-size:10px;color:var(--brand);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.img-clear-btn{background:transparent;border:1.5px solid var(--brand);color:var(--brand);border-radius:4px;padding:3px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;font-weight:700;flex-shrink:0}
+.img-status{font-family:var(--mono);font-size:10px;font-weight:700}
+.img-status.ok{color:#276749} .img-status.warn{color:#c05621}
+.img-processing{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);align-items:center;gap:5px}
+.img-processing.show{display:flex}
+.prog-wrap{width:100%;height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden}
+.prog-fill{height:100%;background:var(--brand);border-radius:2px;width:0%;transition:width .3s}
+
+/* ANALYZE BTN */
+#analyze-btn{width:100%;padding:14px;background:var(--brand);border:2px solid var(--brand2);border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 3px 10px rgba(29,78,216,.35);position:relative;overflow:hidden}
+#analyze-btn:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 5px 18px rgba(29,78,216,.4)}
 #analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 #analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 1s infinite}
 @keyframes shimmer{to{left:100%}}
-.trust-pills{display:flex;justify-content:center;gap:10px;margin-top:8px;flex-wrap:wrap}
+.trust-pills{display:flex;justify-content:center;gap:10px;margin-top:7px;flex-wrap:wrap}
 .tpill{font-family:var(--mono);font-size:9px;color:var(--ink3);display:flex;align-items:center;gap:3px}
-.tpill::before{content:'✓';color:#1d4ed8;font-weight:700}
+.tpill::before{content:'✓';color:var(--brand);font-weight:700}
 
 /* RESULT CARD */
-#result-card{display:none;border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1.5px solid var(--border);box-shadow:var(--shadow-lg);animation:slideIn .25s ease}
+#result-card{display:none;border-radius:var(--r);overflow:hidden;margin-bottom:10px;border:1.5px solid var(--border);box-shadow:var(--sh-lg);animation:slideIn .25s ease}
 @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* VERDICT HEADER */
-.verdict-header{padding:16px;display:flex;align-items:flex-start;gap:13px}
-.verdict-icon{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:2px solid;font-family:var(--mono);font-weight:700}
+.verdict-header{padding:15px;display:flex;align-items:flex-start;gap:12px}
+.verdict-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;border:2px solid;font-family:var(--mono);font-weight:700}
 .verdict-main{flex:1;min-width:0}
-.verdict-name{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.1}
-.verdict-sub{font-size:12px;margin-top:3px;font-weight:500}
-.verdict-code{font-family:var(--mono);font-size:9px;margin-top:4px;opacity:.6}
+.verdict-name{font-family:var(--mono);font-size:17px;font-weight:700;line-height:1.1}
+.verdict-sub{font-size:12px;margin-top:3px;font-weight:500;line-height:1.4}
+.verdict-code{font-family:var(--mono);font-size:9px;margin-top:4px;opacity:.55}
+.checked-time{padding:5px 15px;font-family:var(--mono);font-size:9px;color:var(--ink3);background:var(--surface2);border-bottom:1px solid var(--border)}
 
-/* HASHCHAIN STRIP — ALWAYS VISIBLE ✅ */
-.hash-strip{display:flex;align-items:center;gap:8px;padding:12px 16px;border-top:2px solid #9ae6b4;border-bottom:2px solid #9ae6b4;background:#f0fff4}
-.hash-verified-badge{display:flex;align-items:center;gap:5px;flex:1;min-width:0}
-.hash-check{font-size:20px;flex-shrink:0}
-.hash-texts{min-width:0}
-.hash-title{font-family:var(--mono);font-size:12px;font-weight:700;color:#276749;letter-spacing:.3px}
-.hash-val{font-family:var(--mono);font-size:9px;color:var(--ink3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:1px}
-.hash-actions{display:flex;gap:5px;flex-shrink:0}
-.hash-btn{padding:3px 9px;background:transparent;border:1.5px solid var(--border);border-radius:5px;font-family:var(--mono);font-size:9px;color:var(--ink2);cursor:pointer;transition:all .2s;font-weight:700}
-.hash-btn:hover{border-color:var(--ink);color:var(--ink)}
+/* HASHCHAIN STRIP — always visible */
+.hash-strip{padding:11px 15px;background:#f0fff4;border-top:2px solid #9ae6b4;border-bottom:2px solid #9ae6b4}
+.hash-strip-top{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:5px}
+.hash-lock{font-size:14px}
+.hash-title{font-family:var(--mono);font-size:11px;font-weight:700;color:#276749}
+.hash-what{font-family:var(--mono);font-size:9px;color:var(--brand);cursor:pointer;text-decoration:underline;margin-left:auto}
+.hash-mono-row{display:flex;align-items:center;gap:6px;background:#fff;border:1px solid #9ae6b4;border-radius:5px;padding:5px 8px}
+.hash-mono-val{font-family:var(--mono);font-size:9px;color:var(--ink2);overflow-x:auto;white-space:nowrap;flex:1;scrollbar-width:thin}
+.hash-copy-btn{background:transparent;border:none;cursor:pointer;font-size:13px;flex-shrink:0;padding:0 2px;opacity:.7;transition:opacity .2s}
+.hash-copy-btn:hover{opacity:1}
+.hash-verify-btn{display:inline-flex;align-items:center;gap:4px;margin-top:6px;padding:4px 11px;background:transparent;border:1.5px solid #276749;border-radius:5px;font-family:var(--mono);font-size:10px;color:#276749;cursor:pointer;font-weight:700;transition:all .2s}
+.hash-verify-btn:hover{background:#276749;color:#fff}
+.inline-verify-result{display:none;margin-top:6px;padding:7px 10px;border-radius:6px;font-family:var(--mono);font-size:10px;border:1.5px solid;line-height:1.6}
+.inline-verify-result.valid{background:#f0fff4;border-color:#9ae6b4;color:#276749}
+.inline-verify-result.invalid{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
+.inline-verify-result.warn{background:#fffaf0;border-color:#fbd38d;color:#c05621}
+.inline-verify-result.show{display:block}
 
 /* RESULT DISCLAIMER */
-.result-disc{padding:9px 16px;font-family:var(--mono);font-size:10px;border-bottom:1px solid var(--border)}
-
+.result-disc{padding:8px 15px;font-family:var(--mono);font-size:10px;border-bottom:1px solid var(--border);line-height:1.5}
 /* SUMMARY */
-.summary{padding:13px 16px;font-size:13px;line-height:1.6;font-weight:500;border-bottom:1px solid var(--border)}
+.summary{padding:12px 15px;font-size:13px;line-height:1.65;font-weight:500;border-bottom:1px solid var(--border);color:var(--ink2)}
 
-/* SIGNAL BREAKDOWN — NEW: shows P/M/A/X/C */
-.signals-wrap{padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface)}
-.signals-title{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:8px;font-weight:700}
-.signals-grid{display:flex;gap:6px;flex-wrap:wrap}
-.signal-chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:6px;font-family:var(--mono);font-size:10px;border:1.5px solid;font-weight:700}
-.signal-chip.active-chip{background:var(--v3bg);border-color:var(--v3border);color:var(--v3)}
-.signal-chip.inactive-chip{background:var(--surface2);border-color:var(--border);color:var(--ink3)}
-.signal-def{font-size:9px;color:var(--ink3);margin-top:6px;line-height:1.5;font-family:var(--mono)}
+/* SIGNAL BREAKDOWN */
+.signals-wrap{padding:11px 15px;border-bottom:1px solid var(--border);background:var(--surface)}
+.section-title{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:7px;font-weight:700}
+.signals-grid{display:flex;gap:5px;flex-wrap:wrap}
+.signal-chip{display:inline-flex;align-items:center;gap:4px;padding:5px 9px;border-radius:6px;font-family:var(--mono);font-size:10px;border:1.5px solid;font-weight:700}
+.signal-chip.on{background:var(--v3bg);border-color:var(--v3bd);color:var(--v3)}
+.signal-chip.off{background:var(--surface2);border-color:var(--border);color:var(--ink3)}
+.signal-def{font-size:10px;color:var(--ink2);margin-top:6px;line-height:1.5;padding:7px 10px;background:var(--surface2);border-radius:5px;border-left:3px solid var(--brand)}
 
-/* CONFIDENCE */
-.conf-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
-.conf-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;color:var(--ink2);margin-bottom:6px;font-weight:700}
-.conf-pct{font-size:16px;font-weight:700}
+/* SIGNAL STRENGTH */
+.conf-wrap{padding:11px 15px;border-bottom:1px solid var(--border)}
+.conf-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:10px;color:var(--ink2);margin-bottom:5px;font-weight:700}
+.conf-pct{font-size:15px;font-weight:700}
 .conf-track{height:8px;background:var(--bg2);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
 .conf-fill{height:100%;border-radius:4px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.conf-band{font-family:var(--mono);font-size:9px;margin-top:5px;font-weight:700}
-.conf-note{font-size:10px;color:var(--ink3);margin-top:3px;line-height:1.5}
+.conf-band{font-family:var(--mono);font-size:9px;margin-top:4px;font-weight:700}
+.conf-note{font-size:10px;color:var(--ink3);margin-top:3px;line-height:1.5;font-style:italic}
 
-/* TRIGGERED RULES */
-.rules-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
-.section-hdr{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:7px;font-weight:700;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
+/* RULES */
+.rules-wrap{padding:11px 15px;border-bottom:1px solid var(--border)}
+.collapsible-hdr{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--ink3);margin-bottom:0;font-weight:700;display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none}
 .caret{font-size:8px;transition:transform .2s;display:inline-block}
 .caret.open{transform:rotate(90deg)}
-.rules-body{display:none;flex-wrap:wrap;gap:5px}
-.rules-body.open{display:flex}
+.collapsible-body{display:none;flex-wrap:wrap;gap:5px;margin-top:7px}
+.collapsible-body.open{display:flex}
 .rule-tag{padding:4px 10px;border-radius:5px;font-family:var(--mono);font-size:10px;border:1.5px solid;font-weight:700}
 
-/* TRACE */
-.trace-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
-.trace-note{font-family:var(--mono);font-size:9px;color:var(--ink3);margin-bottom:6px}
-.trace-body{display:none}
-.trace-body.open{display:block}
-.trace-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink2)}
-.trace-val{color:#1d4ed8;font-weight:700}
-
 /* ACTIONS */
-.actions-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
+.actions-wrap{padding:12px 15px;border-bottom:1px solid var(--border)}
 .action-btns{display:flex;gap:8px}
 .act-btn{flex:1;padding:10px;border-radius:7px;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700;letter-spacing:.3px}
 .btn-share{background:var(--brand);border:none;color:#fff}
 .btn-share:hover{background:var(--brand2)}
 .btn-copy{background:transparent;border:1.5px solid var(--border-strong);color:var(--ink2)}
 .btn-copy:hover{border-color:var(--ink);color:var(--ink);background:var(--surface2)}
-.action-note{font-family:var(--mono);font-size:9px;color:var(--ink3);text-align:center;margin-top:6px}
+.btn-verify-proof{background:transparent;border:1.5px solid #276749;color:#276749;padding:7px 12px;border-radius:7px;font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:700;transition:all .2s;margin-top:7px;width:100%}
+.btn-verify-proof:hover{background:#276749;color:#fff}
+.action-note{font-family:var(--mono);font-size:9px;color:var(--ink3);text-align:center;margin-top:5px}
 
 /* SAFE NOTICE */
-.safe-notice{padding:10px 16px;background:var(--surface2);font-size:11px;color:var(--ink3);line-height:1.6;border-bottom:1px solid var(--border)}
+.safe-notice{padding:9px 15px;background:var(--surface2);font-size:11px;color:var(--ink3);line-height:1.6;border-bottom:1px solid var(--border);border-left:3px solid var(--brand)}
 
 /* FEEDBACK */
-.fb-wrap{padding:11px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--surface)}
+.fb-wrap{padding:10px 15px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--surface)}
 .fb-lbl{font-family:var(--mono);font-size:10px;color:var(--ink3);font-weight:700}
-.fb-btn{padding:5px 13px;background:transparent;border:1.5px solid var(--border);border-radius:20px;font-size:11px;color:var(--ink3);cursor:pointer;font-family:var(--mono);transition:all .2s;font-weight:700}
+.fb-btn{padding:4px 12px;background:transparent;border:1.5px solid var(--border);border-radius:20px;font-size:11px;color:var(--ink3);cursor:pointer;font-family:var(--mono);transition:all .2s;font-weight:700}
 .fb-btn.sel{background:var(--ink);border-color:var(--ink);color:#fff}
 .fb-btn:disabled{opacity:.5;cursor:not-allowed}
 .fb-thanks{font-family:var(--mono);font-size:10px;color:#276749;display:none;font-weight:700}
 .fb-thanks.show{display:inline}
-.fb-once{font-family:var(--mono);font-size:9px;color:var(--border-strong);width:100%;margin-top:2px}
 
 /* EXAMPLES */
-.examples-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
-.sec-title{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;font-weight:700}
-.sec-sub{font-family:var(--mono);font-size:9px;color:var(--border-strong);margin-bottom:10px}
-.ex-btns{display:flex;flex-direction:column;gap:6px}
+.examples-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:13px;margin-bottom:10px;box-shadow:var(--sh)}
+.ex-btns{display:flex;flex-direction:column;gap:6px;margin-top:8px}
 .ex-btn{width:100%;padding:9px 12px;background:var(--surface2);border:1.5px solid var(--border);border-radius:7px;color:var(--ink2);font-family:var(--mono);font-size:11px;cursor:pointer;text-align:left;transition:all .2s;font-weight:700}
 .ex-btn:hover{border-color:var(--ink);color:var(--ink);background:#fff}
 
-/* DISCLAIMER */
-.disc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
-.disc-title{font-family:var(--mono);font-size:9px;color:#1d4ed8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
-.disc-body{font-size:12px;color:var(--ink2);line-height:1.7}
-
-/* HOW IT WORKS */
-.how-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
-.how-list{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+/* INFO CARDS */
+.info-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh)}
+.info-title{font-family:var(--mono);font-size:9px;color:var(--brand);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.info-body{font-size:12px;color:var(--ink2);line-height:1.7}
+.how-list{margin-top:8px;display:flex;flex-direction:column;gap:6px}
 .how-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink2);line-height:1.5}
-.how-item::before{content:'◆';color:#1d4ed8;font-size:8px;flex-shrink:0;margin-top:3px}
+.how-item::before{content:'◆';color:var(--brand);font-size:8px;flex-shrink:0;margin-top:3px}
 
 /* TRUST FOOTER */
-.trust-footer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 16px;margin-bottom:10px;text-align:center;box-shadow:var(--shadow)}
+.trust-footer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 15px;margin-bottom:10px;text-align:center;box-shadow:var(--sh)}
 .tf1{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;margin-bottom:3px}
-.tf1 span{color:#1d4ed8}
+.tf1 span{color:var(--brand)}
 .tf2{font-size:11px;color:var(--ink3)}
 
-footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border-strong);padding:12px 0 8px;line-height:2}
+footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border-strong);padding:10px 0 8px;line-height:2}
 
-/* TOAST */
-#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:12px;color:#fff;z-index:300;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--shadow-lg)}
-#toast.show{opacity:1}
+/* VERDICT COLORS */
+.v0-h{background:var(--v0bg);border-bottom:1px solid var(--v0bd)} .v0-icon{border-color:var(--v0bd);color:var(--v0);background:var(--v0bg)} .v0-name{color:var(--v0)} .v0-disc{background:#edf2f7;border-color:var(--v0bd);color:var(--v0)} .v0-fill{background:var(--v0)} .v0-band{color:var(--v0)} .v0-tag{background:var(--v0bg);border-color:var(--v0bd);color:var(--v0)}
+.v1-h{background:var(--v1bg);border-bottom:1px solid var(--v1bd)} .v1-icon{border-color:var(--v1bd);color:var(--v1);background:var(--v1bg)} .v1-name{color:var(--v1)} .v1-disc{background:#f0fff4;border-color:var(--v1bd);color:var(--v1)} .v1-fill{background:var(--v1)} .v1-band{color:var(--v1)} .v1-tag{background:var(--v1bg);border-color:var(--v1bd);color:var(--v1)}
+.v2-h{background:var(--v2bg);border-bottom:1px solid var(--v2bd)} .v2-icon{border-color:var(--v2bd);color:var(--v2);background:var(--v2bg)} .v2-name{color:var(--v2)} .v2-disc{background:#fffaf0;border-color:var(--v2bd);color:var(--v2)} .v2-fill{background:var(--v2)} .v2-band{color:var(--v2)} .v2-tag{background:var(--v2bg);border-color:var(--v2bd);color:var(--v2)}
+.v3-h{background:var(--v3bg);border-bottom:1px solid var(--v3bd)} .v3-icon{border-color:var(--v3bd);color:var(--v3);background:var(--v3bg)} .v3-name{color:var(--v3)} .v3-disc{background:#fff5f5;border-color:var(--v3bd);color:var(--v3)} .v3-fill{background:var(--v3)} .v3-band{color:var(--v3)} .v3-tag{background:var(--v3bg);border-color:var(--v3bd);color:var(--v3)}
 
 /* MODALS */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,23,20,.65);z-index:300;align-items:flex-end;justify-content:center;padding:0}
 .modal-overlay.show{display:flex}
-.modal-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:28px;max-width:340px;width:100%;text-align:center;box-shadow:var(--shadow-lg)}
-.modal-icon{font-size:36px;margin-bottom:10px}
-.modal-title{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--ink);margin-bottom:8px}
-.modal-text{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.8;margin-bottom:16px}
-.modal-close{padding:10px 24px;background:var(--brand);border:none;border-radius:7px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer}
+@media(min-width:480px){.modal-overlay{align-items:center;padding:20px}}
+.modal-box{background:#fff;border-radius:14px 14px 0 0;padding:24px 20px;width:100%;max-width:480px;box-shadow:var(--sh-lg);max-height:90vh;overflow-y:auto}
+@media(min-width:480px){.modal-box{border-radius:14px;max-height:80vh}}
+.modal-icon{font-size:30px;margin-bottom:8px;text-align:center}
+.modal-title{font-family:var(--mono);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:8px;text-align:center}
+.modal-text{font-family:var(--mono);font-size:11px;color:var(--ink3);line-height:1.9;margin-bottom:14px;text-align:center}
+.modal-close{width:100%;padding:11px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:background .2s}
+.modal-close:hover{background:var(--brand2)}
 
-/* VERDICT COLOR CLASSES */
-.v0-header{background:var(--v0bg);border-bottom:1px solid var(--v0border)}
-.v0-icon{border-color:var(--v0border);color:var(--v0);background:var(--v0bg)}
-.v0-name{color:var(--v0)}
-.v0-disc{background:#edf2f7;border-color:var(--v0border);color:var(--v0)}
-.v0-fill{background:var(--v0)}
-.v0-band{color:var(--v0)}
-.v0-tag{background:var(--v0bg);border-color:var(--v0border);color:var(--v0)}
-
-.v1-header{background:var(--v1bg);border-bottom:1px solid var(--v1border)}
-.v1-icon{border-color:var(--v1border);color:var(--v1);background:var(--v1bg)}
-.v1-name{color:var(--v1)}
-.v1-disc{background:#f0fff4;border-color:var(--v1border);color:var(--v1)}
-.v1-fill{background:var(--v1)}
-.v1-band{color:var(--v1)}
-.v1-tag{background:var(--v1bg);border-color:var(--v1border);color:var(--v1)}
-
-.v2-header{background:var(--v2bg);border-bottom:1px solid var(--v2border)}
-.v2-icon{border-color:var(--v2border);color:var(--v2);background:var(--v2bg)}
-.v2-name{color:var(--v2)}
-.v2-disc{background:#fffaf0;border-color:var(--v2border);color:var(--v2)}
-.v2-fill{background:var(--v2)}
-.v2-band{color:var(--v2)}
-.v2-tag{background:var(--v2bg);border-color:var(--v2border);color:var(--v2)}
-
-.v3-header{background:var(--v3bg);border-bottom:1px solid var(--v3border)}
-.v3-icon{border-color:var(--v3border);color:var(--v3);background:var(--v3bg)}
-.v3-name{color:var(--v3)}
-.v3-disc{background:#fff5f5;border-color:var(--v3border);color:var(--v3)}
-.v3-fill{background:var(--v3)}
-.v3-band{color:var(--v3)}
-.v3-tag{background:var(--v3bg);border-color:var(--v3border);color:var(--v3)}
-
-/* IMAGE UPLOAD */
-.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.img-upload-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;border:1.5px dashed #1d4ed8;border-radius:6px;color:#1d4ed8;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
-.img-upload-btn:hover{background:#dbeafe;border-style:solid}
-.img-upload-btn input{display:none}
-.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.img-preview-wrap{display:none;margin-bottom:8px;border-radius:6px;overflow:hidden;border:1.5px solid #1d4ed8;max-height:80px;position:relative}
-.img-preview-wrap.show{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#eff6ff;max-height:none;flex-wrap:wrap}
-.img-thumb{width:52px;height:52px;object-fit:cover;border-radius:4px;border:1px solid #1d4ed8;flex-shrink:0}
-.img-info{flex:1;min-width:0}
-.img-filename{font-family:var(--mono);font-size:10px;color:#1d4ed8;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.img-clear-btn{background:transparent;border:1.5px solid #1d4ed8;color:#1d4ed8;border-radius:4px;padding:3px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;font-weight:700;flex-shrink:0}
-.img-clear-btn:hover{background:#dbeafe}
-.img-status{font-family:var(--mono);font-size:10px;font-weight:700}
-.img-status.ok{color:#276749}
-.img-status.warn{color:#c05621}
-.img-processing{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);align-items:center;gap:5px}
-.img-processing.show{display:flex}
-.progress-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden}
-.progress-bar-fill{height:100%;background:#1d4ed8;border-radius:2px;width:0%;transition:width .3s}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.checked-time{padding:6px 16px;font-family:var(--mono);font-size:9px;color:var(--ink3);background:var(--surface2);border-bottom:1px solid var(--border);letter-spacing:.3px}
-
-/* NO AI BADGE */
-.no-ai-badge{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;padding:3px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;display:inline-block}
-
-/* TOOLTIP */
-.tooltip-wrap{position:relative;display:inline-block;cursor:help;font-size:10px;color:#1d4ed8;margin-left:3px}
-.tooltip-box{display:none;position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--mono);font-size:9px;padding:7px 10px;border-radius:6px;white-space:nowrap;z-index:50;line-height:1.6;box-shadow:var(--shadow-lg)}
-.tooltip-wrap:hover .tooltip-box{display:block}
-.tooltip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
-
-/* HASH DISPLAY — monospace single line scroll */
-.hash-mono{font-family:var(--mono);font-size:10px;color:var(--ink2);overflow-x:auto;white-space:nowrap;padding:4px 0;scrollbar-width:thin;display:flex;align-items:center;gap:6px;min-width:0;flex:1}
-.hash-copy-icon{cursor:pointer;font-size:12px;flex-shrink:0;padding:2px 5px;border-radius:4px;transition:background .2s}
-.hash-copy-icon:hover{background:var(--bg2)}
-
-/* VERIFY READER SECTION */
-.verify-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
-.verify-input{width:100%;height:90px;padding:10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:10px;resize:none;outline:none;line-height:1.6}
-.verify-input:focus{border-color:#1d4ed8}
-.verify-btn{width:100%;padding:11px;background:#1d4ed8;border:none;border-radius:7px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-top:8px;transition:all .2s}
-.verify-btn:hover{background:#1e40af}
-.verify-btn:disabled{opacity:.4;cursor:not-allowed}
-.verify-result{display:none;margin-top:10px;padding:12px 14px;border-radius:7px;font-family:var(--mono);font-size:11px;border:1.5px solid;line-height:1.8}
-.verify-result.valid{background:#f0fff4;border-color:#9ae6b4;color:#276749}
-.verify-result.invalid{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
-.verify-result.show{display:block}
-.verify-advanced{font-size:9px;color:#1d4ed8;cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block}
-.verify-raw{display:none;margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--ink3);word-break:break-all;line-height:1.6}
+/* VERIFY MODAL */
+.verify-modal-text{font-family:var(--mono);font-size:10px;color:var(--ink3);line-height:1.8;margin-bottom:10px;padding:8px 10px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--brand)}
+.verify-ta{width:100%;height:100px;padding:10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:10px;resize:none;outline:none;line-height:1.6;margin-bottom:8px}
+.verify-ta:focus{border-color:var(--brand)}
+.verify-btn-modal{width:100%;padding:11px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-bottom:8px;transition:background .2s}
+.verify-btn-modal:hover{background:var(--brand2)}
+.verify-btn-modal:disabled{opacity:.4;cursor:not-allowed}
+.verify-res{display:none;padding:10px 12px;border-radius:7px;font-family:var(--mono);font-size:11px;border:1.5px solid;line-height:1.7;margin-bottom:8px}
+.verify-res.valid{background:#f0fff4;border-color:#9ae6b4;color:#276749}
+.verify-res.invalid{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
+.verify-res.warn{background:#fffaf0;border-color:#fbd38d;color:#c05621}
+.verify-res.show{display:block}
+.verify-adv{font-family:var(--mono);font-size:9px;color:var(--brand);cursor:pointer;text-decoration:underline;display:none}
+.verify-adv.show{display:inline}
+.verify-raw{display:none;margin-top:5px;font-family:var(--mono);font-size:9px;color:var(--ink3);word-break:break-all;line-height:1.6;padding:6px;background:var(--surface2);border-radius:4px}
 .verify-raw.show{display:block}
+.modal-cancel{width:100%;padding:9px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--ink3);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-top:4px}
 
-/* ANALYZE BUTTON — higher contrast */
-#analyze-btn{width:100%;padding:15px;background:#1d4ed8;border:2px solid #1e40af;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 3px 10px rgba(29,78,216,.4);position:relative;overflow:hidden}
-#analyze-btn:hover:not(:disabled){background:#1e40af;transform:translateY(-1px);box-shadow:0 5px 18px rgba(29,78,216,.45)}
-#analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
-
-/* WHAT IS THIS link */
-.hash-what{font-family:var(--mono);font-size:9px;color:#1d4ed8;cursor:pointer;text-decoration:underline;flex-shrink:0}
+/* TOAST */
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:400;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--sh-lg)}
+#toast.show{opacity:1}
 </style>
 </head>
 <body>
 
+<!-- MARQUEE -->
 <div id="warn-bar">
-  <span id="warn-text">⚠ This tool analyzes text for known risk patterns only. It does NOT confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user. · यह टूल केवल जोखिम पैटर्न दिखाता है — धोखाधड़ी की पुष्टि नहीं करता।</span>
+  <span id="warn-text">⚠ This tool shows risk patterns only. It does NOT confirm fraud, block messages, or guarantee safety. Final decision is always yours. · यह टूल केवल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।</span>
 </div>
 
 <div id="app">
@@ -351,30 +285,28 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
       <div class="logo-icon">🛡</div>
       <div class="logo-name">Veritas Guard</div>
     </div>
-    <div class="tagline" id="tagline-text">DETERMINISTIC RISK SIGNALS · NO GUESSING</div>
-  <div class="no-ai-badge">No AI · No Prediction · Deterministic Rules Only</div>
-    <div>
-      <div class="engine-pill checking" id="engine-pill" onclick="showInfoModal()">
-        <div class="dot"></div>
-        <span id="engine-pill-text">ENGINE — CHECKING...</span>
-      </div>
+    <div class="tagline" id="tagline-text">Risk Pattern Explainer · Not an enforcement tool</div>
+    <div class="no-ai-pill">No AI · No Prediction · Deterministic Rules Only</div>
+    <br>
+    <div class="engine-pill checking" id="engine-pill" onclick="showInfoModal()">
+      <div class="dot"></div>
+      <span id="engine-pill-text">ENGINE — CHECKING...</span>
     </div>
-    <div>
-      <div id="trust-badge" class="hidden">🔒 <span id="trust-badge-text">Rules Hard-Locked · ...</span></div>
-    </div>
+    <br>
+    <div id="trust-badge"><span>🔒</span> <span id="trust-badge-text">Rules Hard-Locked</span></div>
   </div>
 
   <!-- STATS -->
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-num" id="stat-total">0</div>
-      <div class="stat-lbl" id="lbl-total">Total Scans</div>
+      <div class="stat-lbl" id="lbl-total">Total</div>
       <div class="stat-sub">Session</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" id="stat-today">0</div>
       <div class="stat-lbl" id="lbl-today">Today</div>
-      <div class="stat-sub">Resets midnight</div>
+      <div class="stat-sub">Daily reset</div>
     </div>
     <div class="stat-card">
       <div class="stat-num" id="stat-flagged">0</div>
@@ -383,9 +315,9 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     </div>
   </div>
 
-  <!-- RATE BAR -->
+  <!-- RATE -->
   <div class="rate-wrap">
-    <div class="rate-label" id="rate-label">Remaining: <strong id="rate-num">10</strong>/10</div>
+    <div class="rate-label" id="rate-label">Remaining: <strong>10</strong>/10</div>
     <div class="rate-dots" id="rate-dots"></div>
   </div>
   <div class="rate-warn" id="rate-warn">Daily limit reached. Try again later.</div>
@@ -398,31 +330,30 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     </div>
     <div class="field-lbl" id="lbl-usecase">USE CASE</div>
     <select id="usecase">
-      <option value="cyber"      data-en="Cyber / Fraud"        data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
-      <option value="banking"    data-en="Banking / Fintech"     data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
-      <option value="legal"      data-en="Legal / Compliance"    data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
-      <option value="health"     data-en="Healthcare"            data-hi="हेल्थकेयर">Healthcare</option>
-      <option value="insurance"  data-en="Insurance"             data-hi="बीमा">Insurance</option>
-      <option value="govt"       data-en="Government / Public"   data-hi="सरकारी / सार्वजनिक">Government / Public</option>
-      <option value="ecom"       data-en="E-commerce"            data-hi="ई-कॉमर्स">E-commerce</option>
-      <option value="edu"        data-en="Education / Research"  data-hi="शिक्षा / अनुसंधान">Education / Research</option>
-      <option value="enterprise" data-en="Enterprise Security"   data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
+      <option value="cyber"      data-en="Cyber / Fraud"       data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
+      <option value="banking"    data-en="Banking / Fintech"    data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
+      <option value="legal"      data-en="Legal / Compliance"   data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
+      <option value="health"     data-en="Healthcare"           data-hi="हेल्थकेयर">Healthcare</option>
+      <option value="insurance"  data-en="Insurance"            data-hi="बीमा">Insurance</option>
+      <option value="govt"       data-en="Government / Public"  data-hi="सरकारी / सार्वजनिक">Government / Public</option>
+      <option value="ecom"       data-en="E-commerce"           data-hi="ई-कॉमर्स">E-commerce</option>
+      <option value="edu"        data-en="Education / Research" data-hi="शिक्षा / अनुसंधान">Education / Research</option>
+      <option value="enterprise" data-en="Enterprise Security"  data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
     </select>
     <div class="field-lbl" id="lbl-input">MESSAGE / SMS / LINK</div>
-    <!-- IMAGE UPLOAD -->
     <div class="img-upload-row">
       <label class="img-upload-btn">
         📷 <span id="img-btn-text">Upload Screenshot</span>
         <input type="file" id="img-input" accept="image/*" onchange="handleImage(event)">
       </label>
       <span class="img-status" id="img-status"></span>
-      <span class="img-processing" id="img-processing"><span id="img-proc-text">⟳ Reading image...</span></span>
+      <span class="img-processing" id="img-processing"><span id="img-proc-text">⟳ Reading...</span></span>
     </div>
     <div class="img-preview-wrap" id="img-preview-wrap">
       <img class="img-thumb" id="img-preview" src="" alt="">
       <div class="img-info">
         <div class="img-filename" id="img-filename">screenshot.jpg</div>
-        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar"></div></div>
+        <div class="prog-wrap"><div class="prog-fill" id="prog-bar"></div></div>
       </div>
       <button class="img-clear-btn" onclick="clearImage()">✕</button>
     </div>
@@ -444,50 +375,41 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
   <!-- RESULT CARD -->
   <div id="result-card"></div>
 
-  <!-- HASHCHAIN READER -->
-  <div class="verify-card">
-    <div class="sec-title">🔍 VERIFY A PROOF</div>
-    <div class="sec-sub" id="verify-sub">Paste COPY PROOF output below to verify authenticity</div>
-    <textarea class="verify-input" id="verify-input" placeholder="Paste proof text here...&#10;(from COPY PROOF button)"></textarea>
-    <button class="verify-btn" id="verify-btn" onclick="doVerify()">⚡ VERIFY PROOF</button>
-    <div class="verify-result" id="verify-result"></div>
-  </div>
-
   <!-- EXAMPLES -->
   <div class="examples-card">
-    <div class="sec-title" id="ex-title">TRY AN EXAMPLE</div>
-    <div class="sec-sub" id="ex-sub">Examples are simulated messages</div>
+    <div class="section-title" id="ex-title">TRY AN EXAMPLE</div>
+    <div class="info-body" id="ex-sub" style="font-size:10px;color:var(--ink3)">Simulated messages for testing only</div>
     <div class="ex-btns">
-      <button class="ex-btn" id="ex1" onclick="loadEx(0)">🚨 Try scam example</button>
+      <button class="ex-btn" id="ex1" onclick="loadEx(0)">🚨 Try scam-pattern example</button>
       <button class="ex-btn" id="ex2" onclick="loadEx(1)">🏦 Try bank SMS example</button>
       <button class="ex-btn" id="ex3" onclick="loadEx(2)">🏛 Try government advisory example</button>
     </div>
   </div>
 
   <!-- DISCLAIMER -->
-  <div class="disc-card">
-    <div class="disc-title" id="disc-title">⚠ DISCLAIMER</div>
-    <p class="disc-body" id="disc-body">This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.</p>
+  <div class="info-card">
+    <div class="info-title" id="disc-title">⚠ DISCLAIMER</div>
+    <p class="info-body" id="disc-body">This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. The final decision is always yours.</p>
   </div>
 
   <!-- HOW IT WORKS -->
-  <div class="how-card">
-    <div class="sec-title" id="how-title">HOW THIS WORKS</div>
+  <div class="info-card">
+    <div class="info-title" id="how-title">HOW THIS WORKS</div>
     <div class="how-list">
-      <div class="how-item" id="how1">No login required</div>
-      <div class="how-item" id="how2">No message content stored</div>
-      <div class="how-item" id="how3">Deterministic rules — no guessing, no prediction</div>
-      <div class="how-item" id="how4">Hash-sealed engine — rules cannot change without re-seal</div>
+      <div class="how-item" id="how1">No login required — works instantly</div>
+      <div class="how-item" id="how2">Message content is never stored</div>
+      <div class="how-item" id="how3">Rules are fixed — no prediction or guessing</div>
+      <div class="how-item" id="how4">Each result is sealed — can be verified later</div>
     </div>
   </div>
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
-    <div class="tf1">ENGINE <span id="footer-ver">v1.5</span> · STATUS: <span>RULES FROZEN</span></div>
-    <div class="tf2">Deterministic engine · No guessing · No message storage</div>
+    <div class="tf1">ENGINE <span id="footer-ver">v1.5</span> · RULES FROZEN</div>
+    <div class="tf2">Deterministic · No AI · No message storage</div>
   </div>
 
-  <footer>© Veritas Engine — Open Risk Awareness Tool</footer>
+  <footer id="footer-copy">© Veritas Engine — Open Risk Awareness Tool</footer>
 </div>
 
 <!-- TOAST -->
@@ -499,27 +421,44 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     <div class="modal-icon">🛡</div>
     <div class="modal-title">About Veritas Guard</div>
     <div class="modal-text" id="info-modal-text">
-      Veritas Guard analyzes text for known risk patterns using deterministic rules.<br><br>
-      It does NOT block, verify, report, or guarantee anything.<br><br>
-      Low risk does NOT mean safe.<br><br>
-      Powered by deterministic pattern rules — not AI.
+      This tool detects risk patterns in messages.<br><br>
+      It does NOT confirm fraud, block anything, or make decisions for you.<br><br>
+      Results are based on known risk signals — not AI or prediction.
     </div>
-    <button class="modal-close" onclick="closeModal('info-modal')">UNDERSTOOD</button>
+    <button class="modal-close" onclick="closeModal('info-modal')">Understood</button>
   </div>
 </div>
 
-<!-- HASHCHAIN MODAL — plain language -->
+<!-- HASHCHAIN EXPLAINER MODAL -->
 <div class="modal-overlay" id="hash-modal">
   <div class="modal-box">
     <div class="modal-icon">🔒</div>
-    <div class="modal-title">Result Integrity Verified</div>
+    <div class="modal-title">Result Integrity</div>
     <div class="modal-text">
       This result is sealed at the moment it was generated.<br><br>
       The rules used for this analysis cannot be changed later.<br><br>
-      This ensures the decision you see is authentic and has not been modified.<br><br>
-      <span style="font-size:10px;color:#6b6560">You can share this result as a verifiable proof.</span>
+      This proves the analysis was not modified after generation.<br><br>
+      <span style="font-size:10px;opacity:.7">You can verify any copied proof using the Verify Proof button.</span>
     </div>
     <button class="modal-close" onclick="closeModal('hash-modal')">Understood</button>
+  </div>
+</div>
+
+<!-- VERIFY PROOF MODAL -->
+<div class="modal-overlay" id="verify-modal">
+  <div class="modal-box">
+    <div class="modal-icon">🔍</div>
+    <div class="modal-title">Verify Proof</div>
+    <div class="verify-modal-text">
+      This checks whether the copied proof matches the engine output.<br>
+      It does NOT determine fraud or safety.
+    </div>
+    <textarea class="verify-ta" id="verify-ta" placeholder="Paste proof text here...&#10;(from COPY PROOF button)"></textarea>
+    <button class="verify-btn-modal" id="verify-btn-modal" onclick="doVerify()">⚡ VERIFY</button>
+    <div class="verify-res" id="verify-res"></div>
+    <span class="verify-adv" id="verify-adv" onclick="toggleVerifyRaw()">Show proof details</span>
+    <div class="verify-raw" id="verify-raw"></div>
+    <button class="modal-cancel" onclick="closeModal('verify-modal')">Close</button>
   </div>
 </div>
 
@@ -534,855 +473,542 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 </div>
 
 <script>
-/* ══════════════════════════════════
+/* ══════════════════════════════════════
    CONFIG
-══════════════════════════════════ */
-const ENGINE_BASE = "https://api.veritasengine.in";
+══════════════════════════════════════ */
+const ENGINE_BASE = 'https://api.veritasengine.in';
 const DAILY_LIMIT = 10;
-const DEV_CODE    = "VERITAS-DEV-2026";
+const DEV_CODE    = 'VERITAS-DEV-2026';
 
 const EXAMPLES = [
-  "Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim. Visit: bit.ly/claim-now",
-  "Sent Rs.1,250 from HDFC Bank A/c XX1234 to Amazon Pay. UPI Ref 9837264512. Not you? Call 1800-XXX-XXXX",
-  "Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in only."
+  'Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim. Visit: bit.ly/claim-now',
+  'Sent Rs.1,250 from HDFC Bank A/c XX1234 to Amazon Pay. UPI Ref 9837264512. Not you? Call 1800-XXX-XXXX',
+  'Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in only.'
 ];
 
-/* ══ SIGNAL EXPLANATIONS — P/M/A/X/C ══ */
-const SIGNAL_META = {
-  P:{ label:'P — Phishing',    en:'Impersonation / identity fraud keywords', hi:'पहचान धोखाधड़ी संकेत' },
-  M:{ label:'M — Money',       en:'Monetary request or reward signal',        hi:'पैसे की मांग या इनाम संकेत' },
-  A:{ label:'A — Amount',      en:'Specific amount pattern detected',         hi:'राशि पैटर्न मिला' },
-  X:{ label:'X — External',    en:'Suspicious external link detected',        hi:'संदिग्ध बाहरी लिंक' },
-  C:{ label:'C — Call-to-Act', en:'Urgency / action demand detected',         hi:'तत्कालता / कार्रवाई की मांग' }
+/* ══ SIGNAL METADATA ══ */
+const SIG = {
+  P:{ label:'P — Phishing',    en:'Impersonation or identity fraud signal', hi:'पहचान धोखाधड़ी संकेत' },
+  M:{ label:'M — Money',       en:'Monetary request or reward signal',       hi:'पैसे की मांग या इनाम संकेत' },
+  A:{ label:'A — Amount',      en:'Specific amount pattern detected',        hi:'राशि पैटर्न मिला' },
+  X:{ label:'X — External',    en:'Suspicious external link detected',       hi:'संदिग्ध बाहरी लिंक' },
+  C:{ label:'C — Urgency',     en:'Urgency or pressure signal detected',     hi:'तत्कालता की मांग' }
 };
 
-/* ══ DECISION MAP — engine v1.5 ══
-   0=NORMAL 1=ATTENTION 2=SUSPECT 3=HIGH_RISK
-══ */
+/* ══ DECISION MAP ══ */
 const DM = {
   en:{
-    label:  ['No Pattern Detected','Attention Required','Risk Patterns Detected','High Risk — Likely Scam'],
-    sub:    ['No known risk signals in this message','Weak or partial risk signals detected','Multiple risk patterns detected','Strong, confirmed fraud pattern signals'],
-    code:   ['DECISION 0 · NORMAL','DECISION 1 · ATTENTION','DECISION 2 · SUSPECT','DECISION 3 · HIGH_RISK'],
+    label:  ['No Pattern Detected','Attention Required','Risk Patterns Detected','Multiple Risk Patterns Detected'],
+    sub:    [
+      'No known risk signals found in this message.',
+      'Weak or partial risk signals detected. Verify before acting.',
+      'Multiple risk patterns detected. Signals commonly seen in scams.',
+      'Strong risk signals detected. Avoid action until verified independently.'
+    ],
+    code:   ['DECISION 0','DECISION 1','DECISION 2','DECISION 3'],
     range:  ['Signal 0–20%','Signal 20–45%','Signal 45–75%','Signal 75–100%'],
     emoji:  ['—','!','⚠','✖'],
     disc:   [
-      'No patterns found. This does NOT mean the message is safe.',
-      'Weak signals detected. Verify sender before any action.',
-      'Multiple risk patterns found. Do not click links or share details.',
-      'Strong scam signals. Do not proceed, share details, or make payments.'
+      'No patterns found. This does not mean the message is safe.',
+      'Weak signals detected. Verify the sender before any action.',
+      'Multiple risk patterns found. Extra caution advised.',
+      'Strong risk signals. Avoid action until verified independently.'
     ],
     summary:[
-      'No known risk patterns were found. This does NOT guarantee the message is legitimate.',
-      'Weak risk indicators detected. Verify the sender before taking any action.',
-      'Multiple risk patterns detected. Do not click any links or share personal details.',
-      'Strong scam indicators detected. Do not proceed, share details, or make payments.'
+      'No known risk patterns were found. This does not guarantee the message is safe. Final decision is always yours.',
+      'Weak risk signals detected. Verify the sender independently before taking any action.',
+      'Multiple risk patterns detected. These are signals commonly seen in scams. Extra caution is advised.',
+      'Strong risk signals detected. Avoid sharing details, clicking links, or making payments until you have independently verified the source.'
     ],
     bands:[
       {max:20, label:'Very low signal — no strong patterns matched'},
       {max:45, label:'Weak signal — partial patterns matched'},
       {max:75, label:'Moderate signal — multiple patterns matched'},
-      {max:101,label:'Strong signal — high-risk patterns confirmed'}
+      {max:101,label:'Strong signal — high-risk patterns matched'}
     ],
-    confNote:'Based on known risk signals only. Low score does not mean safe. High score does not confirm fraud.',
-    noRules:'No specific patterns triggered',
-    ruleHdr:'TRIGGERED RULES',traceHdr:'TRACE (Auditors)',traceNote:'Technical signal breakdown — for advanced users',
-    hashTitle:'✅ Hashchain Verified',hashCopy:'Copy Hash',hashLearn:'Learn more',hashCopied:'Verification hash copied',
-    safeNotice:'Risk patterns are based on known signals only. Extra caution is advised — not a final verdict.',
-    disc:'This engine does not confirm safety or fraud. Results are pattern-based only.',
-    fbLbl:'Was this helpful?',fbYes:'Helpful',fbNo:'Not Helpful',
-    fbThanks:'Thanks. Feedback recorded (anonymous).',fbOnce:'One feedback per result.',
-    share:'SHARE',copy:'COPY PROOF',actNote:'Includes: decision · intent · fired_rules · score · hash',
-    toastCopy:'Proof copied — verify anytime at /verify',toastHash:'Hash copied ✓',noRulesTag:'No patterns triggered'
+    confNote:'Signal strength shows how many known risk patterns matched — not a fraud verdict.',
+    noRulesTag:'No patterns triggered',
+    ruleHdr:'MATCHED PATTERNS',
+    hashTitle:'✅ Result Integrity Sealed',
+    hashCopy:'Copy Hash',
+    hashLearn:'What is this?',
+    hashVerify:'Verify Integrity',
+    hashCopied:'Hash copied ✓',
+    safeNotice:'Risk patterns are based on known signals only. Extra caution is advised — this is not a final verdict. Final decision is always yours.',
+    disc2:'This tool detects risk patterns. It does NOT say fraud, block anything, or decide for you.',
+    fbLbl:'Was this result clear?',fbYes:'Yes',fbNo:'Unclear',
+    fbThanks:'Thanks. Feedback noted (anonymous).',
+    share:'SHARE',copy:'COPY PROOF',verifyProof:'VERIFY PROOF',
+    actNote:'Includes: decision · intent · fired_rules · score · hash',
+    toastCopy:'Proof copied — verify anytime using Verify Proof',
+    toastHash:'Hash copied ✓'
   },
   hi:{
-    label:  ['कोई पैटर्न नहीं','ध्यान दें','जोखिम पैटर्न मिले','उच्च जोखिम — संभावित स्कैम'],
-    sub:    ['इस संदेश में कोई ज्ञात जोखिम नहीं','कमजोर या आंशिक जोखिम संकेत','कई जोखिम पैटर्न मिले','मजबूत पुष्ट धोखाधड़ी संकेत'],
-    code:   ['निर्णय 0 · सामान्य','निर्णय 1 · ध्यान दें','निर्णय 2 · संदिग्ध','निर्णय 3 · उच्च जोखिम'],
+    label:  ['कोई पैटर्न नहीं','ध्यान दें','जोखिम पैटर्न मिले','कई जोखिम पैटर्न मिले'],
+    sub:    [
+      'इस संदेश में कोई ज्ञात जोखिम संकेत नहीं मिले।',
+      'कमजोर संकेत मिले। कार्रवाई से पहले जाँचें।',
+      'कई जोखिम पैटर्न मिले। स्कैम में आमतौर पर ऐसे संकेत होते हैं।',
+      'मजबूत जोखिम संकेत। स्वतंत्र रूप से जाँचे बिना कोई कार्रवाई न करें।'
+    ],
+    code:   ['निर्णय 0','निर्णय 1','निर्णय 2','निर्णय 3'],
     range:  ['संकेत 0–20%','संकेत 20–45%','संकेत 45–75%','संकेत 75–100%'],
     emoji:  ['—','!','⚠','✖'],
     disc:   [
-      'कोई पैटर्न नहीं मिला। इसका अर्थ सुरक्षित नहीं है।',
-      'कमजोर संकेत मिले। कोई कार्रवाई से पहले जाँचें।',
-      'कई जोखिम पैटर्न मिले। लिंक क्लिक न करें।',
-      'मजबूत स्कैम संकेत। आगे न बढ़ें।'
+      'कोई पैटर्न नहीं। यह सुरक्षित होने की गारंटी नहीं है।',
+      'कमजोर संकेत। कोई भी कार्रवाई से पहले जाँचें।',
+      'कई जोखिम पैटर्न मिले। अतिरिक्त सावधानी बरतें।',
+      'मजबूत संकेत। स्वतंत्र जाँच के बिना कोई कार्रवाई न करें।'
     ],
     summary:[
-      'कोई ज्ञात जोखिम पैटर्न नहीं मिला। यह वैधता की गारंटी नहीं है।',
-      'कमजोर जोखिम संकेत मिले। कोई भी कार्रवाई से पहले प्रेषक की जाँच करें।',
-      'कई जोखिम पैटर्न मिले। कोई लिंक क्लिक न करें और विवरण साझा न करें।',
-      'मजबूत स्कैम संकेत मिले। आगे न बढ़ें, विवरण साझा न करें।'
+      'कोई ज्ञात जोखिम पैटर्न नहीं मिला। यह सुरक्षितता की गारंटी नहीं है।',
+      'कमजोर संकेत मिले। कोई भी कार्रवाई से पहले स्रोत की स्वतंत्र जाँच करें।',
+      'कई जोखिम पैटर्न मिले। ये स्कैम में आमतौर पर देखे जाने वाले संकेत हैं। अतिरिक्त सावधानी की सलाह दी जाती है।',
+      'मजबूत जोखिम संकेत मिले। स्रोत की स्वतंत्र जाँच किए बिना कोई विवरण साझा न करें, लिंक न खोलें, या भुगतान न करें।'
     ],
     bands:[
       {max:20, label:'बहुत कम संकेत — कोई मजबूत पैटर्न नहीं'},
-      {max:45, label:'कमजोर संकेत — आंशिक पैटर्न मिले'},
-      {max:75, label:'मध्यम संकेत — कई पैटर्न मिले'},
-      {max:101,label:'मजबूत संकेत — उच्च जोखिम पुष्टि'}
+      {max:45, label:'कमजोर संकेत — आंशिक पैटर्न'},
+      {max:75, label:'मध्यम संकेत — कई पैटर्न'},
+      {max:101,label:'मजबूत संकेत — उच्च जोखिम पैटर्न'}
     ],
-    confNote:'विश्वास स्कोर = केवल पैटर्न मिलान। यह धोखाधड़ी की पुष्टि नहीं करता।',
-    noRules:'कोई विशेष पैटर्न नहीं मिला',
-    ruleHdr:'सक्रिय नियम',traceHdr:'ट्रेस (ऑडिटर)',traceNote:'तकनीकी संकेत विवरण — उन्नत उपयोगकर्ताओं के लिए',
-    hashTitle:'✅ हैशचेन सत्यापित',hashCopy:'हैश कॉपी',hashLearn:'और जानें',hashCopied:'हैश कॉपी हो गया',
-    safeNotice:'वास्तविक संदेश भी पैटर्न से मेल खा सकते हैं। यह इंजन वैधता की गारंटी नहीं देता।',
-    disc:'यह इंजन सुरक्षा या धोखाधड़ी की गारंटी नहीं देता। परिणाम पैटर्न-आधारित हैं।',
-    fbLbl:'क्या यह सहायक था?',fbYes:'सहायक',fbNo:'सहायक नहीं',
-    fbThanks:'धन्यवाद। फीडबैक दर्ज।',fbOnce:'प्रति परिणाम एक फीडबैक।',
-    share:'शेयर',copy:'प्रूफ कॉपी',actNote:'शामिल: decision · intent · fired_rules · score · hash',
-    toastCopy:'प्रूफ कॉपी हुआ — /verify से जाँचें',toastHash:'हैश कॉपी हो गया ✓',noRulesTag:'कोई पैटर्न नहीं मिला'
+    confNote:'संकेत शक्ति दिखाती है कि कितने जोखिम पैटर्न मिले — यह धोखाधड़ी की पुष्टि नहीं है।',
+    noRulesTag:'कोई पैटर्न नहीं मिला',
+    ruleHdr:'मिले पैटर्न',
+    hashTitle:'✅ परिणाम अखंडता सील',
+    hashCopy:'हैश कॉपी',
+    hashLearn:'यह क्या है?',
+    hashVerify:'अखंडता जाँचें',
+    hashCopied:'हैश कॉपी हो गया ✓',
+    safeNotice:'जोखिम पैटर्न केवल ज्ञात संकेतों पर आधारित हैं। अतिरिक्त सावधानी की सलाह — यह अंतिम निर्णय नहीं है।',
+    disc2:'यह टूल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी नहीं कहता, कुछ ब्लॉक नहीं करता।',
+    fbLbl:'क्या यह परिणाम स्पष्ट था?',fbYes:'हाँ',fbNo:'अस्पष्ट',
+    fbThanks:'धन्यवाद। फीडबैक दर्ज।',
+    share:'शेयर',copy:'प्रूफ कॉपी',verifyProof:'प्रूफ जाँचें',
+    actNote:'शामिल: decision · intent · fired_rules · score · hash',
+    toastCopy:'प्रूफ कॉपी — Verify Proof से जाँचें',
+    toastHash:'हैश कॉपी हो गया ✓'
   }
 };
 
-const TXT = {
-  en:{
-    tagline:'DETERMINISTIC RISK SIGNALS · NO GUESSING',
-    lblUsecase:'USE CASE',lblInput:'MESSAGE / SMS / LINK',
-    placeholder:'Paste SMS, WhatsApp message, or link here...',
-    btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',
-    nd1:'No Login',nd2:'No Storage',nd3:'Deterministic Rules',
-    lblTotal:'Total Scans',lblToday:'Today',
-    rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',
-    discTitle:'⚠ DISCLAIMER',
-    discBody:'This tool analyzes messages for known risk patterns only. It does not confirm fraud. Low risk does NOT mean safe. Final responsibility remains with the user.',
-    howTitle:'HOW THIS WORKS',
-    how1:'No login required',how2:'No message content stored',
-    how3:'Deterministic rules — no guessing, no prediction',
-    how4:'Hash-sealed engine — rules cannot change without re-seal',
-    exTitle:'TRY AN EXAMPLE',exSub:'Examples are simulated messages',
-    ex1:'🚨 Try scam example',ex2:'🏦 Try bank SMS example',ex3:'🏛 Try government advisory example',
-    limitTitle:'Daily Limit Reached',limitText:'You have used all 10 analyses for today.<br>Please try again after 24 hours.'
-  },
-  hi:{
-    tagline:'निर्धारित जोखिम संकेत · कोई अनुमान नहीं',
-    lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',
-    placeholder:'SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...',
-    btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',
-    nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',
-    lblTotal:'कुल जाँचें',lblToday:'आज',
-    rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त। बाद में पुनः प्रयास करें।',
-    discTitle:'⚠ अस्वीकरण',
-    discBody:'यह टूल केवल ज्ञात जोखिम पैटर्न के लिए संदेशों का विश्लेषण करता है। यह धोखाधड़ी की पुष्टि नहीं करता। कम जोखिम सुरक्षित नहीं है।',
-    howTitle:'यह कैसे काम करता है',
-    how1:'कोई लॉगिन आवश्यक नहीं',how2:'कोई संदेश सामग्री संग्रहीत नहीं',
-    how3:'निर्धारित नियम — कोई अनुमान नहीं',
-    how4:'हैश-सील्ड इंजन — री-सील के बिना नियम नहीं बदलते',
-    exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं — उदाहरण के लिए',
-    ex1:'🚨 स्कैम उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',
-    limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।'
-  }
+/* UI TEXT */
+const TXT={
+  en:{tagline:'Risk Pattern Explainer · Not an enforcement tool',lblUsecase:'USE CASE',lblInput:'MESSAGE / SMS / LINK',btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',nd1:'No Login',nd2:'No Storage',nd3:'Deterministic Rules',lbl_total:'Total',lbl_today:'Today',rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',discTitle:'⚠ DISCLAIMER',discBody:'This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.',howTitle:'HOW THIS WORKS',how1:'No login required — works instantly',how2:'Message content is never stored',how3:'Rules are fixed — no prediction or guessing',how4:'Each result is sealed — can be verified later',exTitle:'TRY AN EXAMPLE',exSub:'Simulated messages for testing only',ex1:'🚨 Try scam-pattern example',ex2:'🏦 Try bank SMS example',ex3:'🏛 Try government advisory example',limitTitle:'Daily Limit Reached',limitText:'You have used all 10 analyses for today.<br>Please try again after 24 hours.'},
+  hi:{tagline:'जोखिम पैटर्न व्याख्याकार · प्रवर्तन उपकरण नहीं',lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',lbl_total:'कुल',lbl_today:'आज',rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त।',discTitle:'⚠ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'यह कैसे काम करता है',how1:'कोई लॉगिन नहीं',how2:'संदेश सामग्री संग्रहीत नहीं',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'प्रत्येक परिणाम सील — बाद में जाँच योग्य',exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं',ex1:'🚨 स्कैम पैटर्न उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।'}
 };
 
-let lang = localStorage.getItem('vg_lang') || 'en';
+let lang = localStorage.getItem('vg_lang')||'en';
 let lastResult = null;
-let lastHash = '';
+let lastHash   = '';
 let engineVersion = '';
-let engineVerified = false;
+let sessionScans = 0;
 
-/* ══ HEALTH CHECK ══ */
-async function checkHealth() {
-  const pill = document.getElementById('engine-pill');
-  const pillText = document.getElementById('engine-pill-text');
-  const badge = document.getElementById('trust-badge');
-  const badgeText = document.getElementById('trust-badge-text');
-  const footerVer = document.getElementById('footer-ver');
-  try {
-    const r = await fetch(ENGINE_BASE + '/health', { signal: AbortSignal.timeout(5000) });
-    if (!r.ok) throw new Error('not ok');
-    const d = await r.json();
-    engineVersion = d.version || 'unknown';
-    const frozen = d.rules_frozen !== false;
-    const hcOk   = d.hashchain_verified !== false;
-    engineVerified = frozen && hcOk;
-    pillText.textContent = 'ENGINE ' + engineVersion + ' — ONLINE';
-    pill.className = 'engine-pill online';
-    footerVer.textContent = engineVersion;
-    if (engineVerified) {
-      badge.className = 'locked';
-      badgeText.textContent = 'Rules Hard-Locked · ' + engineVersion;
-      document.getElementById('trust-badge').style.display = 'inline-flex';
-    } else {
-      badge.className = 'warn';
-      badgeText.textContent = 'Engine Not Fully Verified';
-      document.getElementById('trust-badge').style.display = 'inline-flex';
-    }
-    const infoText = document.getElementById('info-modal-text');
-    if (infoText) infoText.innerHTML =
-      'Engine: <strong>' + engineVersion + '</strong><br>' +
-      'Rules frozen: ' + (frozen ? '✅ Yes' : '❌ No') + '<br>' +
-      'Hashchain: ' + (hcOk ? '✅ Verified' : '❌ Not verified') + '<br><br>' +
-      'This tool does NOT confirm fraud.<br>Low risk does NOT mean safe.';
-  } catch(e) {
-    pillText.textContent = 'ENGINE — UNREACHABLE';
-    pill.className = 'engine-pill offline';
-    badge.className = 'warn';
-    badgeText.textContent = '⚠ Engine unreachable';
-    document.getElementById('trust-badge').style.display = 'inline-flex';
-    document.getElementById('analyze-btn').disabled = true;
+/* ══ HEALTH ══ */
+async function checkHealth(){
+  const pill=document.getElementById('engine-pill');
+  const pillTxt=document.getElementById('engine-pill-text');
+  const badge=document.getElementById('trust-badge');
+  const badgeTxt=document.getElementById('trust-badge-text');
+  try{
+    const r=await fetch(ENGINE_BASE+'/health',{signal:AbortSignal.timeout(5000)});
+    if(!r.ok) throw new Error();
+    const d=await r.json();
+    engineVersion=d.version||'v1.5';
+    document.getElementById('footer-ver').textContent=engineVersion;
+    pillTxt.textContent='ENGINE '+engineVersion+' — ONLINE';
+    pill.className='engine-pill online';
+    const ok=d.rules_frozen!==false && d.hashchain_verified!==false;
+    badge.className=ok?'locked':'warn';
+    badgeTxt.textContent=ok?'Rules Hard-Locked · '+engineVersion:'Engine Not Fully Verified';
+    document.getElementById('analyze-btn').disabled=false;
+  }catch(e){
+    pillTxt.textContent='ENGINE — UNREACHABLE';
+    pill.className='engine-pill offline';
+    badge.className='warn';
+    badgeTxt.textContent='⚠ Engine unreachable';
+    document.getElementById('analyze-btn').disabled=true;
   }
 }
 
-/* ══ RATE LIMIT ══ */
-function getRD() {
-  const t = new Date().toDateString();
-  try { const d=JSON.parse(localStorage.getItem('vg_rate')||'{}'); return d.date===t?d:{date:t,used:0}; }
-  catch(e){ return {date:new Date().toDateString(),used:0}; }
+/* ══ STATS — session + localStorage ══ */
+function getStats(){
+  const today=new Date().toDateString();
+  try{const s=JSON.parse(localStorage.getItem('vg_stats')||'{}');return s.date===today?s:{date:today,today:0,flagged:0};}
+  catch(e){return{date:new Date().toDateString(),today:0,flagged:0};}
 }
-function saveRD(d){ localStorage.setItem('vg_rate',JSON.stringify(d)); }
-function getRem(){ return Math.max(0, DAILY_LIMIT - getRD().used); }
-function incUse(){ const d=getRD(); d.used++; saveRD(d); }
-
-function renderRate() {
-  const rem = getRem();
-  const t = TXT[lang];
-  document.getElementById('rate-label').innerHTML = t.rateText + ' <strong id="rate-num">' + rem + '</strong>/10';
-  const el = document.getElementById('rate-dots');
-  el.innerHTML = '';
-  for (let i=0;i<DAILY_LIMIT;i++){
-    const d=document.createElement('div');
-    d.className='rdot'+(i>=rem?' used':'');
-    el.appendChild(d);
-  }
-  const btn = document.getElementById('analyze-btn');
-  const warn = document.getElementById('rate-warn');
-  if (rem<=0) {
-    btn.disabled=true;
-    warn.textContent=t.rateWarn;
-    warn.classList.add('show');
-  } else {
-    if(engineVerified||document.getElementById('engine-pill').classList.contains('online')) btn.disabled=false;
-    warn.classList.remove('show');
-  }
-}
-
-/* ══ STATS — session + localStorage based ══ */
-function getStats() {
-  const today = new Date().toDateString();
-  try {
-    const s = JSON.parse(localStorage.getItem('vg_stats') || '{}');
-    if (s.date !== today) return { date: today, total: 0, flagged: 0 };
-    return s;
-  } catch(e) { return { date: today, total: 0, flagged: 0 }; }
-}
-
-function saveStats(s) {
-  try { localStorage.setItem('vg_stats', JSON.stringify(s)); } catch(e) {}
-}
-
-function updateStats(decision) {
-  const s = getStats();
-  s.total = (s.total || 0) + 1;
-  if (decision >= 2) s.flagged = (s.flagged || 0) + 1;
+function saveStats(s){try{localStorage.setItem('vg_stats',JSON.stringify(s));}catch(e){}}
+function updateStats(decision){
+  sessionScans++;
+  const s=getStats();
+  s.today=(s.today||0)+1;
+  if(decision>=2) s.flagged=(s.flagged||0)+1;
   saveStats(s);
   renderStats();
 }
-
-function renderStats() {
-  const s = getStats();
-  const rd = getRD();
-  const used = rd.used || 0;
-  document.getElementById('stat-total').textContent = used;
-  document.getElementById('stat-today').textContent = s.total || 0;
-  document.getElementById('stat-flagged').textContent = s.flagged || 0;
+function renderStats(){
+  const s=getStats();
+  document.getElementById('stat-total').textContent=sessionScans;
+  document.getElementById('stat-today').textContent=s.today||0;
+  document.getElementById('stat-flagged').textContent=s.flagged||0;
 }
 
-function loadStats() { renderStats(); }
+/* ══ RATE LIMIT ══ */
+function getRD(){const t=new Date().toDateString();try{const d=JSON.parse(localStorage.getItem('vg_rate')||'{}');return d.date===t?d:{date:t,used:0};}catch(e){return{date:new Date().toDateString(),used:0};}}
+function saveRD(d){localStorage.setItem('vg_rate',JSON.stringify(d));}
+function getRem(){return Math.max(0,DAILY_LIMIT-getRD().used);}
+function incUse(){const d=getRD();d.used++;saveRD(d);}
+function renderRate(){
+  const rem=getRem();const t=TXT[lang];
+  document.getElementById('rate-label').innerHTML=t.rateText+' <strong>'+rem+'</strong>/10';
+  const el=document.getElementById('rate-dots');el.innerHTML='';
+  for(let i=0;i<DAILY_LIMIT;i++){const d=document.createElement('div');d.className='rdot'+(i>=rem?' used':'');el.appendChild(d);}
+  const btn=document.getElementById('analyze-btn');
+  const warn=document.getElementById('rate-warn');
+  if(rem<=0){btn.disabled=true;warn.textContent=t.rateWarn;warn.classList.add('show');}
+  else{if(document.getElementById('engine-pill').classList.contains('online'))btn.disabled=false;warn.classList.remove('show');}
+}
 
 /* ══ ENGINE CALL ══ */
-async function callEngine(text) {
-  const r = await fetch(ENGINE_BASE+'/decide',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({input:text})
-  });
+async function callEngine(text){
+  const r=await fetch(ENGINE_BASE+'/decide',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({input:text})});
   if(!r.ok) throw new Error('engine error');
   return r.json();
 }
 
 /* ══ ANALYZE ══ */
-async function doAnalyze() {
-  const text = document.getElementById('input-text').value.trim();
-  if (!text) {
-    const ta = document.getElementById('input-text');
-    ta.style.borderColor='#9b2335';
-    setTimeout(()=>ta.style.borderColor='',1000);
-    return;
-  }
-  if (getRem()<=0) { openModal('limit-modal'); return; }
-  const dm = DM[lang];
-  const t  = TXT[lang];
-  const btn = document.getElementById('analyze-btn');
-  btn.disabled=true; btn.classList.add('loading');
+async function doAnalyze(){
+  const text=document.getElementById('input-text').value.trim();
+  if(!text){const ta=document.getElementById('input-text');ta.style.borderColor='#9b2335';setTimeout(()=>ta.style.borderColor='',1000);return;}
+  if(getRem()<=0){openModal('limit-modal');return;}
+  const dm=DM[lang];const t=TXT[lang];
+  const btn=document.getElementById('analyze-btn');
+  btn.disabled=true;btn.classList.add('loading');
   document.getElementById('btn-text').textContent=t.analyzing;
-  try {
-    const r = await callEngine(text);
-    incUse(); renderRate(); updateStats(r.decision); // only after API success
-    lastResult = r;
-    lastHash = r.hash||'';
-    renderResult(r, dm);
-  } catch(e) {
-    alert('❌ Engine not reachable — check server');
-  } finally {
-    btn.classList.remove('loading');
-    document.getElementById('btn-text').textContent=t.btnText;
-    renderRate();
-  }
+  try{
+    const r=await callEngine(text);
+    incUse();updateStats(r.decision);renderRate();
+    lastResult=r;lastHash=r.hash||'';
+    renderResult(r,dm);
+  }catch(e){showToast('❌ Engine not reachable');}
+  finally{btn.classList.remove('loading');document.getElementById('btn-text').textContent=t.btnText;renderRate();}
 }
 
-/* ══ PARSE SIGNALS from fired_rules ══ */
-function parseSignals(fired_rules) {
-  const active = new Set();
-  (fired_rules||[]).forEach(r => {
-    if(/PHISH|KYC|IMPERSON|IDENTITY/i.test(r)) active.add('P');
-    if(/MONEY|PAYMENT|TRANSFER|LOTTERY|FEE/i.test(r)) active.add('M');
-    if(/AMOUNT|RUPEE|RS\.|₹|CASHBACK/i.test(r)) active.add('A');
-    if(/LINK|URL|DOMAIN|HTTP|\.NET|\.XYZ|\.IN/i.test(r)) active.add('X');
-    if(/URGENT|BLOCK|SUSPEND|VERIFY|OTP|CLICK|ACTION|CLAIM/i.test(r)) active.add('C');
-    // Also check rule name prefixes
-    if(r.startsWith('RULE_P')) active.add('P');
-    if(r.startsWith('RULE_M')) active.add('M');
-    if(r.startsWith('RULE_A')) active.add('A');
-    if(r.startsWith('RULE_X')) active.add('X');
-    if(r.startsWith('RULE_C')) active.add('C');
-    // INTEGER_MATH_HIGH — high risk multi-signal
-    if(r==='RULE_INTEGER_MATH_HIGH') { active.add('A');active.add('C');active.add('X'); }
+/* ══ PARSE SIGNALS ══ */
+function parseSignals(fired){
+  const a=new Set();
+  (fired||[]).forEach(r=>{
+    if(/PHISH|KYC|IMPERSON|IDENTITY/i.test(r))a.add('P');
+    if(/MONEY|PAYMENT|TRANSFER|LOTTERY|FEE/i.test(r))a.add('M');
+    if(/AMOUNT|RUPEE|RS\b|CASHBACK/i.test(r))a.add('A');
+    if(/LINK|URL|DOMAIN|HTTP|\.NET|\.XYZ/i.test(r))a.add('X');
+    if(/URGENT|BLOCK|SUSPEND|VERIFY|OTP|CLAIM/i.test(r))a.add('C');
+    if(r.startsWith('RULE_P'))a.add('P');if(r.startsWith('RULE_M'))a.add('M');
+    if(r.startsWith('RULE_A'))a.add('A');if(r.startsWith('RULE_X'))a.add('X');
+    if(r.startsWith('RULE_C'))a.add('C');
+    if(r==='RULE_INTEGER_MATH_HIGH'){a.add('A');a.add('C');a.add('X');}
   });
-  return active;
+  return a;
 }
 
-/* ══ GET CONF BAND ══ */
-function getBand(conf, dm) {
-  for(const b of dm.bands) if(conf<b.max) return b.label;
-  return dm.bands[3].label;
-}
+/* ══ BAND ══ */
+function getBand(sc,dm){for(const b of dm.bands)if(sc<b.max)return b.label;return dm.bands[3].label;}
 
-/* ══ TRUNCATE HASH ══ */
-function trunc(h){ return (!h||h.length<14)?h:h.slice(0,8)+'···'+h.slice(-6); }
+/* ══ FORMAT TIME — UI only, NOT in verify payload ══ */
+function formatTime(){
+  const n=new Date();const h=n.getHours();const m=n.getMinutes();
+  const ap=h>=12?'PM':'AM';const hh=h%12||12;const mm=String(m).padStart(2,'0');
+  return 'Checked '+hh+':'+mm+' '+ap;
+}
 
 /* ══ RENDER RESULT ══ */
-function renderResult(r, dm) {
-  const v    = r.decision !== undefined ? r.decision : (r.verdict||0);
-  const conf = (() => {
-    if (typeof r.confidence === 'number') return r.confidence;
-    if (typeof r.score === 'number') return r.score;
-    if (r.confidence && typeof r.confidence.value === 'number') return r.confidence.value;
-    // compute from trace if available
-    if (r.trace && r.trace.length > 0) {
-      const total = r.trace.reduce((s, t) => s + (t.score || t.weight || 0), 0);
-      return Math.min(100, Math.round(total));
-    }
-    return 0;
-  })();
-  const rules = r.fired_rules || [];
-  const trace = r.trace || [];
-  const hash  = r.hash || 'pending';
-  const signals = parseSignals(rules);
-  const ver = engineVersion ? ' · ' + engineVersion : '';
-  const band = getBand(conf, dm);
+function renderResult(r,dm){
+  const v=r.decision!==undefined?r.decision:0;
+  const score=r.score||0;
+  const rules=r.fired_rules||[];
+  const hash=r.hash||'pending';
+  const signals=parseSignals(rules);
+  const ver=engineVersion?' · '+engineVersion:'';
+  const band=getBand(score,dm);
 
-  /* SIGNAL CHIPS HTML */
-  const sigHTML = ['P','M','A','X','C'].map(s => {
-    const active = signals.has(s);
-    const meta = SIGNAL_META[s];
-    const label = lang==='hi' ? s+' — '+meta.hi : meta.label;
-    return '<span class="signal-chip '+(active?'active-chip':'inactive-chip')+'" title="'+(lang==='hi'?meta.hi:meta.en)+'">'+(active?'●':'○')+' '+label+'</span>';
+  const sigHTML=['P','M','A','X','C'].map(s=>{
+    const on=signals.has(s);const meta=SIG[s];
+    const lbl=lang==='hi'?s+' — '+meta.hi:meta.label;
+    return '<span class="signal-chip '+(on?'on':'off')+'" title="'+(lang==='hi'?meta.hi:meta.en)+'">'+(on?'●':'○')+' '+lbl+'</span>';
   }).join('');
 
-  const sigDefHTML = signals.size>0
-    ? '<div class="signal-def">'+
-        [...signals].map(s=>lang==='hi'?SIGNAL_META[s].hi:SIGNAL_META[s].en).join(' · ')
-      +'</div>'
-    : '';
+  const sigDef=signals.size>0?'<div class="signal-def">'+[...signals].map(s=>lang==='hi'?SIG[s].hi:SIG[s].en).join('<br>')+'</div>':'';
 
-  /* RULES HTML */
-  const rulesHTML = rules.length>0
-    ? rules.map(rule=>'<span class="rule-tag v'+v+'-tag">'+rule+'</span>').join('')
-    : '<span class="rule-tag" style="background:var(--surface2);border-color:var(--border);color:var(--ink3)">'+dm.noRulesTag+'</span>';
+  const rulesHTML=rules.length>0
+    ?rules.map(rule=>'<span class="rule-tag v'+v+'-tag">'+rule+'</span>').join('')
+    :'<span class="rule-tag" style="background:var(--surface2);border-color:var(--border);color:var(--ink3)">'+dm.noRulesTag+'</span>';
 
-  /* TRACE HTML */
-  const traceHTML = trace.length>0
-    ? trace.map(s=>'<div class="trace-row"><span>'+(s.step||'—')+'</span><span class="trace-val">'+(s.score!==undefined?s.score:s.weight!==undefined?'+'+s.weight:'—')+'</span></div>').join('')
-    : '<div class="trace-row"><span>No trace data</span><span class="trace-val">—</span></div>';
-
-  const el = document.getElementById('result-card');
-  el.innerHTML =
-    /* VERDICT HEADER */
-    '<div class="verdict-header v'+v+'-header">' +
-      '<div class="verdict-icon v'+v+'-icon">'+dm.emoji[v]+'</div>' +
-      '<div class="verdict-main">' +
+  document.getElementById('result-card').innerHTML=
+    /* 1. VERDICT */
+    '<div class="verdict-header v'+v+'-h">'+
+      '<div class="verdict-icon v'+v+'-icon">'+dm.emoji[v]+'</div>'+
+      '<div class="verdict-main">'+
         '<div class="verdict-name v'+v+'-name">'+dm.label[v]+'</div>'+
         '<div class="verdict-sub">'+dm.sub[v]+'</div>'+
         '<div class="verdict-code">'+dm.code[v]+' · '+dm.range[v]+'</div>'+
       '</div>'+
     '</div>'+
-    /* HASHCHAIN — ALWAYS VISIBLE ✅ */
-    '<div class="hash-strip" id="hash-strip-wrap">'+
-      '<div class="hash-verified-badge" style="flex:1;min-width:0">'+
-        '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">'+
-          '<span class="hash-check">✅</span>'+
-          '<span class="hash-title" style="cursor:pointer" onclick="verifyCurrentResult()" title="Click to verify integrity">'+dm.hashTitle+ver+'</span>'+
-          '<span class="hash-what" onclick="openModal(\'hash-modal\')">What is this?</span>'+
-          '<button class="hash-btn" style="margin-left:auto" onclick="copyHash()">📋 '+dm.hashCopy+'</button>'+
-        '</div>'+
-        '<div class="hash-mono" style="margin-top:5px">'+
-          '<span style="overflow-x:auto;white-space:nowrap;flex:1;font-size:9px;color:var(--ink3)">'+hash+'</span>'+
-        '</div>'+
-        '<div id="inline-verify-result" style="display:none;margin-top:6px"></div>'+
+    /* TIMESTAMP — UI only */
+    '<div class="checked-time">'+formatTime()+' · Based on known risk signals</div>'+
+    /* 2. HASHCHAIN — always visible */
+    '<div class="hash-strip">'+
+      '<div class="hash-strip-top">'+
+        '<span class="hash-lock">🔒</span>'+
+        '<span class="hash-title">'+dm.hashTitle+ver+'</span>'+
+        '<span class="hash-what" onclick="openModal(\'hash-modal\')">'+dm.hashLearn+'</span>'+
       '</div>'+
+      '<div class="hash-mono-row">'+
+        '<span class="hash-mono-val">'+hash+'</span>'+
+        '<button class="hash-copy-btn" onclick="copyHash()" title="'+dm.hashCopy+'">📋</button>'+
+      '</div>'+
+      '<button class="hash-verify-btn" onclick="openVerifyModal()">🔍 '+dm.hashVerify+'</button>'+
+      '<div class="inline-verify-result" id="inline-verify-result"></div>'+
     '</div>'+
-    /* RESULT DISCLAIMER */
-    '<div class="result-disc v'+v+'-disc">⚠ '+dm.disc[v]+'</div>'+
-    /* SUMMARY */
+    /* 3. DISCLAIMER */
+    '<div class="result-disc v'+v+'-disc">'+dm.disc2+'</div>'+
+    /* 4. SUMMARY */
     '<div class="summary">'+dm.summary[v]+'</div>'+
-    '<div class="checked-time">Based on known risk signals · '+formatTime()+'</div>'+
-    /* SIGNAL BREAKDOWN — P/M/A/X/C */
+    /* 5. SIGNAL BREAKDOWN */
     '<div class="signals-wrap">'+
-      '<div class="signals-title">SIGNAL BREAKDOWN</div>'+
-      '<div class="signals-grid">'+sigHTML+'</div>'+
-      sigDefHTML+
+      '<div class="section-title">SIGNAL BREAKDOWN</div>'+
+      '<div class="signals-grid">'+sigHTML+'</div>'+sigDef+
     '</div>'+
-    /* CONFIDENCE */
+    /* 6. SIGNAL STRENGTH */
     '<div class="conf-wrap">'+
-      '<div class="conf-top"><span>SIGNAL STRENGTH <span class="tooltip-wrap">ⓘ<span class="tooltip-box">Pattern match strength only.<br>Low ≠ Safe. High ≠ Fraud confirmed.</span></span></span><span class="conf-pct v'+v+'-name">'+conf+'%</span></div>'+
+      '<div class="conf-top"><span>SIGNAL STRENGTH</span><span class="conf-pct v'+v+'-name">'+score+'</span></div>'+
       '<div class="conf-track"><div class="conf-fill v'+v+'-fill" id="conf-fill"></div></div>'+
       '<div class="conf-band v'+v+'-band">'+band+'</div>'+
       '<div class="conf-note">'+dm.confNote+'</div>'+
     '</div>'+
-    /* TRIGGERED RULES */
+    /* 7. MATCHED PATTERNS */
     '<div class="rules-wrap">'+
-      '<div class="section-hdr" onclick="toggleSec(\'ra\',\'rb\')"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
-      '<div class="rules-body" id="rb">'+rulesHTML+'</div>'+
+      '<div class="collapsible-hdr" onclick="toggleSec(\'ra\',\'rb\')"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
+      '<div class="collapsible-body" id="rb">'+rulesHTML+'</div>'+
     '</div>'+
-    /* TRACE */
-    '<div class="trace-wrap">'+
-      '<div class="section-hdr" onclick="toggleSec(\'ta\',\'tb\')"><span class="caret" id="ta">▶</span> 🔒 '+dm.traceHdr+'</div>'+
-      '<div class="trace-note">'+dm.traceNote+'</div>'+
-      '<div class="trace-body" id="tb">'+traceHTML+'</div>'+
-    '</div>'+
-    /* ACTIONS */
+    /* 8. ACTIONS */
     '<div class="actions-wrap">'+
       '<div class="action-btns">'+
         '<button class="act-btn btn-share" onclick="shareResult()">'+dm.share+'</button>'+
         '<button class="act-btn btn-copy" onclick="copyProof()">'+dm.copy+'</button>'+
       '</div>'+
+      '<button class="btn-verify-proof" onclick="openVerifyModal()">🔍 '+dm.verifyProof+'</button>'+
       '<div class="action-note">'+dm.actNote+'</div>'+
     '</div>'+
-    /* SAFE NOTICE */
+    /* 9. SAFE NOTICE */
     '<div class="safe-notice">'+dm.safeNotice+'</div>'+
-    /* FEEDBACK */
+    /* 10. FEEDBACK */
     '<div class="fb-wrap">'+
       '<span class="fb-lbl">'+dm.fbLbl+'</span>'+
       '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">'+dm.fbYes+'</button>'+
       '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">'+dm.fbNo+'</button>'+
       '<span class="fb-thanks" id="fb-thanks">'+dm.fbThanks+'</span>'+
-      '<span class="fb-once">'+dm.fbOnce+'</span>'+
     '</div>';
 
-  el.style.display='block';
-  setTimeout(()=>{ const f=document.getElementById('conf-fill'); if(f) f.style.width=conf+'%'; },100);
-  el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('result-card').style.display='block';
+  setTimeout(()=>{const f=document.getElementById('conf-fill');if(f)f.style.width=Math.min(score,100)+'%';},100);
+  document.getElementById('result-card').scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 
-/* ══ HELPERS ══ */
-function toggleSec(caretId, bodyId) {
-  const c=document.getElementById(caretId);
-  const b=document.getElementById(bodyId);
-  if(c) c.classList.toggle('open');
-  if(b) b.classList.toggle('open');
-}
-
-function copyHash() {
-  if(!lastHash) return;
-  navigator.clipboard.writeText(lastHash).then(()=>showToast(DM[lang].hashCopied));
-}
-
-function buildProof() {
+/* ══ BUILD PROOF ══ */
+function buildProof(){
   if(!lastResult) return '';
-  const r=lastResult; const dm=DM[lang];
-  const v=r.decision!==undefined?r.decision:(r.verdict||0);
-  // Canonical proof — exact fields engine uses for hash
-  const proofObj = {
-    decision: r.decision,
-    intent: r.intent,
-    fired_rules: r.fired_rules||[],
-    score: r.score||0,
-    hash: r.hash
-  };
+  const r=lastResult;const dm=DM[lang];
+  const v=r.decision!==undefined?r.decision:0;
+  const payload={decision:r.decision,intent:r.intent,fired_rules:r.fired_rules||[],score:r.score||0,hash:r.hash};
   return 'VERITAS GUARD — RISK ANALYSIS\n'+
     '================================\n'+
-    'Verdict    : '+dm.label[v]+'\n'+
-    'Decision   : '+dm.code[v]+'\n'+
-    'Score      : '+(r.score||0)+'\n'+
-    'Intent     : '+(r.intent||'UNKNOWN')+'\n'+
-    'Rules      : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
-    'Hash       : '+(r.hash||'pending')+'\n'+
-    'Engine     : '+(engineVersion||'unknown')+' · RULES FROZEN\n'+
-    'Time       : '+new Date().toLocaleString()+'\n'+
+    'Verdict : '+dm.label[v]+'\n'+
+    'Decision: '+dm.code[v]+'\n'+
+    'Score   : '+(r.score||0)+'\n'+
+    'Intent  : '+(r.intent||'UNKNOWN')+'\n'+
+    'Rules   : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
+    'Hash    : '+(r.hash||'pending')+'\n'+
+    'Engine  : '+(engineVersion||'v1.5')+' · RULES FROZEN\n'+
     '================================\n'+
-    'Verify at  : '+ENGINE_BASE+'/verify\n'+
-    'NOTE: Low signal does NOT mean safe.\n'+
-    'veritasengine.in\n\n'+
-    'RAW_PROOF:'+JSON.stringify(proofObj);
+    'NOTE: Risk patterns only — not a fraud verdict.\n'+
+    'Verify: '+ENGINE_BASE+'/verify\n\n'+
+    'RAW_PROOF:'+JSON.stringify(payload);
 }
 
-function copyProof() {
-  const t=buildProof(); if(!t) return;
-  navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));
+function copyProof(){const t=buildProof();if(!t)return;navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));}
+function shareResult(){const t=buildProof();if(!t)return;if(navigator.share)navigator.share({title:'Veritas Guard',text:t});else copyProof();}
+function copyHash(){if(!lastHash)return;navigator.clipboard.writeText(lastHash).then(()=>showToast(DM[lang].hashCopied));}
+
+/* ══ VERIFY PROOF MODAL ══ */
+function openVerifyModal(){
+  document.getElementById('verify-res').className='verify-res';
+  document.getElementById('verify-res').innerHTML='';
+  document.getElementById('verify-raw').className='verify-raw';
+  document.getElementById('verify-raw').innerHTML='';
+  document.getElementById('verify-adv').className='verify-adv';
+  document.getElementById('verify-ta').value='';
+  openModal('verify-modal');
 }
 
-function shareResult() {
-  const t=buildProof(); if(!t) return;
-  if(navigator.share) navigator.share({title:'Veritas Guard — Risk Analysis',text:t});
-  else navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));
-}
+async function doVerify(){
+  const raw=document.getElementById('verify-ta').value.trim();
+  if(!raw) return;
+  const btn=document.getElementById('verify-btn-modal');
+  const res=document.getElementById('verify-res');
+  const adv=document.getElementById('verify-adv');
+  const rawEl=document.getElementById('verify-raw');
+  btn.disabled=true;btn.textContent='⟳ Verifying...';
+  res.className='verify-res';res.innerHTML='';
+  adv.className='verify-adv';rawEl.className='verify-raw';
 
-function giveFb(type) {
-  const y=document.getElementById('fb-yes');
-  const n=document.getElementById('fb-no');
-  const thanks=document.getElementById('fb-thanks');
-  if(!y||!n) return;
-  y.disabled=true; n.disabled=true;
-  y.classList.toggle('sel',type==='yes');
-  n.classList.toggle('sel',type==='no');
-  if(thanks) thanks.classList.add('show');
-}
-
-function showToast(msg) {
-  const el=document.getElementById('toast');
-  el.textContent=msg; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2500);
-}
-
-function openModal(id){ document.getElementById(id).classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-function showInfoModal(){ openModal('info-modal'); }
-
-function loadEx(i) {
-  const inp=document.getElementById('input-text');
-  inp.value=EXAMPLES[i];
-  document.getElementById('char-val').textContent=EXAMPLES[i].length;
-  inp.focus();
-}
-
-/* ══ LANG ══ */
-function setLang(l) { lang=l; localStorage.setItem('vg_lang',l); applyLang(); }
-
-function applyLang() {
-  const t=TXT[lang]; const dm=DM[lang];
-  const map={
-    'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,
-    'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,
-    'lbl-total':t.lblTotal,'lbl-today':t.lblToday,
-    'disc-title':t.discTitle,'disc-body':t.discBody,
-    'how-title':t.howTitle,'how1':t.how1,'how2':t.how2,'how3':t.how3,'how4':t.how4,
-    'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3,
-    'limit-title':t.limitTitle
-  };
-  for(const [id,val] of Object.entries(map)){ const el=document.getElementById(id); if(el) el.textContent=val; }
-  const lt=document.getElementById('limit-text'); if(lt) lt.innerHTML=t.limitText;
-  document.getElementById('input-text').placeholder=t.placeholder;
-  document.querySelectorAll('#usecase option').forEach(o=>{
-    o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;
-  });
-  document.getElementById('btn-en').classList.toggle('active',lang==='en');
-  const vsub = document.getElementById('verify-sub');
-  if (vsub) vsub.textContent = lang === 'hi'
-    ? 'नीचे COPY PROOF का टेक्स्ट पेस्ट करें — प्रामाणिकता जाँचें'
-    : 'Paste COPY PROOF output below to verify authenticity';
-  const vinp = document.getElementById('verify-input');
-  if (vinp) vinp.placeholder = lang === 'hi'
-    ? 'यहाँ प्रूफ टेक्स्ट पेस्ट करें...'
-    : 'Paste proof text here...\n(from COPY PROOF button)';
-  // Image button text
-  const imgBtn = document.getElementById('img-btn-text');
-  if (imgBtn && !document.getElementById('img-preview-wrap').classList.contains('show')) {
-    imgBtn.textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
-  }
-  document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
-  renderRate();
-}
-
-/* ══ DEV BYPASS ══ */
-document.addEventListener('input', e=>{
-  if(e.target.id==='input-text' && e.target.value.trim()===DEV_CODE){
-    const d=getRD(); d.used=0; saveRD(d);
-    e.target.value=''; document.getElementById('char-val').textContent='0';
-    renderRate(); showToast('✅ Dev: Limit reset!');
-  }
-});
-
-
-/* ══ SMART OCR CLEANER ══ */
-function smartClean(raw) {
-  const lines = raw.split('\n');
-  const filtered = [];
-
-  for (let line of lines) {
-    let l = line.trim();
-    if (!l) continue;
-
-    // Remove time patterns — 10:42 AM, 9:30, 14:25
-    l = l.replace(/\b\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM|am|pm)?\b/g, '');
-
-    // Remove date patterns — 01/03/26, March 1, Mon
-    l = l.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/gi, '');
-    l = l.replace(/\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/g, '');
-    l = l.replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}\b/gi, '');
-
-    // Remove battery/signal UI text
-    l = l.replace(/\b(battery|signal|wifi|bluetooth|charging|\d+%|\d+G|LTE|5G|4G|3G|2G|VoLTE)\b/gi, '');
-
-    // Remove telecom operator names alone on line
-    const telcos = /^(airtel|jio|vi|vodafone|idea|bsnl|mtnl|reliance)$/i;
-    if (telcos.test(l.trim())) continue;
-
-    // Remove notification bar junk — short lines with only symbols/numbers
-    if (l.replace(/[^a-zA-Zऀ-ॿ]/g, '').length < 3) continue;
-
-    // Remove lines that are ONLY uppercase single word (status bar labels)
-    if (/^[A-Z]{2,10}$/.test(l.trim()) && l.trim().length < 8) continue;
-
-    // Remove "Read" / "Delivered" / "Sent" standalone
-    if (/^(Read|Delivered|Sent|Seen|\d+ min ago|Just now|Yesterday|Today)$/i.test(l.trim())) continue;
-
-    // Remove carrier/network lines
-    if (/^(No SIM|SIM \d|Airplane mode|Do not disturb)$/i.test(l.trim())) continue;
-
-    l = l.replace(/[ \t]+/g, ' ').trim();
-    if (l.length > 1) filtered.push(l);
-  }
-
-  // Join and final cleanup
-  let result = filtered.join(' ').replace(/\s{2,}/g, ' ').trim();
-
-  // If result has meaningful content — return it
-  // Otherwise return lightly cleaned original
-  if (result.length > 10) return result;
-  return raw.replace(/[ \t]+/g, ' ').trim();
-}
-
-/* ══ IMAGE UPLOAD + OCR — Tesseract.js ══ */
-function setStatus(msg, type) {
-  const el = document.getElementById('img-status');
-  el.textContent = msg;
-  el.className = 'img-status ' + (type||'');
-}
-
-function setProgress(pct) {
-  const bar = document.getElementById('prog-bar');
-  if (bar) bar.style.width = pct + '%';
-}
-
-async function handleImage(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = async (e) => {
-    const imgSrc = e.target.result;
-
-    // Compact preview — just thumbnail + filename
-    document.getElementById('img-preview').src = imgSrc;
-    document.getElementById('img-filename').textContent = file.name.length > 20 ? file.name.slice(0,18)+'...' : file.name;
-    document.getElementById('img-preview-wrap').classList.add('show');
-    document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'बदलें' : 'Change';
-    setProgress(0);
-
-    // Step 1
-    setStatus(lang === 'hi' ? '📤 अपलोड हो रहा है...' : '📤 Uploading...', '');
-    await new Promise(r => setTimeout(r, 300));
-
-    // Step 2
-    setStatus(lang === 'hi' ? '🔍 पढ़ा जा रहा है...' : '🔍 Reading...', '');
-    setProgress(20);
-
-    try {
-      const { data: { text } } = await Tesseract.recognize(
-        imgSrc,
-        'eng+hin',
-        {
-          logger: m => {
-            if (m.status === 'recognizing text') {
-              const pct = 20 + Math.round((m.progress||0) * 70);
-              setProgress(pct);
-            }
-          }
-        }
-      );
-
-      setProgress(90);
-
-      // Step 3 — smart clean + filter
-      const cleaned = smartClean(text);
-      setProgress(100);
-
-      if (cleaned && cleaned.length > 3) {
-        document.getElementById('input-text').value = cleaned;
-        document.getElementById('char-val').textContent = cleaned.length;
-        setStatus(lang === 'hi' ? '✅ टेक्स्ट कॉपी हो गया' : '✅ Text copied to box', 'ok');
-      } else {
-        setStatus(lang === 'hi' ? '⚠ टेक्स्ट नहीं मिला' : '⚠ No text found', 'warn');
-      }
-    } catch(err) {
-      setStatus(lang === 'hi' ? '⚠ त्रुटि — मैन्युअल टाइप करें' : '⚠ Error — type manually', 'warn');
+  try{
+    // Parse — try JSON first, then RAW_PROOF embedded text
+    let proof=null;
+    try{proof=JSON.parse(raw);}catch(e){}
+    if(!proof){
+      const m=raw.match(/RAW_PROOF:(\{[\s\S]+\})/);
+      if(m){try{proof=JSON.parse(m[1]);}catch(e){}}
     }
+    if(!proof||!proof.hash){
+      res.className='verify-res warn show';
+      res.innerHTML='⚠ Could not read proof.<br>Paste the full text from COPY PROOF button.';
+      return;
+    }
+    // Canonical payload — NO timestamp, only engine fields
+    const payload={
+      decision:   proof.decision,
+      intent:     proof.intent,
+      fired_rules:proof.fired_rules||[],
+      score:      proof.score||0,
+      hash:       proof.hash
+    };
+    const r=await fetch(ENGINE_BASE+'/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if(!r.ok) throw new Error('engine');
+    const d=await r.json();
+    if(d.valid){
+      res.className='verify-res valid show';
+      res.innerHTML='✅ <strong>Proof is authentic and unmodified.</strong><br>'+
+        'Decision: '+proof.decision+' · Score: '+proof.score+' · Intent: '+(proof.intent||'—');
+      adv.className='verify-adv show';
+      rawEl.innerHTML='Hash: '+proof.hash;
+    }else{
+      res.className='verify-res invalid show';
+      res.innerHTML='❌ <strong>Proof does not match.</strong><br>Data may have been altered.';
+      adv.className='verify-adv show';
+      rawEl.innerHTML='Submitted: '+(d.submitted||'—');
+    }
+  }catch(e){
+    res.className='verify-res warn show';
+    res.innerHTML='⚠ Engine unreachable — cannot verify now.<br>Try when engine is online.';
+  }finally{
+    btn.disabled=false;btn.textContent='⚡ VERIFY';
+  }
+}
+
+function toggleVerifyRaw(){document.getElementById('verify-raw').classList.toggle('show');}
+
+/* ══ HELPERS ══ */
+function toggleSec(ca,ba){const c=document.getElementById(ca);const b=document.getElementById(ba);if(c)c.classList.toggle('open');if(b)b.classList.toggle('open');}
+function giveFb(t){const y=document.getElementById('fb-yes');const n=document.getElementById('fb-no');const th=document.getElementById('fb-thanks');if(!y||!n)return;y.disabled=true;n.disabled=true;y.classList.toggle('sel',t==='yes');n.classList.toggle('sel',t==='no');if(th)th.classList.add('show');}
+function showToast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+function showInfoModal(){openModal('info-modal');}
+function loadEx(i){const inp=document.getElementById('input-text');inp.value=EXAMPLES[i];document.getElementById('char-val').textContent=EXAMPLES[i].length;inp.focus();}
+
+/* ══ IMAGE OCR ══ */
+function setImgStatus(msg,type){const el=document.getElementById('img-status');el.textContent=msg;el.className='img-status '+(type||'');}
+function setProgress(pct){const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';}
+
+function smartClean(raw){
+  const lines=raw.split('\n');const out=[];
+  for(let line of lines){
+    let l=line.trim();if(!l)continue;
+    l=l.replace(/\b\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM|am|pm)?\b/g,'');
+    l=l.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/gi,'');
+    l=l.replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g,'');
+    l=l.replace(/\b(battery|signal|wifi|bluetooth|charging|\d+%|\d+G|LTE|5G|4G|3G|2G|VoLTE)\b/gi,'');
+    if(/^(airtel|jio|vi|vodafone|idea|bsnl|mtnl)$/i.test(l.trim()))continue;
+    if(l.replace(/[^a-zA-Z\u0900-\u097F]/g,'').length<3)continue;
+    if(/^(Read|Delivered|Sent|Seen|Yesterday|Today|Just now)$/i.test(l.trim()))continue;
+    l=l.replace(/[ \t]+/g,' ').trim();
+    if(l.length>1)out.push(l);
+  }
+  const result=out.join(' ').replace(/\s{2,}/g,' ').trim();
+  return result.length>10?result:raw.replace(/[ \t]+/g,' ').trim();
+}
+
+async function handleImage(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=async(e)=>{
+    const src=e.target.result;
+    document.getElementById('img-preview').src=src;
+    document.getElementById('img-filename').textContent=file.name.length>20?file.name.slice(0,18)+'...':file.name;
+    document.getElementById('img-preview-wrap').classList.add('show');
+    document.getElementById('img-btn-text').textContent=lang==='hi'?'बदलें':'Change';
+    setProgress(0);setImgStatus(lang==='hi'?'📤 अपलोड...':'📤 Uploading...','');
+    await new Promise(r=>setTimeout(r,300));
+    setImgStatus(lang==='hi'?'🔍 पढ़ा जा रहा है...':'🔍 Reading...','');setProgress(20);
+    try{
+      const{data:{text}}=await Tesseract.recognize(src,'eng+hin',{logger:m=>{if(m.status==='recognizing text')setProgress(20+Math.round((m.progress||0)*70));}});
+      setProgress(90);const cleaned=smartClean(text);setProgress(100);
+      if(cleaned&&cleaned.length>3){
+        document.getElementById('input-text').value=cleaned;
+        document.getElementById('char-val').textContent=cleaned.length;
+        setImgStatus(lang==='hi'?'✅ टेक्स्ट कॉपी हो गया':'✅ Text copied to box','ok');
+      }else{setImgStatus(lang==='hi'?'⚠ टेक्स्ट नहीं मिला':'⚠ No text found','warn');}
+    }catch(e){setImgStatus(lang==='hi'?'⚠ त्रुटि — मैन्युअल टाइप करें':'⚠ Error — type manually','warn');}
   };
   reader.readAsDataURL(file);
 }
 
-function clearImage() {
+function clearImage(){
   document.getElementById('img-preview-wrap').classList.remove('show');
-  document.getElementById('img-preview').src = '';
-  document.getElementById('img-input').value = '';
-  document.getElementById('img-filename').textContent = '';
-  setStatus('', '');
-  setProgress(0);
-  document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
+  document.getElementById('img-preview').src='';document.getElementById('img-input').value='';
+  document.getElementById('img-filename').textContent='';setImgStatus('','');setProgress(0);
+  document.getElementById('img-btn-text').textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
 }
 
-/* ══ FORMAT TIME — UI only, NOT in hash payload ══ */
-function formatTime() {
-  const now = new Date();
-  const h = now.getHours(), m = now.getMinutes();
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  const hh = h % 12 || 12;
-  const mm = String(m).padStart(2,'0');
-  return 'Checked ' + hh + ':' + mm + ' ' + ampm;
-}
-
-/* ══ VERIFY CURRENT RESULT (inline — from hash strip click) ══ */
-async function verifyCurrentResult() {
-  if (!lastResult) return;
-  const el = document.getElementById('inline-verify-result');
-  if (!el) return;
-
-  el.style.display = 'block';
-  el.innerHTML = '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">⟳ Verifying...</span>';
-
-  try {
-    // Send EXACT /decide response — no modification, no timestamp
-    const payload = {
-      decision:    lastResult.decision,
-      intent:      lastResult.intent,
-      fired_rules: lastResult.fired_rules || [],
-      score:       lastResult.score || 0,
-      hash:        lastResult.hash
-    };
-
-    const r = await fetch(ENGINE_BASE + '/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-
-    if (!r.ok) throw new Error('engine');
-    const d = await r.json();
-
-    if (d.valid) {
-      el.innerHTML =
-        '<div style="background:#f0fff4;border:1.5px solid #9ae6b4;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#276749">'+
-        '✅ <strong>Integrity Verified</strong> — Result is authentic and untampered</div>';
-    } else {
-      el.innerHTML =
-        '<div style="background:#fff5f5;border:1.5px solid #feb2b2;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#9b2335">'+
-        '❌ <strong>Proof Invalid</strong> — Result may have been modified</div>';
-    }
-  } catch(e) {
-    el.innerHTML =
-      '<div style="background:#fffaf0;border:1.5px solid #fbd38d;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#c05621">'+
-      '⚠ Engine unreachable — cannot verify now</div>';
+/* ══ DEV BYPASS ══ */
+document.addEventListener('input',e=>{
+  if(e.target.id==='input-text'&&e.target.value.trim()===DEV_CODE){
+    const d=getRD();d.used=0;saveRD(d);e.target.value='';
+    document.getElementById('char-val').textContent='0';
+    renderRate();showToast('✅ Dev: Limit reset!');
   }
-}
+});
 
-/* ══ HASHCHAIN READER — /verify ══ */
-async function doVerify() {
-  const raw = document.getElementById('verify-input').value.trim();
-  if (!raw) return;
-
-  const btn = document.getElementById('verify-btn');
-  const res = document.getElementById('verify-result');
-  btn.disabled = true;
-  btn.textContent = '⟳ Verifying...';
-  res.className = 'verify-result';
-  res.innerHTML = '';
-
-  try {
-    // Parse proof — try JSON first, then RAW_PROOF text
-    let proofObj = null;
-    try { proofObj = JSON.parse(raw); } catch(e) {}
-    if (!proofObj) {
-      const m = raw.match(/RAW_PROOF:(\{[\s\S]+\})/);
-      if (m) { try { proofObj = JSON.parse(m[1]); } catch(e) {} }
-    }
-    if (!proofObj || !proofObj.hash) {
-      res.className = 'verify-result invalid show';
-      res.innerHTML = '⚠ Could not parse proof.<br>Paste JSON or text from COPY PROOF.';
-      return;
-    }
-    // Canonical fields only — NO timestamp in verify payload
-    proofObj = {
-      decision:    proofObj.decision,
-      intent:      proofObj.intent,
-      fired_rules: proofObj.fired_rules || [],
-      score:       proofObj.score || 0,
-      hash:        proofObj.hash
-    };
-    // Send to engine /verify
-    const r = await fetch(ENGINE_BASE + '/verify', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(proofObj)
-    });
-
-    if (!r.ok) throw new Error('Engine error');
-    const d = await r.json();
-
-    if (d.valid) {
-      res.className = 'verify-result valid show';
-      res.innerHTML =
-        '✅ <strong>Integrity Verified</strong><br>' +
-        'This result is authentic and has not been modified.<br>' +
-        '<span style="font-size:9px;opacity:.7">Decision: ' + (proofObj.decision ?? '—') +
-        ' · Intent: ' + (proofObj.intent ?? '—') +
-        ' · Score: ' + (proofObj.score ?? '—') + '</span>'+
-        '<br><span class="verify-advanced" onclick="toggleRaw()">Show proof details</span>' +
-        '<div class="verify-raw" id="verify-raw">Hash: ' + proofObj.hash + '</div>';
-    } else {
-      res.className = 'verify-result invalid show';
-      res.innerHTML =
-        '❌ <strong>Proof Invalid / Modified</strong><br>' +
-        'This result does not match the original engine output.<br>' +
-        'Extra caution advised — proof may have been altered.' +
-        '<br><span class="verify-advanced" onclick="toggleRaw()">Show proof details</span>' +
-        '<div class="verify-raw" id="verify-raw">Submitted: ' + (d.submitted||'—') + '</div>';
-    }
-  } catch(e) {
-    // Engine unreachable — browser-only parse
-    res.className = 'verify-result invalid show';
-    res.innerHTML = '⚠ Engine unreachable.<br>Cannot verify — try when engine is online.';
-  } finally {
-    btn.disabled = false;
-    btn.textContent = '⚡ VERIFY PROOF';
-  }
-}
-
-function toggleRaw() {
-  const el = document.getElementById('verify-raw');
-  if (el) el.classList.toggle('show');
+/* ══ LANG ══ */
+function setLang(l){lang=l;localStorage.setItem('vg_lang',l);applyLang();}
+function applyLang(){
+  const t=TXT[lang];
+  const map={'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,'lbl-total':t.lbl_total,'lbl-today':t.lbl_today,'disc-title':t.discTitle,'disc-body':t.discBody,'how-title':t.howTitle,'how1':t.how1,'how2':t.how2,'how3':t.how3,'how4':t.how4,'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3};
+  for(const[id,val]of Object.entries(map)){const el=document.getElementById(id);if(el)el.textContent=val;}
+  const lt=document.getElementById('limit-text');if(lt)lt.innerHTML=t.limitText;
+  const lt2=document.getElementById('limit-title');if(lt2)lt2.textContent=t.limitTitle;
+  document.getElementById('input-text').placeholder=lang==='hi'?'SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...':'Paste SMS, WhatsApp message, or link here...';
+  document.querySelectorAll('#usecase option').forEach(o=>{o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;});
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
+  const imgBtn=document.getElementById('img-btn-text');
+  if(imgBtn&&!document.getElementById('img-preview-wrap').classList.contains('show'))imgBtn.textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
+  const vta=document.getElementById('verify-ta');
+  if(vta)vta.placeholder=lang==='hi'?'यहाँ प्रूफ टेक्स्ट पेस्ट करें...':'Paste proof text here...\n(from COPY PROOF button)';
+  renderRate();
 }
 
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('input-text').addEventListener('input',function(){
-    document.getElementById('char-val').textContent=this.value.length;
-  });
+  document.getElementById('input-text').addEventListener('input',function(){document.getElementById('char-val').textContent=this.value.length;});
   document.getElementById('clear-btn').addEventListener('click',()=>{
-    document.getElementById('input-text').value='';
-    document.getElementById('char-val').textContent='0';
-    document.getElementById('result-card').style.display='none';
-    lastResult=null; lastHash='';
+    document.getElementById('input-text').value='';document.getElementById('char-val').textContent='0';
+    document.getElementById('result-card').style.display='none';lastResult=null;lastHash='';
   });
-  applyLang();
-  checkHealth();
-  loadStats(); // renders session stats on load
+  // Close modal on overlay click
+  document.querySelectorAll('.modal-overlay').forEach(el=>{
+    el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');});
+  });
+  applyLang();renderStats();checkHealth();
 });
 </script>
 </body>
