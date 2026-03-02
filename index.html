@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
+<!-- Tesseract.js — Browser OCR, No API needed -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ══════════════════════════════════════
@@ -21,9 +23,9 @@
   --ink2:#3d3830;
   --ink3:#6b6560;
   --accent:#1a1714;
-  --brand:#c8410a;
-  --brand2:#a33208;
-  --brand-light:#fdf0eb;
+  --brand:#1d4ed8;
+  --brand2:#1e40af;
+  --brand-light:#eff6ff;
   --v0:#4a5568;--v0bg:#edf2f7;--v0border:#cbd5e0;
   --v1:#276749;--v1bg:#f0fff4;--v1border:#9ae6b4;
   --v2:#c05621;--v2bg:#fffaf0;--v2border:#fbd38d;
@@ -48,7 +50,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:10
 /* HEADER */
 .header{text-align:center;padding:28px 0 20px;border-bottom:1px solid var(--border);margin-bottom:16px}
 .logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:6px}
-.logo-icon{width:36px;height:36px;background:var(--brand);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.logo-icon{width:36px;height:36px;background:#1d4ed8;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
 .logo-name{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--ink);letter-spacing:-1px}
 .tagline{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
 
@@ -72,7 +74,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:10
 /* STATS */
 .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
 .stat-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:10px 8px;text-align:center;box-shadow:var(--shadow)}
-.stat-num{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--brand);line-height:1}
+.stat-num{font-family:var(--mono);font-size:22px;font-weight:700;color:#1d4ed8;line-height:1}
 .stat-lbl{font-size:9px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-top:3px;font-weight:600}
 .stat-sub{font-family:var(--mono);font-size:8px;color:var(--border-strong);margin-top:1px}
 
@@ -99,19 +101,19 @@ textarea{width:100%;height:110px;padding:11px;background:var(--surface2);border:
 textarea:focus{border-color:var(--ink);background:#fff}
 textarea::placeholder{color:var(--border-strong)}
 .char-row{display:flex;justify-content:space-between;align-items:center;margin-top:5px;margin-bottom:12px}
-.clear-btn{background:transparent;border:1.5px solid var(--border);color:var(--ink3);padding:4px 10px;border-radius:5px;font-size:10px;font-family:var(--mono);cursor:pointer;transition:all .2s;font-weight:700}
-.clear-btn:hover{border-color:var(--ink);color:var(--ink)}
+.clear-btn{background:#eff6ff;border:1.5px solid #1d4ed8;color:#1d4ed8;padding:4px 10px;border-radius:5px;font-size:10px;font-family:var(--mono);cursor:pointer;transition:all .2s;font-weight:700}
+.clear-btn:hover{border-color:#1e40af;color:#1e40af;background:#dbeafe}
 .char-count{font-family:var(--mono);font-size:10px;color:var(--ink3)}
 
 /* ANALYZE BUTTON */
-#analyze-btn{width:100%;padding:14px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(200,65,10,.3);position:relative;overflow:hidden}
-#analyze-btn:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(200,65,10,.35)}
+#analyze-btn{width:100%;padding:14px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 2px 8px rgba(29,78,216,.3);position:relative;overflow:hidden}
+#analyze-btn:hover:not(:disabled){background:var(--brand2);transform:translateY(-1px);box-shadow:0 4px 16px rgba(29,78,216,.35)}
 #analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 #analyze-btn.loading::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);animation:shimmer 1s infinite}
 @keyframes shimmer{to{left:100%}}
 .trust-pills{display:flex;justify-content:center;gap:10px;margin-top:8px;flex-wrap:wrap}
 .tpill{font-family:var(--mono);font-size:9px;color:var(--ink3);display:flex;align-items:center;gap:3px}
-.tpill::before{content:'✓';color:var(--v1);font-weight:700}
+.tpill::before{content:'✓';color:#1d4ed8;font-weight:700}
 
 /* RESULT CARD */
 #result-card{display:none;border-radius:var(--radius);overflow:hidden;margin-bottom:10px;border:1.5px solid var(--border);box-shadow:var(--shadow-lg);animation:slideIn .25s ease}
@@ -175,7 +177,7 @@ textarea::placeholder{color:var(--border-strong)}
 .trace-body{display:none}
 .trace-body.open{display:block}
 .trace-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;padding:4px 0;border-bottom:1px solid var(--border);color:var(--ink2)}
-.trace-val{color:var(--brand);font-weight:700}
+.trace-val{color:#1d4ed8;font-weight:700}
 
 /* ACTIONS */
 .actions-wrap{padding:12px 16px;border-bottom:1px solid var(--border)}
@@ -210,19 +212,19 @@ textarea::placeholder{color:var(--border-strong)}
 
 /* DISCLAIMER */
 .disc-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
-.disc-title{font-family:var(--mono);font-size:9px;color:var(--brand);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.disc-title{font-family:var(--mono);font-size:9px;color:#1d4ed8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
 .disc-body{font-size:12px;color:var(--ink2);line-height:1.7}
 
 /* HOW IT WORKS */
 .how-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;box-shadow:var(--shadow)}
 .how-list{margin-top:10px;display:flex;flex-direction:column;gap:7px}
 .how-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--ink2);line-height:1.5}
-.how-item::before{content:'◆';color:var(--brand);font-size:8px;flex-shrink:0;margin-top:3px}
+.how-item::before{content:'◆';color:#1d4ed8;font-size:8px;flex-shrink:0;margin-top:3px}
 
 /* TRUST FOOTER */
 .trust-footer{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:13px 16px;margin-bottom:10px;text-align:center;box-shadow:var(--shadow)}
 .tf1{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;margin-bottom:3px}
-.tf1 span{color:var(--brand)}
+.tf1 span{color:#1d4ed8}
 .tf2{font-size:11px;color:var(--ink3)}
 
 footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border-strong);padding:12px 0 8px;line-height:2}
@@ -272,6 +274,21 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .v3-fill{background:var(--v3)}
 .v3-band{color:var(--v3)}
 .v3-tag{background:var(--v3bg);border-color:var(--v3border);color:var(--v3)}
+
+/* IMAGE UPLOAD */
+.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.img-upload-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;border:1.5px dashed #1d4ed8;border-radius:6px;color:#1d4ed8;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
+.img-upload-btn:hover{background:#dbeafe;border-style:solid}
+.img-upload-btn input{display:none}
+.img-preview-wrap{display:none;position:relative;margin-bottom:8px;border-radius:6px;overflow:hidden;border:1.5px solid #1d4ed8}
+.img-preview-wrap.show{display:block}
+.img-preview{width:100%;max-height:160px;object-fit:cover;display:block}
+.img-clear-btn{position:absolute;top:6px;right:6px;background:#1d4ed8;border:none;color:#fff;border-radius:4px;padding:3px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;font-weight:700}
+.img-status{font-family:var(--mono);font-size:10px;color:#1d4ed8;font-weight:700}
+.img-processing{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);align-items:center;gap:6px}
+.img-processing.show{display:flex}
+.spin{display:inline-block;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -345,6 +362,19 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
       <option value="enterprise" data-en="Enterprise Security"   data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
     </select>
     <div class="field-lbl" id="lbl-input">MESSAGE / SMS / LINK</div>
+    <!-- IMAGE UPLOAD -->
+    <div class="img-upload-row">
+      <label class="img-upload-btn">
+        📷 <span id="img-btn-text">Upload Screenshot</span>
+        <input type="file" id="img-input" accept="image/*" onchange="handleImage(event)">
+      </label>
+      <span class="img-status" id="img-status"></span>
+      <span class="img-processing" id="img-processing"><span id="img-proc-text">⟳ Reading image...</span></span>
+    </div>
+    <div class="img-preview-wrap" id="img-preview-wrap">
+      <img id="img-preview" src="" alt="SMS screenshot">
+      <button class="img-clear-btn" onclick="clearImage()">✕ Remove</button>
+    </div>
     <textarea id="input-text" maxlength="1000" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
     <div class="char-row">
       <button class="clear-btn" id="clear-btn">✕ CLEAR</button>
@@ -748,7 +778,17 @@ function trunc(h){ return (!h||h.length<14)?h:h.slice(0,8)+'···'+h.slice(-6);
 /* ══ RENDER RESULT ══ */
 function renderResult(r, dm) {
   const v    = r.decision !== undefined ? r.decision : (r.verdict||0);
-  const conf = r.confidence || r.score || 0;
+  const conf = (() => {
+    if (typeof r.confidence === 'number') return r.confidence;
+    if (typeof r.score === 'number') return r.score;
+    if (r.confidence && typeof r.confidence.value === 'number') return r.confidence.value;
+    // compute from trace if available
+    if (r.trace && r.trace.length > 0) {
+      const total = r.trace.reduce((s, t) => s + (t.score || t.weight || 0), 0);
+      return Math.min(100, Math.round(total));
+    }
+    return 0;
+  })();
   const rules = r.fired_rules || [];
   const trace = r.trace || [];
   const hash  = r.hash || 'pending';
@@ -948,6 +988,11 @@ function applyLang() {
     o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;
   });
   document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  // Image button text
+  const imgBtn = document.getElementById('img-btn-text');
+  if (imgBtn && !document.getElementById('img-preview-wrap').classList.contains('show')) {
+    imgBtn.textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
+  }
   document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
   renderRate();
 }
@@ -960,6 +1005,70 @@ document.addEventListener('input', e=>{
     renderRate(); showToast('✅ Dev: Limit reset!');
   }
 });
+
+
+/* ══ IMAGE UPLOAD + OCR — Tesseract.js (No API needed) ══ */
+async function handleImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const imgSrc = e.target.result;
+
+    // Show preview
+    document.getElementById('img-preview').src = imgSrc;
+    document.getElementById('img-preview-wrap').classList.add('show');
+    document.getElementById('img-status').textContent = '';
+    document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'बदलें' : 'Change';
+
+    // Show processing spinner
+    const proc = document.getElementById('img-processing');
+    const procText = document.getElementById('img-proc-text');
+    proc.classList.add('show');
+    if (procText) procText.textContent = lang === 'hi' ? '⟳ पढ़ा जा रहा है...' : '⟳ Reading image...';
+
+    try {
+      // Tesseract.js — runs fully in browser, no API
+      const { data: { text } } = await Tesseract.recognize(
+        imgSrc,
+        'eng+hin', // English + Hindi support
+        {
+          logger: m => {
+            if (m.status === 'recognizing text' && procText) {
+              const pct = Math.round((m.progress || 0) * 100);
+              procText.textContent = (lang === 'hi' ? '⟳ पढ़ा जा रहा है... ' : '⟳ Reading... ') + pct + '%';
+            }
+          }
+        }
+      );
+
+      const cleaned = text.replace(/[ \t]+/g, ' ').trim();
+
+      if (cleaned && cleaned.length > 3) {
+        document.getElementById('input-text').value = cleaned;
+        document.getElementById('char-val').textContent = cleaned.length;
+        document.getElementById('img-status').textContent = lang === 'hi' ? '✅ पाठ निकाला गया' : '✅ Text extracted';
+      } else {
+        document.getElementById('img-status').textContent = lang === 'hi' ? '⚠ पाठ नहीं मिला — मैन्युअल टाइप करें' : '⚠ No text found — type manually';
+      }
+    } catch(err) {
+      console.error('OCR error:', err);
+      document.getElementById('img-status').textContent = lang === 'hi' ? '⚠ त्रुटि — मैन्युअल टाइप करें' : '⚠ Error — type manually';
+    } finally {
+      proc.classList.remove('show');
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function clearImage() {
+  document.getElementById('img-preview-wrap').classList.remove('show');
+  document.getElementById('img-preview').src = '';
+  document.getElementById('img-input').value = '';
+  document.getElementById('img-status').textContent = '';
+  document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
+}
 
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded',()=>{
