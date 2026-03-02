@@ -280,14 +280,21 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .img-upload-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;background:#eff6ff;border:1.5px dashed #1d4ed8;border-radius:6px;color:#1d4ed8;font-family:var(--mono);font-size:11px;cursor:pointer;transition:all .2s;font-weight:700}
 .img-upload-btn:hover{background:#dbeafe;border-style:solid}
 .img-upload-btn input{display:none}
-.img-preview-wrap{display:none;position:relative;margin-bottom:8px;border-radius:6px;overflow:hidden;border:1.5px solid #1d4ed8}
-.img-preview-wrap.show{display:block}
-.img-preview{width:100%;max-height:160px;object-fit:cover;display:block}
-.img-clear-btn{position:absolute;top:6px;right:6px;background:#1d4ed8;border:none;color:#fff;border-radius:4px;padding:3px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;font-weight:700}
-.img-status{font-family:var(--mono);font-size:10px;color:#1d4ed8;font-weight:700}
-.img-processing{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);align-items:center;gap:6px}
+.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.img-preview-wrap{display:none;margin-bottom:8px;border-radius:6px;overflow:hidden;border:1.5px solid #1d4ed8;max-height:80px;position:relative}
+.img-preview-wrap.show{display:flex;align-items:center;gap:8px;padding:6px 10px;background:#eff6ff;max-height:none;flex-wrap:wrap}
+.img-thumb{width:52px;height:52px;object-fit:cover;border-radius:4px;border:1px solid #1d4ed8;flex-shrink:0}
+.img-info{flex:1;min-width:0}
+.img-filename{font-family:var(--mono);font-size:10px;color:#1d4ed8;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.img-clear-btn{background:transparent;border:1.5px solid #1d4ed8;color:#1d4ed8;border-radius:4px;padding:3px 8px;font-family:var(--mono);font-size:10px;cursor:pointer;font-weight:700;flex-shrink:0}
+.img-clear-btn:hover{background:#dbeafe}
+.img-status{font-family:var(--mono);font-size:10px;font-weight:700}
+.img-status.ok{color:#276749}
+.img-status.warn{color:#c05621}
+.img-processing{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);align-items:center;gap:5px}
 .img-processing.show{display:flex}
-.spin{display:inline-block;animation:spin .8s linear infinite}
+.progress-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden}
+.progress-bar-fill{height:100%;background:#1d4ed8;border-radius:2px;width:0%;transition:width .3s}
 @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -372,8 +379,12 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
       <span class="img-processing" id="img-processing"><span id="img-proc-text">⟳ Reading image...</span></span>
     </div>
     <div class="img-preview-wrap" id="img-preview-wrap">
-      <img id="img-preview" src="" alt="SMS screenshot">
-      <button class="img-clear-btn" onclick="clearImage()">✕ Remove</button>
+      <img class="img-thumb" id="img-preview" src="" alt="">
+      <div class="img-info">
+        <div class="img-filename" id="img-filename">screenshot.jpg</div>
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-bar"></div></div>
+      </div>
+      <button class="img-clear-btn" onclick="clearImage()">✕</button>
     </div>
     <textarea id="input-text" maxlength="1000" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
     <div class="char-row">
@@ -1007,7 +1018,18 @@ document.addEventListener('input', e=>{
 });
 
 
-/* ══ IMAGE UPLOAD + OCR — Tesseract.js (No API needed) ══ */
+/* ══ IMAGE UPLOAD + OCR — Tesseract.js ══ */
+function setStatus(msg, type) {
+  const el = document.getElementById('img-status');
+  el.textContent = msg;
+  el.className = 'img-status ' + (type||'');
+}
+
+function setProgress(pct) {
+  const bar = document.getElementById('prog-bar');
+  if (bar) bar.style.width = pct + '%';
+}
+
 async function handleImage(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -1016,47 +1038,51 @@ async function handleImage(event) {
   reader.onload = async (e) => {
     const imgSrc = e.target.result;
 
-    // Show preview
+    // Compact preview — just thumbnail + filename
     document.getElementById('img-preview').src = imgSrc;
+    document.getElementById('img-filename').textContent = file.name.length > 20 ? file.name.slice(0,18)+'...' : file.name;
     document.getElementById('img-preview-wrap').classList.add('show');
-    document.getElementById('img-status').textContent = '';
     document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'बदलें' : 'Change';
+    setProgress(0);
 
-    // Show processing spinner
-    const proc = document.getElementById('img-processing');
-    const procText = document.getElementById('img-proc-text');
-    proc.classList.add('show');
-    if (procText) procText.textContent = lang === 'hi' ? '⟳ पढ़ा जा रहा है...' : '⟳ Reading image...';
+    // Step 1
+    setStatus(lang === 'hi' ? '📤 अपलोड हो रहा है...' : '📤 Uploading...', '');
+    await new Promise(r => setTimeout(r, 300));
+
+    // Step 2
+    setStatus(lang === 'hi' ? '🔍 पढ़ा जा रहा है...' : '🔍 Reading...', '');
+    setProgress(20);
 
     try {
-      // Tesseract.js — runs fully in browser, no API
       const { data: { text } } = await Tesseract.recognize(
         imgSrc,
-        'eng+hin', // English + Hindi support
+        'eng+hin',
         {
           logger: m => {
-            if (m.status === 'recognizing text' && procText) {
-              const pct = Math.round((m.progress || 0) * 100);
-              procText.textContent = (lang === 'hi' ? '⟳ पढ़ा जा रहा है... ' : '⟳ Reading... ') + pct + '%';
+            if (m.status === 'recognizing text') {
+              const pct = 20 + Math.round((m.progress||0) * 70);
+              setProgress(pct);
             }
           }
         }
       );
 
+      setProgress(90);
+
+      // Step 3 — clean text
       const cleaned = text.replace(/[ \t]+/g, ' ').trim();
+      setProgress(100);
 
       if (cleaned && cleaned.length > 3) {
         document.getElementById('input-text').value = cleaned;
         document.getElementById('char-val').textContent = cleaned.length;
-        document.getElementById('img-status').textContent = lang === 'hi' ? '✅ पाठ निकाला गया' : '✅ Text extracted';
+        // Step 4 — copied to box
+        setStatus(lang === 'hi' ? '✅ टेक्स्ट कॉपी हो गया' : '✅ Text copied to box', 'ok');
       } else {
-        document.getElementById('img-status').textContent = lang === 'hi' ? '⚠ पाठ नहीं मिला — मैन्युअल टाइप करें' : '⚠ No text found — type manually';
+        setStatus(lang === 'hi' ? '⚠ टेक्स्ट नहीं मिला' : '⚠ No text found', 'warn');
       }
     } catch(err) {
-      console.error('OCR error:', err);
-      document.getElementById('img-status').textContent = lang === 'hi' ? '⚠ त्रुटि — मैन्युअल टाइप करें' : '⚠ Error — type manually';
-    } finally {
-      proc.classList.remove('show');
+      setStatus(lang === 'hi' ? '⚠ त्रुटि — मैन्युअल टाइप करें' : '⚠ Error — type manually', 'warn');
     }
   };
   reader.readAsDataURL(file);
@@ -1066,7 +1092,9 @@ function clearImage() {
   document.getElementById('img-preview-wrap').classList.remove('show');
   document.getElementById('img-preview').src = '';
   document.getElementById('img-input').value = '';
-  document.getElementById('img-status').textContent = '';
+  document.getElementById('img-filename').textContent = '';
+  setStatus('', '');
+  setProgress(0);
   document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
 }
 
