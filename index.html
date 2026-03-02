@@ -296,6 +296,45 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .progress-bar-wrap{width:100%;height:4px;background:var(--border);border-radius:2px;margin-top:4px;overflow:hidden}
 .progress-bar-fill{height:100%;background:#1d4ed8;border-radius:2px;width:0%;transition:width .3s}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+.checked-time{padding:6px 16px;font-family:var(--mono);font-size:9px;color:var(--ink3);background:var(--surface2);border-bottom:1px solid var(--border);letter-spacing:.3px}
+
+/* NO AI BADGE */
+.no-ai-badge{font-family:var(--mono);font-size:9px;color:var(--ink3);letter-spacing:1.5px;text-transform:uppercase;margin-top:4px;padding:3px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;display:inline-block}
+
+/* TOOLTIP */
+.tooltip-wrap{position:relative;display:inline-block;cursor:help;font-size:10px;color:#1d4ed8;margin-left:3px}
+.tooltip-box{display:none;position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;font-family:var(--mono);font-size:9px;padding:7px 10px;border-radius:6px;white-space:nowrap;z-index:50;line-height:1.6;box-shadow:var(--shadow-lg)}
+.tooltip-wrap:hover .tooltip-box{display:block}
+.tooltip-box::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:4px solid transparent;border-top-color:var(--ink)}
+
+/* HASH DISPLAY — monospace single line scroll */
+.hash-mono{font-family:var(--mono);font-size:10px;color:var(--ink2);overflow-x:auto;white-space:nowrap;padding:4px 0;scrollbar-width:thin;display:flex;align-items:center;gap:6px;min-width:0;flex:1}
+.hash-copy-icon{cursor:pointer;font-size:12px;flex-shrink:0;padding:2px 5px;border-radius:4px;transition:background .2s}
+.hash-copy-icon:hover{background:var(--bg2)}
+
+/* VERIFY READER SECTION */
+.verify-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:10px;box-shadow:var(--shadow)}
+.verify-input{width:100%;height:90px;padding:10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:6px;color:var(--ink);font-family:var(--mono);font-size:10px;resize:none;outline:none;line-height:1.6}
+.verify-input:focus{border-color:#1d4ed8}
+.verify-btn{width:100%;padding:11px;background:#1d4ed8;border:none;border-radius:7px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-top:8px;transition:all .2s}
+.verify-btn:hover{background:#1e40af}
+.verify-btn:disabled{opacity:.4;cursor:not-allowed}
+.verify-result{display:none;margin-top:10px;padding:12px 14px;border-radius:7px;font-family:var(--mono);font-size:11px;border:1.5px solid;line-height:1.8}
+.verify-result.valid{background:#f0fff4;border-color:#9ae6b4;color:#276749}
+.verify-result.invalid{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
+.verify-result.show{display:block}
+.verify-advanced{font-size:9px;color:#1d4ed8;cursor:pointer;text-decoration:underline;margin-top:6px;display:inline-block}
+.verify-raw{display:none;margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--ink3);word-break:break-all;line-height:1.6}
+.verify-raw.show{display:block}
+
+/* ANALYZE BUTTON — higher contrast */
+#analyze-btn{width:100%;padding:15px;background:#1d4ed8;border:2px solid #1e40af;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .2s;box-shadow:0 3px 10px rgba(29,78,216,.4);position:relative;overflow:hidden}
+#analyze-btn:hover:not(:disabled){background:#1e40af;transform:translateY(-1px);box-shadow:0 5px 18px rgba(29,78,216,.45)}
+#analyze-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* WHAT IS THIS link */
+.hash-what{font-family:var(--mono);font-size:9px;color:#1d4ed8;cursor:pointer;text-decoration:underline;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -313,6 +352,7 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
       <div class="logo-name">Veritas Guard</div>
     </div>
     <div class="tagline" id="tagline-text">DETERMINISTIC RISK SIGNALS · NO GUESSING</div>
+  <div class="no-ai-badge">No AI · No Prediction · Deterministic Rules Only</div>
     <div>
       <div class="engine-pill checking" id="engine-pill" onclick="showInfoModal()">
         <div class="dot"></div>
@@ -404,6 +444,15 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
   <!-- RESULT CARD -->
   <div id="result-card"></div>
 
+  <!-- HASHCHAIN READER -->
+  <div class="verify-card">
+    <div class="sec-title">🔍 VERIFY A PROOF</div>
+    <div class="sec-sub" id="verify-sub">Paste COPY PROOF output below to verify authenticity</div>
+    <textarea class="verify-input" id="verify-input" placeholder="Paste proof text here...&#10;(from COPY PROOF button)"></textarea>
+    <button class="verify-btn" id="verify-btn" onclick="doVerify()">⚡ VERIFY PROOF</button>
+    <div class="verify-result" id="verify-result"></div>
+  </div>
+
   <!-- EXAMPLES -->
   <div class="examples-card">
     <div class="sec-title" id="ex-title">TRY AN EXAMPLE</div>
@@ -459,17 +508,18 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
   </div>
 </div>
 
-<!-- HASHCHAIN MODAL -->
+<!-- HASHCHAIN MODAL — plain language -->
 <div class="modal-overlay" id="hash-modal">
   <div class="modal-box">
     <div class="modal-icon">🔒</div>
-    <div class="modal-title">Hashchain Verified</div>
+    <div class="modal-title">Result Integrity Verified</div>
     <div class="modal-text">
-      Result is hash-sealed. Engine rules cannot change without re-seal.<br><br>
-      This ensures the engine that ran is exactly the version shown.<br><br>
-      You can share this result as cryptographic proof.
+      This result is sealed at the moment it was generated.<br><br>
+      The rules used for this analysis cannot be changed later.<br><br>
+      This ensures the decision you see is authentic and has not been modified.<br><br>
+      <span style="font-size:10px;color:#6b6560">You can share this result as a verifiable proof.</span>
     </div>
-    <button class="modal-close" onclick="closeModal('hash-modal')">UNDERSTOOD</button>
+    <button class="modal-close" onclick="closeModal('hash-modal')">Understood</button>
   </div>
 </div>
 
@@ -511,7 +561,7 @@ const SIGNAL_META = {
 ══ */
 const DM = {
   en:{
-    label:  ['No Pattern Detected','Attention Required','Suspicious Patterns Found','High Risk — Likely Scam'],
+    label:  ['No Pattern Detected','Attention Required','Risk Patterns Detected','High Risk — Likely Scam'],
     sub:    ['No known risk signals in this message','Weak or partial risk signals detected','Multiple risk patterns detected','Strong, confirmed fraud pattern signals'],
     code:   ['DECISION 0 · NORMAL','DECISION 1 · ATTENTION','DECISION 2 · SUSPECT','DECISION 3 · HIGH_RISK'],
     range:  ['Signal 0–20%','Signal 20–45%','Signal 45–75%','Signal 75–100%'],
@@ -534,19 +584,19 @@ const DM = {
       {max:75, label:'Moderate signal — multiple patterns matched'},
       {max:101,label:'Strong signal — high-risk patterns confirmed'}
     ],
-    confNote:'Confidence = pattern match strength only. Does NOT confirm fraud or guarantee safety.',
+    confNote:'Based on known risk signals only. Low score does not mean safe. High score does not confirm fraud.',
     noRules:'No specific patterns triggered',
     ruleHdr:'TRIGGERED RULES',traceHdr:'TRACE (Auditors)',traceNote:'Technical signal breakdown — for advanced users',
     hashTitle:'✅ Hashchain Verified',hashCopy:'Copy Hash',hashLearn:'Learn more',hashCopied:'Verification hash copied',
-    safeNotice:'Genuine messages can sometimes match risk patterns. This engine does not guarantee legitimacy.',
+    safeNotice:'Risk patterns are based on known signals only. Extra caution is advised — not a final verdict.',
     disc:'This engine does not confirm safety or fraud. Results are pattern-based only.',
     fbLbl:'Was this helpful?',fbYes:'Helpful',fbNo:'Not Helpful',
     fbThanks:'Thanks. Feedback recorded (anonymous).',fbOnce:'One feedback per result.',
-    share:'SHARE',copy:'COPY PROOF',actNote:'Shares verdict, confidence % & proof hash',
-    toastCopy:'Proof copied ✓',toastHash:'Hash copied ✓',noRulesTag:'No patterns triggered'
+    share:'SHARE',copy:'COPY PROOF',actNote:'Includes: decision · intent · fired_rules · score · hash',
+    toastCopy:'Proof copied — verify anytime at /verify',toastHash:'Hash copied ✓',noRulesTag:'No patterns triggered'
   },
   hi:{
-    label:  ['कोई पैटर्न नहीं','ध्यान दें','संदिग्ध पैटर्न मिले','उच्च जोखिम — संभावित स्कैम'],
+    label:  ['कोई पैटर्न नहीं','ध्यान दें','जोखिम पैटर्न मिले','उच्च जोखिम — संभावित स्कैम'],
     sub:    ['इस संदेश में कोई ज्ञात जोखिम नहीं','कमजोर या आंशिक जोखिम संकेत','कई जोखिम पैटर्न मिले','मजबूत पुष्ट धोखाधड़ी संकेत'],
     code:   ['निर्णय 0 · सामान्य','निर्णय 1 · ध्यान दें','निर्णय 2 · संदिग्ध','निर्णय 3 · उच्च जोखिम'],
     range:  ['संकेत 0–20%','संकेत 20–45%','संकेत 45–75%','संकेत 75–100%'],
@@ -577,8 +627,8 @@ const DM = {
     disc:'यह इंजन सुरक्षा या धोखाधड़ी की गारंटी नहीं देता। परिणाम पैटर्न-आधारित हैं।',
     fbLbl:'क्या यह सहायक था?',fbYes:'सहायक',fbNo:'सहायक नहीं',
     fbThanks:'धन्यवाद। फीडबैक दर्ज।',fbOnce:'प्रति परिणाम एक फीडबैक।',
-    share:'शेयर',copy:'प्रूफ कॉपी',actNote:'निर्णय, विश्वास % और प्रूफ हैश शेयर होगा',
-    toastCopy:'प्रूफ कॉपी हो गया ✓',toastHash:'हैश कॉपी हो गया ✓',noRulesTag:'कोई पैटर्न नहीं मिला'
+    share:'शेयर',copy:'प्रूफ कॉपी',actNote:'शामिल: decision · intent · fired_rules · score · hash',
+    toastCopy:'प्रूफ कॉपी हुआ — /verify से जाँचें',toastHash:'हैश कॉपी हो गया ✓',noRulesTag:'कोई पैटर्न नहीं मिला'
   }
 };
 
@@ -703,17 +753,38 @@ function renderRate() {
   }
 }
 
-/* ══ STATS ══ */
-async function loadStats() {
+/* ══ STATS — session + localStorage based ══ */
+function getStats() {
+  const today = new Date().toDateString();
   try {
-    const r = await fetch(ENGINE_BASE+'/stats',{signal:AbortSignal.timeout(4000)});
-    if(!r.ok) return;
-    const d = await r.json();
-    if(d.total!==undefined) document.getElementById('stat-total').textContent=d.total;
-    if(d.today!==undefined) document.getElementById('stat-today').textContent=d.today;
-    if(d.flagged!==undefined) document.getElementById('stat-flagged').textContent=d.flagged;
-  } catch(e){}
+    const s = JSON.parse(localStorage.getItem('vg_stats') || '{}');
+    if (s.date !== today) return { date: today, total: 0, flagged: 0 };
+    return s;
+  } catch(e) { return { date: today, total: 0, flagged: 0 }; }
 }
+
+function saveStats(s) {
+  try { localStorage.setItem('vg_stats', JSON.stringify(s)); } catch(e) {}
+}
+
+function updateStats(decision) {
+  const s = getStats();
+  s.total = (s.total || 0) + 1;
+  if (decision >= 2) s.flagged = (s.flagged || 0) + 1;
+  saveStats(s);
+  renderStats();
+}
+
+function renderStats() {
+  const s = getStats();
+  const rd = getRD();
+  const used = rd.used || 0;
+  document.getElementById('stat-total').textContent = used;
+  document.getElementById('stat-today').textContent = s.total || 0;
+  document.getElementById('stat-flagged').textContent = s.flagged || 0;
+}
+
+function loadStats() { renderStats(); }
 
 /* ══ ENGINE CALL ══ */
 async function callEngine(text) {
@@ -743,7 +814,7 @@ async function doAnalyze() {
   document.getElementById('btn-text').textContent=t.analyzing;
   try {
     const r = await callEngine(text);
-    incUse(); renderRate(); loadStats();
+    incUse(); renderRate(); updateStats(r.decision); // only after API success
     lastResult = r;
     lastHash = r.hash||'';
     renderResult(r, dm);
@@ -843,23 +914,25 @@ function renderResult(r, dm) {
       '</div>'+
     '</div>'+
     /* HASHCHAIN — ALWAYS VISIBLE ✅ */
-    '<div class="hash-strip">'+
-      '<div class="hash-verified-badge">'+
-        '<span class="hash-check">✅</span>'+
-        '<div class="hash-texts">'+
-          '<div class="hash-title">'+dm.hashTitle+ver+'</div>'+
-          '<div class="hash-val">'+trunc(hash)+'</div>'+
+    '<div class="hash-strip" id="hash-strip-wrap">'+
+      '<div class="hash-verified-badge" style="flex:1;min-width:0">'+
+        '<div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">'+
+          '<span class="hash-check">✅</span>'+
+          '<span class="hash-title" style="cursor:pointer" onclick="verifyCurrentResult()" title="Click to verify integrity">'+dm.hashTitle+ver+'</span>'+
+          '<span class="hash-what" onclick="openModal(\'hash-modal\')">What is this?</span>'+
+          '<button class="hash-btn" style="margin-left:auto" onclick="copyHash()">📋 '+dm.hashCopy+'</button>'+
         '</div>'+
-      '</div>'+
-      '<div class="hash-actions">'+
-        '<button class="hash-btn" onclick="copyHash()">'+dm.hashCopy+'</button>'+
-        '<button class="hash-btn" onclick="openModal(\'hash-modal\')">'+dm.hashLearn+'</button>'+
+        '<div class="hash-mono" style="margin-top:5px">'+
+          '<span style="overflow-x:auto;white-space:nowrap;flex:1;font-size:9px;color:var(--ink3)">'+hash+'</span>'+
+        '</div>'+
+        '<div id="inline-verify-result" style="display:none;margin-top:6px"></div>'+
       '</div>'+
     '</div>'+
     /* RESULT DISCLAIMER */
     '<div class="result-disc v'+v+'-disc">⚠ '+dm.disc[v]+'</div>'+
     /* SUMMARY */
     '<div class="summary">'+dm.summary[v]+'</div>'+
+    '<div class="checked-time">Based on known risk signals · '+formatTime()+'</div>'+
     /* SIGNAL BREAKDOWN — P/M/A/X/C */
     '<div class="signals-wrap">'+
       '<div class="signals-title">SIGNAL BREAKDOWN</div>'+
@@ -868,7 +941,7 @@ function renderResult(r, dm) {
     '</div>'+
     /* CONFIDENCE */
     '<div class="conf-wrap">'+
-      '<div class="conf-top"><span>CONFIDENCE</span><span class="conf-pct v'+v+'-name">'+conf+'%</span></div>'+
+      '<div class="conf-top"><span>SIGNAL STRENGTH <span class="tooltip-wrap">ⓘ<span class="tooltip-box">Pattern match strength only.<br>Low ≠ Safe. High ≠ Fraud confirmed.</span></span></span><span class="conf-pct v'+v+'-name">'+conf+'%</span></div>'+
       '<div class="conf-track"><div class="conf-fill v'+v+'-fill" id="conf-fill"></div></div>'+
       '<div class="conf-band v'+v+'-band">'+band+'</div>'+
       '<div class="conf-note">'+dm.confNote+'</div>'+
@@ -925,18 +998,29 @@ function buildProof() {
   if(!lastResult) return '';
   const r=lastResult; const dm=DM[lang];
   const v=r.decision!==undefined?r.decision:(r.verdict||0);
+  // Canonical proof — exact fields engine uses for hash
+  const proofObj = {
+    decision: r.decision,
+    intent: r.intent,
+    fired_rules: r.fired_rules||[],
+    score: r.score||0,
+    hash: r.hash
+  };
   return 'VERITAS GUARD — RISK ANALYSIS\n'+
     '================================\n'+
     'Verdict    : '+dm.label[v]+'\n'+
     'Decision   : '+dm.code[v]+'\n'+
-    'Confidence : '+(r.confidence||0)+'%\n'+
-    'Signals    : '+(r.fired_rules||[]).join(', ')||'None'+'\n'+
+    'Score      : '+(r.score||0)+'\n'+
+    'Intent     : '+(r.intent||'UNKNOWN')+'\n'+
+    'Rules      : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
     'Hash       : '+(r.hash||'pending')+'\n'+
     'Engine     : '+(engineVersion||'unknown')+' · RULES FROZEN\n'+
     'Time       : '+new Date().toLocaleString()+'\n'+
     '================================\n'+
-    'NOTE: Low risk does NOT mean safe.\n'+
-    'veritasengine.in';
+    'Verify at  : '+ENGINE_BASE+'/verify\n'+
+    'NOTE: Low signal does NOT mean safe.\n'+
+    'veritasengine.in\n\n'+
+    'RAW_PROOF:'+JSON.stringify(proofObj);
 }
 
 function copyProof() {
@@ -999,6 +1083,14 @@ function applyLang() {
     o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;
   });
   document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  const vsub = document.getElementById('verify-sub');
+  if (vsub) vsub.textContent = lang === 'hi'
+    ? 'नीचे COPY PROOF का टेक्स्ट पेस्ट करें — प्रामाणिकता जाँचें'
+    : 'Paste COPY PROOF output below to verify authenticity';
+  const vinp = document.getElementById('verify-input');
+  if (vinp) vinp.placeholder = lang === 'hi'
+    ? 'यहाँ प्रूफ टेक्स्ट पेस्ट करें...'
+    : 'Paste proof text here...\n(from COPY PROOF button)';
   // Image button text
   const imgBtn = document.getElementById('img-btn-text');
   if (imgBtn && !document.getElementById('img-preview-wrap').classList.contains('show')) {
@@ -1146,6 +1238,137 @@ function clearImage() {
   document.getElementById('img-btn-text').textContent = lang === 'hi' ? 'स्क्रीनशॉट अपलोड' : 'Upload Screenshot';
 }
 
+/* ══ FORMAT TIME — UI only, NOT in hash payload ══ */
+function formatTime() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes();
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const hh = h % 12 || 12;
+  const mm = String(m).padStart(2,'0');
+  return 'Checked ' + hh + ':' + mm + ' ' + ampm;
+}
+
+/* ══ VERIFY CURRENT RESULT (inline — from hash strip click) ══ */
+async function verifyCurrentResult() {
+  if (!lastResult) return;
+  const el = document.getElementById('inline-verify-result');
+  if (!el) return;
+
+  el.style.display = 'block';
+  el.innerHTML = '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">⟳ Verifying...</span>';
+
+  try {
+    // Send EXACT /decide response — no modification, no timestamp
+    const payload = {
+      decision:    lastResult.decision,
+      intent:      lastResult.intent,
+      fired_rules: lastResult.fired_rules || [],
+      score:       lastResult.score || 0,
+      hash:        lastResult.hash
+    };
+
+    const r = await fetch(ENGINE_BASE + '/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!r.ok) throw new Error('engine');
+    const d = await r.json();
+
+    if (d.valid) {
+      el.innerHTML =
+        '<div style="background:#f0fff4;border:1.5px solid #9ae6b4;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#276749">'+
+        '✅ <strong>Integrity Verified</strong> — Result is authentic and untampered</div>';
+    } else {
+      el.innerHTML =
+        '<div style="background:#fff5f5;border:1.5px solid #feb2b2;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#9b2335">'+
+        '❌ <strong>Proof Invalid</strong> — Result may have been modified</div>';
+    }
+  } catch(e) {
+    el.innerHTML =
+      '<div style="background:#fffaf0;border:1.5px solid #fbd38d;border-radius:6px;padding:7px 10px;font-family:var(--mono);font-size:10px;color:#c05621">'+
+      '⚠ Engine unreachable — cannot verify now</div>';
+  }
+}
+
+/* ══ HASHCHAIN READER — /verify ══ */
+async function doVerify() {
+  const raw = document.getElementById('verify-input').value.trim();
+  if (!raw) return;
+
+  const btn = document.getElementById('verify-btn');
+  const res = document.getElementById('verify-result');
+  btn.disabled = true;
+  btn.textContent = '⟳ Verifying...';
+  res.className = 'verify-result';
+  res.innerHTML = '';
+
+  try {
+    // Parse proof — try JSON first, then RAW_PROOF text
+    let proofObj = null;
+    try { proofObj = JSON.parse(raw); } catch(e) {}
+    if (!proofObj) {
+      const m = raw.match(/RAW_PROOF:(\{[\s\S]+\})/);
+      if (m) { try { proofObj = JSON.parse(m[1]); } catch(e) {} }
+    }
+    if (!proofObj || !proofObj.hash) {
+      res.className = 'verify-result invalid show';
+      res.innerHTML = '⚠ Could not parse proof.<br>Paste JSON or text from COPY PROOF.';
+      return;
+    }
+    // Canonical fields only — NO timestamp in verify payload
+    proofObj = {
+      decision:    proofObj.decision,
+      intent:      proofObj.intent,
+      fired_rules: proofObj.fired_rules || [],
+      score:       proofObj.score || 0,
+      hash:        proofObj.hash
+    };
+    // Send to engine /verify
+    const r = await fetch(ENGINE_BASE + '/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(proofObj)
+    });
+
+    if (!r.ok) throw new Error('Engine error');
+    const d = await r.json();
+
+    if (d.valid) {
+      res.className = 'verify-result valid show';
+      res.innerHTML =
+        '✅ <strong>Integrity Verified</strong><br>' +
+        'This result is authentic and has not been modified.<br>' +
+        '<span style="font-size:9px;opacity:.7">Decision: ' + (proofObj.decision ?? '—') +
+        ' · Intent: ' + (proofObj.intent ?? '—') +
+        ' · Score: ' + (proofObj.score ?? '—') + '</span>'+
+        '<br><span class="verify-advanced" onclick="toggleRaw()">Show proof details</span>' +
+        '<div class="verify-raw" id="verify-raw">Hash: ' + proofObj.hash + '</div>';
+    } else {
+      res.className = 'verify-result invalid show';
+      res.innerHTML =
+        '❌ <strong>Proof Invalid / Modified</strong><br>' +
+        'This result does not match the original engine output.<br>' +
+        'Extra caution advised — proof may have been altered.' +
+        '<br><span class="verify-advanced" onclick="toggleRaw()">Show proof details</span>' +
+        '<div class="verify-raw" id="verify-raw">Submitted: ' + (d.submitted||'—') + '</div>';
+    }
+  } catch(e) {
+    // Engine unreachable — browser-only parse
+    res.className = 'verify-result invalid show';
+    res.innerHTML = '⚠ Engine unreachable.<br>Cannot verify — try when engine is online.';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '⚡ VERIFY PROOF';
+  }
+}
+
+function toggleRaw() {
+  const el = document.getElementById('verify-raw');
+  if (el) el.classList.toggle('show');
+}
+
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('input-text').addEventListener('input',function(){
@@ -1159,7 +1382,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
   applyLang();
   checkHealth();
-  loadStats();
+  loadStats(); // renders session stats on load
 });
 </script>
 </body>
