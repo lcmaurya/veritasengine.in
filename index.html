@@ -1018,6 +1018,55 @@ document.addEventListener('input', e=>{
 });
 
 
+/* ══ SMART OCR CLEANER ══ */
+function smartClean(raw) {
+  const lines = raw.split('\n');
+  const filtered = [];
+
+  for (let line of lines) {
+    let l = line.trim();
+    if (!l) continue;
+
+    // Remove time patterns — 10:42 AM, 9:30, 14:25
+    l = l.replace(/\b\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM|am|pm)?\b/g, '');
+
+    // Remove date patterns — 01/03/26, March 1, Mon
+    l = l.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/gi, '');
+    l = l.replace(/\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/g, '');
+    l = l.replace(/\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{1,2}\b/gi, '');
+
+    // Remove battery/signal UI text
+    l = l.replace(/\b(battery|signal|wifi|bluetooth|charging|\d+%|\d+G|LTE|5G|4G|3G|2G|VoLTE)\b/gi, '');
+
+    // Remove telecom operator names alone on line
+    const telcos = /^(airtel|jio|vi|vodafone|idea|bsnl|mtnl|reliance)$/i;
+    if (telcos.test(l.trim())) continue;
+
+    // Remove notification bar junk — short lines with only symbols/numbers
+    if (l.replace(/[^a-zA-Zऀ-ॿ]/g, '').length < 3) continue;
+
+    // Remove lines that are ONLY uppercase single word (status bar labels)
+    if (/^[A-Z]{2,10}$/.test(l.trim()) && l.trim().length < 8) continue;
+
+    // Remove "Read" / "Delivered" / "Sent" standalone
+    if (/^(Read|Delivered|Sent|Seen|\d+ min ago|Just now|Yesterday|Today)$/i.test(l.trim())) continue;
+
+    // Remove carrier/network lines
+    if (/^(No SIM|SIM \d|Airplane mode|Do not disturb)$/i.test(l.trim())) continue;
+
+    l = l.replace(/[ \t]+/g, ' ').trim();
+    if (l.length > 1) filtered.push(l);
+  }
+
+  // Join and final cleanup
+  let result = filtered.join(' ').replace(/\s{2,}/g, ' ').trim();
+
+  // If result has meaningful content — return it
+  // Otherwise return lightly cleaned original
+  if (result.length > 10) return result;
+  return raw.replace(/[ \t]+/g, ' ').trim();
+}
+
 /* ══ IMAGE UPLOAD + OCR — Tesseract.js ══ */
 function setStatus(msg, type) {
   const el = document.getElementById('img-status');
@@ -1069,14 +1118,13 @@ async function handleImage(event) {
 
       setProgress(90);
 
-      // Step 3 — clean text
-      const cleaned = text.replace(/[ \t]+/g, ' ').trim();
+      // Step 3 — smart clean + filter
+      const cleaned = smartClean(text);
       setProgress(100);
 
       if (cleaned && cleaned.length > 3) {
         document.getElementById('input-text').value = cleaned;
         document.getElementById('char-val').textContent = cleaned.length;
-        // Step 4 — copied to box
         setStatus(lang === 'hi' ? '✅ टेक्स्ट कॉपी हो गया' : '✅ Text copied to box', 'ok');
       } else {
         setStatus(lang === 'hi' ? '⚠ टेक्स्ट नहीं मिला' : '⚠ No text found', 'warn');
