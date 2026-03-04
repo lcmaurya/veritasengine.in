@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -265,6 +266,19 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .verify-raw.show{display:block}
 .modal-cancel{width:100%;padding:9px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--ink3);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-top:4px}
 
+/* PI NETWORK SECTION */
+.pi-section{background:#fff;border:1.5px solid #7c3aed;border-radius:var(--r);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh)}
+.pi-title{font-family:var(--mono);font-size:9px;color:#7c3aed;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
+.pi-body{font-size:11px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
+.pi-btn{width:100%;padding:11px;background:#7c3aed;border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;margin-bottom:6px}
+.pi-btn:hover{background:#6d28d9}
+.pi-btn:disabled{opacity:.4;cursor:not-allowed}
+.pi-status{font-family:var(--mono);font-size:10px;padding:7px 10px;border-radius:6px;display:none;line-height:1.6}
+.pi-status.ok{background:#f0fff4;border:1.5px solid #9ae6b4;color:#276749;display:block}
+.pi-status.err{background:#fff5f5;border:1.5px solid #feb2b2;color:#9b2335;display:block}
+.pi-status.info{background:#eff6ff;border:1.5px solid #93c5fd;color:#1d4ed8;display:block}
+.pi-user{font-family:var(--mono);font-size:10px;color:#7c3aed;margin-bottom:6px;display:none}
+
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:400;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--sh-lg)}
 #toast.show{opacity:1}
@@ -401,6 +415,16 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
       <div class="how-item" id="how3">Rules are fixed — no prediction or guessing</div>
       <div class="how-item" id="how4">Each result is sealed — can be verified later</div>
     </div>
+  </div>
+
+  <!-- PI NETWORK VERIFICATION -->
+  <div class="pi-section">
+    <div class="pi-title">⬡ PI NETWORK</div>
+    <div class="pi-body">Sign in with Pi to support Veritas Guard. This helps verify the app on Pi Network.</div>
+    <div class="pi-user" id="pi-user">👤 <span id="pi-username"></span></div>
+    <button class="pi-btn" id="pi-auth-btn" onclick="piAuthenticate()">Sign in with Pi</button>
+    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()" style="display:none;background:#059669">⬡ Support with Test Pi</button>
+    <div class="pi-status" id="pi-status"></div>
   </div>
 
   <!-- TRUST FOOTER -->
@@ -997,6 +1021,109 @@ function applyLang(){
   renderRate();
 }
 
+/* ══ PI NETWORK SDK ══ */
+const PI_APP_ID = 'veritas-guard'; // Update with your App ID from Pi Developer Portal
+
+function piInit() {
+  try {
+    Pi.init({ version: '2.0', sandbox: true }); // sandbox=true for testnet
+    console.log('Pi SDK initialized');
+  } catch(e) {
+    console.log('Pi SDK not available');
+  }
+}
+
+async function piAuthenticate() {
+  const btn = document.getElementById('pi-auth-btn');
+  const status = document.getElementById('pi-status');
+  btn.disabled = true;
+  btn.textContent = '⟳ Connecting...';
+  status.className = 'pi-status info';
+  status.textContent = 'Connecting to Pi Network...';
+
+  try {
+    const scopes = ['username', 'payments'];
+    const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
+    
+    // Show user
+    const userEl = document.getElementById('pi-user');
+    const usernameEl = document.getElementById('pi-username');
+    userEl.style.display = 'block';
+    usernameEl.textContent = '@' + authResult.user.username;
+
+    status.className = 'pi-status ok';
+    status.textContent = '✅ Signed in as @' + authResult.user.username;
+
+    // Show payment button
+    document.getElementById('pi-pay-btn').style.display = 'block';
+    btn.style.display = 'none';
+
+  } catch(e) {
+    status.className = 'pi-status err';
+    status.textContent = '❌ ' + (e.message || 'Authentication failed');
+    btn.disabled = false;
+    btn.textContent = 'Sign in with Pi';
+  }
+}
+
+async function piPayment() {
+  const btn = document.getElementById('pi-pay-btn');
+  const status = document.getElementById('pi-status');
+  btn.disabled = true;
+  btn.textContent = '⟳ Processing...';
+  status.className = 'pi-status info';
+  status.textContent = '⟳ Initiating test payment...';
+
+  const paymentData = {
+    amount: 0.001, // Minimum test amount
+    memo: 'Veritas Guard — Risk Awareness Tool Support',
+    metadata: { app: 'veritas-guard', type: 'support', version: '1.5' }
+  };
+
+  const callbacks = {
+    onReadyForServerApproval: function(paymentId) {
+      console.log('Payment ready:', paymentId);
+      status.textContent = '⟳ Approving payment...';
+      // In production — call your server here
+      // For testnet — auto approve
+      Pi.currentPayment.approve(paymentId);
+    },
+    onReadyForServerCompletion: function(paymentId, txid) {
+      console.log('Payment complete:', paymentId, txid);
+      Pi.currentPayment.complete(paymentId);
+      status.className = 'pi-status ok';
+      status.textContent = '✅ Payment verified! App verification complete.';
+      btn.textContent = '✅ Verified';
+    },
+    onCancel: function(paymentId) {
+      status.className = 'pi-status err';
+      status.textContent = '⚠ Payment cancelled.';
+      btn.disabled = false;
+      btn.textContent = '⬡ Support with Test Pi';
+    },
+    onError: function(error, payment) {
+      status.className = 'pi-status err';
+      status.textContent = '❌ ' + (error.message || 'Payment error');
+      btn.disabled = false;
+      btn.textContent = '⬡ Support with Test Pi';
+    }
+  };
+
+  try {
+    await Pi.createPayment(paymentData, callbacks);
+  } catch(e) {
+    status.className = 'pi-status err';
+    status.textContent = '❌ ' + (e.message || 'Payment failed');
+    btn.disabled = false;
+    btn.textContent = '⬡ Support with Test Pi';
+  }
+}
+
+function onIncompletePaymentFound(payment) {
+  console.log('Incomplete payment found:', payment);
+  // Handle incomplete payment
+}
+
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('input-text').addEventListener('input',function(){document.getElementById('char-val').textContent=this.value.length;});
@@ -1008,7 +1135,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.modal-overlay').forEach(el=>{
     el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');});
   });
-  applyLang();renderStats();checkHealth();
+  applyLang();renderStats();checkHealth();piInit();
 });
 </script>
 </body>
