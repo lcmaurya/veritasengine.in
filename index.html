@@ -1022,14 +1022,14 @@ function applyLang(){
 }
 
 /* ══ PI NETWORK SDK ══ */
-const PI_APP_ID = 'veritas-guard'; // Frontend only — API Key is server-side only
+// Pi SDK — No App ID required
 
 function piInit() {
-  try {
-    Pi.init({ version: '2.0', sandbox: true }); // sandbox=true for testnet
+  if (window.Pi) {
+    Pi.init({ version: '2.0', sandbox: true });
     console.log('Pi SDK initialized');
-  } catch(e) {
-    console.log('Pi SDK not available');
+  } else {
+    console.log('Pi SDK not available — open in Pi Browser');
   }
 }
 
@@ -1075,7 +1075,7 @@ async function piPayment() {
   status.textContent = '⟳ Initiating test payment...';
 
   const paymentData = {
-    amount: 0.001, // Minimum test amount
+    amount: 0.01, // Recommended testnet amount
     memo: 'Veritas Guard — Risk Awareness Tool Support',
     metadata: { app: 'veritas-guard', type: 'support', version: '1.5' }
   };
