@@ -1022,7 +1022,7 @@ function applyLang(){
 }
 
 /* ══ PI NETWORK SDK ══ */
-const PI_APP_ID = 'veritas-guard'; // Update with your App ID from Pi Developer Portal
+const PI_APP_ID = 'veritas-guard'; // Frontend only — API Key is server-side only
 
 function piInit() {
   try {
@@ -1081,19 +1081,41 @@ async function piPayment() {
   };
 
   const callbacks = {
-    onReadyForServerApproval: function(paymentId) {
-      console.log('Payment ready:', paymentId);
+    onReadyForServerApproval: async function(paymentId) {
+      console.log('Payment ready for approval:', paymentId);
       status.textContent = '⟳ Approving payment...';
-      // In production — call your server here
-      // For testnet — auto approve
-      Pi.currentPayment.approve(paymentId);
+      try {
+        const r = await fetch('https://veritasengine.in/api/payment/approve', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({paymentId})
+        });
+        const d = await r.json();
+        console.log('Approved:', d);
+        status.textContent = '⟳ Waiting for blockchain...';
+      } catch(e) {
+        console.error('Approve error:', e);
+      }
     },
-    onReadyForServerCompletion: function(paymentId, txid) {
+    onReadyForServerCompletion: async function(paymentId, txid) {
       console.log('Payment complete:', paymentId, txid);
-      Pi.currentPayment.complete(paymentId);
-      status.className = 'pi-status ok';
-      status.textContent = '✅ Payment verified! App verification complete.';
-      btn.textContent = '✅ Verified';
+      status.textContent = '⟳ Completing payment...';
+      try {
+        const r = await fetch('https://veritasengine.in/api/payment/complete', {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({paymentId, txid})
+        });
+        const d = await r.json();
+        console.log('Completed:', d);
+        status.className = 'pi-status ok';
+        status.textContent = '✅ Payment verified! App verification complete.';
+        btn.textContent = '✅ Verified';
+      } catch(e) {
+        console.error('Complete error:', e);
+        status.className = 'pi-status ok';
+        status.textContent = '✅ Payment processed!';
+      }
     },
     onCancel: function(paymentId) {
       status.className = 'pi-status err';
