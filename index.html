@@ -420,10 +420,8 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
   <!-- PI NETWORK VERIFICATION -->
   <div class="pi-section">
     <div class="pi-title">⬡ PI NETWORK</div>
-    <div class="pi-body">Sign in with Pi to support Veritas Guard. This helps verify the app on Pi Network.</div>
-    <div class="pi-user" id="pi-user">👤 <span id="pi-username"></span></div>
-    <button class="pi-btn" id="pi-auth-btn" onclick="piAuthenticate()">Sign in with Pi</button>
-    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()" style="display:none;background:#059669">⬡ Support with Test Pi</button>
+    <div class="pi-body">Support Veritas Guard with Pi. This helps verify the app on Pi Network.</div>
+    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()">⬡ Support with 0.01 Test Pi</button>
     <div class="pi-status" id="pi-status"></div>
   </div>
 
@@ -1022,90 +1020,52 @@ function applyLang(){
 }
 
 /* ══ PI NETWORK SDK ══ */
-// Pi SDK — No App ID required
-
-// Pi.init() is called directly in script tag above
-
-async function piAuthenticate() {
-  const btn = document.getElementById('pi-auth-btn');
-  const status = document.getElementById('pi-status');
-  btn.disabled = true;
-  btn.textContent = '⟳ Connecting...';
-  status.className = 'pi-status info';
-  status.textContent = 'Connecting to Pi Network...';
-
-  try {
-    const scopes = ['username', 'payments'];
-    const authResult = await Pi.authenticate(scopes, onIncompletePaymentFound);
-    
-    // Show user
-    const userEl = document.getElementById('pi-user');
-    const usernameEl = document.getElementById('pi-username');
-    userEl.style.display = 'block';
-    usernameEl.textContent = '@' + authResult.user.username;
-
-    status.className = 'pi-status ok';
-    status.textContent = '✅ Signed in as @' + authResult.user.username;
-
-    // Show payment button
-    document.getElementById('pi-pay-btn').style.display = 'block';
-    btn.style.display = 'none';
-
-  } catch(e) {
-    status.className = 'pi-status err';
-    status.textContent = '❌ ' + (e.message || 'Authentication failed');
-    btn.disabled = false;
-    btn.textContent = 'Sign in with Pi';
-  }
-}
-
 async function piPayment() {
   const btn = document.getElementById('pi-pay-btn');
   const status = document.getElementById('pi-status');
+  
+  if (!window.Pi) {
+    status.className = 'pi-status err';
+    status.textContent = '❌ Open in Pi Browser to pay';
+    status.style.display = 'block';
+    return;
+  }
+
   btn.disabled = true;
   btn.textContent = '⟳ Processing...';
   status.className = 'pi-status info';
-  status.textContent = '⟳ Initiating test payment...';
+  status.textContent = '⟳ Opening Pi payment...';
+  status.style.display = 'block';
 
   const paymentData = {
-    amount: 0.01, // Recommended testnet amount
-    memo: 'Veritas Guard — Risk Awareness Tool Support',
-    metadata: { app: 'veritas-guard', type: 'support', version: '1.5' }
+    amount: 0.01,
+    memo: 'Veritas Guard — Risk Awareness Tool',
+    metadata: { app: 'veritas-guard', version: '1.5' }
   };
 
   const callbacks = {
     onReadyForServerApproval: async function(paymentId) {
-      console.log('Payment ready for approval:', paymentId);
-      status.textContent = '⟳ Approving payment...';
+      status.textContent = '⟳ Approving...';
       try {
-        const r = await fetch('https://veritasengine.in/api/payment/approve', {
+        await fetch('https://veritasengine.in/api/payment/approve', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({paymentId})
         });
-        const d = await r.json();
-        console.log('Approved:', d);
-        status.textContent = '⟳ Waiting for blockchain...';
-      } catch(e) {
-        console.error('Approve error:', e);
-      }
+      } catch(e) { console.error('Approve error:', e); }
     },
     onReadyForServerCompletion: async function(paymentId, txid) {
-      console.log('Payment complete:', paymentId, txid);
-      status.textContent = '⟳ Completing payment...';
+      status.textContent = '⟳ Completing...';
       try {
-        const r = await fetch('https://veritasengine.in/api/payment/complete', {
+        await fetch('https://veritasengine.in/api/payment/complete', {
           method: 'POST',
           headers: {'Content-Type':'application/json'},
           body: JSON.stringify({paymentId, txid})
         });
-        const d = await r.json();
-        console.log('Completed:', d);
         status.className = 'pi-status ok';
-        status.textContent = '✅ Payment verified! App verification complete.';
-        btn.textContent = '✅ Verified';
+        status.textContent = '✅ Payment complete! Thank you!';
+        btn.textContent = '✅ Supported';
       } catch(e) {
-        console.error('Complete error:', e);
         status.className = 'pi-status ok';
         status.textContent = '✅ Payment processed!';
       }
@@ -1114,13 +1074,13 @@ async function piPayment() {
       status.className = 'pi-status err';
       status.textContent = '⚠ Payment cancelled.';
       btn.disabled = false;
-      btn.textContent = '⬡ Support with Test Pi';
+      btn.textContent = '⬡ Support with 0.01 Test Pi';
     },
-    onError: function(error, payment) {
+    onError: function(error) {
       status.className = 'pi-status err';
       status.textContent = '❌ ' + (error.message || 'Payment error');
       btn.disabled = false;
-      btn.textContent = '⬡ Support with Test Pi';
+      btn.textContent = '⬡ Support with 0.01 Test Pi';
     }
   };
 
@@ -1128,15 +1088,14 @@ async function piPayment() {
     await Pi.createPayment(paymentData, callbacks);
   } catch(e) {
     status.className = 'pi-status err';
-    status.textContent = '❌ ' + (e.message || 'Payment failed');
+    status.textContent = '❌ ' + (e.message || 'Error — open in Pi Browser');
     btn.disabled = false;
-    btn.textContent = '⬡ Support with Test Pi';
+    btn.textContent = '⬡ Support with 0.01 Test Pi';
   }
 }
 
 function onIncompletePaymentFound(payment) {
-  console.log('Incomplete payment found:', payment);
-  // Handle incomplete payment
+  console.log('Incomplete payment:', payment);
 }
 
 /* ══ INIT ══ */
