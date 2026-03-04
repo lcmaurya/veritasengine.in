@@ -1032,10 +1032,22 @@ async function piPayment() {
   }
 
   btn.disabled = true;
-  btn.textContent = '⟳ Processing...';
+  btn.textContent = '⟳ Connecting...';
   status.className = 'pi-status info';
-  status.textContent = '⟳ Opening Pi payment...';
+  status.textContent = '⟳ Authenticating...';
   status.style.display = 'block';
+
+  // Authenticate first to get payments scope
+  try {
+    await Pi.authenticate(['payments'], onIncompletePaymentFound);
+    status.textContent = '⟳ Opening Pi payment...';
+  } catch(e) {
+    status.className = 'pi-status err';
+    status.textContent = '❌ Auth failed: ' + (e.message || 'Try again');
+    btn.disabled = false;
+    btn.textContent = '⬡ Support with 0.01 Test Pi';
+    return;
+  }
 
   const paymentData = {
     amount: 0.01,
