@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
-<script src="https://sdk.minepi.com/pi-sdk.js" onload="Pi.init({ version: '2.0', sandbox: true })"></script>
+<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -421,7 +421,8 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
   <div class="pi-section">
     <div class="pi-title">⬡ PI NETWORK</div>
     <div class="pi-body">Support Veritas Guard with Pi. This helps verify the app on Pi Network.</div>
-    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()">⬡ Support with 0.01 Test Pi</button>
+    <button class="pi-btn" id="pi-auth-btn" onclick="piAuthenticate()">Sign in with Pi</button>
+    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()" style="display:none;background:#059669">⬡ Support with 0.01 Test Pi</button>
     <div class="pi-status" id="pi-status"></div>
   </div>
 
@@ -1020,94 +1021,41 @@ function applyLang(){
 }
 
 /* ══ PI NETWORK SDK ══ */
-async function piPayment() {
-  const btn = document.getElementById('pi-pay-btn');
-  const status = document.getElementById('pi-status');
-  
-  if (!window.Pi) {
-    status.className = 'pi-status err';
-    status.textContent = '❌ Open in Pi Browser to pay';
-    status.style.display = 'block';
-    return;
-  }
-
-  btn.disabled = true;
-  btn.textContent = '⟳ Connecting...';
-  status.className = 'pi-status info';
-  status.textContent = '⟳ Authenticating...';
-  status.style.display = 'block';
-
-  // Authenticate first to get payments scope
+async function piAuthenticate() {
+  const scopes = ["username","payments"];
   try {
-    await Pi.authenticate(['payments'], onIncompletePaymentFound);
-    status.textContent = '⟳ Opening Pi payment...';
+    const auth = await Pi.authenticate(scopes);
+    console.log("User:", auth.user.username);
+    document.getElementById("pi-auth-btn").style.display = "none";
+    document.getElementById("pi-pay-btn").style.display = "block";
   } catch(e) {
-    status.className = 'pi-status err';
-    status.textContent = '❌ Auth failed: ' + (e.message || 'Try again');
-    btn.disabled = false;
-    btn.textContent = '⬡ Support with 0.01 Test Pi';
-    return;
-  }
-
-  const paymentData = {
-    amount: 0.01,
-    memo: 'Veritas Guard — Risk Awareness Tool',
-    metadata: { app: 'veritas-guard', version: '1.5' }
-  };
-
-  const callbacks = {
-    onReadyForServerApproval: async function(paymentId) {
-      status.textContent = '⟳ Approving...';
-      try {
-        await fetch('https://veritasengine.in/api/payment/approve', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({paymentId})
-        });
-      } catch(e) { console.error('Approve error:', e); }
-    },
-    onReadyForServerCompletion: async function(paymentId, txid) {
-      status.textContent = '⟳ Completing...';
-      try {
-        await fetch('https://veritasengine.in/api/payment/complete', {
-          method: 'POST',
-          headers: {'Content-Type':'application/json'},
-          body: JSON.stringify({paymentId, txid})
-        });
-        status.className = 'pi-status ok';
-        status.textContent = '✅ Payment complete! Thank you!';
-        btn.textContent = '✅ Supported';
-      } catch(e) {
-        status.className = 'pi-status ok';
-        status.textContent = '✅ Payment processed!';
-      }
-    },
-    onCancel: function(paymentId) {
-      status.className = 'pi-status err';
-      status.textContent = '⚠ Payment cancelled.';
-      btn.disabled = false;
-      btn.textContent = '⬡ Support with 0.01 Test Pi';
-    },
-    onError: function(error) {
-      status.className = 'pi-status err';
-      status.textContent = '❌ ' + (error.message || 'Payment error');
-      btn.disabled = false;
-      btn.textContent = '⬡ Support with 0.01 Test Pi';
-    }
-  };
-
-  try {
-    await Pi.createPayment(paymentData, callbacks);
-  } catch(e) {
-    status.className = 'pi-status err';
-    status.textContent = '❌ ' + (e.message || 'Error — open in Pi Browser');
-    btn.disabled = false;
-    btn.textContent = '⬡ Support with 0.01 Test Pi';
+    console.log("Auth error:", e);
   }
 }
 
-function onIncompletePaymentFound(payment) {
-  console.log('Incomplete payment:', payment);
+async function piPayment() {
+  const paymentData = {
+    amount: 0.01,
+    memo: "Veritas Guard Support",
+    metadata: { app: "veritas-guard" }
+  };
+  const callbacks = {
+    onReadyForServerApproval: async function(paymentId){
+      await fetch("https://veritasengine.in/api/payment/approve",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({paymentId})
+      });
+    },
+    onReadyForServerCompletion: async function(paymentId,txid){
+      await fetch("https://veritasengine.in/api/payment/complete",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({paymentId,txid})
+      });
+    }
+  };
+  await Pi.createPayment(paymentData,callbacks);
 }
 
 /* ══ INIT ══ */
@@ -1122,6 +1070,14 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');});
   });
   applyLang();renderStats();checkHealth();
+});
+</script>
+<script>
+window.addEventListener("load", () => {
+  if (window.Pi) {
+    Pi.init({ version: "2.0", sandbox: true });
+    console.log("Pi SDK initialized");
+  }
 });
 </script>
 </body>
