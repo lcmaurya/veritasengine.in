@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
-<script src="https://sdk.minepi.com/pi-sdk.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
@@ -266,18 +265,7 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .verify-raw.show{display:block}
 .modal-cancel{width:100%;padding:9px;background:transparent;border:1.5px solid var(--border);border-radius:8px;color:var(--ink3);font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;margin-top:4px}
 
-/* PI NETWORK SECTION */
-.pi-section{background:#fff;border:1.5px solid #7c3aed;border-radius:var(--r);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh)}
-.pi-title{font-family:var(--mono);font-size:9px;color:#7c3aed;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;font-weight:700}
-.pi-body{font-size:11px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
-.pi-btn{width:100%;padding:11px;background:#7c3aed;border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;margin-bottom:6px}
-.pi-btn:hover{background:#6d28d9}
-.pi-btn:disabled{opacity:.4;cursor:not-allowed}
-.pi-status{font-family:var(--mono);font-size:10px;padding:7px 10px;border-radius:6px;display:none;line-height:1.6}
-.pi-status.ok{background:#f0fff4;border:1.5px solid #9ae6b4;color:#276749;display:block}
-.pi-status.err{background:#fff5f5;border:1.5px solid #feb2b2;color:#9b2335;display:block}
-.pi-status.info{background:#eff6ff;border:1.5px solid #93c5fd;color:#1d4ed8;display:block}
-.pi-user{font-family:var(--mono);font-size:10px;color:#7c3aed;margin-bottom:6px;display:none}
+
 
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:400;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--sh-lg)}
@@ -417,14 +405,6 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     </div>
   </div>
 
-  <!-- PI NETWORK VERIFICATION -->
-  <div class="pi-section">
-    <div class="pi-title">⬡ PI NETWORK</div>
-    <div class="pi-body">Support Veritas Guard with Pi. This helps verify the app on Pi Network.</div>
-    <button class="pi-btn" id="pi-auth-btn" onclick="piAuthenticate()">Sign in with Pi</button>
-    <button class="pi-btn" id="pi-pay-btn" onclick="piPayment()" style="display:none;background:#059669">⬡ Support with 0.01 Test Pi</button>
-    <div class="pi-status" id="pi-status"></div>
-  </div>
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
@@ -1020,53 +1000,6 @@ function applyLang(){
   renderRate();
 }
 
-/* ══ PI NETWORK SDK ══ */
-async function piAuthenticate() {
-  if (!window.Pi) {
-    document.getElementById("pi-status").className = "pi-status err";
-    document.getElementById("pi-status").textContent = "⚠ Open this app in Pi Browser to sign in";
-    document.getElementById("pi-status").style.display = "block";
-    return;
-  }
-  const scopes = ["username","payments"];
-  try {
-    const auth = await Pi.authenticate(scopes);
-    console.log("User:", auth.user.username);
-    document.getElementById("pi-auth-btn").style.display = "none";
-    document.getElementById("pi-pay-btn").style.display = "block";
-  } catch(e) {
-    console.log("Auth error:", e);
-    document.getElementById("pi-status").className = "pi-status err";
-    document.getElementById("pi-status").textContent = "❌ " + (e.message || "Auth failed — try again");
-    document.getElementById("pi-status").style.display = "block";
-  }
-}
-
-async function piPayment() {
-  const paymentData = {
-    amount: 0.01,
-    memo: "Veritas Guard Support",
-    metadata: { app: "veritas-guard" }
-  };
-  const callbacks = {
-    onReadyForServerApproval: async function(paymentId){
-      await fetch("https://veritasengine.in/api/payment/approve",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({paymentId})
-      });
-    },
-    onReadyForServerCompletion: async function(paymentId,txid){
-      await fetch("https://veritasengine.in/api/payment/complete",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({paymentId,txid})
-      });
-    }
-  };
-  await Pi.createPayment(paymentData,callbacks);
-}
-
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('input-text').addEventListener('input',function(){document.getElementById('char-val').textContent=this.value.length;});
@@ -1079,14 +1012,6 @@ document.addEventListener('DOMContentLoaded',()=>{
     el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');});
   });
   applyLang();renderStats();checkHealth();
-});
-</script>
-<script>
-window.addEventListener("load", () => {
-  if (window.Pi) {
-    Pi.init({ version: "2.0", sandbox: true });
-    console.log("Pi SDK initialized");
-  }
 });
 </script>
 </body>
