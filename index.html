@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ═══════════════════════════════════════════
-   VERITAS GUARD v1.6 — DAYLIGHT READABLE
+   VERITAS GUARD v1.14 — DAYLIGHT READABLE
    Explainer + Integrity tool · Not enforcement
 ═══════════════════════════════════════════ */
 :root{
@@ -228,6 +228,33 @@ textarea::placeholder{color:var(--border-strong)}
 .tf2{font-size:11px;color:var(--ink3)}
 
 footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border-strong);padding:10px 0 8px;line-height:2}
+
+/* ══ THREAT LEVEL BADGES ══ */
+.threat-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-family:var(--mono);font-size:11px;font-weight:700;border:1.5px solid;letter-spacing:.5px}
+.threat-LOW{background:#edf2f7;border-color:#cbd5e0;color:#4a5568}
+.threat-MEDIUM{background:#fffaf0;border-color:#fbd38d;color:#c05621}
+.threat-HIGH{background:#fff5f5;border-color:#feb2b2;color:#9b2335}
+.threat-CRITICAL{background:#9b2335;border-color:#9b2335;color:#fff}
+
+/* ══ INTELLIGENCE GRID ══ */
+.intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.intel-item{background:var(--surface2);border:1.5px solid var(--border);border-radius:7px;padding:8px 10px}
+.intel-label{font-family:var(--mono);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-weight:700}
+.intel-value{font-family:var(--mono);font-size:11px;color:var(--ink);font-weight:700;word-break:break-word}
+.intel-full{grid-column:1/-1}
+
+/* ══ TRACE SECTION ══ */
+.trace-wrap{padding:11px 15px;border-bottom:1px solid var(--border)}
+.trace-list{display:flex;flex-direction:column;gap:4px;margin-top:7px}
+.trace-item{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;padding:5px 8px;background:var(--surface2);border-radius:5px;border-left:3px solid var(--brand)}
+.trace-signal{flex:1;color:var(--ink2)}
+.trace-score{font-weight:700;color:var(--brand)}
+
+/* ══ PROOF SECTION ══ */
+.proof-grid{display:flex;flex-direction:column;gap:5px;margin-top:7px}
+.proof-row{display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--surface2);border-radius:5px}
+.proof-key{font-family:var(--mono);font-size:9px;color:var(--ink3);text-transform:uppercase;width:70px;flex-shrink:0;font-weight:700}
+.proof-val{font-family:var(--mono);font-size:10px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
 
 /* VERDICT COLORS */
 .v0-h{background:var(--v0bg);border-bottom:1px solid var(--v0bd)} .v0-icon{border-color:var(--v0bd);color:var(--v0);background:var(--v0bg)} .v0-name{color:var(--v0)} .v0-disc{background:#edf2f7;border-color:var(--v0bd);color:var(--v0)} .v0-fill{background:var(--v0)} .v0-band{color:var(--v0)} .v0-tag{background:var(--v0bg);border-color:var(--v0bd);color:var(--v0)}
@@ -452,7 +479,7 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
-    <div class="tf1">ENGINE <span id="footer-ver">v1.6</span> · RULES FROZEN</div>
+    <div class="tf1">ENGINE <span id="footer-ver">v1.14</span> · RULES FROZEN</div>
     <div class="tf2">Deterministic · No AI · No message storage</div>
   </div>
 
@@ -776,10 +803,20 @@ function renderResult(r,dm){
   const score=r.score||0;
   const rules=r.fired_rules||[];
   const hash=r.hash||'pending';
+  const conf=r.confidence||0;
+  const intent=r.intent||'UNKNOWN';
+  const fraudFamily=r.fraud_family||'—';
+  const attackVector=r.attack_vector||'—';
+  const fingerprint=r.fingerprint||'—';
+  const scamPattern=r.scam_pattern||'—';
+  const patternId=r.pattern_id||'—';
+  const threatLevel=r.threat_level||(['LOW','LOW','MEDIUM','HIGH'][v]||'LOW');
+  const trace=r.trace||[];
   const signals=parseSignals(rules);
   const ver=engineVersion?' · '+engineVersion:'';
   const band=getBand(score,dm);
 
+  // Signal chips
   const sigHTML=['P','M','A','X','C'].map(s=>{
     const on=signals.has(s);const meta=SIG[s];
     const lbl=lang==='hi'?s+' — '+meta.hi:meta.label;
@@ -792,24 +829,59 @@ function renderResult(r,dm){
     ?rules.map(rule=>'<span class="rule-tag v'+v+'-tag">'+rule+'</span>').join('')
     :'<span class="rule-tag" style="background:var(--surface2);border-color:var(--border);color:var(--ink3)">'+dm.noRulesTag+'</span>';
 
+  // Trace HTML
+  const traceHTML=trace.length>0
+    ?trace.map(t=>{
+      const parts=t.split(' ');
+      const sig=parts.slice(0,-1).join(' ')||t;
+      const sc=parts[parts.length-1]||'';
+      return '<div class="trace-item"><span class="trace-signal">'+sig+'</span><span class="trace-score">'+sc+'</span></div>';
+    }).join('')
+    :'<div class="trace-item"><span class="trace-signal">No trace available</span></div>';
+
   document.getElementById('result-card').innerHTML=
-    /* 1. VERDICT */
+    /* 1. VERDICT HEADER */
     '<div class="verdict-header v'+v+'-h">'+
       '<div class="verdict-icon v'+v+'-icon">'+dm.emoji[v]+'</div>'+
       '<div class="verdict-main">'+
         '<div class="verdict-name v'+v+'-name">'+dm.label[v]+'</div>'+
         '<div class="verdict-sub">'+dm.sub[v]+'</div>'+
-        '<div class="verdict-code">'+dm.code[v]+' · '+dm.range[v]+'</div>'+
+        '<div class="verdict-code">'+dm.code[v]+'</div>'+
       '</div>'+
     '</div>'+
-    /* TIMESTAMP — UI only */
+
+    /* TIMESTAMP */
     '<div class="checked-time">'+formatTime()+' · Based on known risk signals</div>'+
-    /* 2. HASHCHAIN — always visible */
+
+    /* 2. RISK INTELLIGENCE PANEL */
+    '<div style="padding:12px 15px;border-bottom:1px solid var(--border);background:var(--surface)">'+
+      '<div class="section-title">RISK INTELLIGENCE</div>'+
+      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+
+        '<span class="threat-badge threat-'+threatLevel+'">⬤ '+threatLevel+'</span>'+
+        '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">Threat Level</span>'+
+      '</div>'+
+      '<div class="intel-grid">'+
+        '<div class="intel-item">'+
+          '<div class="intel-label">Decision Score</div>'+
+          '<div class="intel-value v'+v+'-name">'+score+'</div>'+
+        '</div>'+
+        '<div class="intel-item">'+
+          '<div class="intel-label">Confidence</div>'+
+          '<div class="intel-value">'+conf+'%</div>'+
+        '</div>'+
+        (fraudFamily!=='—'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
+        (attackVector!=='—'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
+        (scamPattern!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
+        (patternId!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Pattern ID</div><div class="intel-value" style="font-size:9px">'+patternId+'</div></div>':'')+
+      '</div>'+
+    '</div>'+
+
+    /* 3. HASHCHAIN */
     '<div class="hash-strip">'+
       '<div class="hash-strip-top">'+
         '<span class="hash-lock">🔒</span>'+
         '<span class="hash-title">'+dm.hashTitle+ver+'</span>'+
-        '<span class="hash-what" onclick="openModal(\'hash-modal\')">'+dm.hashLearn+'</span>'+
+        '<span class="hash-what" onclick="openModal(&quot;hash-modal&quot;)">'+dm.hashLearn+'</span>'+
       '</div>'+
       '<div class="hash-mono-row">'+
         '<span class="hash-mono-val">'+hash+'</span>'+
@@ -818,28 +890,77 @@ function renderResult(r,dm){
       '<button class="hash-verify-btn" onclick="openVerifyModal()">🔍 '+dm.hashVerify+'</button>'+
       '<div class="inline-verify-result" id="inline-verify-result"></div>'+
     '</div>'+
-    /* 3. DISCLAIMER */
+
+    /* 4. DISCLAIMER */
     '<div class="result-disc v'+v+'-disc">'+dm.disc2+'</div>'+
-    /* 4. SUMMARY */
+
+    /* 5. SUMMARY */
     '<div class="summary">'+dm.summary[v]+'</div>'+
-    /* 5. SIGNAL BREAKDOWN */
+
+    /* 6. SIGNAL TRACE */
+    '<div class="trace-wrap">'+
+      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ta&quot;,&quot;tb&quot;)">'+
+        '<span class="caret" id="ta">▶</span> SIGNAL TRACE'+
+      '</div>'+
+      '<div style="font-size:10px;color:var(--ink3);margin-top:3px;font-style:italic">How this message triggered risk signals</div>'+
+      '<div class="collapsible-body trace-list" id="tb">'+traceHTML+'</div>'+
+    '</div>'+
+
+    /* 7. SIGNAL BREAKDOWN */
     '<div class="signals-wrap">'+
       '<div class="section-title">SIGNAL BREAKDOWN</div>'+
       '<div class="signals-grid">'+sigHTML+'</div>'+sigDef+
     '</div>'+
-    /* 6. SIGNAL STRENGTH */
+
+    /* 8. SIGNAL STRENGTH */
     '<div class="conf-wrap">'+
       '<div class="conf-top"><span>SIGNAL STRENGTH</span><span class="conf-pct v'+v+'-name">'+score+'</span></div>'+
       '<div class="conf-track"><div class="conf-fill v'+v+'-fill" id="conf-fill"></div></div>'+
       '<div class="conf-band v'+v+'-band">'+band+'</div>'+
       '<div class="conf-note">'+dm.confNote+'</div>'+
     '</div>'+
-    /* 7. MATCHED PATTERNS */
+
+    /* 9. FRAUD INTELLIGENCE */
+    (fraudFamily!=='—'||fingerprint!=='—'?
+    '<div style="padding:11px 15px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)">'+
+      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ia&quot;,&quot;ib&quot;)">'+
+        '<span class="caret" id="ia">▶</span> FRAUD INTELLIGENCE'+
+      '</div>'+
+      '<div class="collapsible-body" id="ib" style="margin-top:7px">'+
+        '<div class="intel-grid">'+
+          (fraudFamily!=='—'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
+          (attackVector!=='—'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
+          (fingerprint!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Fraud Fingerprint</div><div class="intel-value" style="font-size:9px">'+fingerprint+'</div></div>':'')+
+          (threatLevel!=='—'?'<div class="intel-item"><div class="intel-label">Threat Level</div><div class="intel-value"><span class="threat-badge threat-'+threatLevel+'">'+threatLevel+'</span></div></div>':'')+
+          (scamPattern!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
+        '</div>'+
+      '</div>'+
+    '</div>':'') +
+
+    /* 10. MATCHED PATTERNS */
     '<div class="rules-wrap">'+
-      '<div class="collapsible-hdr" onclick="toggleSec(\'ra\',\'rb\')"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
+      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ra&quot;,&quot;rb&quot;)"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
       '<div class="collapsible-body" id="rb">'+rulesHTML+'</div>'+
     '</div>'+
-    /* 8. ACTIONS */
+
+    /* 11. CRYPTOGRAPHIC PROOF */
+    '<div style="padding:11px 15px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)">'+
+      '<div class="collapsible-hdr" onclick="toggleSec(&quot;pa&quot;,&quot;pb&quot;)">'+
+        '<span class="caret" id="pa">▶</span> CRYPTOGRAPHIC DECISION PROOF'+
+      '</div>'+
+      '<div class="collapsible-body" id="pb" style="margin-top:7px;flex-direction:column">'+
+        '<div class="proof-grid">'+
+          '<div class="proof-row"><span class="proof-key">Decision</span><span class="proof-val">'+v+'</span></div>'+
+          '<div class="proof-row"><span class="proof-key">Intent</span><span class="proof-val">'+intent+'</span></div>'+
+          '<div class="proof-row"><span class="proof-key">Score</span><span class="proof-val">'+score+'</span></div>'+
+          '<div class="proof-row"><span class="proof-key">Hash</span><span class="proof-val">'+hash+'</span>'+
+            '<button class="hash-copy-btn" onclick="copyHash()" style="flex-shrink:0">📋</button>'+
+          '</div>'+
+        '</div>'+
+      '</div>'+
+    '</div>'+
+
+    /* 12. ACTIONS */
     '<div class="actions-wrap">'+
       '<div class="action-btns">'+
         '<button class="act-btn btn-share" onclick="shareResult()">'+dm.share+'</button>'+
@@ -848,13 +969,15 @@ function renderResult(r,dm){
       '<button class="btn-verify-proof" onclick="openVerifyModal()">🔍 '+dm.verifyProof+'</button>'+
       '<div class="action-note">'+dm.actNote+'</div>'+
     '</div>'+
-    /* 9. SAFE NOTICE */
+
+    /* 13. SAFE NOTICE */
     '<div class="safe-notice">'+dm.safeNotice+'</div>'+
-    /* 10. FEEDBACK */
+
+    /* 14. FEEDBACK */
     '<div class="fb-wrap">'+
       '<span class="fb-lbl">'+dm.fbLbl+'</span>'+
-      '<button class="fb-btn" id="fb-yes" onclick="giveFb(\'yes\')">'+dm.fbYes+'</button>'+
-      '<button class="fb-btn" id="fb-no" onclick="giveFb(\'no\')">'+dm.fbNo+'</button>'+
+      '<button class="fb-btn" id="fb-yes" onclick="giveFb(&quot;yes&quot;)">'+dm.fbYes+'</button>'+
+      '<button class="fb-btn" id="fb-no" onclick="giveFb(&quot;no&quot;)">'+dm.fbNo+'</button>'+
       '<span class="fb-thanks" id="fb-thanks">'+dm.fbThanks+'</span>'+
     '</div>';
 
@@ -871,13 +994,18 @@ function buildProof(){
   const payload={decision:r.decision,intent:r.intent,fired_rules:r.fired_rules||[],score:r.score||0,hash:r.hash};
   return 'VERITAS GUARD — RISK ANALYSIS\n'+
     '================================\n'+
-    'Verdict : '+dm.label[v]+'\n'+
-    'Decision: '+dm.code[v]+'\n'+
-    'Score   : '+(r.score||0)+'\n'+
-    'Intent  : '+(r.intent||'UNKNOWN')+'\n'+
-    'Rules   : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
-    'Hash    : '+(r.hash||'pending')+'\n'+
-    'Engine  : '+(engineVersion||'v1.6')+' · RULES FROZEN\n'+
+    'Verdict       : '+dm.label[v]+'\n'+
+    'Threat Level  : '+(r.threat_level||'—')+'\n'+
+    'Decision      : '+dm.code[v]+'\n'+
+    'Score         : '+(r.score||0)+'\n'+
+    'Confidence    : '+(r.confidence||0)+'%\n'+
+    'Intent        : '+(r.intent||'UNKNOWN')+'\n'+
+    'Fraud Family  : '+(r.fraud_family||'—')+'\n'+
+    'Attack Vector : '+(r.attack_vector||'—')+'\n'+
+    'Scam Pattern  : '+(r.scam_pattern||'—')+'\n'+
+    'Rules         : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
+    'Hash          : '+(r.hash||'pending')+'\n'+
+    'Engine        : '+(engineVersion||'v1.14')+' · RULES FROZEN\n'+
     '================================\n'+
     'NOTE: Risk patterns only — not a fraud verdict.\n'+
     'Verify: '+ENGINE_BASE+'/verify\n\n'+
