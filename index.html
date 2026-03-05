@@ -277,9 +277,13 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 .upi-copy:hover{background:#f59e0b;color:#fff}
 .upi-note{font-family:var(--mono);font-size:9px;color:var(--ink3);text-align:center}
 
-/* REPORT */
-.report-btn{width:100%;padding:10px;background:transparent;border:1.5px solid var(--v3bd);border-radius:7px;color:var(--v3);font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:700;transition:all .2s;margin-top:6px}
-.report-btn:hover{background:var(--v3bg)}
+
+
+/* REPORT SCAM */
+.report-wrap{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh);text-align:center}
+.report-note{font-size:11px;color:var(--ink3);margin-bottom:8px;line-height:1.5}
+.report-scam-button{width:100%;padding:11px;background:var(--brand);border:none;border-radius:8px;color:#fff;font-family:var(--mono);font-weight:700;font-size:12px;cursor:pointer;transition:all .2s;letter-spacing:.3px}
+.report-scam-button:hover{background:var(--brand2);transform:translateY(-1px)}
 
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:400;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--sh-lg)}
@@ -405,6 +409,14 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     </div>
   </div>
 
+  <!-- REPORT SCAM PATTERN -->
+  <div class="report-wrap">
+    <p class="report-note">Help improve scam detection by reporting suspicious messages.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
+      <button class="report-scam-button">🚨 Report Scam Pattern</button>
+    </a>
+  </div>
+
   <!-- DISCLAIMER -->
   <div class="info-card">
     <div class="info-title" id="disc-title">⚠ DISCLAIMER</div>
@@ -434,11 +446,8 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     <div class="upi-note" id="upi-note">UPI · Google Pay · PhonePe · Paytm — all work</div>
   </div>
 
-  <!-- REPORT SCAM -->
-  <div class="info-card">
-    <div class="info-title" id="report-title">🚨 REPORT A SCAM PATTERN</div>
     <p class="info-body" id="report-body">Found a new scam pattern not detected by engine? Report it to help improve detection.</p>
-    <button class="report-btn" id="report-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWKb02NyPKuBsTR9E931uVidELeM1TuJHE07--txd6wYxWfA/viewform','_blank')">📝 Report Scam Pattern</button>
+    <button class="report-btn" id="report-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform','_blank')">📝 Report Scam Pattern</button>
   </div>
 
   <!-- TRUST FOOTER -->
