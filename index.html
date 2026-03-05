@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Veritas Guard — Risk Awareness Tool</title>
-<link rel="manifest" href="/manifest.json">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -268,6 +267,20 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
 
 
 
+/* DONATION */
+.donate-card{background:#fff;border:1.5px solid #f59e0b;border-radius:var(--r);padding:13px 15px;margin-bottom:10px;box-shadow:var(--sh)}
+.donate-title{font-family:var(--mono);font-size:10px;color:#b45309;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:5px;font-weight:700}
+.donate-body{font-size:12px;color:var(--ink2);line-height:1.6;margin-bottom:10px}
+.upi-row{display:flex;align-items:center;gap:8px;background:#fffbeb;border:1.5px solid #f59e0b;border-radius:7px;padding:9px 12px;margin-bottom:8px}
+.upi-id{font-family:var(--mono);font-size:13px;color:#b45309;font-weight:700;flex:1}
+.upi-copy{background:transparent;border:1.5px solid #f59e0b;border-radius:5px;padding:4px 10px;font-family:var(--mono);font-size:10px;color:#b45309;cursor:pointer;font-weight:700;transition:all .2s}
+.upi-copy:hover{background:#f59e0b;color:#fff}
+.upi-note{font-family:var(--mono);font-size:9px;color:var(--ink3);text-align:center}
+
+/* REPORT */
+.report-btn{width:100%;padding:10px;background:transparent;border:1.5px solid var(--v3bd);border-radius:7px;color:var(--v3);font-family:var(--mono);font-size:11px;cursor:pointer;font-weight:700;transition:all .2s;margin-top:6px}
+.report-btn:hover{background:var(--v3bg)}
+
 /* TOAST */
 #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--ink);border-radius:7px;padding:8px 18px;font-family:var(--mono);font-size:11px;color:#fff;z-index:400;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;font-weight:700;box-shadow:var(--sh-lg)}
 #toast.show{opacity:1}
@@ -330,6 +343,9 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     <div class="lang-row">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
+      <button class="lang-btn" id="btn-ta" onclick="setLang('ta')">தமிழ்</button>
+      <button class="lang-btn" id="btn-bn" onclick="setLang('bn')">বাংলা</button>
+      <button class="lang-btn" id="btn-gu" onclick="setLang('gu')">ગુજ</button>
     </div>
     <div class="field-lbl" id="lbl-usecase">USE CASE</div>
     <select id="usecase">
@@ -406,6 +422,24 @@ footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--borde
     </div>
   </div>
 
+
+  <!-- DONATION -->
+  <div class="donate-card">
+    <div class="donate-title">❤️ SUPPORT THIS PROJECT</div>
+    <p class="donate-body" id="donate-body">If Veritas Guard helped you avoid a scam, you can support development. Every contribution helps keep this tool free.</p>
+    <div class="upi-row">
+      <span class="upi-id">lal7590-7@okicici</span>
+      <button class="upi-copy" onclick="copyUPI()">📋 Copy</button>
+    </div>
+    <div class="upi-note" id="upi-note">UPI · Google Pay · PhonePe · Paytm — all work</div>
+  </div>
+
+  <!-- REPORT SCAM -->
+  <div class="info-card">
+    <div class="info-title" id="report-title">🚨 REPORT A SCAM PATTERN</div>
+    <p class="info-body" id="report-body">Found a new scam pattern not detected by engine? Report it to help improve detection.</p>
+    <button class="report-btn" id="report-btn" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSdWKb02NyPKuBsTR9E931uVidELeM1TuJHE07--txd6wYxWfA/viewform','_blank')">📝 Report Scam Pattern</button>
+  </div>
 
   <!-- TRUST FOOTER -->
   <div class="trust-footer">
@@ -598,6 +632,9 @@ const DM = {
 /* UI TEXT */
 const TXT={
   en:{tagline:'Risk Pattern Explainer · Not an enforcement tool',lblUsecase:'USE CASE',lblInput:'MESSAGE / SMS / LINK',btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',nd1:'No Login',nd2:'No Storage',nd3:'Deterministic Rules',lbl_total:'Total',lbl_today:'Today',rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',discTitle:'⚠ DISCLAIMER',discBody:'This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.',howTitle:'HOW THIS WORKS',how1:'No login required — works instantly',how2:'Message content is never stored',how3:'Rules are fixed — no prediction or guessing',how4:'Each result is sealed — can be verified later',exTitle:'TRY AN EXAMPLE',exSub:'Simulated messages for testing only',ex1:'🚨 Try scam-pattern example',ex2:'🏦 Try bank SMS example',ex3:'🏛 Try government advisory example',limitTitle:'Daily Limit Reached',limitText:'You have used all 10 analyses for today.<br>Please try again after 24 hours.'},
+  ta:{tagline:'அபாய பாட்டர்ன் விளக்கி · அமலாக்க கருவி அல்ல',lblUsecase:'பயன்பாட்டு வகை',lblInput:'செய்தி / SMS / இணைப்பு',btnText:'⚡ அபாய சமிக்ஞைகளை பகுப்பாய்வு செய்',analyzing:'பகுப்பாய்வு...',nd1:'உள்நுழைவு இல்லை',nd2:'சேமிப்பு இல்லை',nd3:'நிர்ணய விதிகள்',lbl_total:'மொத்தம்',lbl_today:'இன்று',rateText:'மீதமுள்ளது:',rateWarn:'தினசரி வரம்பு முடிந்தது.',discTitle:'⚠ மறுப்பு',discBody:'இந்த கருவி அறியப்பட்ட சமிக்ஞைகளின் அடிப்படையில் மட்டுமே அபாய முறைகளை காட்டுகிறது.',howTitle:'இது எப்படி செயல்படுகிறது',how1:'உள்நுழைவு தேவையில்லை',how2:'செய்தி உள்ளடக்கம் சேமிக்கப்படவில்லை',how3:'விதிகள் நிலையானவை',how4:'ஒவ்வொரு முடிவும் முத்திரையிடப்பட்டது',exTitle:'உதாரணம் முயற்சிக்கவும்',exSub:'சோதனைக்கு மட்டும்',ex1:'🚨 மோசடி உதாரணம்',ex2:'🏦 வங்கி SMS உதாரணம்',ex3:'🏛 அரசு அறிவிப்பு',limitTitle:'தினசரி வரம்பு',limitText:'இன்றைய 10 பகுப்பாய்வுகளை பயன்படுத்தினீர்கள்.<br>24 மணி நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.'},
+  bn:{tagline:'ঝুঁকি প্যাটার্ন ব্যাখ্যাকারী · প্রয়োগকারী সরঞ্জাম নয়',lblUsecase:'ব্যবহারের ধরন',lblInput:'বার্তা / SMS / লিংক',btnText:'⚡ ঝুঁকি সংকেত বিশ্লেষণ করুন',analyzing:'বিশ্লেষণ হচ্ছে...',nd1:'লগইন নেই',nd2:'স্টোরেজ নেই',nd3:'নির্ধারক নিয়ম',lbl_total:'মোট',lbl_today:'আজ',rateText:'বাকি:',rateWarn:'দৈনিক সীমা শেষ।',discTitle:'⚠ দায়বর্জন',discBody:'এই সরঞ্জামটি কেবল পরিচিত সংকেতের উপর ভিত্তি করে ঝুঁকির প্যাটার্ন দেখায়।',howTitle:'এটি কীভাবে কাজ করে',how1:'লগইন প্রয়োজন নেই',how2:'বার্তার বিষয়বস্তু সংরক্ষিত হয় না',how3:'নিয়ম স্থির',how4:'প্রতিটি ফলাফল সিলমোহর করা',exTitle:'উদাহরণ চেষ্টা করুন',exSub:'শুধুমাত্র পরীক্ষার জন্য',ex1:'🚨 স্ক্যাম উদাহরণ',ex2:'🏦 ব্যাংক SMS উদাহরণ',ex3:'🏛 সরকারি বিজ্ঞপ্তি',limitTitle:'দৈনিক সীমা',limitText:'আজকের ১০টি বিশ্লেষণ ব্যবহার করেছেন।<br>২৪ ঘণ্টা পরে আবার চেষ্টা করুন।'},
+  gu:{tagline:'જોખમ પેટર્ન સમજાવનાર · અમલ સાધન નહીં',lblUsecase:'ઉપયોગ પ્રકાર',lblInput:'સંદેશ / SMS / લિંક',btnText:'⚡ જોખમ સંકેતો તપાસો',analyzing:'વિશ્લેષણ...',nd1:'લૉગિન નહીં',nd2:'સ્ટોરેજ નહીં',nd3:'નિર્ધારક નિયમો',lbl_total:'કુલ',lbl_today:'આજ',rateText:'બાકી:',rateWarn:'દૈનિક મર્યાદા સમાપ્ત.',discTitle:'⚠ અસ્વીકરણ',discBody:'આ સાધન ફક્ત જ્ઞાત સંકેતોના આધારે જોખમ પેટર્ન બતાવે છે.',howTitle:'આ કેવી રીતે કામ કરે છે',how1:'લૉગિન જરૂરી નથી',how2:'સંદેશ સામગ્રી સંગ્રહિત નથી',how3:'નિયમો નિશ્ચિત છે',how4:'દરેક પરિણામ સીલ કરેલું',exTitle:'ઉદાહરણ અજમાવો',exSub:'ફક્ત પરીક્ષણ માટે',ex1:'🚨 સ્કેમ ઉદાહરણ',ex2:'🏦 બેંક SMS ઉદાહરણ',ex3:'🏛 સરકારી સૂચના',limitTitle:'દૈનિક મર્યાદા',limitText:'આજના ૧૦ વિશ્લેષણ વાપર્યા.<br>૨૪ કલાક પછી ફરી પ્રયાસ કરો.'},
   hi:{tagline:'जोखिम पैटर्न व्याख्याकार · प्रवर्तन उपकरण नहीं',lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',lbl_total:'कुल',lbl_today:'आज',rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त।',discTitle:'⚠ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'यह कैसे काम करता है',how1:'कोई लॉगिन नहीं',how2:'संदेश सामग्री संग्रहीत नहीं',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'प्रत्येक परिणाम सील — बाद में जाँच योग्य',exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं',ex1:'🚨 स्कैम पैटर्न उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।'}
 };
 
@@ -913,6 +950,10 @@ function toggleVerifyRaw(){document.getElementById('verify-raw').classList.toggl
 /* ══ HELPERS ══ */
 function toggleSec(ca,ba){const c=document.getElementById(ca);const b=document.getElementById(ba);if(c)c.classList.toggle('open');if(b)b.classList.toggle('open');}
 function giveFb(t){const y=document.getElementById('fb-yes');const n=document.getElementById('fb-no');const th=document.getElementById('fb-thanks');if(!y||!n)return;y.disabled=true;n.disabled=true;y.classList.toggle('sel',t==='yes');n.classList.toggle('sel',t==='no');if(th)th.classList.add('show');}
+function copyUPI(){
+  navigator.clipboard.writeText('lal7590-7@okicici').then(()=>showToast('UPI copied — open any payment app! ✅'));
+}
+
 function showToast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 function openModal(id){document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');}
@@ -994,6 +1035,9 @@ function applyLang(){
   document.querySelectorAll('#usecase option').forEach(o=>{o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;});
   document.getElementById('btn-en').classList.toggle('active',lang==='en');
   document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
+  const taBtn=document.getElementById('btn-ta');if(taBtn)taBtn.classList.toggle('active',lang==='ta');
+  const bnBtn=document.getElementById('btn-bn');if(bnBtn)bnBtn.classList.toggle('active',lang==='bn');
+  const guBtn=document.getElementById('btn-gu');if(guBtn)guBtn.classList.toggle('active',lang==='gu');
   const imgBtn=document.getElementById('img-btn-text');
   if(imgBtn&&!document.getElementById('img-preview-wrap').classList.contains('show'))imgBtn.textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
   const vta=document.getElementById('verify-ta');
