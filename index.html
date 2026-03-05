@@ -797,6 +797,35 @@ function formatTime(){
   return 'Checked '+hh+':'+mm+' '+ap;
 }
 
+/* ══ THREAT MESSAGE ══ */
+function getThreatMessage(threatLevel, intent, dm) {
+  // Bank confirmation — always show safe message regardless of score
+  if (intent === 'BANK_CONFIRMATION' || intent === 'SAFE') {
+    return 'Transaction patterns detected. This message appears to be a normal bank confirmation.';
+  }
+  // Threat level based messages
+  switch(threatLevel) {
+    case 'LOW':
+      return lang==='hi'
+        ? 'कोई मजबूत जोखिम पैटर्न नहीं मिला। यह सुरक्षितता की गारंटी नहीं है।'
+        : 'Transaction patterns detected. This message appears to be a normal bank confirmation.';
+    case 'MEDIUM':
+      return lang==='hi'
+        ? 'कुछ संदिग्ध पैटर्न मिले। कार्रवाई से पहले प्रेषक की जाँच करें।'
+        : 'Some suspicious patterns detected. Verify the sender before taking action.';
+    case 'HIGH':
+      return lang==='hi'
+        ? 'उच्च जोखिम पैटर्न मिले। लिंक पर क्लिक न करें और जानकारी साझा न करें।'
+        : 'High risk scam patterns detected. Avoid clicking links or sharing information.';
+    case 'CRITICAL':
+      return lang==='hi'
+        ? 'गंभीर स्कैम संकेत मिले। इस संदेश से बिल्कुल संपर्क न करें।'
+        : 'Severe scam indicators detected. Do not interact with this message.';
+    default:
+      return dm.summary[0];
+  }
+}
+
 /* ══ RENDER RESULT ══ */
 function renderResult(r,dm){
   const v=r.decision!==undefined?r.decision:0;
@@ -894,8 +923,8 @@ function renderResult(r,dm){
     /* 4. DISCLAIMER */
     '<div class="result-disc v'+v+'-disc">'+dm.disc2+'</div>'+
 
-    /* 5. SUMMARY */
-    '<div class="summary">'+dm.summary[v]+'</div>'+
+    /* 5. SUMMARY — dynamic based on threat_level */
+    '<div class="summary">'+getThreatMessage(threatLevel,intent,dm)+'</div>'+
 
     /* 6. SIGNAL TRACE */
     '<div class="trace-wrap">'+
