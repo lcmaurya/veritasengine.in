@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Veritas Guard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f0ede8;--surface:#fff;--border:#d4cfc8;
+  --ink:#1a1714;--ink2:#3d3830;--ink3:#6b6560;
+  --brand:#1d4ed8;--brand2:#1e40af;
+  --mono:'Space Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --r:10px;
+  --sh:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);min-height:100vh;-webkit-font-smoothing:antialiased}
+#app{max-width:480px;margin:0 auto;padding:24px 14px 60px}
+
+/* HEADER */
+.header{text-align:center;padding:24px 0 18px;border-bottom:1px solid var(--border);margin-bottom:20px}
+.logo-row{display:inline-flex;align-items:center;gap:9px;margin-bottom:5px;text-decoration:none}
+.logo-icon{width:32px;height:32px;background:var(--brand);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.logo-name{font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);letter-spacing:-1px}
+.page-title{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.page-date{font-family:var(--mono);font-size:10px;color:var(--ink3)}
+
+/* CARD */
+.card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:12px;box-shadow:var(--sh)}
+.section-title{font-family:var(--mono);font-size:10px;color:var(--brand);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;font-weight:700}
+.section-body{font-size:13px;color:var(--ink2);line-height:1.8}
+.section-body p{margin-bottom:8px}
+.section-body p:last-child{margin-bottom:0}
+
+/* HIGHLIGHT BOX */
+.highlight{background:#eff6ff;border:1.5px solid #93c5fd;border-radius:7px;padding:10px 14px;margin:10px 0;font-family:var(--mono);font-size:11px;color:var(--brand);line-height:1.8}
+
+/* GREEN BOX */
+.safe-box{background:#f0fff4;border:1.5px solid #9ae6b4;border-radius:7px;padding:10px 14px;margin:10px 0;font-family:var(--mono);font-size:11px;color:#276749;line-height:1.8}
+
+/* BACK BUTTON */
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--brand);border:none;border-radius:7px;color:#fff;font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;text-decoration:none;transition:background .2s;margin-top:4px}
+.back-btn:hover{background:var(--brand2)}
+
+footer{text-align:center;font-family:var(--mono);font-size:9px;color:var(--border);padding:10px 0;line-height:2}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <a class="logo-row" href="/">
+      <div class="logo-icon">🛡</div>
+      <div class="logo-name">Veritas Guard</div>
+    </a>
+    <div class="page-title">Privacy Policy</div>
+    <div class="page-date">Effective: March 2026 · Version 1.0</div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="card">
+    <div class="section-title">🔒 SUMMARY</div>
+    <div class="safe-box">
+      ✅ No login required<br>
+      ✅ No messages stored<br>
+      ✅ No personal data collected<br>
+      ✅ No tracking or analytics<br>
+      ✅ No third-party data sharing
+    </div>
+    <div class="section-body">
+      <p>Veritas Guard is a free public safety tool. We are committed to protecting your privacy. This policy explains what we do and do not collect.</p>
+    </div>
+  </div>
+
+  <!-- WHAT WE COLLECT -->
+  <div class="card">
+    <div class="section-title">📋 WHAT WE COLLECT</div>
+    <div class="section-body">
+      <p>Veritas Guard does <strong>not</strong> collect, store, or transmit any personal information.</p>
+      <p>When you submit a message for analysis:</p>
+    </div>
+    <div class="highlight">
+      · Message text is sent to the Veritas Engine for analysis only<br>
+      · Analysis result is returned immediately<br>
+      · Message content is NOT stored on any server<br>
+      · No user account or identity is required
+    </div>
+    <div class="section-body">
+      <p>Usage statistics (scan count, flagged count) are stored locally on your device only using browser localStorage. This data never leaves your device.</p>
+    </div>
+  </div>
+
+  <!-- WHAT WE DON'T COLLECT -->
+  <div class="card">
+    <div class="section-title">🚫 WHAT WE DO NOT COLLECT</div>
+    <div class="section-body">
+      <p>We do not collect:</p>
+    </div>
+    <div class="highlight">
+      · Your name, email, or phone number<br>
+      · Your location or IP address<br>
+      · Your device information<br>
+      · Your browsing history<br>
+      · Your message content (not stored)<br>
+      · Any cookies for tracking
+    </div>
+  </div>
+
+  <!-- ENGINE & ANALYSIS -->
+  <div class="card">
+    <div class="section-title">⚙️ HOW ANALYSIS WORKS</div>
+    <div class="section-body">
+      <p>When you click "Analyze Risk Signals", the text you entered is sent to the Veritas Engine — a deterministic rules-based system hosted at veritasengine.in.</p>
+      <p>The engine applies fixed, frozen rules to detect risk patterns. It does not use AI, machine learning, or any form of user profiling.</p>
+      <p>The result is returned to your screen only. The message is not logged, stored, or used for any other purpose.</p>
+    </div>
+  </div>
+
+  <!-- OCR -->
+  <div class="card">
+    <div class="section-title">📷 IMAGE / OCR FEATURE</div>
+    <div class="section-body">
+      <p>If you use the screenshot upload feature, image processing (OCR) runs entirely in your browser using Tesseract.js.</p>
+      <p>Your image is never uploaded to any server. All text extraction happens locally on your device.</p>
+    </div>
+    <div class="safe-box">✅ Images never leave your device</div>
+  </div>
+
+  <!-- THIRD PARTY -->
+  <div class="card">
+    <div class="section-title">🔗 THIRD PARTY SERVICES</div>
+    <div class="section-body">
+      <p>Veritas Guard uses the following third-party resources for display only:</p>
+    </div>
+    <div class="highlight">
+      · Google Fonts — for typography only<br>
+      · Tesseract.js CDN — for OCR (runs locally)<br>
+      · No advertising networks<br>
+      · No analytics services<br>
+      · No social media trackers
+    </div>
+  </div>
+
+  <!-- CHILDREN -->
+  <div class="card">
+    <div class="section-title">👶 CHILDREN'S PRIVACY</div>
+    <div class="section-body">
+      <p>Veritas Guard does not knowingly collect any information from children under 13. Since we collect no personal data at all, this tool is safe for general use.</p>
+    </div>
+  </div>
+
+  <!-- CHANGES -->
+  <div class="card">
+    <div class="section-title">📝 CHANGES TO THIS POLICY</div>
+    <div class="section-body">
+      <p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated effective date.</p>
+      <p>Continued use of Veritas Guard after changes means you accept the updated policy.</p>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div class="card">
+    <div class="section-title">📬 CONTACT</div>
+    <div class="section-body">
+      <p>If you have any questions about this Privacy Policy, you can reach us through the Report Scam Pattern form on the main page.</p>
+      <p>Website: <strong>veritasengine.in</strong></p>
+    </div>
+    <br>
+    <a class="back-btn" href="/">← Back to Veritas Guard</a>
+  </div>
+
+  <footer>© Veritas Guard · veritasengine.in · Free Public Safety Tool</footer>
+</div>
+</body>
+</html>
