@@ -899,11 +899,12 @@ function renderResult(r,dm){
 
     /* 6. SIGNAL TRACE */
     '<div class="trace-wrap">'+
-      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ta&quot;,&quot;tb&quot;)">'+
-        '<span class="caret" id="ta">▶</span> SIGNAL TRACE'+
+      '<div class="collapsible-hdr" onclick="toggleTrace()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center">'+
+        '<span>▶ SIGNAL TRACE <span style=\"font-size:9px;font-weight:400;color:var(--ink3);\">(Explainability)</span></span>'+
+        '<span id="trace-toggle-icon" style=\"font-size:10px\">▼</span>'+
       '</div>'+
       '<div style="font-size:10px;color:var(--ink3);margin-top:3px;font-style:italic">How this message triggered risk signals</div>'+
-      '<div class="collapsible-body trace-list" id="tb">'+traceHTML+'</div>'+
+      '<div id="trace-body" style="display:none;margin-top:7px" class="trace-list">'+traceHTML+'</div>'+
     '</div>'+
 
     /* 7. SIGNAL BREAKDOWN */
@@ -1085,6 +1086,19 @@ async function doVerify(){
 function toggleVerifyRaw(){document.getElementById('verify-raw').classList.toggle('show');}
 
 /* ══ HELPERS ══ */
+function toggleTrace(){
+  const body=document.getElementById('trace-body');
+  const icon=document.getElementById('trace-toggle-icon');
+  if(!body||!icon)return;
+  if(body.style.display==='none'){
+    body.style.display='block';
+    icon.textContent='▲';
+  }else{
+    body.style.display='none';
+    icon.textContent='▼';
+  }
+}
+
 function toggleSec(ca,ba){const c=document.getElementById(ca);const b=document.getElementById(ba);if(c)c.classList.toggle('open');if(b)b.classList.toggle('open');}
 function giveFb(t){const y=document.getElementById('fb-yes');const n=document.getElementById('fb-no');const th=document.getElementById('fb-thanks');if(!y||!n)return;y.disabled=true;n.disabled=true;y.classList.toggle('sel',t==='yes');n.classList.toggle('sel',t==='no');if(th)th.classList.add('show');}
 function copyUPI(){
