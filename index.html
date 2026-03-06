@@ -797,28 +797,38 @@ function formatTime(){
   return 'Checked '+hh+':'+mm+' '+ap;
 }
 
-/* ══ THREAT MESSAGE ══ */
-function getThreatMessage(threatLevel, intent, dm) {
-  // Bank confirmation — always show safe message regardless of score
+/* ══ THREAT MESSAGE — Layered Detection ══ */
+function getThreatMessage(threatLevel, intent, score, dm) {
+  const hi = lang === 'hi';
+
+  // Layer 1: Rule score = 0 but pattern context exists
+  if (score === 0 && threatLevel !== 'LOW') {
+    if(hi) return 'नियम-आधारित स्कोर: कोई मिलान नहीं।<br>पैटर्न इंटेलिजेंस: संदिग्ध संदर्भ मिला।<br>अतिरिक्त सतर्कता की सलाह — अंतिम निर्णय नहीं।';
+    return 'Rule-based score: No match found.<br>Pattern intelligence: Suspicious context detected.<br>Extra caution advised — this is not a final verdict.';
+  }
+
+  // Layer 2: Bank confirmation
   if (intent === 'BANK_CONFIRMATION' || intent === 'SAFE') {
+    if(hi) return 'लेनदेन पैटर्न मिला। यह एक सामान्य बैंक पुष्टि संदेश लगता है।';
     return 'Transaction patterns detected. This message appears to be a normal bank confirmation.';
   }
-  // Threat level based messages
+
+  // Layer 3: Threat level based
   switch(threatLevel) {
     case 'LOW':
-      return lang==='hi'
+      return hi
         ? 'कोई मजबूत जोखिम पैटर्न नहीं मिला। यह सुरक्षितता की गारंटी नहीं है।'
-        : 'Transaction patterns detected. This message appears to be a normal bank confirmation.';
+        : 'No strong risk patterns found. This does not guarantee the message is safe.';
     case 'MEDIUM':
-      return lang==='hi'
+      return hi
         ? 'कुछ संदिग्ध पैटर्न मिले। कार्रवाई से पहले प्रेषक की जाँच करें।'
         : 'Some suspicious patterns detected. Verify the sender before taking action.';
     case 'HIGH':
-      return lang==='hi'
+      return hi
         ? 'उच्च जोखिम पैटर्न मिले। लिंक पर क्लिक न करें और जानकारी साझा न करें।'
-        : 'High risk scam patterns detected. Avoid clicking links or sharing information.';
+        : 'High risk patterns detected. Avoid clicking links or sharing information.';
     case 'CRITICAL':
-      return lang==='hi'
+      return hi
         ? 'गंभीर स्कैम संकेत मिले। इस संदेश से बिल्कुल संपर्क न करें।'
         : 'Severe scam indicators detected. Do not interact with this message.';
     default:
@@ -885,6 +895,16 @@ function renderResult(r,dm){
     /* 2. RISK INTELLIGENCE PANEL */
     '<div style="padding:12px 15px;border-bottom:1px solid var(--border);background:var(--surface)">'+
       '<div class="section-title">RISK INTELLIGENCE</div>'+
+      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
+        '<span style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;background:#eff6ff;border:1px solid #93c5fd;color:#1d4ed8">'+
+          '⚙ Rule Score: '+score+
+        '</span>'+
+        (function(){
+          var bg=score===0&&threatLevel!=="LOW"?"background:#fffaf0;border:1px solid #fbd38d;color:#c05621":"background:#f0fff4;border:1px solid #9ae6b4;color:#276749";
+          var label=score===0&&threatLevel!=="LOW"?"⚠ Pattern: ":"✅ Pattern: ";
+          return "<span style=\"font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;"+bg+"\">"+label+threatLevel+"</span>";
+        })()+
+      '</div>'+
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+
         '<span class="threat-badge threat-'+threatLevel+'">⬤ '+threatLevel+'</span>'+
         '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">Threat Level</span>'+
@@ -924,7 +944,7 @@ function renderResult(r,dm){
     '<div class="result-disc v'+v+'-disc">'+dm.disc2+'</div>'+
 
     /* 5. SUMMARY — dynamic based on threat_level */
-    '<div class="summary">'+getThreatMessage(threatLevel,intent,dm)+'</div>'+
+    '<div class="summary">'+getThreatMessage(threatLevel,intent,score,dm)+'</div>'+
 
     /* 6. SIGNAL TRACE */
     '<div class="trace-wrap">'+
