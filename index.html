@@ -1537,10 +1537,10 @@ function renderResult(r,dm){
           '<div class="intel-label">Confidence</div>'+
           '<div class="intel-value">'+conf+'%</div>'+
         '</div>'+
-        (fraudFamily!=='—'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
-        (attackVector!=='—'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
-        (scamPattern!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
-        (patternId!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Pattern ID</div><div class="intel-value" style="font-size:9px">'+patternId+'</div></div>':'')+
+        (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
+        (attackVector!=='—'&&attackVector!=='UNKNOWN'&&attackVector!=='NONE'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
+        (scamPattern!=='—'&&scamPattern!=='UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
+        (patternId!=='—'&&patternId!=='UNKNOWN_PATTERN'?'<div class="intel-item intel-full"><div class="intel-label">Pattern ID</div><div class="intel-value" style="font-size:9px">'+patternId+'</div></div>':'')+
       '</div>'+
     '</div>'+
 
@@ -1590,18 +1590,18 @@ function renderResult(r,dm){
     '</div>'+
 
     /* 9. FRAUD INTELLIGENCE */
-    (fraudFamily!=='—'||fingerprint!=='—'?
+    (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'||attackVector!=='—'&&attackVector!=='UNKNOWN'||scamPattern!=='—'&&scamPattern!=='UNKNOWN'?
     '<div style="padding:11px 15px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)">'+
       '<div class="collapsible-hdr" onclick="toggleSec(&quot;ia&quot;,&quot;ib&quot;)">'+
         '<span class="caret" id="ia">▶</span> FRAUD INTELLIGENCE'+
       '</div>'+
       '<div class="collapsible-body" id="ib" style="margin-top:7px">'+
         '<div class="intel-grid">'+
-          (fraudFamily!=='—'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
-          (attackVector!=='—'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
-          (fingerprint!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Fraud Fingerprint</div><div class="intel-value" style="font-size:9px">'+fingerprint+'</div></div>':'')+
-          (threatLevel!=='—'?'<div class="intel-item"><div class="intel-label">Threat Level</div><div class="intel-value"><span class="threat-badge threat-'+threatLevel+'">'+threatLevel+'</span></div></div>':'')+
-          (scamPattern!=='—'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
+          (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
+          (attackVector!=='—'&&attackVector!=='UNKNOWN'&&attackVector!=='NONE'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
+          (fingerprint!=='—'&&fingerprint!=='UNKNOWN_UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Fraud Fingerprint</div><div class="intel-value" style="font-size:9px">'+fingerprint+'</div></div>':'')+
+          '<div class="intel-item"><div class="intel-label">Threat Level</div><div class="intel-value"><span class="threat-badge threat-'+threatLevel+'">'+({"LOW":"🟢","MEDIUM":"🟡","HIGH":"🟠","CRITICAL":"🔴"}[threatLevel]||"⬤")+' '+threatLevel+'</span></div></div>'+
+          (scamPattern!=='—'&&scamPattern!=='UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
         '</div>'+
       '</div>'+
     '</div>':'') +
