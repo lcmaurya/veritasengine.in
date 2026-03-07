@@ -904,7 +904,7 @@ textarea::placeholder{color:var(--ink4)}
 
 <!-- MARQUEE -->
 <div id="warn-bar">
-  <span id="warn-text">⚠ This tool shows risk patterns only. It does NOT confirm fraud, block messages, or guarantee safety. Final decision is always yours. · यह टूल केवल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।</span>
+  <span id="warn-text">⚠️ This tool only gives a warning — Final decision is always yours. We do not guarantee anything. · ⚠️ यह टूल केवल सावधानी देता है — अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।</span>
 </div>
 
 <div id="app">
@@ -1175,94 +1175,94 @@ const SIG = {
 /* ══ DECISION MAP ══ */
 const DM = {
   en:{
-    label:  ['No Pattern Detected','Attention Required','Risk Patterns Detected','Multiple Risk Patterns Detected'],
+    label:  ['Nothing unusual found','Something seems unusual','Several unusual things found','Many unusual things found'],
     sub:    [
-      'No known risk signals found in this message.',
-      'Weak or partial risk signals detected. Verify before acting.',
-      'Multiple risk patterns detected. Signals commonly seen in scams.',
-      'Strong risk signals detected. Avoid action until verified independently.'
+      'We did not notice anything unusual.',
+      'We noticed something. Please check once.',
+      'We noticed several things. Please verify before acting.',
+      'We noticed many things. Please do not act right now.'
     ],
-    code:   ['DECISION 0','DECISION 1','DECISION 2','DECISION 3'],
+    code:   ['⚪ ALL CLEAR','🟡 CHECK ONCE','🟠 PLEASE VERIFY','🔴 DO NOT ACT YET'],
     range:  ['Signal 0–20%','Signal 20–45%','Signal 45–75%','Signal 75–100%'],
-    emoji:  ['—','!','⚠','✖'],
+    emoji:  ['✅','⚠️','🚨','🛑'],
     disc:   [
-      'No patterns found. This does not mean the message is safe.',
-      'Weak signals detected. Verify the sender before any action.',
-      'Multiple risk patterns found. Extra caution advised.',
-      'Strong risk signals. Avoid action until verified independently.'
+      'Nothing unusual found. But always stay careful.',
+      'Something seemed unusual. Please verify the sender.',
+      'Several unusual things found. Please check with someone before acting.',
+      'Many unusual things found. Please check with someone before acting.'
     ],
     summary:[
-      'No known risk patterns were found. This does not guarantee the message is safe. Final decision is always yours.',
-      'Weak risk signals detected. Verify the sender independently before taking any action.',
-      'Multiple risk patterns detected. These are signals commonly seen in scams. Extra caution is advised.',
-      'Strong risk signals detected. Avoid sharing details, clicking links, or making payments until you have independently verified the source.'
+      'We did not notice anything unusual in this message. But this is not a guarantee. Final decision is always yours.',
+      'We noticed something unusual. Please verify the sender personally before taking any action. Final decision is always yours.',
+      'We noticed several things that seem unusual. Please check with a trusted person before taking any action. Final decision is always yours.',
+      'We noticed many things that seem unusual. Please do not click any link, share any number or make any payment right now. First check with a trusted person. Final decision is always yours.'
     ],
     bands:[
-      {max:20, label:'Very low signal — no strong patterns matched'},
-      {max:45, label:'Weak signal — partial patterns matched'},
-      {max:75, label:'Moderate signal — multiple patterns matched'},
-      {max:101,label:'Strong signal — high-risk patterns matched'}
+      {max:20, label:'Very low — nothing much found'},
+      {max:45, label:'Low — something noticed'},
+      {max:75, label:'Medium — several things noticed'},
+      {max:101,label:'High — many things noticed'}
     ],
-    confNote:'Signal strength shows how many known risk patterns matched — not a fraud verdict.',
-    noRulesTag:'No patterns triggered',
-    ruleHdr:'MATCHED PATTERNS',
-    hashTitle:'✅ Result Integrity Sealed',
-    hashCopy:'Copy Hash',
+    confNote:'This number shows how many unusual patterns were noticed — it is not a final verdict.',
+    noRulesTag:'Nothing specific noticed',
+    ruleHdr:'WHAT WE NOTICED',
+    hashTitle:'✅ Result is Sealed',
+    hashCopy:'Copy',
     hashLearn:'What is this?',
-    hashVerify:'Verify Integrity',
-    hashCopied:'Hash copied ✓',
-    safeNotice:'Risk patterns are based on known signals only. Extra caution is advised — this is not a final verdict. Final decision is always yours.',
-    disc2:'This tool detects risk patterns. It does NOT say fraud, block anything, or decide for you.',
-    fbLbl:'Was this result clear?',fbYes:'Yes',fbNo:'Unclear',
-    fbThanks:'Thanks. Feedback noted (anonymous).',
-    share:'SHARE',copy:'COPY PROOF',verifyProof:'VERIFY PROOF',
-    actNote:'Includes: decision · intent · fired_rules · score · hash',
-    toastCopy:'Proof copied — verify anytime using Verify Proof',
-    toastHash:'Hash copied ✓',
+    hashVerify:'Check Result',
+    hashCopied:'Copied ✓',
+    safeNotice:'⚠️ This is only a caution. Final decision is always yours. We do not guarantee anything.',
+    disc2:'This tool only gives a warning ⚠️ — it does NOT confirm fraud, block anything, or decide for you.',
+    fbLbl:'Was this helpful?',fbYes:'Yes',fbNo:'Not clear',
+    fbThanks:'Thank you. Your feedback helps us.',
+    share:'📤 Share',copy:'📋 Copy',verifyProof:'🔍 Check',
+    actNote:'Proof includes: decision · score · hash',
+    toastCopy:'Copied — you can verify anytime',
+    toastHash:'Copied ✓',
     copy:'📋 Copy Proof',
-    fbYes:'👍 Helpful',
-    fbNo:'👎 Not Helpful',
-    verifyProof:'Verify Proof'
+    fbYes:'👍 Yes, helpful',
+    fbNo:'👎 Not clear',
+    verifyProof:'🔍 Verify'
   },
   hi:{
-    label:  ['कोई पैटर्न नहीं','ध्यान दें','जोखिम पैटर्न मिले','कई जोखिम पैटर्न मिले'],
+    label:  ['कोई अजीब बात नहीं मिली','कुछ अजीब लगा','कई अजीब बातें मिलीं','बहुत सी अजीब बातें मिलीं'],
     sub:    [
-      'इस संदेश में कोई ज्ञात जोखिम संकेत नहीं मिले।',
-      'कमजोर संकेत मिले। कार्रवाई से पहले जाँचें।',
-      'कई जोखिम पैटर्न मिले। स्कैम में आमतौर पर ऐसे संकेत होते हैं।',
-      'मजबूत जोखिम संकेत। स्वतंत्र रूप से जाँचे बिना कोई कार्रवाई न करें।'
+      'हमें कुछ भी असामान्य नहीं लगा।',
+      'हमें कुछ अजीब लगा। एक बार जाँच करें।',
+      'हमें कई अजीब बातें मिलीं। कोई कदम उठाने से पहले जाँचें।',
+      'हमें बहुत सी अजीब बातें मिलीं। अभी कोई कदम न उठाएं।'
     ],
-    code:   ['निर्णय 0','निर्णय 1','निर्णय 2','निर्णय 3'],
+    code:   ['⚪ सब ठीक लगा','🟡 एक बार जाँचें','🟠 पहले जाँचें','🔴 अभी कुछ न करें'],
     range:  ['संकेत 0–20%','संकेत 20–45%','संकेत 45–75%','संकेत 75–100%'],
-    emoji:  ['—','!','⚠','✖'],
+    emoji:  ['✅','⚠️','🚨','🛑'],
     disc:   [
-      'कोई पैटर्न नहीं। यह सुरक्षित होने की गारंटी नहीं है।',
-      'कमजोर संकेत। कोई भी कार्रवाई से पहले जाँचें।',
-      'कई जोखिम पैटर्न मिले। अतिरिक्त सावधानी बरतें।',
-      'मजबूत संकेत। स्वतंत्र जाँच के बिना कोई कार्रवाई न करें।'
+      'कुछ अजीब नहीं मिला। फिर भी सावधान रहें।',
+      'कुछ अजीब लगा। भेजने वाले को खुद जाँचें।',
+      'कई अजीब बातें मिलीं। कोई भी कदम उठाने से पहले किसी से पूछें।',
+      'बहुत सी अजीब बातें मिलीं। किसी से पूछे बिना कुछ न करें।'
     ],
     summary:[
-      'कोई ज्ञात जोखिम पैटर्न नहीं मिला। यह सुरक्षितता की गारंटी नहीं है।',
-      'कमजोर संकेत मिले। कोई भी कार्रवाई से पहले स्रोत की स्वतंत्र जाँच करें।',
-      'कई जोखिम पैटर्न मिले। ये स्कैम में आमतौर पर देखे जाने वाले संकेत हैं। अतिरिक्त सावधानी की सलाह दी जाती है।',
-      'मजबूत जोखिम संकेत मिले। स्रोत की स्वतंत्र जाँच किए बिना कोई विवरण साझा न करें, लिंक न खोलें, या भुगतान न करें।'
+      'हमें इस संदेश में कुछ अजीब नहीं लगा। लेकिन यह सुरक्षित होने की गारंटी नहीं है। अंतिम निर्णय हमेशा आपका है।',
+      'हमें कुछ अजीब लगा। कोई भी कदम उठाने से पहले भेजने वाले को खुद से जाँचें। अंतिम निर्णय हमेशा आपका है।',
+      'हमें कई अजीब बातें मिलीं। कोई भी लिंक न खोलें, कोई नंबर न दें जब तक किसी भरोसेमंद इंसान से न पूछ लें। अंतिम निर्णय हमेशा आपका है।',
+      'हमें बहुत सी अजीब बातें मिलीं। अभी कोई लिंक न खोलें, कोई OTP या पैसे न दें। पहले घर के किसी समझदार इंसान से पूछें। अंतिम निर्णय हमेशा आपका है।'
     ],
     bands:[
-      {max:20, label:'बहुत कम संकेत — कोई मजबूत पैटर्न नहीं'},
-      {max:45, label:'कमजोर संकेत — आंशिक पैटर्न'},
-      {max:75, label:'मध्यम संकेत — कई पैटर्न'},
-      {max:101,label:'मजबूत संकेत — उच्च जोखिम पैटर्न'}
+      {max:20, label:'बहुत कम — कुछ खास नहीं मिला'},
+      {max:45, label:'कम — कुछ मिला'},
+      {max:75, label:'मध्यम — कई बातें मिलीं'},
+      {max:101,label:'ज़्यादा — बहुत सी बातें मिलीं'}
     ],
-    confNote:'संकेत शक्ति दिखाती है कि कितने जोखिम पैटर्न मिले — यह धोखाधड़ी की पुष्टि नहीं है।',
-    noRulesTag:'कोई पैटर्न नहीं मिला',
-    ruleHdr:'मिले पैटर्न',
-    hashTitle:'✅ परिणाम अखंडता सील',
-    hashCopy:'हैश कॉपी',
+    confNote:'यह संख्या बताती है कितनी अजीब बातें मिलीं — यह धोखाधड़ी की पुष्टि नहीं है।',
+    noRulesTag:'कुछ खास नहीं मिला',
+    ruleHdr:'क्या क्या मिला',
+    hashTitle:'✅ परिणाम सील है',
+    hashCopy:'कॉपी करें',
     hashLearn:'यह क्या है?',
-    hashVerify:'अखंडता जाँचें',
-    hashCopied:'हैश कॉपी हो गया ✓',
-    safeNotice:'जोखिम पैटर्न केवल ज्ञात संकेतों पर आधारित हैं। अतिरिक्त सावधानी की सलाह — यह अंतिम निर्णय नहीं है।',
-    disc2:'यह टूल जोखिम पैटर्न दिखाता है। यह धोखाधड़ी नहीं कहता, कुछ ब्लॉक नहीं करता।',
+    hashVerify:'जाँचें',
+    hashCopied:'कॉपी हो गया ✓',
+    safeNotice:'⚠️ यह केवल एक सावधानी है। अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।',
+    disc2:'यह टूल केवल ⚠️ चेतावनी देता है — यह धोखाधड़ी की पुष्टि नहीं करता, कुछ ब्लॉक नहीं करता, और आपके लिए निर्णय नहीं लेता।',
     fbLbl:'क्या यह परिणाम स्पष्ट था?',fbYes:'हाँ',fbNo:'अस्पष्ट',
     fbThanks:'धन्यवाद। फीडबैक दर्ज।',
     share:'शेयर',copy:'प्रूफ कॉपी',verifyProof:'प्रूफ जाँचें',
@@ -1414,36 +1414,37 @@ function formatTime(){
 function getThreatMessage(threatLevel, intent, score, dm) {
   const hi = lang === 'hi';
 
-  // Layer 1: Rule score = 0 but pattern context exists
-  if (score === 0 && threatLevel !== 'LOW') {
-    if(hi) return 'नियम-आधारित स्कोर: कोई मिलान नहीं।<br>पैटर्न इंटेलिजेंस: संदिग्ध संदर्भ मिला।<br>अतिरिक्त सतर्कता की सलाह — अंतिम निर्णय नहीं।';
-    return 'Rule-based score: No match found.<br>Pattern intelligence: Suspicious context detected.<br>Extra caution advised — this is not a final verdict.';
-  }
-
-  // Layer 2: Bank confirmation
+  // Bank confirmation — safe message
   if (intent === 'BANK_CONFIRMATION' || intent === 'SAFE') {
-    if(hi) return 'लेनदेन पैटर्न मिला। यह एक सामान्य बैंक पुष्टि संदेश लगता है।';
-    return 'Transaction patterns detected. This message appears to be a normal bank confirmation.';
+    return hi
+      ? 'हमें यह एक सामान्य बैंक संदेश लगा। फिर भी सावधान रहें। अंतिम निर्णय आपका है।'
+      : 'This looks like a normal bank message. But always stay careful. Final decision is always yours.';
   }
 
-  // Layer 3: Threat level based
+  // Score 0 but pattern flagged
+  if (score === 0 && threatLevel !== 'LOW') {
+    return hi
+      ? 'हमें कोई सीधा पैटर्न नहीं मिला लेकिन यह संदेश पहले से देखे गए कुछ प्रकारों से मिलता जुलता है। एक बार जाँच ज़रूर करें।'
+      : 'Nothing specific found but this message resembles some known types. Please verify once before acting.';
+  }
+
   switch(threatLevel) {
     case 'LOW':
       return hi
-        ? 'कोई मजबूत जोखिम पैटर्न नहीं मिला। यह सुरक्षितता की गारंटी नहीं है।'
-        : 'No strong risk patterns found. This does not guarantee the message is safe.';
+        ? 'हमें कुछ अजीब नहीं लगा। लेकिन यह गारंटी नहीं है। अंतिम निर्णय आपका है।'
+        : 'Nothing unusual found. But this is not a guarantee. Final decision is always yours.';
     case 'MEDIUM':
       return hi
-        ? 'कुछ संदिग्ध पैटर्न मिले। कार्रवाई से पहले प्रेषक की जाँच करें।'
-        : 'Some suspicious patterns detected. Verify the sender before taking action.';
+        ? 'हमें कुछ अजीब लगा। कोई कदम उठाने से पहले भेजने वाले को खुद जाँचें। अंतिम निर्णय आपका है।'
+        : 'Something seemed unusual. Please verify the sender before taking any action. Final decision is always yours.';
     case 'HIGH':
       return hi
-        ? 'उच्च जोखिम पैटर्न मिले। लिंक पर क्लिक न करें और जानकारी साझा न करें।'
-        : 'High risk patterns detected. Avoid clicking links or sharing information.';
+        ? 'हमें कई अजीब बातें मिलीं। अभी कोई लिंक न खोलें और न कोई जानकारी दें। पहले किसी से पूछें। अंतिम निर्णय आपका है।'
+        : 'Several unusual things noticed. Do not click any link or share any information right now. Please check with someone first. Final decision is always yours.';
     case 'CRITICAL':
       return hi
-        ? 'गंभीर स्कैम संकेत मिले। इस संदेश से बिल्कुल संपर्क न करें।'
-        : 'Severe scam indicators detected. Do not interact with this message.';
+        ? 'हमें बहुत सी अजीब बातें मिलीं। अभी कुछ भी न करें। घर के किसी समझदार इंसान से पूछें। अंतिम निर्णय आपका है।'
+        : 'Many unusual things noticed. Please do not do anything right now. Check with a trusted person first. Final decision is always yours.';
     default:
       return dm.summary[0];
   }
