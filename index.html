@@ -15,24 +15,24 @@
 ═══════════════════════════════════════ */
 :root{
   /* Core palette */
-  --bg:#F2F4F8;
+  --bg:#F7F8FC;
   --surface:#FFFFFF;
-  --surface2:#F8F9FC;
-  --surface3:#EEF1F8;
-  --border:#E2E6F0;
+  --surface2:#F5F6FA;
+  --surface3:#EAF2FF;
+  --border:#E6E8F0;
   --border-strong:#C8CEDF;
 
   /* Ink */
   --ink:#0D1117;
   --ink2:#374151;
   --ink3:#6B7280;
-  --ink4:#9CA3AF;
+  --ink4:#8A8FA3;
 
-  /* Brand — deep indigo */
-  --brand:#2C2FEB;
-  --brand2:#1E21C0;
-  --brand3:#F0F0FF;
-  --brand-glow:rgba(44,47,235,.15);
+  /* Brand — security blue */
+  --brand:#2C3E9F;
+  --brand2:#3949FF;
+  --brand3:#EAF2FF;
+  --brand-glow:rgba(44,62,159,.15);
 
   /* Verdict colors */
   --v0:#374151; --v0bg:#F3F4F6; --v0bd:#D1D5DB;
@@ -50,7 +50,7 @@
   --r-xs:6px;
 
   /* Shadows */
-  --sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.07);
+  --sh:0 6px 20px rgba(0,0,0,.05);
   --sh-lg:0 8px 32px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);
   --sh-brand:0 4px 20px rgba(44,47,235,.25);
 }
@@ -84,13 +84,13 @@ body{
 
 /* ── HEADER ── */
 .header{
-  background:linear-gradient(145deg,#1a1c2e 0%,#2C2FEB 60%,#5C5FF5 100%);
+  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
   border-radius:24px;
   padding:28px 20px 24px;
   margin-bottom:16px;
   position:relative;
   overflow:hidden;
-  box-shadow:var(--sh-brand);
+  box-shadow:0 8px 28px rgba(44,62,159,.3);
 }
 .header::before{
   content:'';position:absolute;top:-40px;right:-40px;
@@ -145,11 +145,11 @@ body{
   border:1.5px solid;cursor:pointer;transition:all .2s;
   position:relative;z-index:1;
 }
-.engine-pill.online{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.4);color:#34D399}
+.engine-pill.online{background:#16A34A;border-color:#16A34A;color:#fff;font-weight:700}
 .engine-pill.offline{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#FCA5A5}
 .engine-pill.checking{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
 .dot{width:7px;height:7px;border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
-.engine-pill.online .dot{background:#34D399}
+.engine-pill.online .dot{background:#fff}
 .engine-pill.offline .dot{background:#FCA5A5}
 .engine-pill.checking .dot{background:rgba(255,255,255,.5)}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
@@ -173,7 +173,7 @@ body{
 }
 .stat-num{
   font-size:26px;font-weight:800;
-  color:var(--brand);line-height:1;
+  color:#2C3E9F;line-height:1;
   margin-bottom:4px;
 }
 .stat-lbl{font-size:11px;font-weight:600;color:var(--ink2);margin-bottom:2px}
@@ -214,7 +214,7 @@ body{
   background:transparent;color:var(--ink3);
   cursor:pointer;transition:all .2s;
 }
-.lang-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 2px 8px var(--brand-glow)}
+.lang-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(44,62,159,.2)}
 .lang-btn:hover:not(.active){background:var(--surface3);color:var(--ink)}
 
 /* FIELD LABELS */
@@ -284,14 +284,14 @@ select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--b
 /* ANALYZE BUTTON */
 #analyze-btn{
   width:100%;padding:16px;
-  background:linear-gradient(135deg,#2C2FEB 0%,#5C5FF5 100%);
+  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
   border:none;border-radius:14px;
   color:#fff;
   font-family:var(--sans);font-size:15px;font-weight:800;
   cursor:pointer;
   letter-spacing:.3px;
   transition:all .25s;
-  box-shadow:0 4px 20px rgba(44,47,235,.35);
+  box-shadow:0 4px 20px rgba(44,62,159,.25);
   position:relative;overflow:hidden;
 }
 #analyze-btn::after{
@@ -302,7 +302,7 @@ select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--b
 }
 #analyze-btn:hover{
   transform:translateY(-2px);
-  box-shadow:0 8px 28px rgba(44,47,235,.45);
+  box-shadow:0 8px 28px rgba(44,62,159,.35);
 }
 #analyze-btn:active{transform:translateY(0)}
 #analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
@@ -337,13 +337,13 @@ textarea::placeholder{color:var(--ink4)}
 /* ANALYZE BUTTON */
 .analyze-btn{
   width:100%;padding:15px;
-  background:linear-gradient(135deg,var(--brand) 0%,#5C5FF5 100%);
+  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
   border:none;border-radius:var(--r-sm);
   color:#fff;
   font-family:var(--sans);font-size:14px;font-weight:700;
   cursor:pointer;letter-spacing:.2px;
   transition:all .25s;
-  box-shadow:var(--sh-brand);
+  box-shadow:0 8px 28px rgba(44,62,159,.3);
   margin-top:14px;
 }
 .analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--brand-glow)}
@@ -428,9 +428,9 @@ textarea::placeholder{color:var(--ink4)}
   font-family:var(--mono);font-size:11px;font-weight:700;
   border:1.5px solid;letter-spacing:.5px;
 }
-.threat-LOW{background:#F3F4F6;border-color:#D1D5DB;color:#374151}
-.threat-MEDIUM{background:#FFFBEB;border-color:#FCD34D;color:#92400E}
-.threat-HIGH{background:#FEF3C7;border-color:#FBBF24;color:#78350F}
+.threat-LOW{background:#DCFCE7;border-color:#86EFAC;color:#166534}
+.threat-MEDIUM{background:#FEF9C3;border-color:#FDE047;color:#713F12}
+.threat-HIGH{background:#FFEDD5;border-color:#FB923C;color:#7C2D12}
 .threat-CRITICAL{background:#991B1B;border-color:#991B1B;color:#fff}
 
 /* INTELLIGENCE GRID */
@@ -454,7 +454,7 @@ textarea::placeholder{color:var(--ink4)}
 /* HASH STRIP */
 .hash-strip{
   padding:14px 18px;
-  background:linear-gradient(135deg,#1a1c2e,#2C2FEB);
+  background:linear-gradient(135deg,#1a2057,#2C3E9F);
   border-top:1px solid rgba(255,255,255,.1);
 }
 .hash-strip-top{display:flex;align-items:center;gap:7px;margin-bottom:8px}
@@ -630,7 +630,7 @@ textarea::placeholder{color:var(--ink4)}
 .btn-copy:hover{background:var(--surface3);border-color:var(--brand);color:var(--brand)}
 .btn-verify-proof{
   width:100%;padding:11px;
-  background:linear-gradient(135deg,#1a1c2e,#2C2FEB);
+  background:linear-gradient(135deg,#1a2057,#2C3E9F);
   border:none;border-radius:var(--r-sm);
   font-family:var(--sans);font-size:12px;font-weight:700;
   color:#fff;cursor:pointer;transition:all .2s;
@@ -708,14 +708,14 @@ textarea::placeholder{color:var(--ink4)}
 .report-note{font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6}
 .report-scam-button{
   width:100%;padding:12px;
-  background:linear-gradient(135deg,#991B1B,#DC2626);
+  background:#E53935;
   border:none;border-radius:var(--r-sm);
   color:#fff;
   font-family:var(--sans);font-size:13px;font-weight:700;
   cursor:pointer;transition:all .2s;
-  box-shadow:0 4px 14px rgba(153,27,27,.25);
+  box-shadow:0 4px 14px rgba(229,57,53,.2);
 }
-.report-scam-button:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(153,27,27,.3)}
+.report-scam-button:hover{transform:translateY(-1px);background:#C62828;box-shadow:0 6px 18px rgba(229,57,53,.3)}
 
 /* DISCLAIMER / HOW / EXAMPLES */
 .info-card{
@@ -825,7 +825,7 @@ textarea::placeholder{color:var(--ink4)}
 .verify-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
 .verify-btn{
   width:100%;padding:12px;
-  background:linear-gradient(135deg,#1a1c2e,#2C2FEB);
+  background:linear-gradient(135deg,#1a2057,#2C3E9F);
   border:none;border-radius:var(--r-sm);
   font-family:var(--sans);font-size:13px;font-weight:700;
   color:#fff;cursor:pointer;margin-bottom:8px;
@@ -841,7 +841,7 @@ textarea::placeholder{color:var(--ink4)}
 /* TOAST */
 .toast{
   position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:linear-gradient(135deg,#1a1c2e,#2C2FEB);
+  background:linear-gradient(135deg,#1a2057,#2C3E9F);
   color:#fff;
   padding:10px 20px;border-radius:20px;
   font-family:var(--mono);font-size:11px;font-weight:600;
@@ -1020,9 +1020,9 @@ textarea::placeholder{color:var(--ink4)}
   </div>
 
   <!-- SAFETY NOTICE -->
-  <div style="background:#fffbeb;border:1.5px solid #fcd34d;border-radius:12px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px">
+  <div style="background:#FFF7D6;border:1.5px solid #F5C842;border-radius:16px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
     <span style="font-size:18px">⚠️</span>
-    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#92400e;line-height:1.6">Always verify before sharing OTP, money, or personal information. · OTP, पैसे या जानकारी देने से पहले हमेशा जाँच करें।</span>
+    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#5C4A00;line-height:1.6">Always verify before sharing OTP, money, or personal information. · OTP, पैसे या जानकारी देने से पहले हमेशा जाँच करें।</span>
   </div>
 
   <!-- REPORT SCAM PATTERN -->
@@ -1034,31 +1034,31 @@ textarea::placeholder{color:var(--ink4)}
   </div>
 
   <!-- DISCLAIMER -->
-  <div style="background:#fffbeb;border:1.5px solid #f59e0b;border-radius:14px;padding:15px 18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(245,158,11,.1)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#b45309;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px" id="disc-title">⚠️ DISCLAIMER</div>
-    <p style="font-size:12px;color:#78350f;line-height:1.8;font-weight:500" id="disc-body">This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.</p>
+  <div style="background:#F5F6FA;border:1.5px solid #E6E8F0;border-radius:16px;padding:15px 18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#2C3E9F;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px" id="disc-title">⚠️ DISCLAIMER</div>
+    <p style="font-size:12px;color:#374151;line-height:1.8;font-weight:500" id="disc-body">This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.</p>
   </div>
 
   <!-- HOW IT WORKS -->
-  <div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:14px;padding:15px 18px;margin-bottom:12px;box-shadow:0 2px 8px rgba(59,130,246,.1)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#1d4ed8;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px" id="how-title">ℹ️ HOW THIS WORKS</div>
+  <div style="background:#EAF2FF;border:1.5px solid #A9C2FF;border-radius:16px;padding:15px 18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#1E3A8A;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px" id="how-title">ℹ️ HOW THIS WORKS</div>
     <div style="display:flex;flex-direction:column;gap:7px" class="how-list">
-      <div style="font-size:12px;color:#1e3a8a;display:flex;align-items:center;gap:8px;font-weight:500" id="how1"><span style="color:#3b82f6;font-weight:700">✓</span> No login required — works instantly</div>
-      <div style="font-size:12px;color:#1e3a8a;display:flex;align-items:center;gap:8px;font-weight:500" id="how2"><span style="color:#3b82f6;font-weight:700">✓</span> Message content is never stored</div>
-      <div style="font-size:12px;color:#1e3a8a;display:flex;align-items:center;gap:8px;font-weight:500" id="how3"><span style="color:#3b82f6;font-weight:700">✓</span> Rules are fixed — no prediction or guessing</div>
-      <div style="font-size:12px;color:#1e3a8a;display:flex;align-items:center;gap:8px;font-weight:500" id="how4"><span style="color:#3b82f6;font-weight:700">✓</span> Each result is sealed — can be verified later</div>
+      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how1"><span style="color:#2C3E9F;font-weight:700">✓</span> No login required — works instantly</div>
+      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how2"><span style="color:#2C3E9F;font-weight:700">✓</span> Message content is never stored</div>
+      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how3"><span style="color:#2C3E9F;font-weight:700">✓</span> Rules are fixed — no prediction or guessing</div>
+      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how4"><span style="color:#2C3E9F;font-weight:700">✓</span> Each result is sealed — can be verified later</div>
     </div>
   </div>
 
   <!-- DONATION -->
-  <div style="background:linear-gradient(135deg,#fff7ed,#fff);border:1.5px solid #fb923c;border-radius:14px;padding:18px;margin-bottom:12px;box-shadow:0 2px 12px rgba(251,146,60,.15)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#c2410c;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">❤️ SUPPORT THIS PROJECT</div>
-    <p style="font-size:12px;color:#7c2d12;line-height:1.8;margin-bottom:14px;font-weight:500" id="donate-body">If Veritas Guard helped you avoid a scam, you can support development. Every contribution helps keep this tool free.</p>
-    <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #fb923c;border-radius:10px;padding:11px 14px;margin-bottom:8px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#c2410c;font-weight:700;flex:1">lal7590-7@okicici</span>
-      <button class="upi-copy" onclick="copyUPI()" style="background:#fb923c;border:none;border-radius:7px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;cursor:pointer;font-weight:700">📋 Copy</button>
+  <div style="background:#F5F6FA;border:1.5px solid #E6E8F0;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#2C3E9F;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">❤️ SUPPORT THIS PROJECT</div>
+    <p style="font-size:12px;color:#374151;line-height:1.8;margin-bottom:14px;font-weight:500" id="donate-body">If Veritas Guard helped you avoid a scam, you can support development. Every contribution helps keep this tool free.</p>
+    <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #E6E8F0;border-radius:10px;padding:11px 14px;margin-bottom:8px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#2C3E9F;font-weight:700;flex:1">lal7590-7@okicici</span>
+      <button class="upi-copy" onclick="copyUPI()" style="background:#4A5CFF;border:none;border-radius:7px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;cursor:pointer;font-weight:700">📋 Copy</button>
     </div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#9a3412;text-align:center;opacity:.7">UPI · Google Pay · PhonePe · Paytm — all work</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#6B7280;text-align:center">UPI · Google Pay · PhonePe · Paytm — all work</div>
   </div>
 
   <!-- TRUST FOOTER -->
@@ -1511,6 +1511,20 @@ function renderResult(r,dm){
 
     /* TIMESTAMP */
     '<div class="checked-time">'+formatTime()+' · Based on known risk signals</div>'+
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)">'+
+      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
+        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Confidence</div>'+
+        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+conf+'%</div>'+
+      '</div>'+
+      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
+        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Signals</div>'+
+        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+rules.length+'</div>'+
+      '</div>'+
+      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
+        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Score</div>'+
+        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+score+'</div>'+
+      '</div>'+
+    '</div>'+
 
     /* 2. RISK INTELLIGENCE PANEL */
     '<div style="padding:12px 15px;border-bottom:1px solid var(--border);background:var(--surface)">'+
