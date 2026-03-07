@@ -1463,7 +1463,12 @@ function renderResult(r,dm){
   const fingerprint=r.fingerprint||'—';
   const scamPattern=r.scam_pattern||'—';
   const patternId=r.pattern_id||'—';
-  const threatLevel=r.threat_level||(['LOW','LOW','MEDIUM','HIGH'][v]||'LOW');
+  // Override threat_level if it conflicts with decision
+  const rawThreat=r.threat_level||'LOW';
+  const decisionThreat=['LOW','MEDIUM','HIGH','CRITICAL'][v]||'LOW';
+  // Always show whichever is higher
+  const threatOrder=['LOW','MEDIUM','HIGH','CRITICAL'];
+  const threatLevel=threatOrder.indexOf(rawThreat)>=threatOrder.indexOf(decisionThreat)?rawThreat:decisionThreat;
   const trace=r.trace||[];
   const signals=parseSignals(rules);
   const ver=engineVersion?' · '+engineVersion:'';
@@ -1520,7 +1525,7 @@ function renderResult(r,dm){
         })()+
       '</div>'+
       '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+
-        '<span class="threat-badge threat-'+threatLevel+'">⬤ '+threatLevel+'</span>'+
+        '<span class="threat-badge threat-'+threatLevel+'">'+({"LOW":"🟢","MEDIUM":"🟡","HIGH":"🟠","CRITICAL":"🔴"}[threatLevel]||"⬤")+' '+threatLevel+'</span>'+
         '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">Threat Level</span>'+
       '</div>'+
       '<div class="intel-grid">'+
