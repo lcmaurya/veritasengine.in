@@ -600,6 +600,8 @@ textarea::placeholder{color:var(--ink4)}
 }
 .collapsible-hdr:hover{color:var(--brand)}
 .collapsible-body{display:none;margin-top:10px;flex-wrap:wrap;gap:5px}
+.collapsible-body.open{display:flex}
+.collapsible-body[style*="flex-direction:column"].open{display:flex;flex-direction:column}
 .caret{font-size:9px;transition:transform .2s;color:var(--ink4)}
 .rule-tag{
   display:inline-block;padding:4px 10px;
@@ -1212,7 +1214,11 @@ const DM = {
     share:'SHARE',copy:'COPY PROOF',verifyProof:'VERIFY PROOF',
     actNote:'Includes: decision · intent · fired_rules · score · hash',
     toastCopy:'Proof copied — verify anytime using Verify Proof',
-    toastHash:'Hash copied ✓'
+    toastHash:'Hash copied ✓',
+    copy:'📋 Copy Proof',
+    fbYes:'👍 Helpful',
+    fbNo:'👎 Not Helpful',
+    verifyProof:'Verify Proof'
   },
   hi:{
     label:  ['कोई पैटर्न नहीं','ध्यान दें','जोखिम पैटर्न मिले','कई जोखिम पैटर्न मिले'],
@@ -1268,7 +1274,11 @@ const TXT={
   ta:{tagline:'அபாய பாட்டர்ன் விளக்கி · அமலாக்க கருவி அல்ல',lblUsecase:'பயன்பாட்டு வகை',lblInput:'செய்தி / SMS / இணைப்பு',btnText:'⚡ அபாய சமிக்ஞைகளை பகுப்பாய்வு செய்',analyzing:'பகுப்பாய்வு...',nd1:'உள்நுழைவு இல்லை',nd2:'சேமிப்பு இல்லை',nd3:'நிர்ணய விதிகள்',lbl_total:'மொத்தம்',lbl_today:'இன்று',rateText:'மீதமுள்ளது:',rateWarn:'தினசரி வரம்பு முடிந்தது.',discTitle:'⚠ மறுப்பு',discBody:'இந்த கருவி அறியப்பட்ட சமிக்ஞைகளின் அடிப்படையில் மட்டுமே அபாய முறைகளை காட்டுகிறது.',howTitle:'இது எப்படி செயல்படுகிறது',how1:'உள்நுழைவு தேவையில்லை',how2:'செய்தி உள்ளடக்கம் சேமிக்கப்படவில்லை',how3:'விதிகள் நிலையானவை',how4:'ஒவ்வொரு முடிவும் முத்திரையிடப்பட்டது',exTitle:'உதாரணம் முயற்சிக்கவும்',exSub:'சோதனைக்கு மட்டும்',ex1:'🚨 மோசடி உதாரணம்',ex2:'🏦 வங்கி SMS உதாரணம்',ex3:'🏛 அரசு அறிவிப்பு',limitTitle:'தினசரி வரம்பு',limitText:'இன்றைய 10 பகுப்பாய்வுகளை பயன்படுத்தினீர்கள்.<br>24 மணி நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.'},
   bn:{tagline:'ঝুঁকি প্যাটার্ন ব্যাখ্যাকারী · প্রয়োগকারী সরঞ্জাম নয়',lblUsecase:'ব্যবহারের ধরন',lblInput:'বার্তা / SMS / লিংক',btnText:'⚡ ঝুঁকি সংকেত বিশ্লেষণ করুন',analyzing:'বিশ্লেষণ হচ্ছে...',nd1:'লগইন নেই',nd2:'স্টোরেজ নেই',nd3:'নির্ধারক নিয়ম',lbl_total:'মোট',lbl_today:'আজ',rateText:'বাকি:',rateWarn:'দৈনিক সীমা শেষ।',discTitle:'⚠ দায়বর্জন',discBody:'এই সরঞ্জামটি কেবল পরিচিত সংকেতের উপর ভিত্তি করে ঝুঁকির প্যাটার্ন দেখায়।',howTitle:'এটি কীভাবে কাজ করে',how1:'লগইন প্রয়োজন নেই',how2:'বার্তার বিষয়বস্তু সংরক্ষিত হয় না',how3:'নিয়ম স্থির',how4:'প্রতিটি ফলাফল সিলমোহর করা',exTitle:'উদাহরণ চেষ্টা করুন',exSub:'শুধুমাত্র পরীক্ষার জন্য',ex1:'🚨 স্ক্যাম উদাহরণ',ex2:'🏦 ব্যাংক SMS উদাহরণ',ex3:'🏛 সরকারি বিজ্ঞপ্তি',limitTitle:'দৈনিক সীমা',limitText:'আজকের ১০টি বিশ্লেষণ ব্যবহার করেছেন।<br>২৪ ঘণ্টা পরে আবার চেষ্টা করুন।'},
   gu:{tagline:'જોખમ પેટર્ન સમજાવનાર · અમલ સાધન નહીં',lblUsecase:'ઉપયોગ પ્રકાર',lblInput:'સંદેશ / SMS / લિંક',btnText:'⚡ જોખમ સંકેતો તપાસો',analyzing:'વિશ્લેષણ...',nd1:'લૉગિન નહીં',nd2:'સ્ટોરેજ નહીં',nd3:'નિર્ધારક નિયમો',lbl_total:'કુલ',lbl_today:'આજ',rateText:'બાકી:',rateWarn:'દૈનિક મર્યાદા સમાપ્ત.',discTitle:'⚠ અસ્વીકરણ',discBody:'આ સાધન ફક્ત જ્ઞાત સંકેતોના આધારે જોખમ પેટર્ન બતાવે છે.',howTitle:'આ કેવી રીતે કામ કરે છે',how1:'લૉગિન જરૂરી નથી',how2:'સંદેશ સામગ્રી સંગ્રહિત નથી',how3:'નિયમો નિશ્ચિત છે',how4:'દરેક પરિણામ સીલ કરેલું',exTitle:'ઉદાહરણ અજમાવો',exSub:'ફક્ત પરીક્ષણ માટે',ex1:'🚨 સ્કેમ ઉદાહરણ',ex2:'🏦 બેંક SMS ઉદાહરણ',ex3:'🏛 સરકારી સૂચના',limitTitle:'દૈનિક મર્યાદા',limitText:'આજના ૧૦ વિશ્લેષણ વાપર્યા.<br>૨૪ કલાક પછી ફરી પ્રયાસ કરો.'},
-  hi:{tagline:'जोखिम पैटर्न व्याख्याकार · प्रवर्तन उपकरण नहीं',lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',lbl_total:'कुल',lbl_today:'आज',rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त।',discTitle:'⚠ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'यह कैसे काम करता है',how1:'कोई लॉगिन नहीं',how2:'संदेश सामग्री संग्रहीत नहीं',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'प्रत्येक परिणाम सील — बाद में जाँच योग्य',exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं',ex1:'🚨 स्कैम पैटर्न उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।'}
+  hi:{tagline:'जोखिम पैटर्न व्याख्याकार · प्रवर्तन उपकरण नहीं',lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',lbl_total:'कुल',lbl_today:'आज',rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त।',discTitle:'⚠ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'यह कैसे काम करता है',how1:'कोई लॉगिन नहीं',how2:'संदेश सामग्री संग्रहीत नहीं',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'प्रत्येक परिणाम सील — बाद में जाँच योग्य',exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं',ex1:'🚨 स्कैम पैटर्न उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।',
+    copy:'📋 प्रमाण कॉपी करें',
+    fbYes:'👍 उपयोगी',
+    fbNo:'👎 उपयोगी नहीं',
+    verifyProof:'प्रमाण जाँचें'}
 };
 
 let lang = localStorage.getItem('vg_lang')||'en';
@@ -1356,7 +1366,9 @@ async function doAnalyze(){
   if(getRem()<=0){openModal('limit-modal');return;}
   const dm=DM[lang];const t=TXT[lang];
   const btn=document.getElementById('analyze-btn');
-  btn.disabled=true;btn.classList.add('loading');
+  btn.disabled=true;
+  const analyzingEl = document.getElementById('analyzing-text');
+  if(analyzingEl) analyzingEl.classList.add('show');btn.classList.add('loading');
   document.getElementById('btn-text').textContent=t.analyzing;
   try{
     const r=await callEngine(text);
@@ -1725,7 +1737,9 @@ async function doVerify(){
     res.className='verify-res warn show';
     res.innerHTML='⚠ Engine unreachable — cannot verify now.<br>Try when engine is online.';
   }finally{
-    btn.disabled=false;btn.textContent='⚡ VERIFY';
+    btn.disabled=false;
+  const analyzingEl2 = document.getElementById('analyzing-text');
+  if(analyzingEl2) analyzingEl2.classList.remove('show');btn.textContent='⚡ VERIFY';
   }
 }
 
