@@ -184,8 +184,8 @@ body{
 .rate-label{font-family:var(--mono);font-size:10px;color:var(--ink3)}
 .rate-label strong{color:var(--brand)}
 .rate-dots{display:flex;gap:4px}
-.rate-dot{width:8px;height:8px;border-radius:50%;background:var(--brand);transition:all .3s}
-.rate-dot.used{background:var(--border)}
+.rate-dot,.rdot{width:8px;height:8px;border-radius:50%;background:#2C3E9F;transition:all .3s}
+.rate-dot.used,.rdot.used{background:var(--border)}
 .rate-warn{
   font-family:var(--mono);font-size:10px;
   color:#991B1B;background:#FEF2F2;
@@ -193,6 +193,8 @@ body{
   border-radius:var(--r-xs);padding:8px 12px;
   display:none;margin-bottom:8px;text-align:center;
 }
+.rate-warn.show{display:block;}
+.rate-low{color:#C2410C!important;}
 
 /* ── INPUT CARD ── */
 .card{
@@ -253,16 +255,26 @@ select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--b
 }
 .img-upload-btn:hover{background:var(--brand3);border-color:var(--brand);color:var(--brand)}
 .img-upload-btn input{display:none}
-.img-status{font-family:var(--mono);font-size:10px;color:#065F46}
-.img-processing{display:none}
+.img-status{font-family:var(--mono);font-size:10px;color:var(--ink3);transition:color .2s}
+.img-status.ok{color:#16A34A;font-weight:600}
+.img-status.warn{color:#C2410C;font-weight:600}
+.img-processing{display:none}.img-processing.show{display:inline}
 .img-processing span{font-family:var(--mono);font-size:10px;color:var(--brand)}
-.img-preview-wrap{display:none;margin-bottom:10px;text-align:center}
-.img-preview-wrap img{max-width:100%;max-height:160px;border-radius:var(--r-sm);border:1.5px solid var(--border)}
+/* IMAGE UPLOADER */
+.img-preview-wrap{display:none;margin-bottom:10px}
+.img-preview-wrap.show{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px}
+.img-thumb{width:52px;height:52px;object-fit:cover;border-radius:7px;border:1.5px solid var(--border);flex-shrink:0}
+.img-info{flex:1;min-width:0}
+.img-filename{font-family:var(--mono);font-size:10px;color:var(--ink2);font-weight:600;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prog-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,#2C3E9F,#4A5CFF);border-radius:2px;width:0%;transition:width .3s}
 .img-clear-btn{
-  display:block;margin:5px auto 0;
-  font-family:var(--mono);font-size:9px;
-  color:var(--ink3);background:none;border:none;cursor:pointer;
+  background:none;border:1.5px solid var(--border);
+  border-radius:6px;padding:4px 8px;
+  font-size:11px;color:var(--ink3);cursor:pointer;
+  flex-shrink:0;transition:all .2s;
 }
+.img-clear-btn:hover{background:#FEF2F2;border-color:#FECACA;color:#991B1B}
 
 /* CHAR ROW + CLEAR BTN */
 .char-row{
@@ -1354,7 +1366,19 @@ function renderRate(){
   const btn=document.getElementById('analyze-btn');
   const warn=document.getElementById('rate-warn');
   if(rem<=0){btn.disabled=true;warn.textContent=t.rateWarn;warn.classList.add('show');}
-  else{if(document.getElementById('engine-pill').classList.contains('online'))btn.disabled=false;warn.classList.remove('show');}
+  else{
+    if(document.getElementById('engine-pill').classList.contains('online'))btn.disabled=false;
+    warn.classList.remove('show');
+    // Low remaining warning
+    const lbl=document.getElementById('rate-label');
+    if(rem<=3){
+      lbl.classList.add('rate-low');
+      warn.textContent='⚠️ '+(lang==='hi'?'केवल '+rem+' स्कैन बचे हैं आज के लिए':'Only '+rem+' scans left today');
+      warn.classList.add('show');
+    } else {
+      lbl.classList.remove('rate-low');
+    }
+  }
 }
 
 /* ══ ENGINE CALL ══ */
@@ -1825,7 +1849,7 @@ async function handleImage(event){
     const src=e.target.result;
     document.getElementById('img-preview').src=src;
     document.getElementById('img-filename').textContent=file.name.length>20?file.name.slice(0,18)+'...':file.name;
-    document.getElementById('img-preview-wrap').classList.add('show');
+    const pw=document.getElementById('img-preview-wrap');pw.style.display='';pw.classList.add('show');
     document.getElementById('img-btn-text').textContent=lang==='hi'?'बदलें':'Change';
     setProgress(0);setImgStatus(lang==='hi'?'📤 अपलोड...':'📤 Uploading...','');
     await new Promise(r=>setTimeout(r,300));
@@ -1844,7 +1868,7 @@ async function handleImage(event){
 }
 
 function clearImage(){
-  document.getElementById('img-preview-wrap').classList.remove('show');
+  const pw2=document.getElementById('img-preview-wrap');pw2.classList.remove('show');pw2.style.display='';
   document.getElementById('img-preview').src='';document.getElementById('img-input').value='';
   document.getElementById('img-filename').textContent='';setImgStatus('','');setProgress(0);
   document.getElementById('img-btn-text').textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
