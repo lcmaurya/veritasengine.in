@@ -1041,17 +1041,17 @@ const SIG = {
 
 const DM = {
   en:{
-    label:  ['Nothing unusual found','Something seems unusual','Several unusual things found','Many unusual things found'],
-    sub:    ['We did not notice anything unusual.','We noticed something. Please check once.','We noticed several things. Please verify before acting.','We noticed many things. Please do not act right now.'],
-    code:   ['⚪ ALL CLEAR','🟡 CHECK ONCE','🟠 PLEASE VERIFY','🔴 DO NOT ACT YET'],
+    label:  ['SAFE','WARNING','SUSPICIOUS','CRITICAL'],
+    sub:    ['No risk patterns found in this message.','Something unusual noticed. Please verify before acting.','Multiple risk signals detected. Verify carefully.','High risk. Do NOT click, pay or share anything right now.'],
+    code:   ['⚪ SAFE','🟡 WARNING','🟠 SUSPICIOUS','🔴 CRITICAL'],
     emoji:  ['✅','⚠️','🚨','🛑'],
     summary:[
-      'We did not notice anything unusual in this message. But this is not a guarantee. Final decision is always yours.',
-      'We noticed something unusual. Please verify the sender personally before taking any action. Final decision is always yours.',
-      'We noticed several things that seem unusual. Please check with a trusted person before taking any action. Final decision is always yours.',
-      'We noticed many things that seem unusual. Please do not click any link, share any number or make any payment right now. First check with a trusted person. Final decision is always yours.'
+      'No risk patterns found in this message. This is not a guarantee of safety — final decision is always yours.',
+      'We noticed something that needs your attention. Please verify the sender personally before taking any action. Final decision is always yours.',
+      'This message is suspected. Do not click any link or share any personal details. Check with a trusted person first. Final decision is always yours.',
+      'High risk detected. Do NOT click any link, share any OTP, or make any payment right now. This matches known fraud patterns. Final decision is always yours.'
     ],
-    bands:[{max:20,label:'Very low — nothing much found'},{max:45,label:'Low — something noticed'},{max:75,label:'Medium — several things noticed'},{max:101,label:'High — many things noticed'}],
+    bands:[{max:20,label:'Very low — normal range'},{max:45,label:'Low — attention needed'},{max:75,label:'Medium — suspected activity'},{max:101,label:'High — high risk detected'}],
     noRulesTag:'Nothing specific noticed',ruleHdr:'WHAT WE NOTICED',
     safeNotice:'⚠️ This is only a caution. Final decision is always yours.',
     disc2:'This tool only gives a warning — it does NOT confirm fraud.',
@@ -1061,17 +1061,17 @@ const DM = {
     actNote:'Proof includes: decision · score · hash',
   },
   hi:{
-    label:  ['कोई अजीब बात नहीं मिली','कुछ अजीब लगा','कई अजीब बातें मिलीं','बहुत सी अजीब बातें मिलीं'],
-    sub:    ['हमें कुछ भी असामान्य नहीं लगा।','हमें कुछ अजीब लगा। एक बार जाँच करें।','हमें कई अजीब बातें मिलीं। कोई कदम उठाने से पहले जाँचें।','हमें बहुत सी अजीब बातें मिलीं। अभी कोई कदम न उठाएं।'],
-    code:   ['⚪ सब ठीक लगा','🟡 एक बार जाँचें','🟠 पहले जाँचें','🔴 अभी कुछ न करें'],
+    label:  ['सुरक्षित','चेतावनी','संदिग्ध','गंभीर'],
+    sub:    ['कोई जोखिम पैटर्न नहीं मिला। यह संदेश सामान्य लगता है।','कुछ बातें ध्यान देने योग्य हैं। कोई कदम उठाने से पहले जाँचें।','यह संदेश संदिग्ध है। कोई भी कदम उठाने से पहले सावधानी बरतें।','उच्च जोखिम मिला। अभी कोई लिंक न खोलें, पैसे न दें, OTP न बताएं।'],
+    code:   ['⚪ सुरक्षित','🟡 चेतावनी','🟠 संदिग्ध','🔴 गंभीर'],
     emoji:  ['✅','⚠️','🚨','🛑'],
     summary:[
-      'हमें इस संदेश में कुछ अजीब नहीं लगा। लेकिन यह गारंटी नहीं है। अंतिम निर्णय हमेशा आपका है।',
-      'हमें कुछ अजीब लगा। कोई भी कदम उठाने से पहले भेजने वाले को खुद से जाँचें। अंतिम निर्णय हमेशा आपका है।',
-      'हमें कई अजीब बातें मिलीं। कोई भी लिंक न खोलें। अंतिम निर्णय हमेशा आपका है।',
-      'हमें बहुत सी अजीब बातें मिलीं। अभी कुछ भी न करें। किसी से पूछें। अंतिम निर्णय हमेशा आपका है।'
+      'इस संदेश में कोई जोखिम पैटर्न नहीं मिला। यह गारंटी नहीं है — अंतिम निर्णय हमेशा आपका है।',
+      'कुछ बातें ध्यान देने योग्य मिलीं। कोई भी कदम उठाने से पहले भेजने वाले को खुद से जाँचें। अंतिम निर्णय हमेशा आपका है।',
+      'यह संदेश संदिग्ध है। कोई भी लिंक न खोलें और कोई निजी जानकारी न दें। पहले किसी भरोसेमंद व्यक्ति से पूछें। अंतिम निर्णय हमेशा आपका है।',
+      'उच्च जोखिम मिला। अभी कोई लिंक न खोलें, OTP न बताएं और कोई भुगतान न करें। यह ज्ञात धोखाधड़ी पैटर्न से मिलता है। अंतिम निर्णय हमेशा आपका है।'
     ],
-    bands:[{max:20,label:'बहुत कम — कुछ खास नहीं मिला'},{max:45,label:'कम — कुछ मिला'},{max:75,label:'मध्यम — कई बातें मिलीं'},{max:101,label:'ज़्यादा — बहुत सी बातें मिलीं'}],
+    bands:[{max:20,label:'बहुत कम — सामान्य स्तर'},{max:45,label:'कम — ध्यान देने योग्य'},{max:75,label:'मध्यम — संदिग्ध गतिविधि'},{max:101,label:'ज़्यादा — उच्च जोखिम'}],
     noRulesTag:'कुछ खास नहीं मिला',ruleHdr:'क्या क्या मिला',
     safeNotice:'⚠️ यह केवल एक सावधानी है। अंतिम निर्णय हमेशा आपका है।',
     disc2:'यह टूल केवल चेतावनी देता है — धोखाधड़ी की पुष्टि नहीं करता।',
@@ -1191,9 +1191,11 @@ async function doAnalyze(){
 }
 
 /* ══ PARSE SIGNALS ══ */
-function parseSignals(fired){
+function parseSignals(fired, trace, intent){
   const a=new Set();
-  (fired||[]).forEach(r=>{
+  // Parse from fired_rules + trace entries combined
+  const all=[...(fired||[]),...(trace||[])];
+  all.forEach(r=>{
     if(/PHISH|KYC|IMPERSON|IDENTITY/i.test(r))a.add('P');
     if(/MONEY|PAYMENT|TRANSFER|LOTTERY|FEE/i.test(r))a.add('M');
     if(/AMOUNT|RUPEE|RS\b|CASHBACK/i.test(r))a.add('A');
@@ -1203,7 +1205,23 @@ function parseSignals(fired){
     if(r.startsWith('RULE_A'))a.add('A');if(r.startsWith('RULE_X'))a.add('X');
     if(r.startsWith('RULE_C'))a.add('C');
     if(r==='RULE_INTEGER_MATH_HIGH'){a.add('A');a.add('C');a.add('X');}
+    // Trace-based signal detection
+    if(/phishing|social_engin|authority|imperson/i.test(r))a.add('P');
+    if(/urgency|coer|block|suspend/i.test(r))a.add('C');
+    if(/payment|money|fee|lottery|reward/i.test(r))a.add('M');
+    if(/link|url|domain|bit\.ly|short/i.test(r))a.add('X');
+    if(/amount|rupee|rs\s*\.|cashback/i.test(r))a.add('A');
+    if(/scam_intel|global_scam/i.test(r))a.add('P');
+    if(/social_engineering/i.test(r)){a.add('P');a.add('C');}
   });
+  // Intent-based fallback
+  if(intent){
+    if(/PHISH/i.test(intent))a.add('P');
+    if(/MONEY|PAYMENT|LOTTERY|FEE/i.test(intent))a.add('M');
+    if(/LINK|URL|EXTERNAL/i.test(intent))a.add('X');
+    if(/URGENT|COER|BLOCK/i.test(intent))a.add('C');
+    if(/AMOUNT|RUPEE/i.test(intent))a.add('A');
+  }
   return a;
 }
 
@@ -1216,9 +1234,10 @@ function formatTime(){
 }
 
 /* ══ THREAT MESSAGE ══ */
-function getThreatMessage(threatLevel,intent,score,dm){
+function getThreatMessage(threatLevel,intent,score,dm,decision){
   const hi=lang==='hi';
-  if(intent==='BANK_CONFIRMATION'||intent==='SAFE'){
+  // Only show safe bank message if decision is actually 0
+  if(decision===0 && (intent==='BANK_CONFIRMATION'||intent==='SAFE')){
     return hi?'हमें यह एक सामान्य बैंक संदेश लगा। फिर भी सावधान रहें। अंतिम निर्णय आपका है।':'This looks like a normal bank message. But always stay careful. Final decision is always yours.';
   }
   if(score===0&&threatLevel!=='LOW'){
@@ -1235,7 +1254,7 @@ function getThreatMessage(threatLevel,intent,score,dm){
 
 /* ══ RENDER RESULT ══ */
 function renderResult(r,dm){
-  const v = r.decision!==undefined?r.decision:0;
+  const v = (r.decision!==undefined && r.decision!==null && [0,1,2,3].includes(Number(r.decision))) ? Number(r.decision) : 0;
   const score = r.score||0;
   const rules = r.fired_rules||[];
   const hash = r.hash||'pending';
@@ -1246,12 +1265,12 @@ function renderResult(r,dm){
   const fingerprint = r.fingerprint||'—';
   const scamPattern = r.scam_pattern||'—';
   const patternId = r.pattern_id||'—';
-  const rawThreat = r.threat_level||'LOW';
+  const rawThreat = r.threat_level||['LOW','MEDIUM','HIGH','CRITICAL'][v]||'LOW';
   const decisionThreat = ['LOW','MEDIUM','HIGH','CRITICAL'][v]||'LOW';
   const threatOrder = ['LOW','MEDIUM','HIGH','CRITICAL'];
   const threatLevel = threatOrder.indexOf(rawThreat)>=threatOrder.indexOf(decisionThreat)?rawThreat:decisionThreat;
   const trace = r.trace||[];
-  const signals = parseSignals(rules);
+  const signals = parseSignals(rules, trace, intent);
   const band = getBand(score,dm);
   const threatIcons = {LOW:'🟢',MEDIUM:'🟡',HIGH:'🟠',CRITICAL:'🔴'};
 
@@ -1272,7 +1291,7 @@ function renderResult(r,dm){
         '<div class="rv-stat"><div class="rv-stat-num">'+score+'</div><div class="rv-stat-lbl">Score</div></div>' +
         '<div class="rv-stat"><div class="rv-stat-num">'+rules.length+'</div><div class="rv-stat-lbl">Signals</div></div>' +
       '</div>' +
-      '<div class="rv-summary">'+getThreatMessage(threatLevel,intent,score,dm)+'</div>' +
+      '<div class="rv-summary">'+getThreatMessage(threatLevel,intent,score,dm,v)+'</div>' +
       '<div class="rv-time">Checked '+formatTime()+' · Based on known risk signals</div>' +
       '<div class="result-actions">' +
         '<button class="ra-btn ra-share" onclick="shareResult()">📤 Share</button>' +
