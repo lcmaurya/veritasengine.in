@@ -2,15 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#1a2575">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Veritas Guard</title>
-<link rel="manifest" href="/manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Veritas Guard — Risk Awareness Tool</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
 
@@ -916,133 +911,17 @@ textarea::placeholder{color:var(--ink4)}
   .action-btns{grid-template-columns:1fr}
 }
 </style>
-<style>
-/* ══════════════════════════════════════════
-   3-SCREEN NAVIGATION LAYER
-══════════════════════════════════════════ */
-html,body{ height:100%; overflow:hidden; }
-
-/* Replace #app single scroll with shell */
-#vg-shell{
-  width:100%; max-width:430px; height:100vh; height:100dvh;
-  margin:0 auto; position:relative; overflow:hidden;
-  display:flex; flex-direction:column; background:var(--bg);
-}
-
-/* Each screen */
-.vg-screen{
-  position:absolute; inset:0;
-  display:flex; flex-direction:column;
-  transition: transform .33s cubic-bezier(.4,0,.2,1), opacity .33s ease;
-  will-change: transform; background:var(--bg);
-  pointer-events:none; opacity:0;
-}
-.vg-screen.vg-active{
-  transform:translateX(0); opacity:1; pointer-events:auto; z-index:2;
-}
-.vg-screen.vg-right{
-  transform:translateX(100%); z-index:1;
-}
-.vg-screen.vg-left{
-  transform:translateX(-100%); z-index:1;
-}
-/* Scrollable body inside each screen */
-.vg-body{
-  flex:1; overflow-y:auto; overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-}
-.vg-body::-webkit-scrollbar{ display:none; }
-
-/* ══ BOTTOM NAV — override original ══ */
-.bottom-nav{
-  display:flex !important;
-  position:relative !important;
-  flex-shrink:0 !important;
-  z-index:10 !important;
-  padding-bottom: env(safe-area-inset-bottom,0px) !important;
-}
-
-/* ══ RESULT SCREEN TOP BAR ══ */
-.result-topbar{
-  background:linear-gradient(135deg,#1a2575,#2C3E9F,#4A5CFF);
-  padding:12px 16px;
-  display:flex; align-items:center; gap:12px;
-  flex-shrink:0;
-}
-.rtb-back{
-  width:32px; height:32px; border-radius:9px;
-  background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.2);
-  display:flex; align-items:center; justify-content:center;
-  font-size:15px; cursor:pointer; color:#fff; flex-shrink:0;
-  transition:all .2s;
-}
-.rtb-back:hover{ background:rgba(255,255,255,.25); }
-.rtb-text{ flex:1; }
-.rtb-title{ font-size:14px; font-weight:800; color:#fff; }
-.rtb-sub{ font-family:var(--mono); font-size:9px; color:rgba(255,255,255,.65); margin-top:1px; }
-
-/* ══ ANALYSIS SCREEN TOP BAR ══ */
-.analysis-topbar{
-  background:var(--surface);
-  border-bottom:1.5px solid var(--border);
-  padding:12px 16px;
-  display:flex; align-items:center; gap:12px;
-  flex-shrink:0;
-}
-.atb-back{
-  width:32px; height:32px; border-radius:9px;
-  background:var(--surface2); border:1.5px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  font-size:15px; cursor:pointer; transition:all .2s;
-}
-.atb-back:hover{ background:var(--brand3); border-color:var(--brand); }
-.atb-title{ font-size:14px; font-weight:800; color:var(--ink); }
-.atb-sub{ font-family:var(--mono); font-size:9px; color:var(--ink4); margin-top:1px; }
-
-/* ══ VIEW ANALYSIS BUTTON (on result screen) ══ */
-.view-analysis-btn{
-  margin:8px 14px 0;
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  padding:12px; border-radius:12px; border:none;
-  background:linear-gradient(135deg,var(--brand),var(--brand2));
-  color:#fff; font-family:var(--sans); font-size:13px; font-weight:800;
-  cursor:pointer; transition:all .2s;
-  box-shadow:0 4px 14px rgba(44,62,159,.3);
-  width:calc(100% - 28px);
-}
-.view-analysis-btn:hover{ transform:translateY(-1px); box-shadow:0 6px 20px rgba(44,62,159,.4); }
-
-/* ══ SCAN AGAIN BUTTON ══ */
-.scan-again-btn2{
-  margin:8px 14px;
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  padding:11px; border-radius:12px;
-  border:1.5px solid var(--border); background:var(--surface);
-  color:var(--ink2); font-family:var(--sans); font-size:12px; font-weight:700;
-  cursor:pointer; transition:all .2s; width:calc(100% - 28px);
-}
-.scan-again-btn2:hover{ border-color:var(--brand); color:var(--brand); }
-
-/* ══ Hide #app overflow on result/analysis screen ══ */
-#app{ max-height:none !important; overflow:visible !important; }
-</style>
 </head>
 <body>
 
-<div id="vg-shell">
-
-<!-- ════════════════════════════════════
-     SCREEN 1: SCAN
-════════════════════════════════════ -->
-<div class="vg-screen vg-active" id="vg-scan">
-  <div class="vg-body">
-    <div id="app">
 <!-- MARQUEE -->
 <div id="warn-bar">
   <span id="warn-text">⚠️ This tool only gives a warning — Final decision is always yours. We do not guarantee anything. · ⚠️ यह टूल केवल सावधानी देता है — अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।</span>
 </div>
 
 <div id="app">
+  <div id="scan-section">
+
 
   <!-- HEADER -->
   <div class="header">
@@ -1140,62 +1019,19 @@ html,body{ height:100%; overflow:hidden; }
     </div>
   </div>
 
-  
-    </div><!-- /#app -->
-  </div><!-- /.vg-body -->
+  </div><!-- /scan-section -->
 
-  <!-- Bottom Nav: Scan -->
-  <nav class="bottom-nav">
-    <div class="nav-item active" onclick="document.getElementById('app').scrollTo({top:0,behavior:'smooth'})">
-      <span class="nav-icon">🛡</span><span>Scan</span>
-    </div>
-    <div class="nav-item" onclick="vgGoResult()">
-      <span class="nav-icon">📊</span><span>Results</span>
-    </div>
-    <div class="nav-item" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform','_blank')">
-      <span class="nav-icon">🚨</span><span>Report</span>
-    </div>
-    <div class="nav-item" onclick="window.open('https://veritasengine.in/privacy.html','_blank')">
-      <span class="nav-icon">🔒</span><span>Privacy</span>
-    </div>
-  </nav>
-</div><!-- /vg-scan -->
-
-
-<!-- ════════════════════════════════════
-     SCREEN 2: RESULT
-════════════════════════════════════ -->
-<div class="vg-screen vg-right" id="vg-result">
-
-  <!-- Top bar -->
-  <div class="result-topbar">
-    <div class="rtb-back" onclick="vgGo('scan')">←</div>
-    <div class="rtb-text">
-      <div class="rtb-title">Risk Result</div>
-      <div class="rtb-sub" id="rtb-engine-tag">ENGINE v1.14 · RISK AWARENESS TOOL</div>
-    </div>
+  <!-- BACK BAR (shown on result screen) -->
+  <div id="back-bar" style="display:none;background:linear-gradient(135deg,#1a2575,#4A5CFF);padding:11px 16px;display:none;align-items:center;gap:10px;flex-shrink:0">
+    <button onclick="showScan()" style="width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">←</button>
+    <div style="flex:1"><div style="font-size:13px;font-weight:800;color:#fff">Risk Result</div><div id="back-bar-ver" style="font-family:JetBrains Mono,monospace;font-size:9px;color:rgba(255,255,255,.6)">ENGINE · RISK AWARENESS TOOL</div></div>
   </div>
 
-  <div class="vg-body" id="result-scroll">
-    <!-- RESULT CARD (populated by JS) -->
-<!-- RESULT CARD -->
+  <div id="result-section" style="display:none">
+  <!-- RESULT CARD -->
   <div id="result-card"></div>
 
-  
-
-    <!-- View Full Analysis -->
-    <button class="view-analysis-btn" onclick="vgGo('analysis')">
-      🔍 View Full Analysis
-    </button>
-
-    <!-- Scan again -->
-    <button class="scan-again-btn2" onclick="vgGo('scan')">
-      ← Scan Another Message
-    </button>
-
-    <!-- Info below -->
-    <div style="padding:0 14px 16px">
-<!-- EXAMPLES -->
+  <!-- EXAMPLES -->
   <div class="examples-card">
     <div class="section-title" id="ex-title">TRY AN EXAMPLE</div>
     <div class="info-body" id="ex-sub" style="font-size:10px;color:var(--ink3)">Simulated messages for testing only</div>
@@ -1257,81 +1093,16 @@ html,body{ height:100%; overflow:hidden; }
   <footer id="footer-copy">© Veritas Engine — Open Risk Awareness Tool</footer>
 </div>
 
-
-    </div>
-  </div><!-- /.vg-body -->
-
-  <!-- Bottom Nav: Result -->
-  <nav class="bottom-nav">
-    <div class="nav-item" onclick="vgGo('scan')">
-      <span class="nav-icon">🛡</span><span>Scan</span>
-    </div>
-    <div class="nav-item active">
-      <span class="nav-icon">📊</span><span>Results</span>
-    </div>
-    <div class="nav-item" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform','_blank')">
-      <span class="nav-icon">🚨</span><span>Report</span>
-    </div>
-    <div class="nav-item" onclick="window.open('https://veritasengine.in/privacy.html','_blank')">
-      <span class="nav-icon">🔒</span><span>Privacy</span>
-    </div>
-  </nav>
-</div><!-- /vg-result -->
-
-
-<!-- ════════════════════════════════════
-     SCREEN 3: ANALYSIS (full detail)
-════════════════════════════════════ -->
-<div class="vg-screen vg-right" id="vg-analysis">
-
-  <!-- Top bar -->
-  <div class="analysis-topbar">
-    <div class="atb-back" onclick="vgGo('result')">←</div>
-    <div>
-      <div class="atb-title">Full Analysis</div>
-      <div class="atb-sub">Signal trace · Fraud vector · Proof</div>
-    </div>
-  </div>
-
-  <div class="vg-body" id="analysis-scroll">
-    <div style="padding:12px 14px 20px">
-      <div id="analysis-detail-container">
-        <!-- Populated by JS from result-card expanded sections -->
-        <div style="padding:20px;text-align:center;color:var(--ink4);font-family:var(--mono);font-size:11px">
-          Scan a message first to see analysis
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Nav: Analysis -->
-  <nav class="bottom-nav">
-    <div class="nav-item" onclick="vgGo('scan')">
-      <span class="nav-icon">🛡</span><span>Scan</span>
-    </div>
-    <div class="nav-item" onclick="vgGo('result')">
-      <span class="nav-icon">📊</span><span>Results</span>
-    </div>
-    <div class="nav-item active">
-      <span class="nav-icon">🔍</span><span>Analysis</span>
-    </div>
-    <div class="nav-item" onclick="window.open('https://veritasengine.in/privacy.html','_blank')">
-      <span class="nav-icon">🔒</span><span>Privacy</span>
-    </div>
-  </nav>
-</div><!-- /vg-analysis -->
-
-</div><!-- /vg-shell -->
-
-<!-- TOAST + MODALS (outside screens — always accessible) -->
 <!-- TOAST -->
 <!-- BOTTOM NAV -->
+  </div><!-- /result-section -->
+
 <nav class="bottom-nav">
-  <div class="nav-item active" onclick="document.getElementById('app').scrollTo({top:0,behavior:'smooth'})">
+  <div class="nav-item active" onclick="showScan()" id="nav-scan">
     <span class="nav-icon">🛡</span>
     <span>Scan</span>
   </div>
-  <div class="nav-item" onclick="document.getElementById('result-card').scrollIntoView({behavior:'smooth'})">
+  <div class="nav-item" onclick="showResult()" id="nav-result">
     <span class="nav-icon">📊</span>
     <span>Results</span>
   </div>
@@ -1346,7 +1117,6 @@ html,body{ height:100%; overflow:hidden; }
 </nav>
 
 <div id="toast"></div>
-
 
 <!-- INFO MODAL -->
 <div class="modal-overlay" id="info-modal">
@@ -1934,15 +1704,7 @@ function renderResult(r,dm){
 
   document.getElementById('result-card').style.display='block';
   setTimeout(()=>{const f=document.getElementById('conf-fill');if(f)f.style.width=Math.min(score,100)+'%';},100);
-  document.getElementById('result-card').scrollIntoView({behavior:'smooth',block:'nearest'});
-  // Auto navigate to result screen
-  setTimeout(function(){
-    vgGo('result');
-    // Copy detail to analysis screen
-    var rc = document.getElementById('result-card');
-    var adc = document.getElementById('analysis-detail-container');
-    if(rc && adc){ adc.innerHTML = rc.innerHTML; }
-  }, 50);
+  showResult();
 }
 
 /* ══ BUILD PROOF ══ */
@@ -2171,36 +1933,36 @@ document.addEventListener('DOMContentLoaded',()=>{
 });
 </script>
 
-
-<!-- ══ 3-SCREEN NAVIGATION JS ══ -->
 <script>
-function vgGo(screen){
-  if(screen==='result' && !window.lastResult){ showToast('Scan a message first!'); return; }
-  const screens = {scan:'vg-scan',result:'vg-result',analysis:'vg-analysis'};
-  const order = ['scan','result','analysis'];
-  const currentActive = document.querySelector('.vg-screen.vg-active');
-  const currentName = currentActive ? currentActive.id.replace('vg-','') : 'scan';
-  const currentIdx = order.indexOf(currentName);
-  const targetIdx = order.indexOf(screen);
-  document.querySelectorAll('.vg-screen').forEach(s => {
-    s.classList.remove('vg-active','vg-left','vg-right');
-    const sIdx = order.indexOf(s.id.replace('vg-',''));
-    s.classList.add(sIdx < targetIdx ? 'vg-left' : 'vg-right');
-  });
-  const target = document.getElementById(screens[screen]);
-  target.classList.remove('vg-left','vg-right');
-  target.classList.add('vg-active');
-  const body2 = target.querySelector('.vg-body');
-  if(body2) body2.scrollTop = 0;
+/* ══ SCREEN NAVIGATION ══ */
+function showScan(){
+  document.getElementById('scan-section').style.display='block';
+  document.getElementById('result-section').style.display='none';
+  document.getElementById('back-bar').style.display='none';
+  document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
+  // nav active state
+  var ns=document.getElementById('nav-scan');
+  var nr=document.getElementById('nav-result');
+  if(ns) ns.parentElement.classList.add('active');
+  if(nr) nr.parentElement.classList.remove('active');
 }
-function vgGoResult(){
+function showResult(){
   if(!window.lastResult){ showToast('Scan a message first!'); return; }
-  vgGo('result');
+  document.getElementById('scan-section').style.display='none';
+  document.getElementById('result-section').style.display='block';
+  document.getElementById('back-bar').style.display='flex';
+  document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
+  // nav active state
+  var ns=document.getElementById('nav-scan');
+  var nr=document.getElementById('nav-result');
+  if(ns) ns.parentElement.classList.remove('active');
+  if(nr) nr.parentElement.classList.add('active');
+  // update back bar version
+  var ver=document.getElementById('back-bar-ver');
+  var fv=document.getElementById('footer-ver');
+  if(ver&&fv) ver.textContent='ENGINE '+fv.textContent+' · RISK AWARENESS TOOL';
 }
 </script>
-
-
-
 
 </body>
 </html>
