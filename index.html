@@ -2,1173 +2,1184 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Veritas Guard — Risk Awareness Tool</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#1a2575">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Veritas Guard</title>
+<link rel="manifest" href="/manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.0.4/tesseract.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap');
-
-/* ═══════════════════════════════════════
-   VERITAS GUARD — PREMIUM APP UI
-   Cyber Risk Intelligence Platform
-═══════════════════════════════════════ */
 :root{
-  /* Core palette */
+  --brand:#2C3E9F;
+  --brand2:#4A5CFF;
+  --brand3:#EAF2FF;
   --bg:#F7F8FC;
   --surface:#FFFFFF;
   --surface2:#F5F6FA;
-  --surface3:#EAF2FF;
   --border:#E6E8F0;
-  --border-strong:#C8CEDF;
-
-  /* Ink */
   --ink:#0D1117;
   --ink2:#374151;
   --ink3:#6B7280;
   --ink4:#8A8FA3;
-
-  /* Brand — security blue */
-  --brand:#2C3E9F;
-  --brand2:#3949FF;
-  --brand3:#EAF2FF;
-  --brand-glow:rgba(44,62,159,.15);
-
-  /* Verdict colors */
-  --v0:#374151; --v0bg:#F3F4F6; --v0bd:#D1D5DB;
-  --v1:#065F46; --v1bg:#ECFDF5; --v1bd:#6EE7B7;
-  --v2:#92400E; --v2bg:#FFFBEB; --v2bd:#FCD34D;
-  --v3:#991B1B; --v3bg:#FEF2F2; --v3bd:#FECACA;
-
-  /* Typography */
   --sans:'Plus Jakarta Sans',sans-serif;
   --mono:'JetBrains Mono',monospace;
-
-  /* Geometry */
   --r:16px;
   --r-sm:10px;
-  --r-xs:6px;
+  --sh:0 4px 20px rgba(0,0,0,.07);
+  --sh-lg:0 8px 32px rgba(0,0,0,.1);
 
-  /* Shadows */
-  --sh:0 6px 20px rgba(0,0,0,.05);
-  --sh-lg:0 8px 32px rgba(0,0,0,.12),0 2px 8px rgba(0,0,0,.06);
-  --sh-brand:0 4px 20px rgba(44,47,235,.25);
+  /* Decision colors */
+  --c0:#16A34A; --c0-bg:#DCFCE7; --c0-border:#86EFAC;
+  --c1:#CA8A04; --c1-bg:#FEF9C3; --c1-border:#FDE047;
+  --c2:#EA580C; --c2-bg:#FFEDD5; --c2-border:#FB923C;
+  --c3:#DC2626; --c3-bg:#FEE2E2; --c3-border:#FCA5A5;
 }
 
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  background:var(--bg);
-  color:var(--ink);
-  font-family:var(--sans);
-  min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-  -webkit-tap-highlight-color:transparent;
-}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--sans)}
 
-/* ── MARQUEE ── */
-#warn-bar{
-  position:fixed;top:0;left:0;right:0;z-index:200;
-  background:linear-gradient(135deg,#1a1c2e 0%,#2C2FEB 100%);
-  padding:7px 0;overflow:hidden;
-}
-#warn-text{
-  display:inline-block;white-space:nowrap;
-  font-family:var(--mono);font-size:9px;
-  color:rgba(255,255,255,.6);
-  animation:marquee 40s linear infinite;
-  padding-left:100%;letter-spacing:.5px;
-}
-@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-200%)}}
-
-#app{max-width:440px;margin:0 auto;padding:50px 14px 90px}
-
-/* ── HEADER ── */
-.header{
-  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
-  border-radius:24px;
-  padding:28px 20px 24px;
-  margin-bottom:16px;
+/* ── APP SHELL ── */
+#app{
+  width:100%;max-width:430px;
+  height:100vh;height:100dvh;
+  margin:0 auto;
   position:relative;
   overflow:hidden;
-  box-shadow:0 8px 28px rgba(44,62,159,.3);
-}
-.header::before{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:160px;height:160px;
-  background:rgba(255,255,255,.05);
-  border-radius:50%;
-}
-.header::after{
-  content:'';position:absolute;bottom:-30px;left:-20px;
-  width:120px;height:120px;
-  background:rgba(255,255,255,.04);
-  border-radius:50%;
-}
-.logo-row{display:inline-flex;align-items:center;gap:10px;margin-bottom:8px;position:relative;z-index:1}
-.logo-icon{
-  width:40px;height:40px;
-  background:rgba(255,255,255,.15);
-  backdrop-filter:blur(10px);
-  border-radius:12px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:20px;
-  border:1.5px solid rgba(255,255,255,.2);
-}
-.logo-name{
-  font-family:var(--sans);
-  font-size:22px;font-weight:800;
-  color:#fff;
-  letter-spacing:-.5px;
-}
-.tagline{
-  font-family:var(--mono);font-size:9px;
-  color:rgba(255,255,255,.55);
-  letter-spacing:1.5px;text-transform:uppercase;
-  margin-bottom:12px;position:relative;z-index:1;
-}
-.no-ai-pill{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:4px 12px;
-  background:rgba(255,255,255,.12);
-  border:1px solid rgba(255,255,255,.2);
-  border-radius:20px;
-  font-family:var(--mono);font-size:9px;
-  color:rgba(255,255,255,.8);
-  margin-bottom:12px;position:relative;z-index:1;
+  background:var(--bg);
 }
 
-/* ENGINE PILL */
-.engine-pill{
-  display:inline-flex;align-items:center;gap:7px;
-  padding:6px 14px;border-radius:20px;
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  border:1.5px solid;cursor:pointer;transition:all .2s;
-  position:relative;z-index:1;
-}
-.engine-pill.online{background:#16A34A;border-color:#16A34A;color:#fff;font-weight:700}
-.engine-pill.offline{background:rgba(239,68,68,.15);border-color:rgba(239,68,68,.4);color:#FCA5A5}
-.engine-pill.checking{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:rgba(255,255,255,.6)}
-.dot{width:7px;height:7px;border-radius:50%;animation:blink 2s infinite;flex-shrink:0}
-.engine-pill.online .dot{background:#fff}
-.engine-pill.offline .dot{background:#FCA5A5}
-.engine-pill.checking .dot{background:rgba(255,255,255,.5)}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-
-#trust-badge{
-  display:none;align-items:center;gap:5px;
-  font-family:var(--mono);font-size:9px;
-  color:rgba(255,255,255,.5);
-  margin-top:6px;position:relative;z-index:1;
-}
-
-/* ── STATS ── */
-.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
-.stat-card{
-  background:var(--surface);
-  border-radius:var(--r);
-  padding:14px 12px;
-  text-align:center;
-  box-shadow:var(--sh);
-  border:1.5px solid var(--border);
-}
-.stat-num{
-  font-size:26px;font-weight:800;
-  color:#2C3E9F;line-height:1;
-  margin-bottom:4px;
-}
-.stat-lbl{font-size:11px;font-weight:600;color:var(--ink2);margin-bottom:2px}
-.stat-sub{font-family:var(--mono);font-size:8px;color:var(--ink4)}
-
-/* RATE */
-.rate-wrap{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;padding:0 2px}
-.rate-label{font-family:var(--mono);font-size:10px;color:var(--ink3)}
-.rate-label strong{color:var(--brand)}
-.rate-dots{display:flex;gap:4px}
-.rate-dot,.rdot{width:8px;height:8px;border-radius:50%;background:#2C3E9F;transition:all .3s}
-.rate-dot.used,.rdot.used{background:var(--border)}
-.rate-warn{
-  font-family:var(--mono);font-size:10px;
-  color:#991B1B;background:#FEF2F2;
-  border:1.5px solid #FECACA;
-  border-radius:var(--r-xs);padding:8px 12px;
-  display:none;margin-bottom:8px;text-align:center;
-}
-.rate-warn.show{display:block;}
-.rate-low{color:#C2410C!important;}
-
-/* ── INPUT CARD ── */
-.card{
-  background:var(--surface);
-  border-radius:var(--r);
-  padding:20px;
-  box-shadow:var(--sh);
-  margin-bottom:12px;
-  border:1.5px solid var(--border);
-}
-
-/* LANG BUTTONS */
-.lang-row{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap}
-.lang-btn{
-  padding:5px 12px;
-  border:1.5px solid var(--border);
-  border-radius:20px;
-  font-family:var(--mono);font-size:10px;font-weight:700;
-  background:transparent;color:var(--ink3);
-  cursor:pointer;transition:all .2s;
-}
-.lang-btn.active{background:var(--brand);border-color:var(--brand);color:#fff;box-shadow:0 2px 8px rgba(44,62,159,.2)}
-.lang-btn:hover:not(.active){background:var(--surface3);color:var(--ink)}
-
-/* FIELD LABELS */
-.field-lbl{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  color:var(--ink3);letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:7px;
-}
-
-/* SELECT */
-select{
-  width:100%;padding:12px 14px;
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  background:var(--surface2);
-  color:var(--ink);
-  font-family:var(--sans);font-size:13px;font-weight:500;
-  margin-bottom:14px;
-  -webkit-appearance:none;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236B7280' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 12px center;
-  cursor:pointer;
-}
-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
-
-/* IMAGE UPLOAD */
-.img-upload-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.img-upload-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:7px 14px;
-  background:var(--surface3);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:12px;font-weight:600;
-  color:var(--ink2);cursor:pointer;transition:all .2s;
-}
-.img-upload-btn:hover{background:var(--brand3);border-color:var(--brand);color:var(--brand)}
-.img-upload-btn input{display:none}
-.img-status{font-family:var(--mono);font-size:10px;color:var(--ink3);transition:color .2s}
-.img-status.ok{color:#16A34A;font-weight:600}
-.img-status.warn{color:#C2410C;font-weight:600}
-.img-processing{display:none}.img-processing.show{display:inline}
-.img-processing span{font-family:var(--mono);font-size:10px;color:var(--brand)}
-/* IMAGE UPLOADER */
-.img-preview-wrap{display:none;margin-bottom:10px}
-.img-preview-wrap.show{display:flex;align-items:center;gap:10px;background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--r-sm);padding:10px}
-.img-thumb{width:52px;height:52px;object-fit:cover;border-radius:7px;border:1.5px solid var(--border);flex-shrink:0}
-.img-info{flex:1;min-width:0}
-.img-filename{font-family:var(--mono);font-size:10px;color:var(--ink2);font-weight:600;margin-bottom:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.prog-wrap{height:4px;background:var(--border);border-radius:2px;overflow:hidden}
-.prog-fill{height:100%;background:linear-gradient(90deg,#2C3E9F,#4A5CFF);border-radius:2px;width:0%;transition:width .3s}
-.img-clear-btn{
-  background:none;border:1.5px solid var(--border);
-  border-radius:6px;padding:4px 8px;
-  font-size:11px;color:var(--ink3);cursor:pointer;
-  flex-shrink:0;transition:all .2s;
-}
-.img-clear-btn:hover{background:#FEF2F2;border-color:#FECACA;color:#991B1B}
-
-/* CHAR ROW + CLEAR BTN */
-.char-row{
-  display:flex;justify-content:space-between;
-  align-items:center;margin-top:8px;margin-bottom:14px;
-}
-.char-count{font-family:var(--mono);font-size:10px;color:var(--ink4)}
-.clear-btn{
-  padding:5px 14px;
-  background:var(--surface2);
-  border:1.5px solid var(--border);
-  border-radius:20px;
-  font-family:var(--mono);font-size:10px;font-weight:700;
-  color:var(--ink3);cursor:pointer;
-  transition:all .2s;
-}
-.clear-btn:hover{background:#FEF2F2;border-color:#FECACA;color:#991B1B}
-
-/* ANALYZE BUTTON */
-#analyze-btn{
-  width:100%;padding:16px;
-  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
-  border:none;border-radius:14px;
-  color:#fff;
-  font-family:var(--sans);font-size:15px;font-weight:800;
-  cursor:pointer;
-  letter-spacing:.3px;
-  transition:all .25s;
-  box-shadow:0 4px 20px rgba(44,62,159,.25);
-  position:relative;overflow:hidden;
-}
-#analyze-btn::after{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);
-  border-radius:14px;
-}
-#analyze-btn:hover{
-  transform:translateY(-2px);
-  box-shadow:0 8px 28px rgba(44,62,159,.35);
-}
-#analyze-btn:active{transform:translateY(0)}
-#analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
-
-/* TRUST PILLS */
-.trust-pills{
-  display:flex;justify-content:center;
-  gap:8px;flex-wrap:wrap;margin-top:12px;
-}
-.tpill{
-  font-family:var(--mono);font-size:9px;font-weight:600;
-  color:var(--ink4);padding:4px 10px;
-  background:var(--surface2);
-  border:1px solid var(--border);
-  border-radius:20px;
-}
-
-/* TEXTAREA */
-textarea{
-  width:100%;padding:14px;
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  background:var(--surface2);
-  color:var(--ink);
-  font-family:var(--sans);font-size:13px;line-height:1.6;
-  resize:vertical;min-height:120px;
-  transition:border .2s;
-}
-textarea:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
-textarea::placeholder{color:var(--ink4)}
-
-/* ANALYZE BUTTON */
-.analyze-btn{
-  width:100%;padding:15px;
-  background:linear-gradient(135deg,#2C3E9F 0%,#4A5CFF 100%);
-  border:none;border-radius:var(--r-sm);
-  color:#fff;
-  font-family:var(--sans);font-size:14px;font-weight:700;
-  cursor:pointer;letter-spacing:.2px;
-  transition:all .25s;
-  box-shadow:0 8px 28px rgba(44,62,159,.3);
-  margin-top:14px;
-}
-.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px var(--brand-glow)}
-.analyze-btn:active{transform:translateY(0)}
-.analyze-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.analyzing-text{display:none;font-family:var(--mono);font-size:10px;color:var(--ink3);text-align:center;margin-top:8px}
-.analyzing-text.show{display:block}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── RESULT CARD ── */
-#result-card{
-  background:var(--surface);
-  border-radius:var(--r);
-  box-shadow:var(--sh-lg);
-  margin-bottom:12px;
-  border:1.5px solid var(--border);
+/* ── SCREENS ── */
+.screen{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  transition:transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+  will-change:transform;
   overflow:hidden;
-  display:none;
-  animation:slideUp .35s ease-out;
 }
-@keyframes slideUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.screen.active{transform:translateX(0);opacity:1;pointer-events:auto}
+.screen.left{transform:translateX(-100%);opacity:0;pointer-events:none}
+.screen.right{transform:translateX(100%);opacity:0;pointer-events:none}
 
-/* VERDICT HEADER */
-.verdict-header{
-  padding:20px;
-  display:flex;align-items:flex-start;gap:14px;
+/* ── SCROLLABLE BODY ── */
+.screen-body{
+  flex:1;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  scroll-behavior:smooth;
 }
-.v0-h{background:linear-gradient(135deg,#F3F4F6,#E5E7EB)}
-.v1-h{background:linear-gradient(135deg,#ECFDF5,#D1FAE5)}
-.v2-h{background:linear-gradient(135deg,#FFFBEB,#FEF3C7)}
-.v3-h{background:linear-gradient(135deg,#FEF2F2,#FEE2E2)}
+.screen-body::-webkit-scrollbar{display:none}
 
-.verdict-icon{
-  width:48px;height:48px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:22px;flex-shrink:0;
+/* ── HEADER ── */
+.app-header{
+  background:linear-gradient(135deg,#1a2575 0%,#2C3E9F 50%,#4A5CFF 100%);
+  padding:14px 18px 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-shrink:0;
+  position:relative;
+  overflow:hidden;
 }
-.v0-icon{background:#E5E7EB}
-.v1-icon{background:#D1FAE5}
-.v2-icon{background:#FDE68A}
-.v3-icon{background:#FECACA}
-
-.verdict-main{flex:1}
-.verdict-name{
-  font-size:18px;font-weight:800;
-  line-height:1.2;margin-bottom:3px;
+.app-header::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
-.v0-name{color:#374151}
-.v1-name{color:#065F46}
-.v2-name{color:#92400E}
-.v3-name{color:#991B1B}
-
-.verdict-sub{font-size:12px;color:var(--ink3);margin-bottom:5px;font-weight:500}
-.verdict-code{
-  font-family:var(--mono);font-size:10px;
-  padding:3px 8px;border-radius:4px;
-  display:inline-block;font-weight:700;
-}
-.v0-code,.v0 .verdict-code{background:#E5E7EB;color:#374151}
-.v1-code,.v1 .verdict-code{background:#D1FAE5;color:#065F46}
-.v2-code,.v2 .verdict-code{background:#FDE68A;color:#92400E}
-.v3-code,.v3 .verdict-code{background:#FECACA;color:#991B1B}
-
-.checked-time{
-  font-family:var(--mono);font-size:9px;
-  color:var(--ink4);
-  padding:5px 20px 8px;
-  border-bottom:1px solid var(--border);
-}
-
-/* SECTION TITLE */
-.section-title{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  color:var(--ink4);letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:10px;
-}
-
-/* THREAT BADGES */
-.threat-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 12px;border-radius:20px;
-  font-family:var(--mono);font-size:11px;font-weight:700;
-  border:1.5px solid;letter-spacing:.5px;
-}
-.threat-LOW{background:#DCFCE7;border-color:#86EFAC;color:#166534}
-.threat-MEDIUM{background:#FEF9C3;border-color:#FDE047;color:#713F12}
-.threat-HIGH{background:#FFEDD5;border-color:#FB923C;color:#7C2D12}
-.threat-CRITICAL{background:#991B1B;border-color:#991B1B;color:#fff}
-
-/* INTELLIGENCE GRID */
-.intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
-.intel-item{
-  background:var(--surface2);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);padding:10px 12px;
-}
-.intel-label{
-  font-family:var(--mono);font-size:8px;
-  color:var(--ink4);text-transform:uppercase;
-  letter-spacing:1px;margin-bottom:4px;font-weight:700;
-}
-.intel-value{
-  font-family:var(--mono);font-size:11px;
-  color:var(--ink);font-weight:700;word-break:break-word;
-}
-.intel-full{grid-column:1/-1}
-
-/* HASH STRIP */
-.hash-strip{
-  padding:14px 18px;
-  background:linear-gradient(135deg,#1a2057,#2C3E9F);
-  border-top:1px solid rgba(255,255,255,.1);
-}
-.hash-strip-top{display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.hash-lock{font-size:13px}
-.hash-title{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  color:rgba(255,255,255,.7);letter-spacing:1px;text-transform:uppercase;flex:1;
-}
-.hash-what{
-  font-family:var(--mono);font-size:9px;
-  color:rgba(255,255,255,.4);cursor:pointer;
-  border-bottom:1px dashed rgba(255,255,255,.3);
-}
-.hash-mono-row{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.hash-mono-val{
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  color:rgba(255,255,255,.85);
-  overflow:hidden;text-overflow:ellipsis;
-  white-space:nowrap;flex:1;
-  background:rgba(255,255,255,.08);
-  padding:7px 10px;border-radius:6px;
-}
-.hash-copy-btn{
-  background:rgba(255,255,255,.12);
+.header-logo{display:flex;align-items:center;gap:10px;position:relative}
+.logo-icon{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(8px);
   border:1px solid rgba(255,255,255,.2);
-  border-radius:6px;padding:6px 10px;
-  font-size:12px;cursor:pointer;
-  transition:all .2s;color:white;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
 }
-.hash-copy-btn:hover{background:rgba(255,255,255,.2)}
-.hash-verify-btn{
-  width:100%;padding:9px;
-  background:rgba(255,255,255,.1);
-  border:1.5px solid rgba(255,255,255,.2);
-  border-radius:8px;
-  font-family:var(--mono);font-size:11px;font-weight:700;
-  color:rgba(255,255,255,.85);cursor:pointer;
-  transition:all .2s;letter-spacing:.3px;
+.logo-text{color:#fff}
+.logo-name{font-size:15px;font-weight:800;letter-spacing:.3px;line-height:1}
+.logo-tag{font-size:9px;font-family:var(--mono);opacity:.7;letter-spacing:.5px;margin-top:2px}
+.header-right{display:flex;align-items:center;gap:8px;position:relative}
+.engine-pill{
+  font-family:var(--mono);font-size:8px;font-weight:700;
+  padding:3px 8px;border-radius:20px;letter-spacing:.5px;
+  display:flex;align-items:center;gap:4px;
 }
-.hash-verify-btn:hover{background:rgba(255,255,255,.18)}
-.inline-verify-result{
-  font-family:var(--mono);font-size:10px;
-  margin-top:7px;line-height:1.5;
-}
+.engine-pill.online{background:#16A34A;color:#fff}
+.engine-pill.offline{background:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.engine-pill .dot{width:5px;height:5px;border-radius:50%;background:#fff;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-/* RESULT DISCLAIMER */
-.result-disc{
-  font-family:var(--mono);font-size:9px;
-  padding:8px 18px;border-top:1px solid var(--border);
-  line-height:1.6;
-}
-.v0-disc,.v1-disc{background:var(--surface2);color:var(--ink4)}
-.v2-disc{background:#FFFBEB;color:#92400E}
-.v3-disc{background:#FEF2F2;color:#991B1B}
-
-/* SUMMARY */
-.summary{
-  font-size:13px;font-weight:500;
-  padding:12px 18px;line-height:1.7;
-  border-bottom:1px solid var(--border);
-  color:var(--ink2);
-}
-
-/* TRACE SECTION */
-.trace-wrap{padding:14px 18px;border-bottom:1px solid var(--border)}
-.trace-list{display:flex;flex-direction:column;gap:5px;margin-top:8px}
-.trace-item{
-  display:flex;align-items:center;gap:10px;
-  font-family:var(--mono);font-size:11px;
-  padding:7px 12px;
-  background:var(--surface2);
-  border-radius:8px;
-  border-left:3px solid var(--brand);
-}
-.trace-signal{flex:1;color:var(--ink2)}
-.trace-score{font-weight:700;color:var(--brand)}
-
-/* SIGNALS */
-.signals-wrap{padding:14px 18px;border-bottom:1px solid var(--border)}
-.signals-grid{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.signal-chip{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:6px 12px;border-radius:20px;
-  font-family:var(--mono);font-size:10px;font-weight:600;
-  border:1.5px solid;cursor:default;transition:all .2s;
-}
-.signal-chip.on{
-  background:var(--brand3);
-  border-color:var(--brand);color:var(--brand);
-}
-.signal-chip.off{
-  background:var(--surface2);
-  border-color:var(--border);color:var(--ink4);
-}
-.signal-def{
-  font-family:var(--mono);font-size:10px;
-  color:var(--brand);line-height:1.8;
-  margin-top:8px;padding:10px 12px;
-  background:var(--brand3);
-  border-radius:8px;border:1px solid rgba(44,47,235,.15);
-}
-
-/* CONFIDENCE BAR */
-.conf-wrap{padding:14px 18px;border-bottom:1px solid var(--border)}
-.conf-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.conf-top span{font-family:var(--mono);font-size:9px;color:var(--ink3);font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.conf-pct{font-size:22px;font-weight:800;line-height:1}
-.conf-track{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:6px}
-.conf-fill{height:100%;border-radius:4px;width:0%;transition:width .8s cubic-bezier(.4,0,.2,1)}
-.v0-fill{background:linear-gradient(90deg,#9CA3AF,#6B7280)}
-.v1-fill{background:linear-gradient(90deg,#34D399,#059669)}
-.v2-fill{background:linear-gradient(90deg,#FCD34D,#D97706)}
-.v3-fill{background:linear-gradient(90deg,#F87171,#DC2626)}
-.conf-band{font-family:var(--mono);font-size:9px;font-weight:700;margin-bottom:4px}
-.v0-band{color:#6B7280}.v1-band{color:#059669}.v2-band{color:#D97706}.v3-band{color:#DC2626}
-.conf-note{font-family:var(--mono);font-size:9px;color:var(--ink4);line-height:1.5}
-
-/* PROOF GRID */
-.proof-grid{display:flex;flex-direction:column;gap:6px;margin-top:8px}
-.proof-row{
-  display:flex;align-items:center;gap:10px;
-  padding:8px 12px;
-  background:var(--surface2);border-radius:8px;
-}
-.proof-key{
-  font-family:var(--mono);font-size:9px;
-  color:var(--ink4);text-transform:uppercase;
-  width:72px;flex-shrink:0;font-weight:700;letter-spacing:.5px;
-}
-.proof-val{
-  font-family:var(--mono);font-size:10px;
-  color:var(--ink2);overflow:hidden;
-  text-overflow:ellipsis;white-space:nowrap;flex:1;
-}
-
-/* RULES */
-.rules-wrap{padding:14px 18px;border-bottom:1px solid var(--border)}
-.collapsible-hdr{
+/* ── LANG TOGGLE ── */
+.lang-row{display:flex;gap:6px;padding:12px 16px 0}
+.lang-btn{
   font-family:var(--mono);font-size:10px;font-weight:700;
-  color:var(--ink3);letter-spacing:1px;
-  text-transform:uppercase;cursor:pointer;
-  display:flex;align-items:center;gap:7px;
-  transition:color .2s;
+  padding:4px 12px;border-radius:20px;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--ink3);cursor:pointer;transition:all .2s;
 }
-.collapsible-hdr:hover{color:var(--brand)}
-.collapsible-body{display:none;margin-top:10px;flex-wrap:wrap;gap:5px}
-.collapsible-body.open{display:flex}
-.collapsible-body[style*="flex-direction:column"].open{display:flex;flex-direction:column}
-.caret{font-size:9px;transition:transform .2s;color:var(--ink4)}
-.rule-tag{
-  display:inline-block;padding:4px 10px;
-  border-radius:5px;border:1.5px solid;
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  letter-spacing:.3px;
-}
-.v0-tag{background:var(--v0bg);border-color:var(--v0bd);color:var(--v0)}
-.v1-tag{background:var(--v1bg);border-color:var(--v1bd);color:var(--v1)}
-.v2-tag{background:var(--v2bg);border-color:var(--v2bd);color:var(--v2)}
-.v3-tag{background:var(--v3bg);border-color:var(--v3bd);color:var(--v3)}
+.lang-btn.active{background:var(--brand);border-color:var(--brand);color:#fff}
 
-/* ACTIONS */
-.actions-wrap{padding:16px 18px;border-bottom:1px solid var(--border)}
-.action-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
-.act-btn{
-  padding:11px;border:1.5px solid;
-  border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:12px;font-weight:700;
-  cursor:pointer;transition:all .2s;
+/* ── SCAN SCREEN ── */
+.scan-hero{padding:20px 16px 12px;text-align:center}
+.scan-title{font-size:22px;font-weight:800;color:var(--ink);margin-bottom:6px}
+.scan-sub{font-size:12px;color:var(--ink3);font-weight:500}
+
+.input-card{
+  margin:0 16px 12px;
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:14px;
+  box-shadow:var(--sh);
 }
-.btn-share{background:var(--brand3);border-color:var(--brand);color:var(--brand)}
-.btn-share:hover{background:var(--brand);color:#fff}
-.btn-copy{background:var(--surface2);border-color:var(--border);color:var(--ink2)}
-.btn-copy:hover{background:var(--surface3);border-color:var(--brand);color:var(--brand)}
-.btn-verify-proof{
-  width:100%;padding:11px;
-  background:linear-gradient(135deg,#1a2057,#2C3E9F);
-  border:none;border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:12px;font-weight:700;
-  color:#fff;cursor:pointer;transition:all .2s;
+.input-label{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  color:var(--ink4);letter-spacing:1.5px;text-transform:uppercase;
   margin-bottom:8px;
 }
-.btn-verify-proof:hover{opacity:.9}
-.action-note{font-family:var(--mono);font-size:9px;color:var(--ink4);text-align:center;line-height:1.5}
-
-/* SAFE NOTICE */
-.safe-notice{
-  font-family:var(--mono);font-size:10px;
-  padding:10px 18px;
-  color:var(--ink4);text-align:center;
-  border-bottom:1px solid var(--border);
+textarea#input-text{
+  width:100%;min-height:120px;max-height:200px;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  padding:12px;font-family:var(--sans);font-size:13px;
+  color:var(--ink);background:var(--surface2);
+  resize:vertical;outline:none;transition:border .2s;
   line-height:1.6;
 }
+textarea#input-text::placeholder{color:var(--ink4)}
+textarea#input-text:focus{border-color:var(--brand);background:#fff}
 
-/* FEEDBACK */
-.fb-wrap{
-  display:flex;align-items:center;gap:8px;
-  padding:12px 18px;flex-wrap:wrap;
-}
-.fb-lbl{font-family:var(--mono);font-size:10px;color:var(--ink3);flex-shrink:0}
-.fb-btn{
-  padding:5px 14px;
-  border:1.5px solid var(--border);
-  border-radius:20px;
+/* char count */
+.char-row{display:flex;justify-content:space-between;align-items:center;margin-top:7px}
+.char-count{font-family:var(--mono);font-size:9px;color:var(--ink4)}
+
+/* img upload */
+.img-upload-row{display:flex;align-items:center;gap:8px;margin-top:10px}
+.img-upload-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:6px 12px;border-radius:8px;
+  background:var(--surface2);border:1.5px solid var(--border);
   font-family:var(--sans);font-size:11px;font-weight:600;
-  background:var(--surface2);color:var(--ink2);
-  cursor:pointer;transition:all .2s;
+  color:var(--ink2);cursor:pointer;transition:all .2s;
+  flex-shrink:0;
 }
-.fb-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand3)}
-.fb-btn.selected{background:var(--brand);border-color:var(--brand);color:#fff}
-.fb-thanks{font-family:var(--mono);font-size:10px;color:var(--v1);display:none}
+.img-upload-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand3)}
+.img-upload-btn input{display:none}
+.img-status{font-family:var(--mono);font-size:9px;color:var(--ink3);flex:1;transition:color .2s}
+.img-status.ok{color:#16A34A;font-weight:600}
+.img-status.warn{color:#C2410C;font-weight:600}
 
-/* DONATION */
-.donate-card{
-  background:var(--surface);
-  border:1.5px solid #FCD34D;
-  border-radius:var(--r);
-  padding:16px 18px;margin-bottom:12px;
-  box-shadow:var(--sh);
+.img-preview-wrap{
+  display:none;
+  align-items:center;gap:10px;
+  background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:var(--r-sm);padding:10px;
+  margin-top:8px;
 }
-.donate-title{
-  font-family:var(--mono);font-size:9px;color:#92400E;
-  letter-spacing:1.5px;text-transform:uppercase;
-  margin-bottom:6px;font-weight:700;
+.img-preview-wrap.show{display:flex}
+.img-thumb{width:48px;height:48px;object-fit:cover;border-radius:7px;border:1.5px solid var(--border);flex-shrink:0}
+.img-info{flex:1;min-width:0}
+.img-filename{font-family:var(--mono);font-size:9px;color:var(--ink2);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px}
+.prog-wrap{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:2px;width:0%;transition:width .3s}
+.img-clear-btn{background:none;border:1.5px solid var(--border);border-radius:6px;padding:4px 8px;font-size:10px;color:var(--ink3);cursor:pointer;flex-shrink:0}
+.img-clear-btn:hover{background:#FEF2F2;border-color:#FECACA;color:#991B1B}
+
+/* rate */
+.rate-wrap{display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:4px}
+.rate-label{font-family:var(--mono);font-size:9px;color:var(--ink3)}
+.rate-label strong{color:var(--brand)}
+.rate-dots{display:flex;gap:3px}
+.rdot,.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--brand);transition:all .3s}
+.rdot.used,.rate-dot.used{background:var(--border)}
+.rate-warn{
+  font-family:var(--mono);font-size:10px;color:#991B1B;
+  background:#FEF2F2;border:1.5px solid #FECACA;
+  border-radius:8px;padding:7px 12px;
+  display:none;margin:0 16px 8px;text-align:center;
 }
-.donate-body{font-size:12px;color:var(--ink2);line-height:1.7;margin-bottom:12px}
-.upi-row{
-  display:flex;align-items:center;gap:8px;
-  background:#FFFBEB;
-  border:1.5px solid #FCD34D;
-  border-radius:10px;padding:10px 14px;margin-bottom:8px;
+.rate-warn.show{display:block}
+.rate-low{color:#C2410C!important}
+
+/* examples */
+.examples-row{padding:0 16px;margin-bottom:12px}
+.examples-label{font-family:var(--mono);font-size:9px;color:var(--ink4);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px}
+.example-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px}
+.example-chips::-webkit-scrollbar{display:none}
+.ex-chip{
+  flex-shrink:0;font-size:10px;font-weight:600;
+  padding:5px 10px;border-radius:20px;
+  background:var(--surface);border:1.5px solid var(--border);
+  color:var(--ink2);cursor:pointer;white-space:nowrap;
+  transition:all .2s;font-family:var(--sans);
 }
-.upi-id{font-family:var(--mono);font-size:13px;color:#92400E;font-weight:700;flex:1}
-.upi-copy{
-  background:transparent;border:1.5px solid #FCD34D;
-  border-radius:6px;padding:5px 12px;
-  font-family:var(--mono);font-size:10px;
-  color:#92400E;cursor:pointer;font-weight:700;
+.ex-chip:hover{border-color:var(--brand);color:var(--brand)}
+
+/* analyze btn */
+.analyze-wrap{padding:0 16px 16px}
+#analyze-btn{
+  width:100%;padding:15px;border-radius:14px;border:none;
+  background:linear-gradient(135deg,var(--brand) 0%,var(--brand2) 100%);
+  color:#fff;font-family:var(--sans);font-size:14px;font-weight:800;
+  cursor:pointer;transition:all .2s;letter-spacing:.3px;
+  box-shadow:0 6px 20px rgba(44,62,159,.35);
+  position:relative;overflow:hidden;
+}
+#analyze-btn:hover{transform:translateY(-1px);box-shadow:0 8px 28px rgba(44,62,159,.45)}
+#analyze-btn:active{transform:translateY(0)}
+#analyze-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+#analyze-btn.loading::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+  animation:shimmer 1.2s infinite;
+}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+
+#analyzing-text{
+  display:none;text-align:center;
+  font-family:var(--mono);font-size:10px;color:var(--brand);
+  margin-top:8px;
+}
+#analyzing-text.show{display:block}
+
+/* stats row */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px 12px}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r-sm);padding:10px;text-align:center;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
+}
+.stat-num{font-size:20px;font-weight:800;color:var(--brand);line-height:1}
+.stat-lbl{font-family:var(--mono);font-size:8px;color:var(--ink4);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* info cards */
+.info-section{padding:0 16px 16px}
+.info-card-new{
+  border-radius:var(--r);padding:14px 16px;margin-bottom:10px;
+}
+.info-card-new .ic-title{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;
+}
+.info-card-new .ic-body{font-size:12px;line-height:1.8;font-weight:500}
+.ic-warn{background:#FFF7D6;border:1.5px solid #F5C842}
+.ic-warn .ic-title{color:#5C4A00}
+.ic-warn .ic-body{color:#78350F}
+.ic-info{background:#EAF2FF;border:1.5px solid #A9C2FF}
+.ic-info .ic-title{color:#1E3A8A}
+.ic-info .ic-body{color:#1E3A8A}
+.how-item{display:flex;align-items:center;gap:8px;font-size:12px;color:#1E3A8A;font-weight:500;margin-bottom:5px}
+.how-item:last-child{margin-bottom:0}
+.how-check{color:var(--brand);font-weight:700;flex-shrink:0}
+.ic-disc{background:#F5F6FA;border:1.5px solid var(--border)}
+.ic-disc .ic-title{color:var(--brand)}
+.ic-disc .ic-body{color:var(--ink2)}
+.ic-support{background:#F5F6FA;border:1.5px solid var(--border)}
+.ic-support .ic-title{color:var(--brand)}
+.upi-box{
+  display:flex;align-items:center;gap:10px;
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:10px;padding:10px 12px;margin:8px 0;
+}
+.upi-id{font-family:var(--mono);font-size:12px;color:var(--brand);font-weight:700;flex:1}
+.upi-copy-btn{
+  background:var(--brand2);border:none;border-radius:7px;
+  padding:5px 12px;font-family:var(--mono);font-size:9px;
+  color:#fff;cursor:pointer;font-weight:700;
+}
+.upi-note{font-family:var(--mono);font-size:8px;color:var(--ink4);text-align:center}
+
+/* marquee */
+.marquee-wrap{
+  background:var(--brand);padding:6px 0;overflow:hidden;
+  flex-shrink:0;
+}
+.marquee-track{
+  display:flex;animation:marquee 30s linear infinite;white-space:nowrap;
+}
+.marquee-track span{
+  font-family:var(--mono);font-size:9px;color:rgba(255,255,255,.8);
+  padding:0 24px;flex-shrink:0;
+}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ══════════════════════════════════════════
+   RESULT SCREEN
+══════════════════════════════════════════ */
+.result-screen-body{padding:16px}
+
+/* Big verdict card */
+.verdict-big{
+  border-radius:var(--r);padding:20px 18px 16px;
+  margin-bottom:12px;
+  box-shadow:var(--sh-lg);
+  transition:all .3s;
+}
+.verdict-big.v0{background:var(--c0-bg);border:2px solid var(--c0-border)}
+.verdict-big.v1{background:var(--c1-bg);border:2px solid var(--c1-border)}
+.verdict-big.v2{background:var(--c2-bg);border:2px solid var(--c2-border)}
+.verdict-big.v3{background:var(--c3-bg);border:2px solid var(--c3-border)}
+
+.verdict-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px}
+.verdict-emoji{font-size:40px;line-height:1;flex-shrink:0}
+.verdict-text{}
+.verdict-label{font-size:18px;font-weight:800;line-height:1.2;margin-bottom:4px}
+.v0 .verdict-label{color:var(--c0)}
+.v1 .verdict-label{color:var(--c1)}
+.v2 .verdict-label{color:var(--c2)}
+.v3 .verdict-label{color:var(--c3)}
+.verdict-sub-text{font-size:12px;font-weight:500;opacity:.8;line-height:1.5}
+.v0 .verdict-sub-text{color:#166534}
+.v1 .verdict-sub-text{color:#713F12}
+.v2 .verdict-sub-text{color:#7C2D12}
+.v3 .verdict-sub-text{color:#991B1B}
+.verdict-code-badge{
+  display:inline-block;margin-top:6px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  background:rgba(255,255,255,.5);
+}
+.v0 .verdict-code-badge{color:var(--c0)}
+.v1 .verdict-code-badge{color:var(--c1)}
+.v2 .verdict-code-badge{color:var(--c2)}
+.v3 .verdict-code-badge{color:var(--c3)}
+
+/* 3-stat mini row */
+.mini-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.mini-stat{
+  background:rgba(255,255,255,.6);backdrop-filter:blur(8px);
+  border-radius:10px;padding:10px 8px;text-align:center;
+  border:1px solid rgba(255,255,255,.8);
+}
+.mini-stat-num{font-size:20px;font-weight:800}
+.v0 .mini-stat-num{color:var(--c0)}
+.v1 .mini-stat-num{color:var(--c1)}
+.v2 .mini-stat-num{color:var(--c2)}
+.v3 .mini-stat-num{color:var(--c3)}
+.mini-stat-lbl{font-family:var(--mono);font-size:8px;color:var(--ink3);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+
+/* threat badge */
+.threat-badge-big{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:10px;font-weight:700;
+  padding:5px 12px;border-radius:20px;
+  background:rgba(255,255,255,.6);
+}
+.v0 .threat-badge-big{color:var(--c0)}
+.v1 .threat-badge-big{color:var(--c1)}
+.v2 .threat-badge-big{color:var(--c2)}
+.v3 .threat-badge-big{color:var(--c3)}
+
+/* summary message */
+.summary-msg{
+  font-size:12px;line-height:1.7;font-weight:500;
+  padding:10px 12px;background:rgba(255,255,255,.5);
+  border-radius:8px;
+}
+.v0 .summary-msg{color:#166534}
+.v1 .summary-msg{color:#713F12}
+.v2 .summary-msg{color:#7C2D12}
+.v3 .summary-msg{color:#991B1B}
+
+/* checked time */
+.checked-time-r{
+  font-family:var(--mono);font-size:9px;
+  color:var(--ink4);margin-bottom:12px;
+  text-align:center;
+}
+
+/* result action buttons */
+.result-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.result-btn{
+  padding:13px;border-radius:12px;border:none;
+  font-family:var(--sans);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;display:flex;
+  align-items:center;justify-content:center;gap:6px;
+}
+.btn-view-analysis{background:var(--brand2);color:#fff;box-shadow:0 4px 14px rgba(74,92,255,.3)}
+.btn-view-analysis:hover{background:var(--brand);transform:translateY(-1px)}
+.btn-report-scam{background:#E53935;color:#fff;box-shadow:0 4px 14px rgba(229,57,53,.2)}
+.btn-report-scam:hover{background:#C62828;transform:translateY(-1px)}
+
+/* scan again */
+.btn-scan-again{
+  width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);
+  background:var(--surface);color:var(--ink2);
+  font-family:var(--sans);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;margin-bottom:12px;
+}
+.btn-scan-again:hover{border-color:var(--brand);color:var(--brand)}
+
+/* disclaimer strip */
+.disclaimer-strip{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:10px;padding:10px 12px;
+  font-family:var(--mono);font-size:9px;color:var(--ink3);
+  line-height:1.7;text-align:center;
+}
+
+/* ══════════════════════════════════════════
+   ANALYSIS SCREEN
+══════════════════════════════════════════ */
+.analysis-header{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:14px 16px;display:flex;align-items:center;gap:12px;
+  flex-shrink:0;
+}
+.back-btn{
+  width:34px;height:34px;border-radius:10px;
+  background:var(--surface2);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;cursor:pointer;flex-shrink:0;
   transition:all .2s;
 }
-.upi-copy:hover{background:#FCD34D;color:#fff}
-.upi-note{font-family:var(--mono);font-size:9px;color:var(--ink4);text-align:center}
+.back-btn:hover{background:var(--brand3);border-color:var(--brand)}
+.analysis-title{font-size:15px;font-weight:800;color:var(--ink)}
+.analysis-sub{font-size:10px;color:var(--ink3);font-family:var(--mono)}
 
-/* REPORT SCAM */
-.report-wrap{
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:var(--r);
-  padding:16px 18px;margin-bottom:12px;
-  box-shadow:var(--sh);text-align:center;
-}
-.report-note{font-size:12px;color:var(--ink3);margin-bottom:10px;line-height:1.6}
-.report-scam-button{
-  width:100%;padding:12px;
-  background:#E53935;
-  border:none;border-radius:var(--r-sm);
-  color:#fff;
-  font-family:var(--sans);font-size:13px;font-weight:700;
-  cursor:pointer;transition:all .2s;
-  box-shadow:0 4px 14px rgba(229,57,53,.2);
-}
-.report-scam-button:hover{transform:translateY(-1px);background:#C62828;box-shadow:0 6px 18px rgba(229,57,53,.3)}
+.analysis-body{padding:12px 16px}
 
-/* DISCLAIMER / HOW / EXAMPLES */
-.info-card{
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:var(--r);
-  padding:16px 18px;margin-bottom:12px;
-  box-shadow:var(--sh);
+/* collapsible sections */
+.analysis-section{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r);margin-bottom:10px;overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);
 }
-.info-title{
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  color:var(--ink4);letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:10px;
-}
-.info-body{font-size:12px;color:var(--ink3);line-height:1.8;margin-bottom:8px}
-.info-list{list-style:none;padding:0}
-.info-list li{
-  font-size:12px;color:var(--ink2);
-  padding:5px 0;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:8px;line-height:1.5;
-}
-.info-list li:last-child{border-bottom:none}
-.info-list li::before{content:'✓';color:var(--brand);font-weight:700;flex-shrink:0}
-.example-btns{display:flex;flex-direction:column;gap:7px;margin-top:4px}
-.ex-btn{
-  width:100%;text-align:left;padding:10px 13px;
-  background:var(--surface2);
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:12px;font-weight:500;
-  color:var(--ink2);cursor:pointer;transition:all .2s;line-height:1.4;
-}
-.ex-btn:hover{border-color:var(--brand);color:var(--brand);background:var(--brand3)}
-.ex-sub{font-family:var(--mono);font-size:9px;color:var(--ink4);display:block;margin-top:2px}
-
-/* LIMIT NOTICE */
-.limit-notice{
-  background:#FEF2F2;border:1.5px solid #FECACA;
-  border-radius:var(--r);padding:16px 18px;
-  margin-bottom:12px;text-align:center;display:none;
-}
-.limit-title{font-family:var(--mono);font-size:10px;font-weight:700;color:#991B1B;letter-spacing:1px;margin-bottom:6px}
-.limit-body{font-size:12px;color:#991B1B;line-height:1.7}
-
-/* TRUST FOOTER */
-.trust-footer{
-  text-align:center;padding:16px 0 8px;
-  border-top:1px solid var(--border);
-  margin-top:4px;
-}
-.trust-badges{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:10px}
-.tb-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  padding:5px 12px;
-  background:var(--surface);
-  border:1.5px solid var(--border);
-  border-radius:20px;
-  font-family:var(--mono);font-size:9px;font-weight:700;
-  color:var(--ink3);
-}
-.footer-note{font-family:var(--mono);font-size:9px;color:var(--ink4);line-height:2}
-.footer-note a{color:var(--brand);text-decoration:none}
-.footer-note a:hover{text-decoration:underline}
-
-/* MODALS */
-.modal-overlay{
-  display:none;position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,.5);backdrop-filter:blur(4px);
-  align-items:flex-end;justify-content:center;padding:0;
-}
-.modal-overlay.open{display:flex}
-.modal-box{
-  background:var(--surface);
-  border-radius:24px 24px 0 0;
-  padding:24px 20px 32px;
-  width:100%;max-width:440px;
-  max-height:85vh;overflow-y:auto;
-  box-shadow:0 -8px 40px rgba(0,0,0,.2);
-  animation:slideModal .3s ease-out;
-}
-@keyframes slideModal{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.modal-handle{
-  width:36px;height:4px;
-  background:var(--border);border-radius:2px;
-  margin:0 auto 16px;
-}
-.modal-title{
-  font-family:var(--sans);font-size:16px;font-weight:800;
-  color:var(--ink);margin-bottom:14px;
-}
-.modal-body{font-size:13px;color:var(--ink2);line-height:1.8;margin-bottom:16px}
-.modal-close,.modal-cancel{
-  width:100%;padding:12px;
-  background:linear-gradient(135deg,var(--brand),#5C5FF5);
-  border:none;border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:13px;font-weight:700;
-  color:#fff;cursor:pointer;margin-top:8px;
-}
-.verify-input{
-  width:100%;padding:12px;
-  border:1.5px solid var(--border);
-  border-radius:var(--r-sm);
-  font-family:var(--mono);font-size:12px;
-  background:var(--surface2);color:var(--ink);
-  margin-bottom:10px;
-}
-.verify-input:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-glow)}
-.verify-btn{
-  width:100%;padding:12px;
-  background:linear-gradient(135deg,#1a2057,#2C3E9F);
-  border:none;border-radius:var(--r-sm);
-  font-family:var(--sans);font-size:13px;font-weight:700;
-  color:#fff;cursor:pointer;margin-bottom:8px;
-}
-.verify-result{
-  font-family:var(--mono);font-size:10px;
-  padding:10px;border-radius:8px;
-  line-height:1.7;display:none;margin-top:4px;
-}
-.verify-result.ok{background:#ECFDF5;border:1.5px solid #6EE7B7;color:#065F46;display:block}
-.verify-result.fail{background:#FEF2F2;border:1.5px solid #FECACA;color:#991B1B;display:block}
-
-/* TOAST */
-.toast{
-  position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:linear-gradient(135deg,#1a2057,#2C3E9F);
-  color:#fff;
-  padding:10px 20px;border-radius:20px;
-  font-family:var(--mono);font-size:11px;font-weight:600;
-  box-shadow:0 4px 20px rgba(44,47,235,.4);
-  opacity:0;transition:all .3s;z-index:999;
-  white-space:nowrap;pointer-events:none;
-}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* BOTTOM NAV */
-.bottom-nav{
-  position:fixed;bottom:0;left:0;right:0;
-  background:var(--surface);
-  border-top:1px solid var(--border);
-  padding:10px 14px 16px;
-  display:flex;justify-content:space-around;
-  z-index:100;
-  box-shadow:0 -4px 20px rgba(0,0,0,.08);
-}
-.nav-item{
-  display:flex;flex-direction:column;align-items:center;
-  gap:3px;cursor:pointer;
-  font-family:var(--mono);font-size:9px;
-  color:var(--ink4);font-weight:600;
-  transition:color .2s;padding:4px 16px;
-  border-radius:10px;
-  outline:none;
-  -webkit-tap-highlight-color:transparent;
+.section-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:13px 15px;cursor:pointer;transition:background .2s;
   user-select:none;
 }
-.nav-item.active{color:var(--brand)}
-.nav-item:hover{color:var(--brand);background:var(--brand3)}
-.nav-icon{font-size:20px;line-height:1}
-
-/* VERDICT COLORS in INTEL */
-.v0-disc{background:var(--v0bg)}
-.v1-disc{background:var(--v1bg)}
-
-/* REPORT SECTION inside result */
-.report-btn{
-  width:100%;padding:10px;
-  background:transparent;
-  border:1.5px solid var(--v3bd);
-  border-radius:var(--r-sm);
-  color:var(--v3);
-  font-family:var(--mono);font-size:11px;
-  cursor:pointer;font-weight:700;
-  transition:all .2s;margin-top:6px;
+.section-hdr:hover{background:var(--surface2)}
+.section-hdr-left{display:flex;align-items:center;gap:10px}
+.section-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;flex-shrink:0;
 }
-.report-btn:hover{background:var(--v3bg)}
+.si-blue{background:#EAF2FF}
+.si-purple{background:#F5F0FF}
+.si-orange{background:#FFF3E0}
+.si-green{background:#F0FDF4}
+.section-hdr-title{font-size:12px;font-weight:700;color:var(--ink)}
+.section-hdr-sub{font-size:9px;font-family:var(--mono);color:var(--ink4);margin-top:1px}
+.section-caret{font-size:11px;color:var(--ink3);transition:transform .25s}
+.section-caret.open{transform:rotate(180deg)}
 
-@media(max-width:380px){
-  .intel-grid{grid-template-columns:1fr}
-  .intel-full{grid-column:1}
-  .action-btns{grid-template-columns:1fr}
+.section-body{
+  display:none;padding:0 15px 13px;border-top:1px solid var(--border);
 }
+.section-body.open{display:block}
+
+/* trace items */
+.trace-list{display:flex;flex-direction:column;gap:5px;padding-top:10px}
+.trace-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:var(--surface2);border-radius:8px;padding:7px 10px;
+}
+.trace-sig{font-family:var(--mono);font-size:10px;color:var(--ink2);font-weight:600}
+.trace-sc{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--brand)}
+
+/* intel grid */
+.intel-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-top:10px}
+.intel-item{background:var(--surface2);border-radius:8px;padding:9px 10px}
+.intel-full{grid-column:span 2}
+.intel-lbl{font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.intel-val{font-size:11px;font-weight:700;color:var(--ink)}
+
+/* signal chips */
+.signal-chips{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px}
+.signal-chip{
+  font-family:var(--mono);font-size:9px;padding:4px 9px;
+  border-radius:20px;font-weight:600;
+}
+.signal-chip.on{background:#EAF2FF;border:1px solid #A9C2FF;color:var(--brand)}
+.signal-chip.off{background:var(--surface2);border:1px solid var(--border);color:var(--ink4)}
+
+/* rules */
+.rules-list{display:flex;flex-wrap:wrap;gap:6px;padding-top:10px}
+.rule-tag{
+  font-family:var(--mono);font-size:9px;padding:4px 9px;
+  border-radius:6px;font-weight:600;
+  background:var(--surface2);border:1px solid var(--border);color:var(--ink3);
+}
+.rule-tag.v3-tag{background:#FEE2E2;border-color:#FCA5A5;color:#991B1B}
+.rule-tag.v2-tag{background:#FFEDD5;border-color:#FB923C;color:#7C2D12}
+.rule-tag.v1-tag{background:#FEF9C3;border-color:#FDE047;color:#713F12}
+
+/* proof */
+.proof-grid{padding-top:10px}
+.proof-row{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--border);
+}
+.proof-row:last-child{border-bottom:none}
+.proof-key{font-family:var(--mono);font-size:9px;color:var(--ink4);text-transform:uppercase;width:60px;flex-shrink:0}
+.proof-val{font-family:var(--mono);font-size:10px;color:var(--ink);font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;word-break:break-all}
+
+/* actions in analysis */
+.analysis-actions{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:8px;padding-top:10px;
+}
+.act-btn-sm{
+  padding:10px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--surface2);color:var(--ink2);
+  font-family:var(--sans);font-size:11px;font-weight:700;
+  cursor:pointer;transition:all .2s;text-align:center;
+}
+.act-btn-sm:hover{border-color:var(--brand);color:var(--brand);background:var(--brand3)}
+
+/* feedback */
+.fb-wrap{
+  display:flex;align-items:center;gap:8px;padding-top:12px;
+  border-top:1px solid var(--border);margin-top:4px;
+}
+.fb-lbl{font-family:var(--mono);font-size:9px;color:var(--ink4);flex:1}
+.fb-btn{
+  padding:5px 12px;border-radius:8px;border:1.5px solid var(--border);
+  background:var(--surface2);color:var(--ink2);
+  font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.fb-btn:hover{border-color:var(--brand)}
+.fb-btn.sel{background:var(--brand);border-color:var(--brand);color:#fff}
+.fb-thanks{font-family:var(--mono);font-size:9px;color:#16A34A;display:none}
+.fb-thanks.show{display:block}
+
+/* ══════════════════════════════════════════
+   MODALS
+══════════════════════════════════════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.5);
+  backdrop-filter:blur(4px);z-index:100;
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.show{opacity:1;pointer-events:auto}
+.modal-sheet{
+  background:var(--surface);border-radius:20px 20px 0 0;
+  width:100%;max-width:430px;padding:20px;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+  max-height:85vh;overflow-y:auto;
+}
+.modal-overlay.show .modal-sheet{transform:translateY(0)}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:10px}
+.modal-body{font-size:13px;color:var(--ink2);line-height:1.8}
+.modal-close{
+  width:100%;padding:12px;margin-top:16px;
+  border-radius:12px;border:none;
+  background:var(--brand2);color:#fff;
+  font-family:var(--sans);font-size:13px;font-weight:700;
+  cursor:pointer;
+}
+
+/* verify modal */
+.verify-input{
+  width:100%;padding:10px 12px;border:1.5px solid var(--border);
+  border-radius:10px;font-family:var(--mono);font-size:10px;
+  color:var(--ink);margin:10px 0;resize:vertical;min-height:80px;
+  background:var(--surface2);
+}
+.verify-result{
+  font-family:var(--mono);font-size:11px;padding:10px 12px;
+  border-radius:10px;margin-top:8px;display:none;
+}
+.verify-result.ok{background:#DCFCE7;color:#166534;border:1px solid #86EFAC;display:block}
+.verify-result.fail{background:#FEE2E2;color:#991B1B;border:1px solid #FCA5A5;display:block}
+
+/* toast */
+#toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:#1a2575;color:#fff;font-family:var(--mono);font-size:11px;
+  padding:9px 18px;border-radius:20px;z-index:200;
+  opacity:0;transition:all .3s;white-space:nowrap;pointer-events:none;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  display:flex;background:var(--surface);
+  border-top:1px solid var(--border);
+  flex-shrink:0;padding-bottom:env(safe-area-inset-bottom);
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:8px 4px;cursor:pointer;transition:all .2s;
+  outline:none;border:none;background:none;
+  font-family:var(--sans);
+}
+.nav-item:hover{background:var(--surface2)}
+.nav-icon{font-size:18px;margin-bottom:2px;line-height:1}
+.nav-lbl{font-size:9px;font-weight:600;color:var(--ink4);font-family:var(--mono)}
+.nav-item.active .nav-lbl{color:var(--brand)}
+.nav-item.active .nav-icon{filter:drop-shadow(0 0 4px rgba(44,62,159,.3))}
+
+/* ── THREAT COLORS ── */
+.threat-badge{
+  font-family:var(--mono);font-size:9px;font-weight:700;
+  padding:3px 9px;border-radius:20px;
+}
+.threat-LOW{background:#DCFCE7;border:1px solid #86EFAC;color:#166534}
+.threat-MEDIUM{background:#FEF9C3;border:1px solid #FDE047;color:#713F12}
+.threat-HIGH{background:#FFEDD5;border:1px solid #FB923C;color:#7C2D12}
+.threat-CRITICAL{background:#FEE2E2;border:1px solid #FCA5A5;color:#991B1B}
+
+/* conf bar */
+.conf-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;margin:8px 0 4px}
+.conf-fill{height:100%;border-radius:3px;transition:width .8s cubic-bezier(.4,0,.2,1)}
+.v0-fill{background:linear-gradient(90deg,var(--c0),#4ADE80)}
+.v1-fill{background:linear-gradient(90deg,var(--c1),#FDE047)}
+.v2-fill{background:linear-gradient(90deg,var(--c2),#FB923C)}
+.v3-fill{background:linear-gradient(90deg,var(--c3),#F87171)}
+
+/* engine offline banner */
+.offline-banner{
+  background:#FEE2E2;border:1px solid #FCA5A5;border-radius:10px;
+  padding:9px 12px;margin:0 16px 10px;
+  font-family:var(--mono);font-size:10px;color:#991B1B;
+  display:none;text-align:center;
+}
+.offline-banner.show{display:block}
+
+/* safe notice in result */
+.safe-notice-r{
+  background:#FFF7D6;border:1.5px solid #F5C842;
+  border-radius:10px;padding:10px 12px;margin-bottom:10px;
+  display:flex;gap:8px;align-items:flex-start;
+}
+.safe-notice-r span{font-size:12px;font-weight:600;color:#5C4A00;line-height:1.6}
+
+/* report scam button standalone */
+.report-scam-btn{
+  width:100%;padding:13px;border-radius:12px;border:none;
+  background:#E53935;color:#fff;
+  font-family:var(--sans);font-size:13px;font-weight:700;
+  cursor:pointer;transition:all .2s;margin-bottom:10px;
+  box-shadow:0 4px 14px rgba(229,57,53,.2);
+}
+.report-scam-btn:hover{background:#C62828;transform:translateY(-1px)}
+
 </style>
 </head>
 <body>
-
-<!-- MARQUEE -->
-<div id="warn-bar">
-  <span id="warn-text">⚠️ This tool only gives a warning — Final decision is always yours. We do not guarantee anything. · ⚠️ यह टूल केवल सावधानी देता है — अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।</span>
-</div>
-
 <div id="app">
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="logo-row">
+<!-- ══════════════════════════════════════════
+     SCREEN 1: SCAN
+══════════════════════════════════════════ -->
+<div class="screen active" id="screen-scan">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="header-logo">
       <div class="logo-icon">🛡</div>
-      <div class="logo-name">Veritas Guard</div>
+      <div class="logo-text">
+        <div class="logo-name">Veritas Guard</div>
+        <div class="logo-tag">RISK PATTERN ANALYZER</div>
+      </div>
     </div>
-    <div class="tagline" id="tagline-text">Risk Pattern Explainer · Not an enforcement tool</div>
-    <div class="no-ai-pill">No AI · No Prediction · Deterministic Rules Only</div>
-    <br>
-    <div class="engine-pill checking" id="engine-pill" onclick="showInfoModal()">
-      <div class="dot"></div>
-      <span id="engine-pill-text">ENGINE — CHECKING...</span>
-    </div>
-    <br>
-    <div id="trust-badge"><span>🔒</span> <span id="trust-badge-text">Rules Hard-Locked</span></div>
-  </div>
-
-  <!-- STATS -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="stat-num" id="stat-total">0</div>
-      <div class="stat-lbl" id="lbl-total">Total</div>
-      <div class="stat-sub">Session</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-today">0</div>
-      <div class="stat-lbl" id="lbl-today">Today</div>
-      <div class="stat-sub">Daily reset</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-num" id="stat-flagged">0</div>
-      <div class="stat-lbl">Flagged</div>
-      <div class="stat-sub">Risk found</div>
+    <div class="header-right">
+      <div class="engine-pill offline" id="engine-pill">
+        <span class="dot"></span>
+        <span id="engine-version-text">ENGINE</span>
+      </div>
     </div>
   </div>
 
-  <!-- RATE -->
-  <div class="rate-wrap">
-    <div class="rate-label" id="rate-label">Remaining: <strong>10</strong>/10</div>
-    <div class="rate-dots" id="rate-dots"></div>
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span>⚠️ This tool only gives a warning — Final decision is always yours. We do not guarantee anything. · ⚠️ यह टूल केवल सावधानी देता है — अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।</span>
+      <span>⚠️ This tool only gives a warning — Final decision is always yours. We do not guarantee anything. · ⚠️ यह टूल केवल सावधानी देता है — अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।</span>
+    </div>
   </div>
-  <div class="rate-warn" id="rate-warn">Daily limit reached. Try again later.</div>
 
-  <!-- INPUT CARD -->
-  <div class="card">
+  <!-- Body -->
+  <div class="screen-body">
+
+    <!-- Lang row -->
     <div class="lang-row">
       <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
       <button class="lang-btn" id="btn-hi" onclick="setLang('hi')">हिंदी</button>
-      <button class="lang-btn" id="btn-ta" onclick="setLang('ta')">தமிழ்</button>
-      <button class="lang-btn" id="btn-bn" onclick="setLang('bn')">বাংলা</button>
-      <button class="lang-btn" id="btn-gu" onclick="setLang('gu')">ગુજ</button>
     </div>
-    <div class="field-lbl" id="lbl-usecase">USE CASE</div>
-    <select id="usecase">
-      <option value="cyber"      data-en="Cyber / Fraud"       data-hi="साइबर / फ्रॉड">Cyber / Fraud</option>
-      <option value="banking"    data-en="Banking / Fintech"    data-hi="बैंकिंग / फिनटेक">Banking / Fintech</option>
-      <option value="legal"      data-en="Legal / Compliance"   data-hi="कानूनी / अनुपालन">Legal / Compliance</option>
-      <option value="health"     data-en="Healthcare"           data-hi="हेल्थकेयर">Healthcare</option>
-      <option value="insurance"  data-en="Insurance"            data-hi="बीमा">Insurance</option>
-      <option value="govt"       data-en="Government / Public"  data-hi="सरकारी / सार्वजनिक">Government / Public</option>
-      <option value="ecom"       data-en="E-commerce"           data-hi="ई-कॉमर्स">E-commerce</option>
-      <option value="edu"        data-en="Education / Research" data-hi="शिक्षा / अनुसंधान">Education / Research</option>
-      <option value="enterprise" data-en="Enterprise Security"  data-hi="एंटरप्राइज सुरक्षा">Enterprise Security</option>
-    </select>
-    <div class="field-lbl" id="lbl-input">MESSAGE / SMS / LINK</div>
-    <div class="img-upload-row">
-      <label class="img-upload-btn">
-        📷 <span id="img-btn-text">Upload Screenshot</span>
-        <input type="file" id="img-input" accept="image/*" onchange="handleImage(event)">
-      </label>
-      <span class="img-status" id="img-status"></span>
-      <span class="img-processing" id="img-processing"><span id="img-proc-text">⟳ Reading...</span></span>
-    </div>
-    <div class="img-preview-wrap" id="img-preview-wrap">
-      <img class="img-thumb" id="img-preview" src="" alt="">
-      <div class="img-info">
-        <div class="img-filename" id="img-filename">screenshot.jpg</div>
-        <div class="prog-wrap"><div class="prog-fill" id="prog-bar"></div></div>
+
+    <!-- Stats -->
+    <div class="stats-row" style="margin-top:12px">
+      <div class="stat-card">
+        <div class="stat-num" id="stat-session">0</div>
+        <div class="stat-lbl" id="stat-session-lbl">Session</div>
       </div>
-      <button class="img-clear-btn" onclick="clearImage()">✕</button>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-today">0</div>
+        <div class="stat-lbl" id="stat-today-lbl">Today</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="stat-flagged">0</div>
+        <div class="stat-lbl" id="stat-flagged-lbl">Flagged</div>
+      </div>
     </div>
-    <textarea id="input-text" maxlength="1000" placeholder="Paste SMS, WhatsApp message, or link here..."></textarea>
-    <div class="char-row">
-      <button class="clear-btn" id="clear-btn">✕ CLEAR</button>
-      <span class="char-count"><span id="char-val">0</span>/1000</span>
+
+    <!-- Rate dots -->
+    <div class="rate-wrap" style="margin-top:6px">
+      <div class="rate-label" id="rate-label">Remaining: <strong>10</strong>/10</div>
+      <div class="rate-dots" id="rate-dots"></div>
     </div>
-    <button id="analyze-btn" onclick="doAnalyze()">
-      <span id="btn-text">⚡ ANALYZE RISK SIGNALS</span>
+    <div class="rate-warn" id="rate-warn">Daily limit reached. Try again later.</div>
+
+    <!-- Offline banner -->
+    <div class="offline-banner" id="offline-banner">⚠ Engine offline — check your connection</div>
+
+    <!-- Input card -->
+    <div class="input-card">
+      <div class="input-label" id="input-label">MESSAGE / SMS / LINK</div>
+
+      <!-- Image upload -->
+      <div class="img-upload-row">
+        <label class="img-upload-btn">
+          📷 <span id="img-btn-text">Upload Screenshot</span>
+          <input type="file" id="img-input" accept="image/*" onchange="handleImage(event)">
+        </label>
+        <span class="img-status" id="img-status"></span>
+      </div>
+
+      <!-- Preview -->
+      <div class="img-preview-wrap" id="img-preview-wrap">
+        <img class="img-thumb" id="img-preview" src="" alt="">
+        <div class="img-info">
+          <div class="img-filename" id="img-filename">screenshot.jpg</div>
+          <div class="prog-wrap"><div class="prog-fill" id="prog-bar"></div></div>
+        </div>
+        <button class="img-clear-btn" onclick="clearImage()">✕</button>
+      </div>
+
+      <!-- Textarea -->
+      <textarea id="input-text" placeholder="Paste SMS, WhatsApp message or any suspicious text here..." 
+        oninput="updateChar()"></textarea>
+
+      <div class="char-row">
+        <span class="char-count"><span id="char-val">0</span> chars</span>
+        <span class="char-count" id="char-hint"></span>
+      </div>
+    </div>
+
+    <!-- Examples -->
+    <div class="examples-row">
+      <div class="examples-label" id="examples-label">TRY AN EXAMPLE</div>
+      <div class="example-chips">
+        <div class="ex-chip" onclick="tryExample(0)" id="ex0">🎰 Lottery</div>
+        <div class="ex-chip" onclick="tryExample(1)" id="ex1">🏦 Bank SMS</div>
+        <div class="ex-chip" onclick="tryExample(2)" id="ex2">⚠ Advisory</div>
+      </div>
+    </div>
+
+    <!-- Analyze button -->
+    <div class="analyze-wrap">
+      <button id="analyze-btn" onclick="doAnalyze()">
+        <span id="btn-text">⚡ ANALYZE RISK SIGNALS</span>
+      </button>
+      <div id="analyzing-text">🔍 Analyzing patterns...</div>
+    </div>
+
+    <!-- Info cards -->
+    <div class="info-section">
+
+      <!-- Safety Notice -->
+      <div class="info-card-new ic-warn">
+        <div class="ic-title">⚠️ IMPORTANT</div>
+        <div class="ic-body">Always verify before sharing OTP, money, or personal information. · OTP, पैसे या जानकारी देने से पहले हमेशा जाँच करें।</div>
+      </div>
+
+      <!-- How it works -->
+      <div class="info-card-new ic-info">
+        <div class="ic-title" id="how-title">ℹ️ HOW THIS WORKS</div>
+        <div>
+          <div class="how-item"><span class="how-check">✓</span><span id="how1">No login required — works instantly</span></div>
+          <div class="how-item"><span class="how-check">✓</span><span id="how2">Message content is never stored</span></div>
+          <div class="how-item"><span class="how-check">✓</span><span id="how3">Rules are fixed — no prediction or guessing</span></div>
+          <div class="how-item"><span class="how-check">✓</span><span id="how4">Each result is sealed — can be verified later</span></div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <div class="info-card-new ic-disc">
+        <div class="ic-title" id="disc-title">⚠️ DISCLAIMER</div>
+        <div class="ic-body" id="disc-body">This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.</div>
+      </div>
+
+      <!-- Support -->
+      <div class="info-card-new ic-support">
+        <div class="ic-title">❤️ SUPPORT THIS PROJECT</div>
+        <div class="ic-body" id="donate-body">If Veritas Guard helped you avoid a scam, you can support development. Every contribution helps keep this tool free.</div>
+        <div class="upi-box">
+          <span class="upi-id">lal7590-7@okicici</span>
+          <button class="upi-copy-btn" onclick="copyUPI()">📋 Copy</button>
+        </div>
+        <div class="upi-note">UPI · Google Pay · PhonePe · Paytm — all work</div>
+      </div>
+
+    </div>
+  </div><!-- /screen-body -->
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="goScreen('scan')">
+      <span class="nav-icon">🛡</span>
+      <span class="nav-lbl" id="nav-scan">Scan</span>
     </button>
-    <div class="trust-pills">
-      <span class="tpill" id="nd1">No Login</span>
-      <span class="tpill" id="nd2">No Storage</span>
-      <span class="tpill" id="nd3">Deterministic Rules</span>
+    <button class="nav-item" onclick="goScreen('result')" id="nav-result-btn">
+      <span class="nav-icon">📊</span>
+      <span class="nav-lbl" id="nav-result">Results</span>
+    </button>
+    <button class="nav-item" onclick="openReport()">
+      <span class="nav-icon">🚨</span>
+      <span class="nav-lbl" id="nav-report">Report</span>
+    </button>
+    <button class="nav-item" onclick="openModal('privacy-modal')">
+      <span class="nav-icon">🔒</span>
+      <span class="nav-lbl" id="nav-privacy">Privacy</span>
+    </button>
+  </div>
+
+</div><!-- /screen-scan -->
+
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2: RESULT
+══════════════════════════════════════════ -->
+<div class="screen right" id="screen-result">
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="header-logo">
+      <div class="logo-icon">🛡</div>
+      <div class="logo-text">
+        <div class="logo-name">Risk Result</div>
+        <div class="logo-tag" id="result-engine-tag">ENGINE v1.14 · RULES FROZEN</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="engine-pill online" id="engine-pill-r">
+        <span class="dot"></span>
+        <span>ONLINE</span>
+      </div>
     </div>
   </div>
 
-  <!-- RESULT CARD -->
-  <div id="result-card"></div>
+  <!-- Body -->
+  <div class="screen-body result-screen-body" id="result-screen-body">
 
-  <!-- EXAMPLES -->
-  <div class="examples-card">
-    <div class="section-title" id="ex-title">TRY AN EXAMPLE</div>
-    <div class="info-body" id="ex-sub" style="font-size:10px;color:var(--ink3)">Simulated messages for testing only</div>
-    <div class="ex-btns">
-      <button class="ex-btn" id="ex1" onclick="loadEx(0)">🚨 Try scam-pattern example</button>
-      <button class="ex-btn" id="ex2" onclick="loadEx(1)">🏦 Try bank SMS example</button>
-      <button class="ex-btn" id="ex3" onclick="loadEx(2)">🏛 Try government advisory example</button>
+    <!-- Checked time -->
+    <div class="checked-time-r" id="result-time">Checked — · Based on known risk signals</div>
+
+    <!-- Verdict big card -->
+    <div class="verdict-big v0" id="verdict-card">
+      <div class="verdict-top">
+        <div class="verdict-emoji" id="verdict-emoji">✅</div>
+        <div class="verdict-text">
+          <div class="verdict-label" id="verdict-label">Nothing unusual found</div>
+          <div class="verdict-sub-text" id="verdict-sub">We did not notice anything unusual.</div>
+          <div class="verdict-code-badge" id="verdict-code">⚪ ALL CLEAR</div>
+        </div>
+      </div>
+
+      <!-- Mini stats -->
+      <div class="mini-stats">
+        <div class="mini-stat">
+          <div class="mini-stat-num" id="r-conf">—</div>
+          <div class="mini-stat-lbl">Confidence</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num" id="r-signals">—</div>
+          <div class="mini-stat-lbl">Signals</div>
+        </div>
+        <div class="mini-stat">
+          <div class="mini-stat-num" id="r-score">—</div>
+          <div class="mini-stat-lbl">Score</div>
+        </div>
+      </div>
+
+      <!-- Threat badge + summary -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <span class="threat-badge-big" id="r-threat-badge">🟢 LOW</span>
+      </div>
+      <div class="summary-msg" id="r-summary">Final decision is always yours.</div>
+    </div>
+
+    <!-- Safe notice -->
+    <div class="safe-notice-r">
+      <span>⚠️</span>
+      <span id="r-safe-notice">This is only a caution. Final decision is always yours. We do not guarantee anything.</span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="result-actions">
+      <button class="result-btn btn-view-analysis" onclick="goScreen('analysis')">
+        🔍 View Analysis
+      </button>
+      <button class="result-btn btn-report-scam" onclick="openReport()">
+        🚨 Report Scam
+      </button>
+    </div>
+
+    <!-- Share + Copy row -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <button class="act-btn-sm" onclick="shareResult()">📤 Share</button>
+      <button class="act-btn-sm" onclick="copyProof()">📋 Copy Proof</button>
+    </div>
+
+    <!-- Scan again -->
+    <button class="btn-scan-again" onclick="goScreen('scan')">← Scan Another Message</button>
+
+    <!-- Disclaimer -->
+    <div class="disclaimer-strip" id="r-disclaimer">
+      ⚠️ This tool only gives a warning — it does NOT confirm fraud, block anything, or decide for you. Final decision is always yours.
+    </div>
+
+  </div><!-- /result-screen-body -->
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <button class="nav-item" onclick="goScreen('scan')">
+      <span class="nav-icon">🛡</span>
+      <span class="nav-lbl">Scan</span>
+    </button>
+    <button class="nav-item active" onclick="goScreen('result')">
+      <span class="nav-icon">📊</span>
+      <span class="nav-lbl">Results</span>
+    </button>
+    <button class="nav-item" onclick="openReport()">
+      <span class="nav-icon">🚨</span>
+      <span class="nav-lbl">Report</span>
+    </button>
+    <button class="nav-item" onclick="openModal('privacy-modal')">
+      <span class="nav-icon">🔒</span>
+      <span class="nav-lbl">Privacy</span>
+    </button>
+  </div>
+
+</div><!-- /screen-result -->
+
+
+<!-- ══════════════════════════════════════════
+     SCREEN 3: ANALYSIS
+══════════════════════════════════════════ -->
+<div class="screen right" id="screen-analysis">
+
+  <!-- Header -->
+  <div class="analysis-header">
+    <button class="back-btn" onclick="goScreen('result')">←</button>
+    <div>
+      <div class="analysis-title">Full Analysis</div>
+      <div class="analysis-sub" id="analysis-sub">Signal breakdown · Pattern intelligence · Proof</div>
     </div>
   </div>
 
-  <!-- SAFETY NOTICE -->
-  <div style="background:#FFF7D6;border:1.5px solid #F5C842;border-radius:16px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
-    <span style="font-size:18px">⚠️</span>
-    <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;color:#5C4A00;line-height:1.6">Always verify before sharing OTP, money, or personal information. · OTP, पैसे या जानकारी देने से पहले हमेशा जाँच करें।</span>
-  </div>
+  <!-- Body -->
+  <div class="screen-body analysis-body">
 
-  <!-- REPORT SCAM PATTERN -->
-  <div class="report-wrap">
-    <p class="report-note">Help improve scam detection by reporting suspicious messages.</p>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform" target="_blank" rel="noopener noreferrer" style="text-decoration:none">
-      <button class="report-scam-button">🚨 Report Scam Pattern</button>
-    </a>
-  </div>
-
-  <!-- DISCLAIMER -->
-  <div style="background:#F5F6FA;border:1.5px solid #E6E8F0;border-radius:16px;padding:15px 18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#2C3E9F;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px" id="disc-title">⚠️ DISCLAIMER</div>
-    <p style="font-size:12px;color:#374151;line-height:1.8;font-weight:500" id="disc-body">This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.</p>
-  </div>
-
-  <!-- HOW IT WORKS -->
-  <div style="background:#EAF2FF;border:1.5px solid #A9C2FF;border-radius:16px;padding:15px 18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#1E3A8A;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px" id="how-title">ℹ️ HOW THIS WORKS</div>
-    <div style="display:flex;flex-direction:column;gap:7px" class="how-list">
-      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how1"><span style="color:#2C3E9F;font-weight:700">✓</span> No login required — works instantly</div>
-      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how2"><span style="color:#2C3E9F;font-weight:700">✓</span> Message content is never stored</div>
-      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how3"><span style="color:#2C3E9F;font-weight:700">✓</span> Rules are fixed — no prediction or guessing</div>
-      <div style="font-size:12px;color:#1E3A8A;display:flex;align-items:center;gap:8px;font-weight:500" id="how4"><span style="color:#2C3E9F;font-weight:700">✓</span> Each result is sealed — can be verified later</div>
+    <!-- 1. Signal Trace -->
+    <div class="analysis-section">
+      <div class="section-hdr" onclick="toggleSection('trace')">
+        <div class="section-hdr-left">
+          <div class="section-icon si-blue">📡</div>
+          <div>
+            <div class="section-hdr-title">Signal Trace</div>
+            <div class="section-hdr-sub">How signals were triggered</div>
+          </div>
+        </div>
+        <span class="section-caret" id="caret-trace">▼</span>
+      </div>
+      <div class="section-body" id="body-trace">
+        <div class="trace-list" id="trace-list-a">
+          <div class="trace-item"><span class="trace-sig">No trace available</span></div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <!-- DONATION -->
-  <div style="background:#F5F6FA;border:1.5px solid #E6E8F0;border-radius:16px;padding:18px;margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,.05)">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:#2C3E9F;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px">❤️ SUPPORT THIS PROJECT</div>
-    <p style="font-size:12px;color:#374151;line-height:1.8;margin-bottom:14px;font-weight:500" id="donate-body">If Veritas Guard helped you avoid a scam, you can support development. Every contribution helps keep this tool free.</p>
-    <div style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #E6E8F0;border-radius:10px;padding:11px 14px;margin-bottom:8px">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#2C3E9F;font-weight:700;flex:1">lal7590-7@okicici</span>
-      <button class="upi-copy" onclick="copyUPI()" style="background:#4A5CFF;border:none;border-radius:7px;padding:6px 14px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;cursor:pointer;font-weight:700">📋 Copy</button>
+    <!-- 2. Fraud Vector -->
+    <div class="analysis-section">
+      <div class="section-hdr" onclick="toggleSection('vector')">
+        <div class="section-hdr-left">
+          <div class="section-icon si-purple">🎯</div>
+          <div>
+            <div class="section-hdr-title">Fraud Vector</div>
+            <div class="section-hdr-sub">Attack type · Family · Pattern</div>
+          </div>
+        </div>
+        <span class="section-caret" id="caret-vector">▼</span>
+      </div>
+      <div class="section-body" id="body-vector">
+        <div class="intel-grid" id="vector-grid">
+          <div class="intel-item intel-full">
+            <div class="intel-lbl">Status</div>
+            <div class="intel-val">No data yet</div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#6B7280;text-align:center">UPI · Google Pay · PhonePe · Paytm — all work</div>
+
+    <!-- 3. Pattern Intelligence -->
+    <div class="analysis-section">
+      <div class="section-hdr" onclick="toggleSection('pattern')">
+        <div class="section-hdr-left">
+          <div class="section-icon si-orange">🧠</div>
+          <div>
+            <div class="section-hdr-title">Pattern Intelligence</div>
+            <div class="section-hdr-sub">Signal breakdown · Matched rules</div>
+          </div>
+        </div>
+        <span class="section-caret" id="caret-pattern">▼</span>
+      </div>
+      <div class="section-body" id="body-pattern">
+        <!-- Signal chips -->
+        <div class="signal-chips" id="signal-chips-a"></div>
+        <!-- Signal strength bar -->
+        <div style="margin-top:12px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span style="font-family:var(--mono);font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px">SIGNAL STRENGTH</span>
+            <span style="font-family:var(--mono);font-size:11px;font-weight:700;color:var(--brand)" id="strength-val">0</span>
+          </div>
+          <div class="conf-track"><div class="conf-fill v0-fill" id="strength-bar"></div></div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--ink4);margin-top:4px" id="strength-band"></div>
+        </div>
+        <!-- Rules -->
+        <div style="margin-top:12px">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px" id="rules-hdr">WHAT WE NOTICED</div>
+          <div class="rules-list" id="rules-list-a"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Cryptographic Proof -->
+    <div class="analysis-section">
+      <div class="section-hdr" onclick="toggleSection('proof')">
+        <div class="section-hdr-left">
+          <div class="section-icon si-green">🔒</div>
+          <div>
+            <div class="section-hdr-title">Cryptographic Proof</div>
+            <div class="section-hdr-sub">Tamper-proof · Verifiable</div>
+          </div>
+        </div>
+        <span class="section-caret" id="caret-proof">▼</span>
+      </div>
+      <div class="section-body" id="body-proof">
+        <div class="proof-grid" id="proof-grid-a"></div>
+        <div class="analysis-actions">
+          <button class="act-btn-sm" onclick="copyProof()">📋 Copy Proof</button>
+          <button class="act-btn-sm" onclick="openVerifyModal()">🔍 Verify</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback -->
+    <div class="analysis-section">
+      <div style="padding:13px 15px">
+        <div class="fb-wrap">
+          <span class="fb-lbl" id="fb-lbl-a">Was this helpful?</span>
+          <button class="fb-btn" id="fb-yes" onclick="giveFb('yes')">👍 Yes</button>
+          <button class="fb-btn" id="fb-no" onclick="giveFb('no')">👎 No</button>
+          <span class="fb-thanks" id="fb-thanks">Thank you!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Share actions -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;padding-bottom:16px">
+      <button class="act-btn-sm" onclick="shareResult()">📤 Share Result</button>
+      <button class="act-btn-sm" onclick="goScreen('scan')">← New Scan</button>
+    </div>
+
+  </div><!-- /analysis-body -->
+
+  <!-- Bottom nav -->
+  <div class="bottom-nav">
+    <button class="nav-item" onclick="goScreen('scan')">
+      <span class="nav-icon">🛡</span>
+      <span class="nav-lbl">Scan</span>
+    </button>
+    <button class="nav-item" onclick="goScreen('result')">
+      <span class="nav-icon">📊</span>
+      <span class="nav-lbl">Results</span>
+    </button>
+    <button class="nav-item active">
+      <span class="nav-icon">🔍</span>
+      <span class="nav-lbl">Analysis</span>
+    </button>
+    <button class="nav-item" onclick="openModal('privacy-modal')">
+      <span class="nav-icon">🔒</span>
+      <span class="nav-lbl">Privacy</span>
+    </button>
   </div>
 
-  <!-- TRUST FOOTER -->
-  <div class="trust-footer">
-    <div class="tf1">ENGINE <span id="footer-ver">v1.14</span> · RULES FROZEN</div>
-    <div class="tf2">Deterministic · No AI · No message storage</div>
-  </div>
+</div><!-- /screen-analysis -->
 
-  <footer id="footer-copy">© Veritas Engine — Open Risk Awareness Tool</footer>
+
+<!-- ══════════════════════════════════════════
+     MODALS
+══════════════════════════════════════════ -->
+
+<!-- Hash info -->
+<div class="modal-overlay" id="hash-modal" onclick="closeModal('hash-modal')">
+  <div class="modal-sheet" onclick="e=>e.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔒 What is this Hash?</div>
+    <div class="modal-body">
+      Every result gets a unique SHA-256 fingerprint. If anyone changes even one character in the result, the hash completely changes — proving tampering.<br><br>
+      You can verify this hash anytime at <strong>api.veritasengine.in/verify</strong>
+    </div>
+    <button class="modal-close" onclick="closeModal('hash-modal')">Got it</button>
+  </div>
 </div>
 
-<!-- TOAST -->
-<!-- BOTTOM NAV -->
-<nav class="bottom-nav">
-  <div class="nav-item active" onclick="document.getElementById('app').scrollTo({top:0,behavior:'smooth'})">
-    <span class="nav-icon">🛡</span>
-    <span>Scan</span>
-  </div>
-  <div class="nav-item" onclick="document.getElementById('result-card').scrollIntoView({behavior:'smooth'})">
-    <span class="nav-icon">📊</span>
-    <span>Results</span>
-  </div>
-  <div class="nav-item" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform','_blank')">
-    <span class="nav-icon">🚨</span>
-    <span>Report</span>
-  </div>
-  <div class="nav-item" onclick="window.open('https://veritasengine.in/privacy.html','_blank')">
-    <span class="nav-icon">🔒</span>
-    <span>Privacy</span>
-  </div>
-</nav>
-
-<div id="toast"></div>
-
-<!-- INFO MODAL -->
-<div class="modal-overlay" id="info-modal">
-  <div class="modal-box">
-    <div class="modal-icon">🛡</div>
-    <div class="modal-title">About Veritas Guard</div>
-    <div class="modal-text" id="info-modal-text">
-      This tool detects risk patterns in messages.<br><br>
-      It does NOT confirm fraud, block anything, or make decisions for you.<br><br>
-      Results are based on known risk signals — not AI or prediction.
-    </div>
-    <button class="modal-close" onclick="closeModal('info-modal')">Understood</button>
+<!-- Verify proof -->
+<div class="modal-overlay" id="verify-modal" onclick="closeModal('verify-modal')">
+  <div class="modal-sheet" onclick="e=>e.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔍 Verify Result Integrity</div>
+    <div class="modal-body">Paste the RAW_PROOF JSON to verify this result was not tampered with.</div>
+    <textarea class="verify-input" id="verify-input" placeholder='{"decision":3,"confidence":88,"intent":"PHISHING","score":49,"hash":"..."}'></textarea>
+    <div class="verify-result" id="verify-result"></div>
+    <button class="modal-close" onclick="runVerify()">Verify Now</button>
   </div>
 </div>
 
-<!-- HASHCHAIN EXPLAINER MODAL -->
-<div class="modal-overlay" id="hash-modal">
-  <div class="modal-box">
-    <div class="modal-icon">🔒</div>
-    <div class="modal-title">Result Integrity</div>
-    <div class="modal-text">
-      This result is sealed at the moment it was generated.<br><br>
-      The rules used for this analysis cannot be changed later.<br><br>
-      This proves the analysis was not modified after generation.<br><br>
-      <span style="font-size:10px;opacity:.7">You can verify any copied proof using the Verify Proof button.</span>
-    </div>
-    <button class="modal-close" onclick="closeModal('hash-modal')">Understood</button>
-  </div>
-</div>
-
-<!-- VERIFY PROOF MODAL -->
-<div class="modal-overlay" id="verify-modal">
-  <div class="modal-box">
-    <div class="modal-icon">🔍</div>
-    <div class="modal-title">Verify Proof</div>
-    <div class="verify-modal-text">
-      This checks whether the copied proof matches the engine output.<br>
-      It does NOT determine fraud or safety.
-    </div>
-    <textarea class="verify-ta" id="verify-ta" placeholder="Paste proof text here...&#10;(from COPY PROOF button)"></textarea>
-    <button class="verify-btn-modal" id="verify-btn-modal" onclick="doVerify()">⚡ VERIFY</button>
-    <div class="verify-res" id="verify-res"></div>
-    <span class="verify-adv" id="verify-adv" onclick="toggleVerifyRaw()">Show proof details</span>
-    <div class="verify-raw" id="verify-raw"></div>
-    <button class="modal-cancel" onclick="closeModal('verify-modal')">Close</button>
-  </div>
-</div>
-
-<!-- LIMIT MODAL -->
-<div class="modal-overlay" id="limit-modal">
-  <div class="modal-box">
-    <div class="modal-icon">⏳</div>
-    <div class="modal-title" id="limit-title">Daily Limit Reached</div>
-    <div class="modal-text" id="limit-text">You have used all 10 analyses for today.<br>Please try again after 24 hours.</div>
+<!-- Limit modal -->
+<div class="modal-overlay" id="limit-modal" onclick="closeModal('limit-modal')">
+  <div class="modal-sheet" onclick="e=>e.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⏳ Daily Limit Reached</div>
+    <div class="modal-body" id="limit-body">You have used all 10 free scans for today. Come back tomorrow for 10 more free scans.</div>
     <button class="modal-close" onclick="closeModal('limit-modal')">OK</button>
   </div>
 </div>
 
+<!-- Privacy modal -->
+<div class="modal-overlay" id="privacy-modal" onclick="closeModal('privacy-modal')">
+  <div class="modal-sheet" onclick="e=>e.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-title">🔒 Privacy Policy</div>
+    <div class="modal-body">
+      Veritas Guard does not collect, store, or share any personal data.<br><br>
+      • No login required<br>
+      • No messages are stored<br>
+      • No tracking or analytics<br>
+      • All analysis is on our server — your data is never saved<br><br>
+      Contact: <strong>founder@veritasengine.in</strong>
+    </div>
+    <button class="modal-close" onclick="closeModal('privacy-modal')">Close</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
 <script>
-/* ══════════════════════════════════════
-   CONFIG
-══════════════════════════════════════ */
-const ENGINE_BASE = 'https://api.veritasengine.in';
-const DAILY_LIMIT = 10;
-const DEV_CODE    = 'VERITAS-DEV-2026';
+/* ══════════════════════════════════════════
+   CONSTANTS
+══════════════════════════════════════════ */
+const ENGINE_BASE  = 'https://api.veritasengine.in';
+const DAILY_LIMIT  = 10;
+const DEV_CODE     = 'VERITAS-DEV-2026';
+const REPORT_URL   = 'https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform';
 
 const EXAMPLES = [
   'Congratulations! You won Rs.5,00,000 lottery. Pay Rs.2,500 processing fee to claim. Visit: bit.ly/claim-now',
@@ -1176,34 +1187,21 @@ const EXAMPLES = [
   'Important advisory from Ministry of Finance: Be aware of fake calls posing as income tax officials. Visit incometax.gov.in only.'
 ];
 
-/* ══ SIGNAL METADATA ══ */
 const SIG = {
-  P:{ label:'P — Phishing',    en:'Impersonation or identity fraud signal', hi:'पहचान धोखाधड़ी संकेत' },
-  M:{ label:'M — Money',       en:'Monetary request or reward signal',       hi:'पैसे की मांग या इनाम संकेत' },
-  A:{ label:'A — Amount',      en:'Specific amount pattern detected',        hi:'राशि पैटर्न मिला' },
-  X:{ label:'X — External',    en:'Suspicious external link detected',       hi:'संदिग्ध बाहरी लिंक' },
-  C:{ label:'C — Urgency',     en:'Urgency or pressure signal detected',     hi:'तत्कालता की मांग' }
+  P:{label:'P — Phishing',   en:'Impersonation or identity fraud signal', hi:'पहचान धोखाधड़ी संकेत'},
+  M:{label:'M — Money',      en:'Monetary request or reward signal',       hi:'पैसे की मांग या इनाम संकेत'},
+  A:{label:'A — Amount',     en:'Specific amount pattern detected',        hi:'राशि पैटर्न मिला'},
+  X:{label:'X — External',   en:'Suspicious external link detected',       hi:'संदिग्ध बाहरी लिंक'},
+  C:{label:'C — Coercion',   en:'Urgency or pressure tactics detected',    hi:'तत्कालता की मांग'}
 };
 
-/* ══ DECISION MAP ══ */
+/* ══ DISPLAY MESSAGES ══ */
 const DM = {
   en:{
     label:  ['Nothing unusual found','Something seems unusual','Several unusual things found','Many unusual things found'],
-    sub:    [
-      'We did not notice anything unusual.',
-      'We noticed something. Please check once.',
-      'We noticed several things. Please verify before acting.',
-      'We noticed many things. Please do not act right now.'
-    ],
+    sub:    ['We did not notice anything unusual.','We noticed something. Please check once.','We noticed several things. Please verify before acting.','We noticed many things. Please do not act right now.'],
     code:   ['⚪ ALL CLEAR','🟡 CHECK ONCE','🟠 PLEASE VERIFY','🔴 DO NOT ACT YET'],
-    range:  ['Signal 0–20%','Signal 20–45%','Signal 45–75%','Signal 75–100%'],
     emoji:  ['✅','⚠️','🚨','🛑'],
-    disc:   [
-      'Nothing unusual found. But always stay careful.',
-      'Something seemed unusual. Please verify the sender.',
-      'Several unusual things found. Please check with someone before acting.',
-      'Many unusual things found. Please check with someone before acting.'
-    ],
     summary:[
       'We did not notice anything unusual in this message. But this is not a guarantee. Final decision is always yours.',
       'We noticed something unusual. Please verify the sender personally before taking any action. Final decision is always yours.',
@@ -1211,49 +1209,26 @@ const DM = {
       'We noticed many things that seem unusual. Please do not click any link, share any number or make any payment right now. First check with a trusted person. Final decision is always yours.'
     ],
     bands:[
-      {max:20, label:'Very low — nothing much found'},
-      {max:45, label:'Low — something noticed'},
-      {max:75, label:'Medium — several things noticed'},
+      {max:20,label:'Very low — nothing much found'},
+      {max:45,label:'Low — something noticed'},
+      {max:75,label:'Medium — several things noticed'},
       {max:101,label:'High — many things noticed'}
     ],
-    confNote:'This number shows how many unusual patterns were noticed — it is not a final verdict.',
     noRulesTag:'Nothing specific noticed',
     ruleHdr:'WHAT WE NOTICED',
-    hashTitle:'✅ Result is Sealed',
-    hashCopy:'Copy',
-    hashLearn:'What is this?',
-    hashVerify:'Check Result',
-    hashCopied:'Copied ✓',
     safeNotice:'⚠️ This is only a caution. Final decision is always yours. We do not guarantee anything.',
     disc2:'This tool only gives a warning ⚠️ — it does NOT confirm fraud, block anything, or decide for you.',
-    fbLbl:'Was this helpful?',fbYes:'Yes',fbNo:'Not clear',
+    fbLbl:'Was this helpful?',fbYes:'👍 Yes',fbNo:'👎 No',
     fbThanks:'Thank you. Your feedback helps us.',
-    share:'📤 Share',copy:'📋 Copy',verifyProof:'🔍 Check',
-    actNote:'Proof includes: decision · score · hash',
     toastCopy:'Copied — you can verify anytime',
     toastHash:'Copied ✓',
-    copy:'📋 Copy Proof',
-    fbYes:'👍 Yes, helpful',
-    fbNo:'👎 Not clear',
-    verifyProof:'🔍 Verify'
+    hashTitle:'✅ Result is Sealed',
   },
   hi:{
     label:  ['कोई अजीब बात नहीं मिली','कुछ अजीब लगा','कई अजीब बातें मिलीं','बहुत सी अजीब बातें मिलीं'],
-    sub:    [
-      'हमें कुछ भी असामान्य नहीं लगा।',
-      'हमें कुछ अजीब लगा। एक बार जाँच करें।',
-      'हमें कई अजीब बातें मिलीं। कोई कदम उठाने से पहले जाँचें।',
-      'हमें बहुत सी अजीब बातें मिलीं। अभी कोई कदम न उठाएं।'
-    ],
+    sub:    ['हमें कुछ भी असामान्य नहीं लगा।','हमें कुछ अजीब लगा। एक बार जाँच करें।','हमें कई अजीब बातें मिलीं। कोई कदम उठाने से पहले जाँचें।','हमें बहुत सी अजीब बातें मिलीं। अभी कोई कदम न उठाएं।'],
     code:   ['⚪ सब ठीक लगा','🟡 एक बार जाँचें','🟠 पहले जाँचें','🔴 अभी कुछ न करें'],
-    range:  ['संकेत 0–20%','संकेत 20–45%','संकेत 45–75%','संकेत 75–100%'],
     emoji:  ['✅','⚠️','🚨','🛑'],
-    disc:   [
-      'कुछ अजीब नहीं मिला। फिर भी सावधान रहें।',
-      'कुछ अजीब लगा। भेजने वाले को खुद जाँचें।',
-      'कई अजीब बातें मिलीं। कोई भी कदम उठाने से पहले किसी से पूछें।',
-      'बहुत सी अजीब बातें मिलीं। किसी से पूछे बिना कुछ न करें।'
-    ],
     summary:[
       'हमें इस संदेश में कुछ अजीब नहीं लगा। लेकिन यह सुरक्षित होने की गारंटी नहीं है। अंतिम निर्णय हमेशा आपका है।',
       'हमें कुछ अजीब लगा। कोई भी कदम उठाने से पहले भेजने वाले को खुद से जाँचें। अंतिम निर्णय हमेशा आपका है।',
@@ -1261,123 +1236,73 @@ const DM = {
       'हमें बहुत सी अजीब बातें मिलीं। अभी कोई लिंक न खोलें, कोई OTP या पैसे न दें। पहले घर के किसी समझदार इंसान से पूछें। अंतिम निर्णय हमेशा आपका है।'
     ],
     bands:[
-      {max:20, label:'बहुत कम — कुछ खास नहीं मिला'},
-      {max:45, label:'कम — कुछ मिला'},
-      {max:75, label:'मध्यम — कई बातें मिलीं'},
+      {max:20,label:'बहुत कम — कुछ खास नहीं मिला'},
+      {max:45,label:'कम — कुछ मिला'},
+      {max:75,label:'मध्यम — कई बातें मिलीं'},
       {max:101,label:'ज़्यादा — बहुत सी बातें मिलीं'}
     ],
-    confNote:'यह संख्या बताती है कितनी अजीब बातें मिलीं — यह धोखाधड़ी की पुष्टि नहीं है।',
     noRulesTag:'कुछ खास नहीं मिला',
     ruleHdr:'क्या क्या मिला',
-    hashTitle:'✅ परिणाम सील है',
-    hashCopy:'कॉपी करें',
-    hashLearn:'यह क्या है?',
-    hashVerify:'जाँचें',
-    hashCopied:'कॉपी हो गया ✓',
     safeNotice:'⚠️ यह केवल एक सावधानी है। अंतिम निर्णय हमेशा आपका है। हम कोई गारंटी नहीं देते।',
-    disc2:'यह टूल केवल ⚠️ चेतावनी देता है — यह धोखाधड़ी की पुष्टि नहीं करता, कुछ ब्लॉक नहीं करता, और आपके लिए निर्णय नहीं लेता।',
-    fbLbl:'क्या यह परिणाम स्पष्ट था?',fbYes:'हाँ',fbNo:'अस्पष्ट',
-    fbThanks:'धन्यवाद। फीडबैक दर्ज।',
-    share:'शेयर',copy:'प्रूफ कॉपी',verifyProof:'प्रूफ जाँचें',
-    actNote:'शामिल: decision · intent · fired_rules · score · hash',
-    toastCopy:'प्रूफ कॉपी — Verify Proof से जाँचें',
-    toastHash:'हैश कॉपी हो गया ✓'
+    disc2:'यह टूल केवल ⚠️ चेतावनी देता है — यह धोखाधड़ी की पुष्टि नहीं करता।',
+    fbLbl:'क्या यह मददगार था?',fbYes:'👍 हाँ',fbNo:'👎 नहीं',
+    fbThanks:'धन्यवाद।',
+    toastCopy:'कॉपी हो गया — कभी भी जाँचें',
+    toastHash:'कॉपी हो गया ✓',
+    hashTitle:'✅ परिणाम सील है',
   }
 };
 
-/* UI TEXT */
-const TXT={
-  en:{tagline:'Risk Pattern Explainer · Not an enforcement tool',lblUsecase:'USE CASE',lblInput:'MESSAGE / SMS / LINK',btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',nd1:'No Login',nd2:'No Storage',nd3:'Deterministic Rules',lbl_total:'Total',lbl_today:'Today',rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',discTitle:'⚠ DISCLAIMER',discBody:'This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.',howTitle:'HOW THIS WORKS',how1:'No login required — works instantly',how2:'Message content is never stored',how3:'Rules are fixed — no prediction or guessing',how4:'Each result is sealed — can be verified later',exTitle:'TRY AN EXAMPLE',exSub:'Simulated messages for testing only',ex1:'🚨 Try scam-pattern example',ex2:'🏦 Try bank SMS example',ex3:'🏛 Try government advisory example',limitTitle:'Daily Limit Reached',limitText:'You have used all 10 analyses for today.<br>Please try again after 24 hours.'},
-  ta:{tagline:'அபாய பாட்டர்ன் விளக்கி · அமலாக்க கருவி அல்ல',lblUsecase:'பயன்பாட்டு வகை',lblInput:'செய்தி / SMS / இணைப்பு',btnText:'⚡ அபாய சமிக்ஞைகளை பகுப்பாய்வு செய்',analyzing:'பகுப்பாய்வு...',nd1:'உள்நுழைவு இல்லை',nd2:'சேமிப்பு இல்லை',nd3:'நிர்ணய விதிகள்',lbl_total:'மொத்தம்',lbl_today:'இன்று',rateText:'மீதமுள்ளது:',rateWarn:'தினசரி வரம்பு முடிந்தது.',discTitle:'⚠ மறுப்பு',discBody:'இந்த கருவி அறியப்பட்ட சமிக்ஞைகளின் அடிப்படையில் மட்டுமே அபாய முறைகளை காட்டுகிறது.',howTitle:'இது எப்படி செயல்படுகிறது',how1:'உள்நுழைவு தேவையில்லை',how2:'செய்தி உள்ளடக்கம் சேமிக்கப்படவில்லை',how3:'விதிகள் நிலையானவை',how4:'ஒவ்வொரு முடிவும் முத்திரையிடப்பட்டது',exTitle:'உதாரணம் முயற்சிக்கவும்',exSub:'சோதனைக்கு மட்டும்',ex1:'🚨 மோசடி உதாரணம்',ex2:'🏦 வங்கி SMS உதாரணம்',ex3:'🏛 அரசு அறிவிப்பு',limitTitle:'தினசரி வரம்பு',limitText:'இன்றைய 10 பகுப்பாய்வுகளை பயன்படுத்தினீர்கள்.<br>24 மணி நேரம் கழித்து மீண்டும் முயற்சிக்கவும்.'},
-  bn:{tagline:'ঝুঁকি প্যাটার্ন ব্যাখ্যাকারী · প্রয়োগকারী সরঞ্জাম নয়',lblUsecase:'ব্যবহারের ধরন',lblInput:'বার্তা / SMS / লিংক',btnText:'⚡ ঝুঁকি সংকেত বিশ্লেষণ করুন',analyzing:'বিশ্লেষণ হচ্ছে...',nd1:'লগইন নেই',nd2:'স্টোরেজ নেই',nd3:'নির্ধারক নিয়ম',lbl_total:'মোট',lbl_today:'আজ',rateText:'বাকি:',rateWarn:'দৈনিক সীমা শেষ।',discTitle:'⚠ দায়বর্জন',discBody:'এই সরঞ্জামটি কেবল পরিচিত সংকেতের উপর ভিত্তি করে ঝুঁকির প্যাটার্ন দেখায়।',howTitle:'এটি কীভাবে কাজ করে',how1:'লগইন প্রয়োজন নেই',how2:'বার্তার বিষয়বস্তু সংরক্ষিত হয় না',how3:'নিয়ম স্থির',how4:'প্রতিটি ফলাফল সিলমোহর করা',exTitle:'উদাহরণ চেষ্টা করুন',exSub:'শুধুমাত্র পরীক্ষার জন্য',ex1:'🚨 স্ক্যাম উদাহরণ',ex2:'🏦 ব্যাংক SMS উদাহরণ',ex3:'🏛 সরকারি বিজ্ঞপ্তি',limitTitle:'দৈনিক সীমা',limitText:'আজকের ১০টি বিশ্লেষণ ব্যবহার করেছেন।<br>২৪ ঘণ্টা পরে আবার চেষ্টা করুন।'},
-  gu:{tagline:'જોખમ પેટર્ન સમજાવનાર · અમલ સાધન નહીં',lblUsecase:'ઉપયોગ પ્રકાર',lblInput:'સંદેશ / SMS / લિંક',btnText:'⚡ જોખમ સંકેતો તપાસો',analyzing:'વિશ્લેષણ...',nd1:'લૉગિન નહીં',nd2:'સ્ટોરેજ નહીં',nd3:'નિર્ધારક નિયમો',lbl_total:'કુલ',lbl_today:'આજ',rateText:'બાકી:',rateWarn:'દૈનિક મર્યાદા સમાપ્ત.',discTitle:'⚠ અસ્વીકરણ',discBody:'આ સાધન ફક્ત જ્ઞાત સંકેતોના આધારે જોખમ પેટર્ન બતાવે છે.',howTitle:'આ કેવી રીતે કામ કરે છે',how1:'લૉગિન જરૂરી નથી',how2:'સંદેશ સામગ્રી સંગ્રહિત નથી',how3:'નિયમો નિશ્ચિત છે',how4:'દરેક પરિણામ સીલ કરેલું',exTitle:'ઉદાહરણ અજમાવો',exSub:'ફક્ત પરીક્ષણ માટે',ex1:'🚨 સ્કેમ ઉદાહરણ',ex2:'🏦 બેંક SMS ઉદાહરણ',ex3:'🏛 સરકારી સૂચના',limitTitle:'દૈનિક મર્યાદા',limitText:'આજના ૧૦ વિશ્લેષણ વાપર્યા.<br>૨૪ કલાક પછી ફરી પ્રયાસ કરો.'},
-  hi:{tagline:'जोखिम पैटर्न व्याख्याकार · प्रवर्तन उपकरण नहीं',lblUsecase:'उपयोग का प्रकार',lblInput:'संदेश / SMS / लिंक',btnText:'⚡ जोखिम संकेत जांचें',analyzing:'विश्लेषण हो रहा है...',nd1:'कोई लॉगिन नहीं',nd2:'कोई स्टोरेज नहीं',nd3:'निर्धारित नियम',lbl_total:'कुल',lbl_today:'आज',rateText:'शेष:',rateWarn:'दैनिक सीमा समाप्त।',discTitle:'⚠ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'यह कैसे काम करता है',how1:'कोई लॉगिन नहीं',how2:'संदेश सामग्री संग्रहीत नहीं',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'प्रत्येक परिणाम सील — बाद में जाँच योग्य',exTitle:'उदाहरण आज़माएं',exSub:'ये नकली संदेश हैं',ex1:'🚨 स्कैम पैटर्न उदाहरण',ex2:'🏦 बैंक SMS उदाहरण',ex3:'🏛 सरकारी सलाह उदाहरण',limitTitle:'दैनिक सीमा समाप्त',limitText:'आपने आज की 10 जाँच पूरी कर ली हैं।<br>24 घंटे बाद पुनः प्रयास करें।',
-    copy:'📋 प्रमाण कॉपी करें',
-    fbYes:'👍 उपयोगी',
-    fbNo:'👎 उपयोगी नहीं',
-    verifyProof:'प्रमाण जाँचें'}
+const TXT = {
+  en:{btnText:'⚡ ANALYZE RISK SIGNALS',analyzing:'ANALYZING...',nd1:'No Login',nd2:'No Storage',nd3:'Deterministic',lbl_total:'Session',lbl_today:'Today',rateText:'Remaining:',rateWarn:'Daily limit reached. Try again later.',discTitle:'⚠️ DISCLAIMER',discBody:'This tool shows risk patterns based on known signals only. It does not confirm fraud. Low risk does not mean safe. Final decision is always yours.',howTitle:'ℹ️ HOW THIS WORKS',how1:'No login required — works instantly',how2:'Message content is never stored',how3:'Rules are fixed — no prediction or guessing',how4:'Each result is sealed — can be verified later',exTitle:'TRY AN EXAMPLE',inputLbl:'MESSAGE / SMS / LINK',tagline:'Risk Pattern Explainer'},
+  hi:{btnText:'⚡ जोखिम संकेत जाँचें',analyzing:'जाँच रहे हैं...',nd1:'लॉगिन नहीं',nd2:'डेटा नहीं',nd3:'निश्चित',lbl_total:'सत्र',lbl_today:'आज',rateText:'शेष:',rateWarn:'आज की सीमा समाप्त। कल पुनः प्रयास करें।',discTitle:'⚠️ अस्वीकरण',discBody:'यह टूल केवल ज्ञात संकेतों पर आधारित जोखिम पैटर्न दिखाता है। यह धोखाधड़ी की पुष्टि नहीं करता।',howTitle:'ℹ️ यह कैसे काम करता है',how1:'लॉगिन की आवश्यकता नहीं',how2:'संदेश कभी संग्रहीत नहीं होता',how3:'नियम निश्चित हैं — कोई अनुमान नहीं',how4:'हर परिणाम सील होता है',exTitle:'उदाहरण आज़माएं',inputLbl:'संदेश / SMS / लिंक',tagline:'जोखिम पैटर्न विश्लेषक'}
 };
 
+/* ══ STATE ══ */
 let lang = localStorage.getItem('vg_lang')||'en';
 let lastResult = null;
-let lastHash   = '';
+let lastHash = '';
 let engineVersion = '';
 let sessionScans = 0;
 
-/* ══ HEALTH ══ */
-async function checkHealth(){
-  const pill=document.getElementById('engine-pill');
-  const pillTxt=document.getElementById('engine-pill-text');
-  const badge=document.getElementById('trust-badge');
-  const badgeTxt=document.getElementById('trust-badge-text');
+/* ══════════════════════════════════════════
+   SCREEN NAVIGATION
+══════════════════════════════════════════ */
+function goScreen(name){
+  if(name==='result'&&!lastResult){showToast('Scan a message first!');return;}
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.className='screen right';
+  });
+  const target = document.getElementById('screen-'+name);
+  if(target) target.className='screen active';
+
+  // Scroll to top
+  const body = target && target.querySelector('.screen-body');
+  if(body) body.scrollTop=0;
+}
+
+/* ══════════════════════════════════════════
+   ENGINE CHECK
+══════════════════════════════════════════ */
+async function checkEngine(){
   try{
     const r=await fetch(ENGINE_BASE+'/health',{signal:AbortSignal.timeout(5000)});
-    if(!r.ok) throw new Error();
     const d=await r.json();
-    engineVersion=d.version||'v1.6';
-    document.getElementById('footer-ver').textContent=engineVersion;
-    pillTxt.textContent='ENGINE '+engineVersion+' — ONLINE';
-    pill.className='engine-pill online';
-    const ok=d.rules_frozen!==false && d.hashchain_verified!==false;
-    badge.className=ok?'locked':'warn';
-    badgeTxt.textContent=ok?'Rules Hard-Locked · '+engineVersion:'Engine Not Fully Verified';
-    document.getElementById('analyze-btn').disabled=false;
+    engineVersion=d.version||'v1.14';
+    ['engine-pill','engine-pill-r'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){el.className='engine-pill online';el.innerHTML='<span class="dot"></span><span>'+engineVersion+' ONLINE</span>';}
+    });
+    document.getElementById('engine-version-text').textContent=engineVersion+' ONLINE';
+    document.getElementById('result-engine-tag').textContent='ENGINE '+engineVersion+' · RULES FROZEN';
+    document.getElementById('offline-banner').classList.remove('show');
   }catch(e){
-    pillTxt.textContent='ENGINE — UNREACHABLE';
-    pill.className='engine-pill offline';
-    badge.className='warn';
-    badgeTxt.textContent='⚠ Engine unreachable';
+    ['engine-pill','engine-pill-r'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){el.className='engine-pill offline';el.innerHTML='<span>OFFLINE</span>';}
+    });
+    document.getElementById('offline-banner').classList.add('show');
     document.getElementById('analyze-btn').disabled=true;
-  }
-}
-
-/* ══ STATS — session + localStorage ══ */
-function getStats(){
-  const today=new Date().toDateString();
-  try{const s=JSON.parse(localStorage.getItem('vg_stats')||'{}');return s.date===today?s:{date:today,today:0,flagged:0};}
-  catch(e){return{date:new Date().toDateString(),today:0,flagged:0};}
-}
-function saveStats(s){try{localStorage.setItem('vg_stats',JSON.stringify(s));}catch(e){}}
-function updateStats(decision){
-  sessionScans++;
-  const s=getStats();
-  s.today=(s.today||0)+1;
-  if(decision>=2) s.flagged=(s.flagged||0)+1;
-  saveStats(s);
-  renderStats();
-}
-function renderStats(){
-  const s=getStats();
-  document.getElementById('stat-total').textContent=sessionScans;
-  document.getElementById('stat-today').textContent=s.today||0;
-  document.getElementById('stat-flagged').textContent=s.flagged||0;
-}
-
-/* ══ RATE LIMIT ══ */
-function getRD(){const t=new Date().toDateString();try{const d=JSON.parse(localStorage.getItem('vg_rate')||'{}');return d.date===t?d:{date:t,used:0};}catch(e){return{date:new Date().toDateString(),used:0};}}
-function saveRD(d){localStorage.setItem('vg_rate',JSON.stringify(d));}
-function getRem(){return Math.max(0,DAILY_LIMIT-getRD().used);}
-function incUse(){const d=getRD();d.used++;saveRD(d);}
-function renderRate(){
-  const rem=getRem();const t=TXT[lang];
-  document.getElementById('rate-label').innerHTML=t.rateText+' <strong>'+rem+'</strong>/10';
-  const el=document.getElementById('rate-dots');el.innerHTML='';
-  for(let i=0;i<DAILY_LIMIT;i++){const d=document.createElement('div');d.className='rdot'+(i>=rem?' used':'');el.appendChild(d);}
-  const btn=document.getElementById('analyze-btn');
-  const warn=document.getElementById('rate-warn');
-  if(rem<=0){btn.disabled=true;warn.textContent=t.rateWarn;warn.classList.add('show');}
-  else{
-    if(document.getElementById('engine-pill').classList.contains('online'))btn.disabled=false;
-    warn.classList.remove('show');
-    // Low remaining warning
-    const lbl=document.getElementById('rate-label');
-    if(rem<=3){
-      lbl.classList.add('rate-low');
-      warn.textContent='⚠️ '+(lang==='hi'?'केवल '+rem+' स्कैन बचे हैं आज के लिए':'Only '+rem+' scans left today');
-      warn.classList.add('show');
-    } else {
-      lbl.classList.remove('rate-low');
-    }
   }
 }
 
@@ -1391,87 +1316,33 @@ async function callEngine(text){
 /* ══ ANALYZE ══ */
 async function doAnalyze(){
   const text=document.getElementById('input-text').value.trim();
-  if(!text){const ta=document.getElementById('input-text');ta.style.borderColor='#9b2335';setTimeout(()=>ta.style.borderColor='',1000);return;}
+  if(!text){
+    const ta=document.getElementById('input-text');
+    ta.style.borderColor='#EF4444';
+    setTimeout(()=>ta.style.borderColor='',1000);
+    return;
+  }
   if(getRem()<=0){openModal('limit-modal');return;}
   const dm=DM[lang];const t=TXT[lang];
   const btn=document.getElementById('analyze-btn');
-  btn.disabled=true;
-  const analyzingEl = document.getElementById('analyzing-text');
-  if(analyzingEl) analyzingEl.classList.add('show');btn.classList.add('loading');
+  btn.disabled=true;btn.classList.add('loading');
   document.getElementById('btn-text').textContent=t.analyzing;
+  const el=document.getElementById('analyzing-text');
+  if(el) el.classList.add('show');
   try{
     const r=await callEngine(text);
     incUse();updateStats(r.decision);renderRate();
     lastResult=r;lastHash=r.hash||'';
     renderResult(r,dm);
-  }catch(e){showToast('❌ Engine not reachable');}
-  finally{btn.classList.remove('loading');document.getElementById('btn-text').textContent=t.btnText;renderRate();}
-}
-
-/* ══ PARSE SIGNALS ══ */
-function parseSignals(fired){
-  const a=new Set();
-  (fired||[]).forEach(r=>{
-    if(/PHISH|KYC|IMPERSON|IDENTITY/i.test(r))a.add('P');
-    if(/MONEY|PAYMENT|TRANSFER|LOTTERY|FEE/i.test(r))a.add('M');
-    if(/AMOUNT|RUPEE|RS\b|CASHBACK/i.test(r))a.add('A');
-    if(/LINK|URL|DOMAIN|HTTP|\.NET|\.XYZ/i.test(r))a.add('X');
-    if(/URGENT|BLOCK|SUSPEND|VERIFY|OTP|CLAIM/i.test(r))a.add('C');
-    if(r.startsWith('RULE_P'))a.add('P');if(r.startsWith('RULE_M'))a.add('M');
-    if(r.startsWith('RULE_A'))a.add('A');if(r.startsWith('RULE_X'))a.add('X');
-    if(r.startsWith('RULE_C'))a.add('C');
-    if(r==='RULE_INTEGER_MATH_HIGH'){a.add('A');a.add('C');a.add('X');}
-  });
-  return a;
-}
-
-/* ══ BAND ══ */
-function getBand(sc,dm){for(const b of dm.bands)if(sc<b.max)return b.label;return dm.bands[3].label;}
-
-/* ══ FORMAT TIME — UI only, NOT in verify payload ══ */
-function formatTime(){
-  const n=new Date();const h=n.getHours();const m=n.getMinutes();
-  const ap=h>=12?'PM':'AM';const hh=h%12||12;const mm=String(m).padStart(2,'0');
-  return 'Checked '+hh+':'+mm+' '+ap;
-}
-
-/* ══ THREAT MESSAGE — Layered Detection ══ */
-function getThreatMessage(threatLevel, intent, score, dm) {
-  const hi = lang === 'hi';
-
-  // Bank confirmation — safe message
-  if (intent === 'BANK_CONFIRMATION' || intent === 'SAFE') {
-    return hi
-      ? 'हमें यह एक सामान्य बैंक संदेश लगा। फिर भी सावधान रहें। अंतिम निर्णय आपका है।'
-      : 'This looks like a normal bank message. But always stay careful. Final decision is always yours.';
-  }
-
-  // Score 0 but pattern flagged
-  if (score === 0 && threatLevel !== 'LOW') {
-    return hi
-      ? 'हमें कोई सीधा पैटर्न नहीं मिला लेकिन यह संदेश पहले से देखे गए कुछ प्रकारों से मिलता जुलता है। एक बार जाँच ज़रूर करें।'
-      : 'Nothing specific found but this message resembles some known types. Please verify once before acting.';
-  }
-
-  switch(threatLevel) {
-    case 'LOW':
-      return hi
-        ? 'हमें कुछ अजीब नहीं लगा। लेकिन यह गारंटी नहीं है। अंतिम निर्णय आपका है।'
-        : 'Nothing unusual found. But this is not a guarantee. Final decision is always yours.';
-    case 'MEDIUM':
-      return hi
-        ? 'हमें कुछ अजीब लगा। कोई कदम उठाने से पहले भेजने वाले को खुद जाँचें। अंतिम निर्णय आपका है।'
-        : 'Something seemed unusual. Please verify the sender before taking any action. Final decision is always yours.';
-    case 'HIGH':
-      return hi
-        ? 'हमें कई अजीब बातें मिलीं। अभी कोई लिंक न खोलें और न कोई जानकारी दें। पहले किसी से पूछें। अंतिम निर्णय आपका है।'
-        : 'Several unusual things noticed. Do not click any link or share any information right now. Please check with someone first. Final decision is always yours.';
-    case 'CRITICAL':
-      return hi
-        ? 'हमें बहुत सी अजीब बातें मिलीं। अभी कुछ भी न करें। घर के किसी समझदार इंसान से पूछें। अंतिम निर्णय आपका है।'
-        : 'Many unusual things noticed. Please do not do anything right now. Check with a trusted person first. Final decision is always yours.';
-    default:
-      return dm.summary[0];
+    goScreen('result');
+  }catch(e){
+    showToast('❌ Engine not reachable');
+    document.getElementById('offline-banner').classList.add('show');
+  }finally{
+    btn.classList.remove('loading');btn.disabled=false;
+    document.getElementById('btn-text').textContent=t.btnText;
+    if(el) el.classList.remove('show');
+    renderRate();
   }
 }
 
@@ -1488,218 +1359,249 @@ function renderResult(r,dm){
   const fingerprint=r.fingerprint||'—';
   const scamPattern=r.scam_pattern||'—';
   const patternId=r.pattern_id||'—';
-  // Override threat_level if it conflicts with decision
   const rawThreat=r.threat_level||'LOW';
   const decisionThreat=['LOW','MEDIUM','HIGH','CRITICAL'][v]||'LOW';
-  // Always show whichever is higher
   const threatOrder=['LOW','MEDIUM','HIGH','CRITICAL'];
   const threatLevel=threatOrder.indexOf(rawThreat)>=threatOrder.indexOf(decisionThreat)?rawThreat:decisionThreat;
   const trace=r.trace||[];
   const signals=parseSignals(rules);
-  const ver=engineVersion?' · '+engineVersion:'';
   const band=getBand(score,dm);
+  const threatIcons={'LOW':'🟢','MEDIUM':'🟡','HIGH':'🟠','CRITICAL':'🔴'};
 
-  // Signal chips
+  /* ── RESULT SCREEN ── */
+  // Verdict card class
+  const vc=document.getElementById('verdict-card');
+  vc.className='verdict-big v'+v;
+
+  // Time
+  document.getElementById('result-time').textContent=formatTime()+' · Based on known risk signals';
+
+  // Verdict content
+  document.getElementById('verdict-emoji').textContent=dm.emoji[v];
+  document.getElementById('verdict-label').textContent=dm.label[v];
+  document.getElementById('verdict-sub').textContent=dm.sub[v];
+  document.getElementById('verdict-code').textContent=dm.code[v];
+
+  // Mini stats
+  document.getElementById('r-conf').textContent=conf+'%';
+  document.getElementById('r-signals').textContent=rules.length;
+  document.getElementById('r-score').textContent=score;
+
+  // Threat badge
+  document.getElementById('r-threat-badge').textContent=(threatIcons[threatLevel]||'⬤')+' '+threatLevel;
+  document.getElementById('r-threat-badge').className='threat-badge-big';
+
+  // Summary
+  document.getElementById('r-summary').textContent=getThreatMessage(threatLevel,intent,score,dm);
+
+  // Safe notice + disclaimer
+  document.getElementById('r-safe-notice').textContent=dm.safeNotice;
+  document.getElementById('r-disclaimer').textContent=dm.disc2;
+
+  /* ── ANALYSIS SCREEN ── */
+  document.getElementById('analysis-sub').textContent=
+    (lang==='hi'?'संकेत · पैटर्न · क्रिप्टोग्राफिक प्रमाण':'Signal breakdown · Pattern intelligence · Proof');
+
+  // 1. Trace
+  const traceHTML=trace.length>0
+    ?trace.map(t=>{
+      const parts=t.split(' ');
+      const sc=parts[parts.length-1]||'';
+      const sig=parts.slice(0,-1).join(' ')||t;
+      return '<div class="trace-item"><span class="trace-sig">'+sig+'</span><span class="trace-sc">'+sc+'</span></div>';
+    }).join('')
+    :'<div class="trace-item"><span class="trace-sig">No trace available</span></div>';
+  document.getElementById('trace-list-a').innerHTML=traceHTML;
+
+  // 2. Vector grid
+  let vectorHTML='';
+  if(fraudFamily!=='—'&&fraudFamily!=='UNKNOWN')
+    vectorHTML+='<div class="intel-item"><div class="intel-lbl">Fraud Family</div><div class="intel-val">'+fraudFamily+'</div></div>';
+  if(attackVector!=='—'&&attackVector!=='UNKNOWN'&&attackVector!=='NONE')
+    vectorHTML+='<div class="intel-item"><div class="intel-lbl">Attack Vector</div><div class="intel-val">'+attackVector+'</div></div>';
+  vectorHTML+='<div class="intel-item"><div class="intel-lbl">Threat Level</div><div class="intel-val"><span class="threat-badge threat-'+threatLevel+'">'+(threatIcons[threatLevel]||'⬤')+' '+threatLevel+'</span></div></div>';
+  if(scamPattern!=='—'&&scamPattern!=='UNKNOWN')
+    vectorHTML+='<div class="intel-item intel-full"><div class="intel-lbl">Scam Pattern</div><div class="intel-val">'+scamPattern+'</div></div>';
+  if(patternId!=='—'&&patternId!=='UNKNOWN_PATTERN')
+    vectorHTML+='<div class="intel-item intel-full"><div class="intel-lbl">Pattern ID</div><div class="intel-val" style="font-size:9px">'+patternId+'</div></div>';
+  if(!vectorHTML)
+    vectorHTML='<div class="intel-item intel-full"><div class="intel-lbl">Status</div><div class="intel-val">No vector data</div></div>';
+  document.getElementById('vector-grid').innerHTML=vectorHTML;
+
+  // 3. Pattern / signals
   const sigHTML=['P','M','A','X','C'].map(s=>{
     const on=signals.has(s);const meta=SIG[s];
     const lbl=lang==='hi'?s+' — '+meta.hi:meta.label;
     return '<span class="signal-chip '+(on?'on':'off')+'" title="'+(lang==='hi'?meta.hi:meta.en)+'">'+(on?'●':'○')+' '+lbl+'</span>';
   }).join('');
+  document.getElementById('signal-chips-a').innerHTML=sigHTML;
 
-  const sigDef=signals.size>0?'<div class="signal-def">'+[...signals].map(s=>lang==='hi'?SIG[s].hi:SIG[s].en).join('<br>')+'</div>':'';
+  // Strength bar
+  document.getElementById('strength-val').textContent=score;
+  document.getElementById('strength-band').textContent=band;
+  document.getElementById('rules-hdr').textContent=dm.ruleHdr;
+  setTimeout(()=>{
+    const bar=document.getElementById('strength-bar');
+    if(bar){bar.className='conf-fill v'+v+'-fill';bar.style.width=Math.min(score,100)+'%';}
+  },200);
 
+  // Rules
   const rulesHTML=rules.length>0
     ?rules.map(rule=>'<span class="rule-tag v'+v+'-tag">'+rule+'</span>').join('')
-    :'<span class="rule-tag" style="background:var(--surface2);border-color:var(--border);color:var(--ink3)">'+dm.noRulesTag+'</span>';
+    :'<span class="rule-tag">'+dm.noRulesTag+'</span>';
+  document.getElementById('rules-list-a').innerHTML=rulesHTML;
 
-  // Trace HTML
-  const traceHTML=trace.length>0
-    ?trace.map(t=>{
-      const parts=t.split(' ');
-      const sig=parts.slice(0,-1).join(' ')||t;
-      const sc=parts[parts.length-1]||'';
-      return '<div class="trace-item"><span class="trace-signal">'+sig+'</span><span class="trace-score">'+sc+'</span></div>';
-    }).join('')
-    :'<div class="trace-item"><span class="trace-signal">No trace available</span></div>';
+  // 4. Proof
+  document.getElementById('proof-grid-a').innerHTML=
+    '<div class="proof-row"><span class="proof-key">Decision</span><span class="proof-val">'+v+'</span></div>'+
+    '<div class="proof-row"><span class="proof-key">Intent</span><span class="proof-val">'+intent+'</span></div>'+
+    '<div class="proof-row"><span class="proof-key">Score</span><span class="proof-val">'+score+'</span></div>'+
+    '<div class="proof-row"><span class="proof-key">Hash</span><span class="proof-val">'+hash+'</span></div>';
 
-  document.getElementById('result-card').innerHTML=
-    /* 1. VERDICT HEADER */
-    '<div class="verdict-header v'+v+'-h">'+
-      '<div class="verdict-icon v'+v+'-icon">'+dm.emoji[v]+'</div>'+
-      '<div class="verdict-main">'+
-        '<div class="verdict-name v'+v+'-name">'+dm.label[v]+'</div>'+
-        '<div class="verdict-sub">'+dm.sub[v]+'</div>'+
-        '<div class="verdict-code">'+dm.code[v]+'</div>'+
-      '</div>'+
-    '</div>'+
-
-    /* TIMESTAMP */
-    '<div class="checked-time">'+formatTime()+' · Based on known risk signals</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 16px;border-bottom:1px solid var(--border)">'+
-      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
-        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Confidence</div>'+
-        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+conf+'%</div>'+
-      '</div>'+
-      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
-        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Signals</div>'+
-        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+rules.length+'</div>'+
-      '</div>'+
-      '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px;text-align:center">'+
-        '<div style="font-family:var(--mono);font-size:8px;color:var(--ink4);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Score</div>'+
-        '<div style="font-size:18px;font-weight:800;color:#2C3E9F">'+score+'</div>'+
-      '</div>'+
-    '</div>'+
-
-    /* 2. RISK INTELLIGENCE PANEL */
-    '<div style="padding:12px 15px;border-bottom:1px solid var(--border);background:var(--surface)">'+
-      '<div class="section-title">RISK INTELLIGENCE</div>'+
-      '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">'+
-        '<span style="font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;background:#eff6ff;border:1px solid #93c5fd;color:#1d4ed8">'+
-          '⚙ Rule Score: '+score+
-        '</span>'+
-        (function(){
-          var bg=score===0&&threatLevel!=="LOW"?"background:#fffaf0;border:1px solid #fbd38d;color:#c05621":"background:#f0fff4;border:1px solid #9ae6b4;color:#276749";
-          var label=score===0&&threatLevel!=="LOW"?"⚠ Pattern: ":"✅ Pattern: ";
-          return "<span style=\"font-family:var(--mono);font-size:9px;padding:3px 8px;border-radius:4px;"+bg+"\">"+label+threatLevel+"</span>";
-        })()+
-      '</div>'+
-      '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap">'+
-        '<span class="threat-badge threat-'+threatLevel+'">'+({"LOW":"🟢","MEDIUM":"🟡","HIGH":"🟠","CRITICAL":"🔴"}[threatLevel]||"⬤")+' '+threatLevel+'</span>'+
-        '<span style="font-family:var(--mono);font-size:10px;color:var(--ink3)">Threat Level</span>'+
-      '</div>'+
-      '<div class="intel-grid">'+
-        '<div class="intel-item">'+
-          '<div class="intel-label">Decision Score</div>'+
-          '<div class="intel-value v'+v+'-name">'+score+'</div>'+
-        '</div>'+
-        '<div class="intel-item">'+
-          '<div class="intel-label">Confidence</div>'+
-          '<div class="intel-value">'+conf+'%</div>'+
-        '</div>'+
-        (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
-        (attackVector!=='—'&&attackVector!=='UNKNOWN'&&attackVector!=='NONE'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
-        (scamPattern!=='—'&&scamPattern!=='UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
-        (patternId!=='—'&&patternId!=='UNKNOWN_PATTERN'?'<div class="intel-item intel-full"><div class="intel-label">Pattern ID</div><div class="intel-value" style="font-size:9px">'+patternId+'</div></div>':'')+
-      '</div>'+
-    '</div>'+
-
-    /* 3. HASHCHAIN */
-    '<div class="hash-strip">'+
-      '<div class="hash-strip-top">'+
-        '<span class="hash-lock">🔒</span>'+
-        '<span class="hash-title">'+dm.hashTitle+ver+'</span>'+
-        '<span class="hash-what" onclick="openModal(&quot;hash-modal&quot;)">'+dm.hashLearn+'</span>'+
-      '</div>'+
-      '<div class="hash-mono-row">'+
-        '<span class="hash-mono-val">'+hash+'</span>'+
-        '<button class="hash-copy-btn" onclick="copyHash()" title="'+dm.hashCopy+'">📋</button>'+
-      '</div>'+
-      '<button class="hash-verify-btn" onclick="openVerifyModal()">🔍 '+dm.hashVerify+'</button>'+
-      '<div class="inline-verify-result" id="inline-verify-result"></div>'+
-    '</div>'+
-
-    /* 4. DISCLAIMER */
-    '<div class="result-disc v'+v+'-disc">'+dm.disc2+'</div>'+
-
-    /* 5. SUMMARY — dynamic based on threat_level */
-    '<div class="summary">'+getThreatMessage(threatLevel,intent,score,dm)+'</div>'+
-
-    /* 6. SIGNAL TRACE */
-    '<div class="trace-wrap">'+
-      '<div class="collapsible-hdr" onclick="toggleTrace()" style="cursor:pointer;display:flex;justify-content:space-between;align-items:center">'+
-        '<span>▶ SIGNAL TRACE <span style=\"font-size:9px;font-weight:400;color:var(--ink3);\">(Explainability)</span></span>'+
-        '<span id="trace-toggle-icon" style=\"font-size:10px\">▼</span>'+
-      '</div>'+
-      '<div style="font-size:10px;color:var(--ink3);margin-top:3px;font-style:italic">How this message triggered risk signals</div>'+
-      '<div id="trace-body" style="display:none;margin-top:7px" class="trace-list">'+traceHTML+'</div>'+
-    '</div>'+
-
-    /* 7. SIGNAL BREAKDOWN */
-    '<div class="signals-wrap">'+
-      '<div class="section-title">SIGNAL BREAKDOWN</div>'+
-      '<div class="signals-grid">'+sigHTML+'</div>'+sigDef+
-    '</div>'+
-
-    /* 8. SIGNAL STRENGTH */
-    '<div class="conf-wrap">'+
-      '<div class="conf-top"><span>SIGNAL STRENGTH</span><span class="conf-pct v'+v+'-name">'+score+'</span></div>'+
-      '<div class="conf-track"><div class="conf-fill v'+v+'-fill" id="conf-fill"></div></div>'+
-      '<div class="conf-band v'+v+'-band">'+band+'</div>'+
-      '<div class="conf-note">'+dm.confNote+'</div>'+
-    '</div>'+
-
-    /* 9. FRAUD INTELLIGENCE */
-    (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'||attackVector!=='—'&&attackVector!=='UNKNOWN'||scamPattern!=='—'&&scamPattern!=='UNKNOWN'?
-    '<div style="padding:11px 15px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)">'+
-      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ia&quot;,&quot;ib&quot;)">'+
-        '<span class="caret" id="ia">▶</span> FRAUD INTELLIGENCE'+
-      '</div>'+
-      '<div class="collapsible-body" id="ib" style="margin-top:7px">'+
-        '<div class="intel-grid">'+
-          (fraudFamily!=='—'&&fraudFamily!=='UNKNOWN'?'<div class="intel-item"><div class="intel-label">Fraud Family</div><div class="intel-value">'+fraudFamily+'</div></div>':'')+
-          (attackVector!=='—'&&attackVector!=='UNKNOWN'&&attackVector!=='NONE'?'<div class="intel-item"><div class="intel-label">Attack Vector</div><div class="intel-value">'+attackVector+'</div></div>':'')+
-          (fingerprint!=='—'&&fingerprint!=='UNKNOWN_UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Fraud Fingerprint</div><div class="intel-value" style="font-size:9px">'+fingerprint+'</div></div>':'')+
-          '<div class="intel-item"><div class="intel-label">Threat Level</div><div class="intel-value"><span class="threat-badge threat-'+threatLevel+'">'+({"LOW":"🟢","MEDIUM":"🟡","HIGH":"🟠","CRITICAL":"🔴"}[threatLevel]||"⬤")+' '+threatLevel+'</span></div></div>'+
-          (scamPattern!=='—'&&scamPattern!=='UNKNOWN'?'<div class="intel-item intel-full"><div class="intel-label">Global Scam Pattern</div><div class="intel-value">'+scamPattern+'</div></div>':'')+
-        '</div>'+
-      '</div>'+
-    '</div>':'') +
-
-    /* 10. MATCHED PATTERNS */
-    '<div class="rules-wrap">'+
-      '<div class="collapsible-hdr" onclick="toggleSec(&quot;ra&quot;,&quot;rb&quot;)"><span class="caret" id="ra">▶</span> '+dm.ruleHdr+'</div>'+
-      '<div class="collapsible-body" id="rb">'+rulesHTML+'</div>'+
-    '</div>'+
-
-    /* 11. CRYPTOGRAPHIC PROOF */
-    '<div style="padding:11px 15px;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface)">'+
-      '<div class="collapsible-hdr" onclick="toggleSec(&quot;pa&quot;,&quot;pb&quot;)">'+
-        '<span class="caret" id="pa">▶</span> CRYPTOGRAPHIC DECISION PROOF'+
-      '</div>'+
-      '<div class="collapsible-body" id="pb" style="margin-top:7px;flex-direction:column">'+
-        '<div class="proof-grid">'+
-          '<div class="proof-row"><span class="proof-key">Decision</span><span class="proof-val">'+v+'</span></div>'+
-          '<div class="proof-row"><span class="proof-key">Intent</span><span class="proof-val">'+intent+'</span></div>'+
-          '<div class="proof-row"><span class="proof-key">Score</span><span class="proof-val">'+score+'</span></div>'+
-          '<div class="proof-row"><span class="proof-key">Hash</span><span class="proof-val">'+hash+'</span>'+
-            '<button class="hash-copy-btn" onclick="copyHash()" style="flex-shrink:0">📋</button>'+
-          '</div>'+
-        '</div>'+
-      '</div>'+
-    '</div>'+
-
-    /* 12. ACTIONS */
-    '<div class="actions-wrap">'+
-      '<div class="action-btns">'+
-        '<button class="act-btn btn-share" onclick="shareResult()">'+dm.share+'</button>'+
-        '<button class="act-btn btn-copy" onclick="copyProof()">'+dm.copy+'</button>'+
-      '</div>'+
-      '<button class="btn-verify-proof" onclick="openVerifyModal()">🔍 '+dm.verifyProof+'</button>'+
-      '<div class="action-note">'+dm.actNote+'</div>'+
-    '</div>'+
-
-    /* 13. SAFE NOTICE */
-    '<div class="safe-notice">'+dm.safeNotice+'</div>'+
-
-    /* 14. FEEDBACK */
-    '<div class="fb-wrap">'+
-      '<span class="fb-lbl">'+dm.fbLbl+'</span>'+
-      '<button class="fb-btn" id="fb-yes" onclick="giveFb(&quot;yes&quot;)">'+dm.fbYes+'</button>'+
-      '<button class="fb-btn" id="fb-no" onclick="giveFb(&quot;no&quot;)">'+dm.fbNo+'</button>'+
-      '<span class="fb-thanks" id="fb-thanks">'+dm.fbThanks+'</span>'+
-    '</div>';
-
-  document.getElementById('result-card').style.display='block';
-  setTimeout(()=>{const f=document.getElementById('conf-fill');if(f)f.style.width=Math.min(score,100)+'%';},100);
-  document.getElementById('result-card').scrollIntoView({behavior:'smooth',block:'nearest'});
+  // FB labels
+  const fb=DM[lang];
+  const fblbl=document.getElementById('fb-lbl-a');
+  if(fblbl) fblbl.textContent=fb.fbLbl;
+  const fby=document.getElementById('fb-yes');
+  const fbn=document.getElementById('fb-no');
+  if(fby) fby.textContent=fb.fbYes;
+  if(fbn) fbn.textContent=fb.fbNo;
 }
 
-/* ══ BUILD PROOF ══ */
+/* ══ THREAT MESSAGE ══ */
+function getThreatMessage(threatLevel,intent,score,dm){
+  const hi=lang==='hi';
+  if(intent==='BANK_CONFIRMATION'||intent==='SAFE'){
+    return hi?'हमें यह एक सामान्य बैंक संदेश लगा। फिर भी सावधान रहें। अंतिम निर्णय आपका है।':'This looks like a normal bank message. But always stay careful. Final decision is always yours.';
+  }
+  if(score===0&&threatLevel!=='LOW'){
+    return hi?'हमें कोई सीधा पैटर्न नहीं मिला लेकिन यह संदेश कुछ संदिग्ध प्रकारों से मिलता जुलता है।':'Nothing specific found but this message resembles some known suspicious types. Please verify once before acting.';
+  }
+  switch(threatLevel){
+    case 'LOW': return dm.summary[0];
+    case 'MEDIUM': return dm.summary[1];
+    case 'HIGH': return dm.summary[2];
+    case 'CRITICAL': return dm.summary[3];
+    default: return dm.summary[0];
+  }
+}
+
+/* ══ SECTION TOGGLE ══ */
+function toggleSection(name){
+  const body=document.getElementById('body-'+name);
+  const caret=document.getElementById('caret-'+name);
+  if(!body) return;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(caret) caret.classList.toggle('open',!isOpen);
+}
+
+/* ══ HELPERS ══ */
+function parseSignals(rules){
+  const s=new Set();
+  rules.forEach(r=>{
+    if(/phish|kyc|link|social/i.test(r)) s.add('P');
+    if(/money|pay|transfer|reward|lottery|prize/i.test(r)) s.add('M');
+    if(/amount|rs|upi/i.test(r)) s.add('A');
+    if(/link|url|http|domain/i.test(r)) s.add('X');
+    if(/urgent|immediate|now|block|suspend/i.test(r)) s.add('C');
+  });
+  return s;
+}
+
+function getBand(score,dm){
+  for(const b of dm.bands) if(score<=b.max) return b.label;
+  return dm.bands[dm.bands.length-1].label;
+}
+
+function formatTime(){
+  const n=new Date();const h=n.getHours();const m=n.getMinutes();
+  const ap=h>=12?'PM':'AM';const hh=h%12||12;const mm=String(m).padStart(2,'0');
+  return 'Checked '+hh+':'+mm+' '+ap;
+}
+
+/* ══ RATE LIMIT ══ */
+function getRD(){const t=new Date().toDateString();try{const d=JSON.parse(localStorage.getItem('vg_rate')||'{}');return d.date===t?d:{date:t,used:0};}catch(e){return{date:new Date().toDateString(),used:0};}}
+function saveRD(d){try{localStorage.setItem('vg_rate',JSON.stringify(d));}catch(e){}}
+function getRem(){return Math.max(0,DAILY_LIMIT-getRD().used);}
+function incUse(){const d=getRD();d.used++;saveRD(d);}
+function renderRate(){
+  const rem=getRem();const t=TXT[lang];
+  document.getElementById('rate-label').innerHTML=t.rateText+' <strong>'+rem+'</strong>/10';
+  const el=document.getElementById('rate-dots');el.innerHTML='';
+  for(let i=0;i<DAILY_LIMIT;i++){const d=document.createElement('div');d.className='rdot'+(i>=rem?' used':'');el.appendChild(d);}
+  const btn=document.getElementById('analyze-btn');
+  const warn=document.getElementById('rate-warn');
+  if(rem<=0){btn.disabled=true;warn.textContent=t.rateWarn;warn.classList.add('show');}
+  else{
+    if(document.getElementById('engine-pill').classList.contains('online')) btn.disabled=false;
+    warn.classList.remove('show');
+    if(rem<=3){
+      document.getElementById('rate-label').classList.add('rate-low');
+      warn.textContent='⚠️ '+(lang==='hi'?'केवल '+rem+' स्कैन बचे हैं':'Only '+rem+' scans left today');
+      warn.classList.add('show');
+    } else {
+      document.getElementById('rate-label').classList.remove('rate-low');
+    }
+  }
+}
+
+/* ══ STATS ══ */
+function getStats(){const today=new Date().toDateString();try{const s=JSON.parse(localStorage.getItem('vg_stats')||'{}');return s.date===today?s:{date:today,today:0,flagged:0};}catch(e){return{date:new Date().toDateString(),today:0,flagged:0};}}
+function saveStats(s){try{localStorage.setItem('vg_stats',JSON.stringify(s));}catch(e){}}
+function updateStats(decision){sessionScans++;const s=getStats();s.today=(s.today||0)+1;if(decision>=2) s.flagged=(s.flagged||0)+1;saveStats(s);renderStats();}
+function renderStats(){
+  const s=getStats();
+  document.getElementById('stat-session').textContent=sessionScans;
+  document.getElementById('stat-today').textContent=s.today||0;
+  document.getElementById('stat-flagged').textContent=s.flagged||0;
+}
+
+/* ══ CHAR COUNT ══ */
+function updateChar(){
+  const v=document.getElementById('input-text').value.length;
+  document.getElementById('char-val').textContent=v;
+}
+
+/* ══ LANG ══ */
+function setLang(l){
+  lang=l;
+  localStorage.setItem('vg_lang',l);
+  applyLang();
+  if(lastResult) renderResult(lastResult,DM[l]);
+}
+
+function applyLang(){
+  const t=TXT[lang];
+  document.getElementById('btn-text').textContent=t.btnText;
+  document.getElementById('rate-label').innerHTML=t.rateText+' <strong>'+getRem()+'</strong>/10';
+  document.getElementById('disc-title').textContent=t.discTitle;
+  document.getElementById('disc-body').textContent=t.discBody;
+  document.getElementById('how-title').textContent=t.howTitle;
+  document.getElementById('how1').textContent=t.how1;
+  document.getElementById('how2').textContent=t.how2;
+  document.getElementById('how3').textContent=t.how3;
+  document.getElementById('how4').textContent=t.how4;
+  document.getElementById('input-label').textContent=t.inputLbl;
+  document.getElementById('examples-label').textContent=t.exTitle;
+  document.getElementById('btn-en').classList.toggle('active',lang==='en');
+  document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
+  // stat labels
+  document.getElementById('stat-session-lbl').textContent=t.lbl_total;
+  document.getElementById('stat-today-lbl').textContent=t.lbl_today;
+}
+
+/* ══ EXAMPLES ══ */
+function tryExample(i){
+  document.getElementById('input-text').value=EXAMPLES[i];
+  updateChar();
+}
+
+/* ══ SHARE / COPY ══ */
 function buildProof(){
   if(!lastResult) return '';
   const r=lastResult;const dm=DM[lang];
   const v=r.decision!==undefined?r.decision:0;
-  const payload={decision:r.decision,intent:r.intent,fired_rules:r.fired_rules||[],score:r.score||0,hash:r.hash};
   return 'VERITAS GUARD — RISK ANALYSIS\n'+
     '================================\n'+
     'Verdict       : '+dm.label[v]+'\n'+
@@ -1712,138 +1614,73 @@ function buildProof(){
     'Attack Vector : '+(r.attack_vector||'—')+'\n'+
     'Scam Pattern  : '+(r.scam_pattern||'—')+'\n'+
     'Rules         : '+((r.fired_rules||[]).join(', ')||'None')+'\n'+
-    'Hash          : '+(r.hash||'pending')+'\n'+
-    'Engine        : '+(engineVersion||'v1.14')+' · RULES FROZEN\n'+
+    'Hash          : '+(r.hash||'—')+'\n'+
+    'Engine        : v1.14 · RULES FROZEN\n'+
     '================================\n'+
     'NOTE: Risk patterns only — not a fraud verdict.\n'+
     'Verify: '+ENGINE_BASE+'/verify\n\n'+
-    'RAW_PROOF:'+JSON.stringify(payload);
+    'RAW_PROOF:'+JSON.stringify({decision:r.decision,intent:r.intent,fired_rules:r.fired_rules||[],score:r.score||0,hash:r.hash});
 }
-
-function copyProof(){const t=buildProof();if(!t)return;navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));}
 function shareResult(){const t=buildProof();if(!t)return;if(navigator.share)navigator.share({title:'Veritas Guard',text:t});else copyProof();}
-function copyHash(){if(!lastHash)return;navigator.clipboard.writeText(lastHash).then(()=>showToast(DM[lang].hashCopied));}
+function copyProof(){const t=buildProof();if(!t)return;navigator.clipboard.writeText(t).then(()=>showToast(DM[lang].toastCopy));}
+function copyHash(){if(!lastHash)return;navigator.clipboard.writeText(lastHash).then(()=>showToast(DM[lang].toastHash));}
+function copyUPI(){navigator.clipboard.writeText('lal7590-7@okicici').then(()=>showToast('UPI copied ✅'));}
 
-/* ══ VERIFY PROOF MODAL ══ */
-function openVerifyModal(){
-  document.getElementById('verify-res').className='verify-res';
-  document.getElementById('verify-res').innerHTML='';
-  document.getElementById('verify-raw').className='verify-raw';
-  document.getElementById('verify-raw').innerHTML='';
-  document.getElementById('verify-adv').className='verify-adv';
-  document.getElementById('verify-ta').value='';
-  openModal('verify-modal');
-}
-
-async function doVerify(){
-  const raw=document.getElementById('verify-ta').value.trim();
-  if(!raw) return;
-  const btn=document.getElementById('verify-btn-modal');
-  const res=document.getElementById('verify-res');
-  const adv=document.getElementById('verify-adv');
-  const rawEl=document.getElementById('verify-raw');
-  btn.disabled=true;btn.textContent='⟳ Verifying...';
-  res.className='verify-res';res.innerHTML='';
-  adv.className='verify-adv';rawEl.className='verify-raw';
-
+/* ══ VERIFY ══ */
+function openVerifyModal(){openModal('verify-modal');}
+function runVerify(){
   try{
-    // Parse — try JSON first, then RAW_PROOF embedded text
-    let proof=null;
-    try{proof=JSON.parse(raw);}catch(e){}
-    if(!proof){
-      const m=raw.match(/RAW_PROOF:(\{[\s\S]+\})/);
-      if(m){try{proof=JSON.parse(m[1]);}catch(e){}}
-    }
-    if(!proof||!proof.hash){
-      res.className='verify-res warn show';
-      res.innerHTML='⚠ Could not read proof.<br>Paste the full text from COPY PROOF button.';
-      return;
-    }
-    // Canonical payload — NO timestamp, only engine fields
-    const payload={
-      decision:   proof.decision,
-      intent:     proof.intent,
-      fired_rules:proof.fired_rules||[],
-      score:      proof.score||0,
-      hash:       proof.hash
-    };
-    const r=await fetch(ENGINE_BASE+'/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    if(!r.ok) throw new Error('engine');
-    const d=await r.json();
-    if(d.valid){
-      res.className='verify-res valid show';
-      res.innerHTML='✅ <strong>Proof is authentic and unmodified.</strong><br>'+
-        'Decision: '+proof.decision+' · Score: '+proof.score+' · Intent: '+(proof.intent||'—');
-      adv.className='verify-adv show';
-      rawEl.innerHTML='Hash: '+proof.hash;
-    }else{
-      res.className='verify-res invalid show';
-      res.innerHTML='❌ <strong>Proof does not match.</strong><br>Data may have been altered.';
-      adv.className='verify-adv show';
-      rawEl.innerHTML='Submitted: '+(d.submitted||'—');
-    }
+    const raw=JSON.parse(document.getElementById('verify-input').value);
+    const el=document.getElementById('verify-result');
+    fetch(ENGINE_BASE+'/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(raw)})
+      .then(r=>r.json())
+      .then(d=>{
+        el.textContent=d.valid?'✅ Result is VALID — not tampered':'❌ Result INVALID — may be tampered';
+        el.className='verify-result '+(d.valid?'ok':'fail');
+      })
+      .catch(()=>{el.textContent='❌ Engine not reachable';el.className='verify-result fail';});
   }catch(e){
-    res.className='verify-res warn show';
-    res.innerHTML='⚠ Engine unreachable — cannot verify now.<br>Try when engine is online.';
-  }finally{
-    btn.disabled=false;
-  const analyzingEl2 = document.getElementById('analyzing-text');
-  if(analyzingEl2) analyzingEl2.classList.remove('show');btn.textContent='⚡ VERIFY';
+    document.getElementById('verify-result').textContent='❌ Invalid JSON';
+    document.getElementById('verify-result').className='verify-result fail';
   }
 }
 
-function toggleVerifyRaw(){document.getElementById('verify-raw').classList.toggle('show');}
-
-/* ══ HELPERS ══ */
-function toggleTrace(){
-  const body=document.getElementById('trace-body');
-  const icon=document.getElementById('trace-toggle-icon');
-  if(!body||!icon)return;
-  if(body.style.display==='none'){
-    body.style.display='block';
-    icon.textContent='▲';
-  }else{
-    body.style.display='none';
-    icon.textContent='▼';
-  }
+/* ══ FEEDBACK ══ */
+function giveFb(t){
+  const y=document.getElementById('fb-yes');
+  const n=document.getElementById('fb-no');
+  const th=document.getElementById('fb-thanks');
+  if(!y||!n) return;
+  y.disabled=true;n.disabled=true;
+  y.classList.toggle('sel',t==='yes');
+  n.classList.toggle('sel',t==='no');
+  if(th){th.textContent=DM[lang].fbThanks;th.classList.add('show');}
 }
 
-function toggleSec(ca,ba){const c=document.getElementById(ca);const b=document.getElementById(ba);if(c)c.classList.toggle('open');if(b)b.classList.toggle('open');}
-function giveFb(t){const y=document.getElementById('fb-yes');const n=document.getElementById('fb-no');const th=document.getElementById('fb-thanks');if(!y||!n)return;y.disabled=true;n.disabled=true;y.classList.toggle('sel',t==='yes');n.classList.toggle('sel',t==='no');if(th)th.classList.add('show');}
-function copyUPI(){
-  navigator.clipboard.writeText('lal7590-7@okicici').then(()=>showToast('UPI copied — open any payment app! ✅'));
-}
+/* ══ MODAL ══ */
+function openModal(id){const el=document.getElementById(id);if(el) el.classList.add('show');}
+function closeModal(id){const el=document.getElementById(id);if(el) el.classList.remove('show');}
 
+/* ══ TOAST ══ */
 function showToast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
-function openModal(id){document.getElementById(id).classList.add('show');}
-function closeModal(id){document.getElementById(id).classList.remove('show');}
-function showInfoModal(){openModal('info-modal');}
-function loadEx(i){const inp=document.getElementById('input-text');inp.value=EXAMPLES[i];document.getElementById('char-val').textContent=EXAMPLES[i].length;inp.focus();}
 
-/* ══ IMAGE OCR ══ */
+/* ══ REPORT ══ */
+function openReport(){window.open(REPORT_URL,'_blank');}
+
+/* ══ IMAGE ══ */
+function setProgress(pct){const b=document.getElementById('prog-bar');if(b) b.style.width=pct+'%';}
 function setImgStatus(msg,type){const el=document.getElementById('img-status');el.textContent=msg;el.className='img-status '+(type||'');}
-function setProgress(pct){const b=document.getElementById('prog-bar');if(b)b.style.width=pct+'%';}
-
-function smartClean(raw){
-  const lines=raw.split('\n');const out=[];
-  for(let line of lines){
-    let l=line.trim();if(!l)continue;
-    l=l.replace(/\b\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM|am|pm)?\b/g,'');
-    l=l.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/gi,'');
-    l=l.replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g,'');
-    l=l.replace(/\b(battery|signal|wifi|bluetooth|charging|\d+%|\d+G|LTE|5G|4G|3G|2G|VoLTE)\b/gi,'');
-    if(/^(airtel|jio|vi|vodafone|idea|bsnl|mtnl)$/i.test(l.trim()))continue;
-    if(l.replace(/[^a-zA-Z\u0900-\u097F]/g,'').length<3)continue;
-    if(/^(Read|Delivered|Sent|Seen|Yesterday|Today|Just now)$/i.test(l.trim()))continue;
-    l=l.replace(/[ \t]+/g,' ').trim();
-    if(l.length>1)out.push(l);
-  }
-  const result=out.join(' ').replace(/\s{2,}/g,' ').trim();
-  return result.length>10?result:raw.replace(/[ \t]+/g,' ').trim();
+function clearImage(){
+  const pw=document.getElementById('img-preview-wrap');
+  pw.classList.remove('show');pw.style.display='';
+  document.getElementById('img-preview').src='';
+  document.getElementById('img-input').value='';
+  document.getElementById('img-filename').textContent='';
+  setImgStatus('','');setProgress(0);
+  document.getElementById('img-btn-text').textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
 }
-
-async function handleImage(event){
-  const file=event.target.files[0];if(!file)return;
+function handleImage(event){
+  const file=event.target.files[0];if(!file) return;
   const reader=new FileReader();
   reader.onload=async(e)=>{
     const src=e.target.result;
@@ -1855,11 +1692,12 @@ async function handleImage(event){
     await new Promise(r=>setTimeout(r,300));
     setImgStatus(lang==='hi'?'🔍 पढ़ा जा रहा है...':'🔍 Reading...','');setProgress(20);
     try{
-      const{data:{text}}=await Tesseract.recognize(src,'eng+hin',{logger:m=>{if(m.status==='recognizing text')setProgress(20+Math.round((m.progress||0)*70));}});
-      setProgress(90);const cleaned=smartClean(text);setProgress(100);
+      const{data:{text}}=await Tesseract.recognize(src,'eng+hin',{logger:m=>{if(m.status==='recognizing text') setProgress(20+Math.round((m.progress||0)*70));}});
+      setProgress(90);
+      const cleaned=smartClean(text);setProgress(100);
       if(cleaned&&cleaned.length>3){
         document.getElementById('input-text').value=cleaned;
-        document.getElementById('char-val').textContent=cleaned.length;
+        updateChar();
         setImgStatus(lang==='hi'?'✅ टेक्स्ट कॉपी हो गया':'✅ Text copied to box','ok');
       }else{setImgStatus(lang==='hi'?'⚠ टेक्स्ट नहीं मिला':'⚠ No text found','warn');}
     }catch(e){setImgStatus(lang==='hi'?'⚠ त्रुटि — मैन्युअल टाइप करें':'⚠ Error — type manually','warn');}
@@ -1867,56 +1705,36 @@ async function handleImage(event){
   reader.readAsDataURL(file);
 }
 
-function clearImage(){
-  const pw2=document.getElementById('img-preview-wrap');pw2.classList.remove('show');pw2.style.display='';
-  document.getElementById('img-preview').src='';document.getElementById('img-input').value='';
-  document.getElementById('img-filename').textContent='';setImgStatus('','');setProgress(0);
-  document.getElementById('img-btn-text').textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
+function smartClean(raw){
+  const lines=raw.split('\n');const out=[];
+  for(let line of lines){
+    let l=line.trim();if(!l) continue;
+    l=l.replace(/\b\d{1,2}:\d{2}(:\d{2})?\s*(AM|PM|am|pm)?\b/g,'');
+    l=l.replace(/\b(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)\b/gi,'');
+    l=l.replace(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g,'');
+    l=l.replace(/\b(battery|signal|wifi|bluetooth|charging|\d+%|\d+G|LTE|5G|4G|3G|2G|VoLTE)\b/gi,'');
+    if(/^(airtel|jio|vi|bsnl|vodafone)\s*\d+$/i.test(l)) continue;
+    l=l.trim();
+    if(l.length>1) out.push(l);
+  }
+  return out.join('\n').trim();
 }
 
 /* ══ DEV BYPASS ══ */
 document.addEventListener('input',e=>{
   if(e.target.id==='input-text'&&e.target.value.trim()===DEV_CODE){
     const d=getRD();d.used=0;saveRD(d);e.target.value='';
-    document.getElementById('char-val').textContent='0';
-    renderRate();showToast('✅ Dev: Limit reset!');
+    updateChar();renderRate();showToast('✅ Dev: Limit reset!');
   }
 });
 
-/* ══ LANG ══ */
-function setLang(l){lang=l;localStorage.setItem('vg_lang',l);applyLang();}
-function applyLang(){
-  const t=TXT[lang];
-  const map={'tagline-text':t.tagline,'lbl-usecase':t.lblUsecase,'lbl-input':t.lblInput,'btn-text':t.btnText,'nd1':t.nd1,'nd2':t.nd2,'nd3':t.nd3,'lbl-total':t.lbl_total,'lbl-today':t.lbl_today,'disc-title':t.discTitle,'disc-body':t.discBody,'how-title':t.howTitle,'how1':t.how1,'how2':t.how2,'how3':t.how3,'how4':t.how4,'ex-title':t.exTitle,'ex-sub':t.exSub,'ex1':t.ex1,'ex2':t.ex2,'ex3':t.ex3};
-  for(const[id,val]of Object.entries(map)){const el=document.getElementById(id);if(el)el.textContent=val;}
-  const lt=document.getElementById('limit-text');if(lt)lt.innerHTML=t.limitText;
-  const lt2=document.getElementById('limit-title');if(lt2)lt2.textContent=t.limitTitle;
-  document.getElementById('input-text').placeholder=lang==='hi'?'SMS, WhatsApp संदेश या लिंक यहाँ चिपकाएँ...':'Paste SMS, WhatsApp message, or link here...';
-  document.querySelectorAll('#usecase option').forEach(o=>{o.textContent=lang==='hi'?o.dataset.hi:o.dataset.en;});
-  document.getElementById('btn-en').classList.toggle('active',lang==='en');
-  document.getElementById('btn-hi').classList.toggle('active',lang==='hi');
-  const taBtn=document.getElementById('btn-ta');if(taBtn)taBtn.classList.toggle('active',lang==='ta');
-  const bnBtn=document.getElementById('btn-bn');if(bnBtn)bnBtn.classList.toggle('active',lang==='bn');
-  const guBtn=document.getElementById('btn-gu');if(guBtn)guBtn.classList.toggle('active',lang==='gu');
-  const imgBtn=document.getElementById('img-btn-text');
-  if(imgBtn&&!document.getElementById('img-preview-wrap').classList.contains('show'))imgBtn.textContent=lang==='hi'?'स्क्रीनशॉट अपलोड':'Upload Screenshot';
-  const vta=document.getElementById('verify-ta');
-  if(vta)vta.placeholder=lang==='hi'?'यहाँ प्रूफ टेक्स्ट पेस्ट करें...':'Paste proof text here...\n(from COPY PROOF button)';
-  renderRate();
-}
-
 /* ══ INIT ══ */
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('input-text').addEventListener('input',function(){document.getElementById('char-val').textContent=this.value.length;});
-  document.getElementById('clear-btn').addEventListener('click',()=>{
-    document.getElementById('input-text').value='';document.getElementById('char-val').textContent='0';
-    document.getElementById('result-card').style.display='none';lastResult=null;lastHash='';
-  });
-  // Close modal on overlay click
-  document.querySelectorAll('.modal-overlay').forEach(el=>{
-    el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('show');});
-  });
-  applyLang();renderStats();checkHealth();
+window.addEventListener('DOMContentLoaded',()=>{
+  applyLang();
+  renderRate();
+  renderStats();
+  checkEngine();
+  setInterval(checkEngine,30000);
 });
 </script>
 </body>
