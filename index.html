@@ -910,17 +910,13 @@ textarea::placeholder{color:var(--ink4)}
   .intel-full{grid-column:1}
   .action-btns{grid-template-columns:1fr}
 }
-</style>
 
-<style>
-/* ══ SCREEN SHOW/HIDE ══ */
-#result-section { display:none; }
-#back-bar { display:none; }
-#scan-section { display:block; }
-
-body.result-view #scan-section { display:none !important; }
-body.result-view #result-section { display:block !important; }
-body.result-view #back-bar { display:flex !important; }
+#scan-wrap { display:block; }
+#result-card { display:none; }
+#back-btn-wrap { display:none; }
+body.show-result #scan-wrap { display:none !important; }
+body.show-result #result-card { display:block !important; }
+body.show-result #back-btn-wrap { display:flex !important; }
 </style>
 </head>
 <body>
@@ -931,9 +927,7 @@ body.result-view #back-bar { display:flex !important; }
 </div>
 
 <div id="app">
-  <div id="scan-section">
-
-
+  <div id="scan-wrap">
   <!-- HEADER -->
   <div class="header">
     <div class="logo-row">
@@ -1030,15 +1024,13 @@ body.result-view #back-bar { display:flex !important; }
     </div>
   </div>
 
-  </div><!-- /scan-section -->
+  </div><!-- /scan-wrap -->
 
-  <!-- BACK BAR (shown on result screen) -->
-  <div id="back-bar" style="display:none;background:linear-gradient(135deg,#1a2575,#4A5CFF);padding:11px 16px;align-items:center;gap:10px;flex-shrink:0">
-    <button onclick="showScan()" style="width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">←</button>
-    <div style="flex:1"><div style="font-size:13px;font-weight:800;color:#fff">Risk Result</div><div id="back-bar-ver" style="font-family:JetBrains Mono,monospace;font-size:9px;color:rgba(255,255,255,.6)">ENGINE · RISK AWARENESS TOOL</div></div>
+  <!-- BACK BUTTON -->
+  <div id="back-btn-wrap" style="display:none;padding:10px 14px 0">
+    <button onclick="showScan()" style="display:flex;align-items:center;gap:6px;padding:9px 14px;border-radius:10px;border:1.5px solid #E6E8F0;background:#fff;font-family:Plus Jakarta Sans,sans-serif;font-size:12px;font-weight:700;color:#374151;cursor:pointer">← Back to Scan</button>
   </div>
 
-  <div id="result-section" style="display:none">
   <!-- RESULT CARD -->
   <div id="result-card"></div>
 
@@ -1106,14 +1098,12 @@ body.result-view #back-bar { display:flex !important; }
 
 <!-- TOAST -->
 <!-- BOTTOM NAV -->
-  </div><!-- /result-section -->
-
 <nav class="bottom-nav">
-  <div class="nav-item active" onclick="showScan()" id="nav-scan">
+  <div class="nav-item active" onclick="showScan()">
     <span class="nav-icon">🛡</span>
     <span>Scan</span>
   </div>
-  <div class="nav-item" onclick="showResult()" id="nav-result">
+  <div class="nav-item" onclick="if(window.lastResult){showResult();}else{showToast('Scan a message first!')}">
     <span class="nav-icon">📊</span>
     <span>Results</span>
   </div>
@@ -1945,28 +1935,14 @@ document.addEventListener('DOMContentLoaded',()=>{
 </script>
 
 <script>
-/* ══ SCREEN NAVIGATION ══ */
-function showScan(){
-  document.body.classList.remove('result-view');
-  document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
-  var ns=document.getElementById('nav-scan');
-  var nr=document.getElementById('nav-result');
-  if(ns) ns.parentElement.classList.add('active');
-  if(nr) nr.parentElement.classList.remove('active');
-}
 function showResult(){
-  if(!window.lastResult){ showToast('Scan a message first!'); return; }
-  document.body.classList.add('result-view');
+  document.body.classList.add('show-result');
   document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
-  var ns=document.getElementById('nav-scan');
-  var nr=document.getElementById('nav-result');
-  if(ns) ns.parentElement.classList.remove('active');
-  if(nr) nr.parentElement.classList.add('active');
-  var ver=document.getElementById('back-bar-ver');
-  var fv=document.getElementById('footer-ver');
-  if(ver&&fv) ver.textContent='ENGINE '+(fv.textContent||'v1.14')+' · RISK AWARENESS TOOL';
+}
+function showScan(){
+  document.body.classList.remove('show-result');
+  document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
 }
 </script>
-
 </body>
 </html>
