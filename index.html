@@ -911,6 +911,17 @@ textarea::placeholder{color:var(--ink4)}
   .action-btns{grid-template-columns:1fr}
 }
 </style>
+
+<style>
+/* ══ SCREEN SHOW/HIDE ══ */
+#result-section { display:none; }
+#back-bar { display:none; }
+#scan-section { display:block; }
+
+body.result-view #scan-section { display:none !important; }
+body.result-view #result-section { display:block !important; }
+body.result-view #back-bar { display:flex !important; }
+</style>
 </head>
 <body>
 
@@ -1022,7 +1033,7 @@ textarea::placeholder{color:var(--ink4)}
   </div><!-- /scan-section -->
 
   <!-- BACK BAR (shown on result screen) -->
-  <div id="back-bar" style="display:none;background:linear-gradient(135deg,#1a2575,#4A5CFF);padding:11px 16px;display:none;align-items:center;gap:10px;flex-shrink:0">
+  <div id="back-bar" style="display:none;background:linear-gradient(135deg,#1a2575,#4A5CFF);padding:11px 16px;align-items:center;gap:10px;flex-shrink:0">
     <button onclick="showScan()" style="width:32px;height:32px;border-radius:9px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0">←</button>
     <div style="flex:1"><div style="font-size:13px;font-weight:800;color:#fff">Risk Result</div><div id="back-bar-ver" style="font-family:JetBrains Mono,monospace;font-size:9px;color:rgba(255,255,255,.6)">ENGINE · RISK AWARENESS TOOL</div></div>
   </div>
@@ -1936,11 +1947,8 @@ document.addEventListener('DOMContentLoaded',()=>{
 <script>
 /* ══ SCREEN NAVIGATION ══ */
 function showScan(){
-  document.getElementById('scan-section').style.display='block';
-  document.getElementById('result-section').style.display='none';
-  document.getElementById('back-bar').style.display='none';
+  document.body.classList.remove('result-view');
   document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
-  // nav active state
   var ns=document.getElementById('nav-scan');
   var nr=document.getElementById('nav-result');
   if(ns) ns.parentElement.classList.add('active');
@@ -1948,19 +1956,15 @@ function showScan(){
 }
 function showResult(){
   if(!window.lastResult){ showToast('Scan a message first!'); return; }
-  document.getElementById('scan-section').style.display='none';
-  document.getElementById('result-section').style.display='block';
-  document.getElementById('back-bar').style.display='flex';
+  document.body.classList.add('result-view');
   document.getElementById('app').scrollTo({top:0,behavior:'smooth'});
-  // nav active state
   var ns=document.getElementById('nav-scan');
   var nr=document.getElementById('nav-result');
   if(ns) ns.parentElement.classList.remove('active');
   if(nr) nr.parentElement.classList.add('active');
-  // update back bar version
   var ver=document.getElementById('back-bar-ver');
   var fv=document.getElementById('footer-ver');
-  if(ver&&fv) ver.textContent='ENGINE '+fv.textContent+' · RISK AWARENESS TOOL';
+  if(ver&&fv) ver.textContent='ENGINE '+(fv.textContent||'v1.14')+' · RISK AWARENESS TOOL';
 }
 </script>
 
