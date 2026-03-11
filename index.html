@@ -33,7 +33,7 @@
   --v3:#B91C1C;--v3bg:#FEE2E2;--v3bd:#FCA5A5;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:var(--bg);font-family:var(--sans);overflow-x:hidden}
+html,body{height:100%;background:var(--bg);font-family:var(--sans);overflow-x:hidden;width:100%;max-width:100vw}
 
 /* ── APP SHELL ── */
 #app{
@@ -45,7 +45,7 @@ html,body{height:100%;background:var(--bg);font-family:var(--sans);overflow-x:hi
 /* ── HEADER ── */
 .vg-header{
   background:linear-gradient(135deg,#0F1729 0%,#1E3A8A 55%,#2563EB 100%);
-  padding:10px 14px;
+  padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top,0px));width:100%;overflow:hidden;
   display:flex;align-items:center;justify-content:space-between;
   position:sticky;top:0;z-index:50;flex-shrink:0;
 }
@@ -478,9 +478,12 @@ textarea#input-text:focus{border-color:var(--brand2);background:#fff;box-shadow:
   font-family:var(--sans);transition:background .15s;outline:none;
 }
 .nav-item:hover{background:var(--surface2)}
-.nav-icon{font-size:18px;line-height:1;margin-bottom:2px}
+.nav-icon{width:22px;height:22px;margin-bottom:3px;display:block;margin-left:auto;margin-right:auto}
 .nav-item span:last-child{font-family:var(--mono);font-size:8px;font-weight:600;color:var(--ink4)}
 .nav-item.active span:last-child{color:var(--brand2)}
+.nav-item.active .nav-icon{stroke:var(--brand2)}
+.nav-icon{stroke:var(--ink4);transition:stroke .2s}
+.nav-item:hover .nav-icon{stroke:var(--brand2)}
 
 /* ── LANGUAGE MODAL ── */
 .modal-overlay{
@@ -494,7 +497,7 @@ textarea#input-text:focus{border-color:var(--brand2);background:#fff;box-shadow:
   background:var(--surface);border-radius:20px 20px 0 0;
   width:100%;max-width:430px;padding:16px;
   transform:translateY(100%);transition:transform .32s cubic-bezier(.4,0,.2,1);
-  max-height:90vh;overflow-y:auto;
+  max-height:75vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
 }
 .modal-overlay.show .modal-box{transform:translateY(0)}
 .modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 14px}
@@ -711,16 +714,16 @@ textarea#input-text:focus{border-color:var(--brand2);background:#fff;box-shadow:
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
   <div class="nav-item active" onclick="document.getElementById('app-scroll').scrollTo({top:0,behavior:'smooth'})">
-    <span class="nav-icon">🛡</span><span id="nav-scan-lbl">Scan</span>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg><span id="nav-scan-lbl">Scan</span>
   </div>
   <div class="nav-item" onclick="scrollToResult()">
-    <span class="nav-icon">📊</span><span id="nav-results-lbl">Results</span>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg><span id="nav-results-lbl">Results</span>
   </div>
   <div class="nav-item" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSe6_rysCVShX2bZJ0sSqB-mklfjEOtSV0XUV76tT7o18rYlCA/viewform','_blank')">
-    <span class="nav-icon">🚨</span><span id="nav-report-lbl">Report</span>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg><span id="nav-report-lbl">Report</span>
   </div>
   <div class="nav-item" onclick="window.open('https://veritasengine.in/privacy.html','_blank')">
-    <span class="nav-icon">🔒</span><span id="nav-privacy-lbl">Privacy</span>
+    <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span id="nav-privacy-lbl">Privacy</span>
   </div>
 </nav>
 
