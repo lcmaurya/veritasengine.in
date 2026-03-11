@@ -548,6 +548,24 @@ textarea#input-text:focus{border-color:var(--brand2);background:#fff;box-shadow:
 [dir="rtl"] .hdr-right{flex-direction:row-reverse}
 [dir="rtl"] .rv-head{flex-direction:row-reverse}
 [dir="rtl"] textarea{text-align:right}
+
+/* ── DONATE ── */
+.donate-card{
+  background:var(--surface);border:1.5px solid var(--border);
+  border-radius:var(--r);padding:13px 14px;margin-bottom:10px;
+  text-align:center;
+}
+.donate-title{font-family:var(--mono);font-size:8px;font-weight:700;color:var(--ink4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.donate-msg{font-size:11px;color:var(--ink2);line-height:1.7;margin-bottom:10px}
+.donate-upi{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:9px;padding:8px 14px;
+  font-family:var(--mono);font-size:11px;font-weight:700;color:var(--ink);
+  cursor:pointer;transition:all .2s;margin-bottom:8px;
+}
+.donate-upi:hover{border-color:var(--brand2);color:var(--brand2)}
+.donate-note{font-family:var(--mono);font-size:8px;color:var(--ink4)}
 </style>
 </head>
 <body>
@@ -699,6 +717,20 @@ textarea#input-text:focus{border-color:var(--brand2);background:#fff;box-shadow:
       <div class="stat-box"><div class="stat-num" id="stat-today">0</div><div class="stat-lbl" id="lbl-today">Today</div></div>
       <div class="stat-box"><div class="stat-num" id="stat-flagged">0</div><div class="stat-lbl" id="lbl-flagged">Flagged</div></div>
     </div>
+  </div>
+
+
+  <!-- DONATE -->
+  <div class="donate-card">
+    <div class="donate-title" id="donate-title">🛡 Keep This Tool Free & Growing</div>
+    <div class="donate-msg" id="donate-msg">Veritas Guard is built to protect people — free, no ads, no data selling.<br><br>If this tool helped you or someone you know stay safe, your small support helps us improve it for everyone. 🙏</div>
+    <div class="donate-upi" onclick="copyUPI()">
+      <span>📲</span>
+      <span id="upi-id">lal7590-4@oksbi</span>
+      <span>📋</span>
+    </div>
+    <br>
+    <div class="donate-note" id="donate-note">UPI · Any amount · No pressure 🙏</div>
   </div>
 
   <!-- TRUST FOOTER -->
@@ -1615,6 +1647,12 @@ function buildProof(){
     `RAW_PROOF:${JSON.stringify({decision:r.decision,intent:r.intent,fired_rules:r.fired_rules||[],score:r.score||0,hash:r.hash})}`;
 }
 function shareResult(){const t=buildProof();if(!t)return;if(navigator.share)navigator.share({title:'Veritas Guard',text:t});else copyProof();}
+
+function copyUPI(){
+  navigator.clipboard.writeText('lal7590-4@oksbi')
+    .then(()=>showToast('UPI ID copied! 🙏'));
+}
+
 function copyProof(){const p=buildProof();if(!p)return;navigator.clipboard.writeText(p).then(()=>showToast(t('toastCopy')));}
 function copyHash(){if(!lastHash)return;navigator.clipboard.writeText(lastHash).then(()=>showToast(t('toastHash')));}
 
@@ -1695,6 +1733,28 @@ function renderStats(){
   document.getElementById('stat-flagged').textContent=s.flagged||0;
 }
 
+
+/* DONATE TRANSLATIONS */
+const DONATE_TXT = {
+  en:{title:'🛡 Keep This Tool Free & Growing',msg:'Veritas Guard is built to protect people — free, no ads, no data selling.<br><br>If this tool helped you or someone you know stay safe, your small support helps us improve it for everyone. 🙏',note:'UPI · Any amount · No pressure 🙏'},
+  hi:{title:'🛡 इस टूल को मुफ़्त और बेहतर रखें',msg:'Veritas Guard लोगों की सुरक्षा के लिए बना है — मुफ़्त, बिना विज्ञापन, बिना डेटा बेचे।<br><br>अगर इस टूल ने आपको या किसी जानने वाले को सुरक्षित रखा, तो आपका छोटा सा सहयोग इसे और बेहतर बनाने में मदद करेगा। 🙏',note:'UPI · कोई भी राशि · कोई दबाव नहीं 🙏'},
+  ta:{title:'🛡 இந்த கருவியை இலவசமாக வளர்க்க உதவுங்கள்',msg:'Veritas Guard மக்களை பாதுகாக்க உருவாக்கப்பட்டது — இலவசம், விளம்பரம் இல்லாமல்.<br><br>இந்த கருவி உங்களுக்கு உதவியிருந்தால், உங்கள் சிறிய ஆதரவு இதை மேம்படுத்த உதவும். 🙏',note:'UPI · எந்த தொகையும் · அழுத்தம் இல்லை 🙏'},
+  te:{title:'🛡 ఈ టూల్‌ను ఉచితంగా పెంచడానికి సహాయపడండి',msg:'Veritas Guard ప్రజలను రక్షించడానికి నిర్మించబడింది — ఉచితం, ప్రకటనలు లేవు.<br><br>ఈ టూల్ మీకు సహాయపడినట్లయితే, మీ చిన్న మద్దతు దీన్ని మెరుగుపరచడంలో సహాయపడుతుంది. 🙏',note:'UPI · ఏ మొత్తమైనా · ఒత్తిడి లేదు 🙏'},
+  bn:{title:'🛡 এই টুলটিকে বিনামূল্যে ও উন্নত রাখুন',msg:'Veritas Guard মানুষকে সুরক্ষিত রাখতে তৈরি — বিনামূল্যে, বিজ্ঞাপন নেই, ডেটা বিক্রি নেই।<br><br>এই টুল আপনাকে সাহায্য করলে, আপনার ছোট সহযোগিতা এটিকে আরও উন্নত করতে সাহায্য করবে। 🙏',note:'UPI · যেকোনো পরিমাণ · কোনো চাপ নেই 🙏'},
+  gu:{title:'🛡 આ ટૂલને મફત અને બહેતર રાખો',msg:'Veritas Guard લોકોની સુરક્ષા માટે બનાવ્યો — મફત, જાહેરાત નહીં, ડેટા વેચવો નહીં।<br><br>જો આ ટૂલ તમને ઉપયોગી થયો, તો તમારો નાનો સહયોગ તેને વધુ સારો બનાવશે. 🙏',note:'UPI · કોઈ પણ રકમ · કોઈ દબાણ નહીં 🙏'},
+  mr:{title:'🛡 हे टूल मोफत आणि बेहतर ठेवा',msg:'Veritas Guard लोकांच्या संरक्षणासाठी बनवले — मोफत, जाहिरात नाही, डेटा विकत नाही।<br><br>हे टूल उपयुक्त वाटले तर तुमचे छोटे सहकार्य ते आणखी चांगले करण्यास मदत करेल. 🙏',note:'UPI · कोणतीही रक्कम · कोणताही दबाव नाही 🙏'},
+  kn:{title:'🛡 ಈ ಸಾಧನವನ್ನು ಉಚಿತ ಮತ್ತು ಉತ್ತಮಗೊಳಿಸಿ',msg:'Veritas Guard ಜನರನ್ನು ರಕ್ಷಿಸಲು ನಿರ್ಮಿಸಲಾಗಿದೆ — ಉಚಿತ, ಜಾಹೀರಾತು ಇಲ್ಲ.<br><br>ಈ ಸಾಧನ ಸಹಾಯಕವಾಗಿದ್ದರೆ, ನಿಮ್ಮ ಸಣ್ಣ ಬೆಂಬಲ ಇದನ್ನು ಸುಧಾರಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ. 🙏',note:'UPI · ಯಾವುದೇ ಮೊತ್ತ · ಯಾವುದೇ ಒತ್ತಡ ಇಲ್ಲ 🙏'},
+  ml:{title:'🛡 ഈ ടൂൾ സൗജന്യമായും മെച്ചമായും നിലനിർത്തുക',msg:'Veritas Guard ആളുകളെ സംരക്ഷിക്കാൻ നിർമ്മിച്ചതാണ് — സൗജന്യം, പരസ്യം ഇല്ല.<br><br>ഈ ടൂൾ സഹായകരമായിരുന്നെങ്കിൽ, നിങ്ങളുടെ ചെറിയ സഹായം ഇത് മെച്ചപ്പെടുത്താൻ സഹായിക്കും. 🙏',note:'UPI · ഏത് തുകയും · സമ്മർദ്ദം ഇല്ല 🙏'},
+  pa:{title:'🛡 ਇਸ ਟੂਲ ਨੂੰ ਮੁਫ਼ਤ ਅਤੇ ਬਿਹਤਰ ਰੱਖੋ',msg:'Veritas Guard ਲੋਕਾਂ ਦੀ ਸੁਰੱਖਿਆ ਲਈ ਬਣਾਇਆ — ਮੁਫ਼ਤ, ਇਸ਼ਤਿਹਾਰ ਨਹੀਂ।<br><br>ਜੇ ਇਹ ਟੂਲ ਮਦਦਗਾਰ ਰਿਹਾ, ਤੁਹਾਡਾ ਛੋਟਾ ਸਹਿਯੋਗ ਇਸਨੂੰ ਹੋਰ ਬਿਹਤਰ ਬਣਾਵੇਗਾ। 🙏',note:'UPI · ਕੋਈ ਵੀ ਰਕਮ · ਕੋਈ ਦਬਾਅ ਨਹੀਂ 🙏'},
+  or:{title:'🛡 ଏହି ଟୁଲ ବିନାମୂଲ୍ୟ ରଖନ୍ତୁ',msg:'Veritas Guard ଲୋକଙ୍କ ସୁରକ୍ଷା ପାଇଁ ତିଆରି — ବିନାମୂଲ୍ୟ, ବିଜ୍ଞାପନ ନାହିଁ।<br><br>ଏହି ଟୁଲ ସାହାଯ୍ୟ କଲେ, ଆପଣଙ୍କ ସହଯୋଗ ଏହାକୁ ଆହୁରି ଉନ୍ନତ କରିବ। 🙏',note:'UPI · ଯେକୌଣସି ରାଶି · କୌଣସି ଚାପ ନାହିଁ 🙏'},
+  ur:{title:'🛡 اس ٹول کو مفت اور بہتر رکھیں',msg:'Veritas Guard لوگوں کی حفاظت کے لیے بنایا — مفت، کوئی اشتہار نہیں۔<br><br>اگر یہ ٹول مددگار رہا تو آپ کا چھوٹا سا تعاون اسے مزید بہتر بنانے میں مدد کرے گا۔ 🙏',note:'UPI · کوئی بھی رقم · کوئی دباؤ نہیں 🙏'},
+  es:{title:'🛡 Mantén esta herramienta gratuita y creciendo',msg:'Veritas Guard está hecho para proteger personas — gratis, sin anuncios, sin vender datos.<br><br>Si esta herramienta te ayudó a mantenerte seguro, tu pequeño apoyo nos ayuda a mejorarlo para todos. 🙏',note:'UPI · Cualquier cantidad · Sin presión 🙏'},
+  ar:{title:'🛡 ساعد في إبقاء هذه الأداة مجانية ومتنامية',msg:'Veritas Guard مبني لحماية الناس — مجاناً، بدون إعلانات.<br><br>إذا ساعدتك هذه الأداة، فإن دعمك الصغير يساعدنا على تحسينها للجميع. 🙏',note:'UPI · أي مبلغ · لا ضغط 🙏'},
+  fr:{title:'🛡 Aidez cet outil à rester gratuit et à grandir',msg:"Veritas Guard est conçu pour protéger les gens — gratuit, sans publicité, sans vente de données.<br><br>Si cet outil vous a aidé, votre petit soutien nous aide à l'améliorer pour tous. 🙏",note:'UPI · Tout montant · Sans pression 🙏'},
+  pt:{title:'🛡 Mantenha esta ferramenta gratuita e crescendo',msg:'Veritas Guard foi criado para proteger pessoas — gratuito, sem anúncios.<br><br>Se esta ferramenta ajudou você, seu pequeno apoio nos ajuda a melhorá-la para todos. 🙏',note:'UPI · Qualquer valor · Sem pressão 🙏'},
+  sw:{title:'🛡 Saidia Zana Hii Kukua na Kubaki Bure',msg:'Veritas Guard imejengwa kulinda watu — bure, bila matangazo.<br><br>Ikiwa zana hii ilikusaidia, msaada wako mdogo utatusaidia kuiboresha kwa wote. 🙏',note:'UPI · Kiasi chochote · Bila shinikizo 🙏'},
+};
+
 /* ══ APPLY LANG ══ */
 function applyLang(){
   const tx=TXT[lang]||TXT.en;
@@ -1723,6 +1783,14 @@ function applyLang(){
     tx.lblInput+' — paste here...';
   const imgBtn=document.getElementById('img-btn-text');
   if(imgBtn)imgBtn.textContent=tx.imgBtn||'Upload Screenshot';
+  // Donate section
+  const dt=DONATE_TXT[lang]||DONATE_TXT['en'];
+  const dtitle=document.getElementById('donate-title');
+  const dmsg=document.getElementById('donate-msg');
+  const dnote=document.getElementById('donate-note');
+  if(dtitle)dtitle.textContent=dt.title;
+  if(dmsg)dmsg.innerHTML=dt.msg;
+  if(dnote)dnote.textContent=dt.note;
   const vta=document.getElementById('verify-ta');
   if(vta)vta.placeholder='Paste proof text here...\n(from COPY PROOF)';
   renderRate();
