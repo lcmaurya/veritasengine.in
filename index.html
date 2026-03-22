@@ -1493,9 +1493,9 @@ async function checkHealth(){
 
 /* ══ ENGINE CALL ══ */
 async function callEngine(text){
-  const r = await fetch(ENGINE_BASE+'/evaluate',{
+  const r = await fetch(ENGINE_BASE+'/decide',{
     method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({text:text})
+    body:JSON.stringify({input:text})
   });
   if(!r.ok) throw new Error('engine error');
   return r.json();
