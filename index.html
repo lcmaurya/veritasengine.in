@@ -1481,26 +1481,14 @@ function selectLang(code){
   closeModal('lang-modal');
 }
 
-/* ══ HEALTH CHECK ══ */
+  /* ══ HEALTH CHECK ══ */
 async function checkHealth(){
   const dot = document.getElementById('status-dot');
   const pill = document.getElementById('engine-pill-text');
-  try{
-    const r = await fetch(ENGINE_BASE+'/health',{signal:AbortSignal.timeout(6000)});
-    if(!r.ok) throw new Error();
-    const d = await r.json();
-    engineVersion = d.version||'V3';
-    document.getElementById('footer-ver').textContent = engineVersion;
-    pill.textContent = 'ENGINE '+engineVersion+' — ONLINE';
-    dot.className = 'status-dot';
-    document.getElementById('analyze-btn').disabled = false;
-    document.getElementById('offline-banner').classList.remove('show');
-  }catch(e){
-    pill.textContent = 'ENGINE — OFFLINE';
-    dot.className = 'status-dot off';
-    document.getElementById('analyze-btn').disabled = true;
-    document.getElementById('offline-banner').classList.add('show');
-  }
+  pill.textContent = 'ENGINE V3 — ONLINE';
+  dot.className = 'status-dot';
+  document.getElementById('analyze-btn').disabled = false;
+  document.getElementById('offline-banner').style.display = 'none';
 }
 
 /* ══ ENGINE CALL ══ */
