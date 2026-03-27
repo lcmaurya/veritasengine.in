@@ -1,6 +1,7 @@
 <!DOCTYPE html><html>
 <body><h2>Veritas Proof Demo</h2><input id="msg" placeholder="Enter message">
-<button onclick="generate()">Generate</button><p id="hash"></p>
+<button onclick="generate()">Generate</button><p id="status"></p>
+<p id="hash"></p>
 <p id="sig"></p>
 <p id="block"></p><button onclick="verify()">Verify</button>
 
@@ -11,49 +12,63 @@ let signature = "";
 
 async function generate() {
 
-  const message = document.getElementById("msg").value;
+  document.getElementById("status").innerText = "Loading...";
 
-  const res = await fetch("https://veritas-trust-engine.onrender.com/check", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "mysecret123"
-    },
-    body: JSON.stringify({
-      name: "user",
-      dob: "2000",
-      message: message
-    })
-  });
+  try {
+    const message = document.getElementById("msg").value;
 
-  const data = await res.json();
+    const res = await fetch("https://veritas-trust-engine.onrender.com/check", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "mysecret123"
+      },
+      body: JSON.stringify({
+        name: "user",
+        dob: "2000",
+        message: message
+      })
+    });
 
-  hash = data.decision_hash;
-  signature = data.decision_signature;
+    const data = await res.json();
 
-  document.getElementById("hash").innerText = "Hash: " + hash;
-  document.getElementById("sig").innerText = "Signature: " + signature;
-  document.getElementById("block").innerText = "Block: #" + data.block.index;
+    hash = data.decision_hash;
+    signature = data.decision_signature;
+
+    document.getElementById("status").innerText = "Done";
+
+    document.getElementById("hash").innerText = "Hash: " + hash;
+    document.getElementById("sig").innerText = "Signature: " + signature;
+    document.getElementById("block").innerText = "Block: #" + data.block.index;
+
+  } catch (e) {
+    document.getElementById("status").innerText = "ERROR: " + e.message;
+  }
 }
 
 async function verify() {
 
-  const res = await fetch("https://veritas-trust-engine.onrender.com/verify", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "x-api-key": "mysecret123"
-    },
-    body: JSON.stringify({
-      decision_hash: hash,
-      decision_signature: signature
-    })
-  });
+  try {
+    const res = await fetch("https://veritas-trust-engine.onrender.com/verify", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": "mysecret123"
+      },
+      body: JSON.stringify({
+        decision_hash: hash,
+        decision_signature: signature
+      })
+    });
 
-  const data = await res.json();
+    const data = await res.json();
 
-  document.getElementById("result").innerText =
-    data.valid ? "VERIFIED" : "FAILED";
+    document.getElementById("result").innerText =
+      data.valid ? "VERIFIED" : "FAILED";
+
+  } catch (e) {
+    document.getElementById("result").innerText = "ERROR";
+  }
 }
 
 </script></body>
