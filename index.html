@@ -36,7 +36,6 @@ async function generate() {
     signature = data.decision_signature;
 
     document.getElementById("status").innerText = "Done";
-
     document.getElementById("hash").innerText = "Hash: " + hash;
     document.getElementById("sig").innerText = "Signature: " + signature;
     document.getElementById("block").innerText = "Block: #" + data.block.index;
@@ -49,6 +48,8 @@ async function generate() {
 async function verify() {
 
   try {
+    const message = document.getElementById("msg").value;
+
     const res = await fetch("https://veritas-trust-engine.onrender.com/verify", {
       method: "POST",
       headers: {
@@ -56,6 +57,9 @@ async function verify() {
         "x-api-key": "mysecret123"
       },
       body: JSON.stringify({
+        name: "user",
+        dob: "2000",
+        message: message,
         decision_hash: hash,
         decision_signature: signature
       })
