@@ -1,46 +1,81 @@
 <!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas Guard Demo</title><style>
+<title>Veritas Guard - Bank Demo</title><style>
 body {
   font-family: Arial;
-  background: #0f172a;
+  background: linear-gradient(135deg, #0f172a, #020617);
   color: white;
+  margin: 0;
+}
+
+.header {
+  padding: 20px;
   text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.container {
   padding: 20px;
 }
 
 .card {
   background: #1e293b;
   padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
+  border-radius: 14px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.4);
 }
 
 input {
-  width: 90%;
+  width: 100%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+.btn {
+  width: 48%;
+  padding: 14px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.generate { background: #2563eb; color: white; }
+.verify { background: #16a34a; color: white; }
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.box {
+  background: black;
   padding: 12px;
   border-radius: 8px;
-  border: none;
-  margin-bottom: 10px;
+  font-size: 12px;
+  margin-top: 10px;
+  word-break: break-all;
 }
 
-button {
-  padding: 12px 20px;
-  border: none;
+.actions button {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
   border-radius: 8px;
-  margin: 5px;
+  border: none;
+}
+
+.copy { background: orange; }
+.share { background: purple; color: white; }
+
+.status {
+  margin-top: 10px;
   font-weight: bold;
-}
-
-.generate {
-  background: #2563eb;
-  color: white;
-}
-
-.verify {
-  background: #16a34a;
-  color: white;
 }
 
 .result {
@@ -49,18 +84,37 @@ button {
   font-weight: bold;
 }
 
-.hashbox {
-  background: black;
-  padding: 10px;
+.footer {
+  text-align: center;
+  margin-top: 30px;
   font-size: 12px;
-  word-break: break-all;
-  margin-top: 10px;
+  color: #94a3b8;
 }
-</style></head><body><h2>🛡️ Veritas Guard - Bank Demo</h2><div class="card"><input id="msg" placeholder="Paste SMS / message / link"><br><button class="generate" onclick="generate()">⚡ Generate Proof</button>
-<button class="verify" onclick="verify()">🔍 Verify Proof</button>
-
-<div id="status"></div><div class="hashbox" id="hash"></div>
-<div class="hashbox" id="sig"></div><div class="result" id="result"></div></div><script>
+</style></head><body><div class="header">
+🛡️ Veritas Guard — Fraud Proof Engine
+</div><div class="container"><div class="card"><input id="msg" placeholder="Paste SMS / WhatsApp / Link"><div class="row">
+<button class="btn generate" onclick="generate()">⚡ Generate Proof</button>
+<button class="btn verify" onclick="verify()">🔍 Verify Proof</button>
+</div><div class="status" id="status"></div><div class="box" id="hash"></div>
+<div class="actions">
+<button class="copy" onclick="copyHash()">Copy Hash</button>
+</div><div class="box" id="sig"></div>
+<div class="actions">
+<button class="copy" onclick="copySig()">Copy Signature</button>
+</div><div class="actions">
+<button class="share" onclick="share()">Share Proof (WhatsApp)</button>
+</div><div class="result" id="result"></div></div><div class="card" style="margin-top:20px;">
+<b>How it works:</b>
+<ul>
+<li>Message → Engine analysis</li>
+<li>Cryptographic hash generated</li>
+<li>Digital signature applied</li>
+<li>Stored in hashchain</li>
+<li>Any change → verification fails</li>
+</ul>
+</div><div class="footer">
+Veritas Engine Demo — Tamper Proof Verification System
+</div></div><script>
 
 let hash = "";
 let signature = "";
@@ -92,7 +146,6 @@ async function generate() {
   document.getElementById("status").innerText = "✅ Proof Generated";
   document.getElementById("hash").innerText = "Hash:\n" + hash;
   document.getElementById("sig").innerText = "Signature:\n" + signature;
-
 }
 
 async function verify() {
@@ -118,7 +171,21 @@ async function verify() {
 
   document.getElementById("result").innerText =
     data.valid ? "✅ VERIFIED (Authentic)" : "❌ FAILED (Tampered)";
+}
 
+function copyHash() {
+  navigator.clipboard.writeText(hash);
+  alert("Hash copied");
+}
+
+function copySig() {
+  navigator.clipboard.writeText(signature);
+  alert("Signature copied");
+}
+
+function share() {
+  const text = "Veritas Proof\nHash: " + hash + "\nSignature: " + signature;
+  window.open("https://wa.me/?text=" + encodeURIComponent(text));
 }
 
 </script></body>
