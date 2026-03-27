@@ -2,35 +2,41 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas Guard</title>
+<title>Veritas Dashboard</title>
+
 <style>
-body {background:#0f172a;color:white;text-align:center;font-family:Arial;}
-.card {background:#1e293b;padding:20px;margin:20px;border-radius:12px;}
-input {width:90%;padding:12px;border-radius:8px;border:none;}
-button {padding:12px;margin:5px;border:none;border-radius:8px;}
-.generate{background:#2563eb;color:white;}
+body {background:#0f172a;color:white;font-family:Arial;text-align:center;}
+.card {background:#1e293b;margin:15px;padding:20px;border-radius:12px;}
+button {padding:10px;margin:5px;border:none;border-radius:8px;}
 </style>
 </head>
 
 <body>
 
-<h2>Veritas Guard</h2>
+<h2>🛡️ Veritas Guard Dashboard</h2>
 
 <div class="card">
+<input id="msg" placeholder="Enter message" style="width:90%;padding:10px;">
+<br>
+<button onclick="generate()">Generate Proof</button>
+<div id="link"></div>
+</div>
 
-<input id="msg" placeholder="Enter message">
+<div class="card">
+<h3>📊 Stats</h3>
+<div id="stats"></div>
+</div>
 
-<button class="generate" onclick="generate()">Generate Proof Link</button>
-
-<div id="result"></div>
-
+<div class="card">
+<h3>🕒 Recent Proofs</h3>
+<div id="history"></div>
 </div>
 
 <script>
 
 async function generate(){
 
-  const message = document.getElementById("msg").value;
+  const msg = document.getElementById("msg").value;
 
   const res = await fetch("https://veritas-trust-engine.onrender.com/generate",{
     method:"POST",
@@ -41,15 +47,45 @@ async function generate(){
     body:JSON.stringify({
       name:"user",
       dob:"2000",
-      message:message
+      message:msg
     })
   });
 
   const data = await res.json();
 
-  document.getElementById("result").innerHTML =
-    "🔗 <a href='"+data.link+"' target='_blank'>Open Proof</a>";
+  document.getElementById("link").innerHTML =
+    "<a href='"+data.link+"' target='_blank'>🔗 Open Proof</a>";
+
+  load();
 }
+
+async function load(){
+
+  // stats
+  const s = await fetch("https://veritas-trust-engine.onrender.com/stats");
+  const stats = await s.json();
+
+  document.getElementById("stats").innerHTML =
+    "Total Proofs: "+stats.total+"<br>Latest Block: "+stats.latestBlock;
+
+  // history
+  const h = await fetch("https://veritas-trust-engine.onrender.com/history");
+  const hist = await h.json();
+
+  let html = "";
+  hist.forEach(p=>{
+    html += "<div style='margin:10px;padding:10px;background:#020617'>"
+      + "Block: #"+p.block+"<br>"
+      + p.message.substring(0,40)+"...<br>"
+      + "<a href='"+p.link+"' target='_blank'>Open</a>"
+      + "</div>";
+  });
+
+  document.getElementById("history").innerHTML = html;
+}
+
+load();
+
 </script>
 
 </body>
