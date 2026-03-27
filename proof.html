@@ -2,33 +2,82 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proof</title>
+<title>Proof Verification</title>
+
 <style>
-body{background:#0f172a;color:white;text-align:center;font-family:Arial;}
-.card{background:#1e293b;padding:20px;margin:20px;border-radius:12px;}
+body {
+  background:#0f172a;
+  color:white;
+  font-family:Arial;
+  text-align:center;
+  padding:20px;
+}
+.card {
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+  margin-top:20px;
+}
+.box {
+  background:black;
+  padding:10px;
+  margin:10px;
+  border-radius:8px;
+  word-break:break-all;
+}
 </style>
 </head>
 
 <body>
 
-<h2>Proof Verification</h2>
+<h2>🔐 Proof Verification</h2>
 
-<div class="card" id="data">Loading...</div>
+<div id="status" class="card">Loading...</div>
+
+<div id="content" style="display:none;">
+  <div class="box" id="msg"></div>
+  <div class="box" id="hash"></div>
+  <div class="box" id="sig"></div>
+  <div class="box" id="block"></div>
+</div>
 
 <script>
 
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get("id");
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-fetch("https://veritas-trust-engine.onrender.com/proof?id="+id)
-.then(res=>res.json())
-.then(data=>{
-  document.getElementById("data").innerHTML =
-    "Message:<br>"+data.message+
-    "<br><br>Hash:<br>"+data.hash+
-    "<br><br>Signature:<br>"+data.signature+
-    "<br><br>Block:#"+data.block;
-});
+async function loadProof() {
+
+  try {
+
+    const res = await fetch(
+      "https://veritas-trust-engine.onrender.com/proof?id=" + id
+    );
+
+    const data = await res.json();
+
+    if (!data.id) {
+      document.getElementById("status").innerText = "❌ Invalid Proof";
+      return;
+    }
+
+    document.getElementById("status").innerText = "✅ VERIFIED";
+
+    document.getElementById("content").style.display = "block";
+
+    document.getElementById("msg").innerText = "Message: " + data.message;
+    document.getElementById("hash").innerText = "Hash: " + data.hash;
+    document.getElementById("sig").innerText = "Signature: " + data.signature;
+    document.getElementById("block").innerText = "Block: #" + data.block;
+
+  } catch (e) {
+    document.getElementById("status").innerText = "❌ Error loading proof";
+  }
+
+}
+
+loadProof();
+
 </script>
 
 </body>
