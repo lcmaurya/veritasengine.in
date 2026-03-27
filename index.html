@@ -1,78 +1,124 @@
 <!DOCTYPE html><html>
-<body><h2>Veritas Proof Demo</h2><input id="msg" placeholder="Enter message">
-<button onclick="generate()">Generate</button><p id="status"></p>
-<p id="hash"></p>
-<p id="sig"></p>
-<p id="block"></p><button onclick="verify()">Verify</button>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veritas Guard Demo</title><style>
+body {
+  font-family: Arial;
+  background: #0f172a;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
 
-<p id="result"></p><script>
+.card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+input {
+  width: 90%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.generate {
+  background: #2563eb;
+  color: white;
+}
+
+.verify {
+  background: #16a34a;
+  color: white;
+}
+
+.result {
+  margin-top: 15px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.hashbox {
+  background: black;
+  padding: 10px;
+  font-size: 12px;
+  word-break: break-all;
+  margin-top: 10px;
+}
+</style></head><body><h2>🛡️ Veritas Guard - Bank Demo</h2><div class="card"><input id="msg" placeholder="Paste SMS / message / link"><br><button class="generate" onclick="generate()">⚡ Generate Proof</button>
+<button class="verify" onclick="verify()">🔍 Verify Proof</button>
+
+<div id="status"></div><div class="hashbox" id="hash"></div>
+<div class="hashbox" id="sig"></div><div class="result" id="result"></div></div><script>
 
 let hash = "";
 let signature = "";
 
 async function generate() {
 
-  document.getElementById("status").innerText = "Loading...";
+  document.getElementById("status").innerText = "Processing...";
 
-  try {
-    const message = document.getElementById("msg").value;
+  const message = document.getElementById("msg").value;
 
-    const res = await fetch("https://veritas-trust-engine.onrender.com/check", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "mysecret123"
-      },
-      body: JSON.stringify({
-        name: "user",
-        dob: "2000",
-        message: message
-      })
-    });
+  const res = await fetch("https://veritas-trust-engine.onrender.com/check", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "mysecret123"
+    },
+    body: JSON.stringify({
+      name: "user",
+      dob: "2000",
+      message: message
+    })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    hash = data.decision_hash;
-    signature = data.decision_signature;
+  hash = data.decision_hash;
+  signature = data.decision_signature;
 
-    document.getElementById("status").innerText = "Done";
-    document.getElementById("hash").innerText = "Hash: " + hash;
-    document.getElementById("sig").innerText = "Signature: " + signature;
-    document.getElementById("block").innerText = "Block: #" + data.block.index;
+  document.getElementById("status").innerText = "✅ Proof Generated";
+  document.getElementById("hash").innerText = "Hash:\n" + hash;
+  document.getElementById("sig").innerText = "Signature:\n" + signature;
 
-  } catch (e) {
-    document.getElementById("status").innerText = "ERROR: " + e.message;
-  }
 }
 
 async function verify() {
 
-  try {
-    const message = document.getElementById("msg").value;
+  const message = document.getElementById("msg").value;
 
-    const res = await fetch("https://veritas-trust-engine.onrender.com/verify", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "mysecret123"
-      },
-      body: JSON.stringify({
-        name: "user",
-        dob: "2000",
-        message: message,
-        decision_hash: hash,
-        decision_signature: signature
-      })
-    });
+  const res = await fetch("https://veritas-trust-engine.onrender.com/verify", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": "mysecret123"
+    },
+    body: JSON.stringify({
+      name: "user",
+      dob: "2000",
+      message: message,
+      decision_hash: hash,
+      decision_signature: signature
+    })
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    document.getElementById("result").innerText =
-      data.valid ? "VERIFIED" : "FAILED";
+  document.getElementById("result").innerText =
+    data.valid ? "✅ VERIFIED (Authentic)" : "❌ FAILED (Tampered)";
 
-  } catch (e) {
-    document.getElementById("result").innerText = "ERROR";
-  }
 }
 
 </script></body>
