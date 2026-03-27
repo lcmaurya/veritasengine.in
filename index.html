@@ -1,7 +1,7 @@
 <!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas Guard - Bank Demo</title><style>
+<title>Veritas Guard</title><style>
 body {
   font-family: Arial;
   background: linear-gradient(135deg, #0f172a, #020617);
@@ -36,6 +36,11 @@ input {
   margin-bottom: 15px;
 }
 
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+
 .btn {
   width: 48%;
   padding: 14px;
@@ -48,9 +53,9 @@ input {
 .generate { background: #2563eb; color: white; }
 .verify { background: #16a34a; color: white; }
 
-.row {
-  display: flex;
-  justify-content: space-between;
+.status {
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 .box {
@@ -63,7 +68,7 @@ input {
 }
 
 .actions button {
-  margin-top: 10px;
+  margin-top: 8px;
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -73,15 +78,20 @@ input {
 .copy { background: orange; }
 .share { background: purple; color: white; }
 
-.status {
-  margin-top: 10px;
+.result {
+  margin-top: 20px;
+  font-size: 20px;
   font-weight: bold;
+  padding: 12px;
+  border-radius: 10px;
 }
 
-.result {
-  margin-top: 15px;
-  font-size: 18px;
-  font-weight: bold;
+.success {
+  background: #16a34a;
+}
+
+.fail {
+  background: #dc2626;
 }
 
 .footer {
@@ -91,7 +101,7 @@ input {
   color: #94a3b8;
 }
 </style></head><body><div class="header">
-🛡️ Veritas Guard — Fraud Proof Engine
+🛡️ Veritas Guard — Tamper-Proof Verification System
 </div><div class="container"><div class="card"><input id="msg" placeholder="Paste SMS / WhatsApp / Link"><div class="row">
 <button class="btn generate" onclick="generate()">⚡ Generate Proof</button>
 <button class="btn verify" onclick="verify()">🔍 Verify Proof</button>
@@ -101,7 +111,7 @@ input {
 </div><div class="box" id="sig"></div>
 <div class="actions">
 <button class="copy" onclick="copySig()">Copy Signature</button>
-</div><div class="actions">
+</div><div class="box" id="block"></div><div class="actions">
 <button class="share" onclick="share()">Share Proof (WhatsApp)</button>
 </div><div class="result" id="result"></div></div><div class="card" style="margin-top:20px;">
 <b>How it works:</b>
@@ -109,15 +119,16 @@ input {
 <li>Message → Engine analysis</li>
 <li>Cryptographic hash generated</li>
 <li>Digital signature applied</li>
-<li>Stored in hashchain</li>
+<li>Stored in hashchain block</li>
 <li>Any change → verification fails</li>
 </ul>
 </div><div class="footer">
-Veritas Engine Demo — Tamper Proof Verification System
+Veritas Engine Demo — Bank Grade Proof System
 </div></div><script>
 
 let hash = "";
 let signature = "";
+let blockIndex = "";
 
 async function generate() {
 
@@ -142,10 +153,14 @@ async function generate() {
 
   hash = data.decision_hash;
   signature = data.decision_signature;
+  blockIndex = data.block.index;
 
   document.getElementById("status").innerText = "✅ Proof Generated";
+
   document.getElementById("hash").innerText = "Hash:\n" + hash;
   document.getElementById("sig").innerText = "Signature:\n" + signature;
+  document.getElementById("block").innerText = "Block Index: #" + blockIndex;
+
 }
 
 async function verify() {
@@ -169,8 +184,15 @@ async function verify() {
 
   const data = await res.json();
 
-  document.getElementById("result").innerText =
-    data.valid ? "✅ VERIFIED (Authentic)" : "❌ FAILED (Tampered)";
+  const resultBox = document.getElementById("result");
+
+  if (data.valid) {
+    resultBox.innerText = "✅ VERIFIED (Authentic)";
+    resultBox.className = "result success";
+  } else {
+    resultBox.innerText = "❌ FAILED (Tampered)";
+    resultBox.className = "result fail";
+  }
 }
 
 function copyHash() {
@@ -184,7 +206,11 @@ function copySig() {
 }
 
 function share() {
-  const text = "Veritas Proof\nHash: " + hash + "\nSignature: " + signature;
+  const text =
+    "Veritas Proof\nHash: " + hash +
+    "\nSignature: " + signature +
+    "\nBlock: #" + blockIndex;
+
   window.open("https://wa.me/?text=" + encodeURIComponent(text));
 }
 
