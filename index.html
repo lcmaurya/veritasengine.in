@@ -6,6 +6,7 @@
     <title>Veritas Guard - AI Fraud Detection</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        /* UI is kept exactly the same */
         :root {
             --bg-color: #f3f4f6;
             --card-bg: #ffffff;
@@ -16,241 +17,44 @@
             --secondary: #e5e7eb;
             --secondary-hover: #d1d5db;
             --border: #e5e7eb;
-            
-            /* Risk Colors */
-            --safe: #10b981;    /* Green */
-            --low: #f59e0b;     /* Yellow */
-            --medium: #f97316;  /* Orange */
-            --high: #ef4444;    /* Red */
+            --safe: #10b981;
+            --low: #f59e0b;
+            --medium: #f97316;
+            --high: #ef4444;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .app-container {
-            background-color: var(--card-bg);
-            width: 100%;
-            max-width: 600px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            padding: 30px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        header h1 {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
-
-        header p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        textarea {
-            width: 100%;
-            min-height: 120px;
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            resize: vertical;
-            margin-bottom: 20px;
-            transition: border-color 0.2s;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-        }
-
-        .button-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            flex: 1;
-        }
-
-        .btn-primary {
-            background-color: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            background-color: var(--primary-hover);
-        }
-
-        .btn-secondary {
-            background-color: var(--secondary);
-            color: var(--text-main);
-        }
-
-        .btn-secondary:hover {
-            background-color: var(--secondary-hover);
-        }
-
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .app-container { background-color: var(--card-bg); width: 100%; max-width: 600px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); padding: 30px; }
+        header { text-align: center; margin-bottom: 25px; }
+        header h1 { font-size: 24px; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+        header p { font-size: 14px; color: var(--text-muted); }
+        textarea { width: 100%; min-height: 120px; padding: 15px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 15px; resize: vertical; margin-bottom: 20px; }
+        textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1); }
+        .button-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        button { padding: 12px 20px; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex: 1; }
+        .btn-primary { background-color: var(--primary); color: white; }
+        .btn-primary:hover:not(:disabled) { background-color: var(--primary-hover); }
+        .btn-secondary { background-color: var(--secondary); color: var(--text-main); }
+        .btn-secondary:hover { background-color: var(--secondary-hover); }
+        button:disabled { opacity: 0.7; cursor: not-allowed; }
         .hidden { display: none !important; }
-
-        .loading-state {
-            text-align: center;
-            font-weight: 500;
-            color: var(--primary);
-            padding: 15px 0;
-            animation: pulse 1.5s infinite;
-        }
-
-        .error-message {
-            background-color: #fee2e2;
-            color: var(--high);
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        /* Result Section */
-        #resultSection {
-            animation: fadeIn 0.4s ease-out;
-            margin-top: 10px;
-        }
-
-        .risk-banner {
-            text-align: center;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            color: white;
-            transition: background-color 0.3s ease;
-        }
-
+        .loading-state { text-align: center; font-weight: 500; color: var(--primary); padding: 15px 0; animation: pulse 1.5s infinite; }
+        .error-message { background-color: #fee2e2; color: var(--high); padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; text-align: center; }
+        #resultSection { animation: fadeIn 0.4s ease-out; margin-top: 10px; }
+        .risk-banner { text-align: center; padding: 20px; border-radius: 12px; margin-bottom: 20px; color: white; }
         .risk-banner h2 { font-size: 28px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
         .risk-banner p { font-size: 16px; font-weight: 500; opacity: 0.9;}
-
-        .proof-box {
-            background-color: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .proof-box h3 {
-            font-size: 16px;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 10px;
-        }
-
-        .data-row {
-            margin-bottom: 12px;
-        }
-
-        .data-row label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-muted);
-            font-weight: 600;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-
-        .data-value {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: white;
-            padding: 8px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-        }
-
-        .data-value span {
-            font-family: monospace;
-            font-size: 13px;
-            color: var(--text-main);
-            word-break: break-all;
-            margin-right: 10px;
-        }
-
-        .copy-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 8px;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        
-        .copy-btn:hover { text-decoration: underline; }
-
-        .btn-proof-link {
-            display: block;
-            width: 100%;
-            text-align: center;
-            background-color: var(--text-main);
-            color: white;
-            text-decoration: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background-color 0.2s;
-        }
-
-        .btn-proof-link:hover {
-            background-color: #111827;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 480px) {
-            .app-container { padding: 20px; }
-            .button-group { flex-direction: column; }
-        }
+        .proof-box { background-color: #f8fafc; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .proof-box h3 { font-size: 16px; margin-bottom: 15px; color: var(--text-main); border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .data-row { margin-bottom: 12px; }
+        .data-row label { display: block; font-size: 12px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; text-transform: uppercase; }
+        .data-value { display: flex; align-items: center; justify-content: space-between; background-color: white; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; }
+        .data-value span { font-family: monospace; font-size: 13px; color: var(--text-main); word-break: break-all; margin-right: 10px; }
+        .copy-btn { background: none; border: none; color: var(--primary); font-size: 12px; font-weight: 600; padding: 4px 8px; cursor: pointer; flex-shrink: 0; }
+        .btn-proof-link { display: block; width: 100%; text-align: center; background-color: #1f2937; color: white; text-decoration: none; padding: 14px; border-radius: 8px; font-weight: 600; margin-top: 10px; border: none; cursor: pointer; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
@@ -265,8 +69,8 @@
             <textarea id="userInput" placeholder="Paste message, link, or transaction hash to analyze..."></textarea>
             
             <div class="button-group">
-                <button id="analyzeBtn" class="btn-primary" onclick="analyzeData()">Analyze</button>
-                <button id="clearBtn" class="btn-secondary" onclick="clearAll()">Clear</button>
+                <button id="analyzeBtn" class="btn-primary" onclick="handleAnalyze()">Analyze</button>
+                <button id="clearBtn" class="btn-secondary" onclick="handleClear()">Clear</button>
             </div>
 
             <div id="loadingState" class="loading-state hidden">Analyzing in real-time...</div>
@@ -280,45 +84,21 @@
 
                 <div class="proof-box">
                     <h3>Cryptographic Proof</h3>
-                    
-                    <div class="data-row">
-                        <label>Hash</label>
-                        <div class="data-value">
-                            <span id="hashText">...</span>
-                            <button class="copy-btn" onclick="copyToClipboard('hashText', this)">Copy</button>
-                        </div>
-                    </div>
-
-                    <div class="data-row">
-                        <label>Signature</label>
-                        <div class="data-value">
-                            <span id="sigText">...</span>
-                            <button class="copy-btn" onclick="copyToClipboard('sigText', this)">Copy</button>
-                        </div>
-                    </div>
-
-                    <div class="data-row">
-                        <label>Block</label>
-                        <div class="data-value">
-                            <span id="blockText">...</span>
-                        </div>
-                    </div>
-
-                    <div class="data-row">
-                        <label>Timestamp</label>
-                        <div class="data-value">
-                            <span id="timeText">...</span>
-                        </div>
-                    </div>
+                    <div class="data-row"><label>Hash</label><div class="data-value"><span id="hashText"></span><button class="copy-btn" onclick="copyText('hashText', this)">Copy</button></div></div>
+                    <div class="data-row"><label>Signature</label><div class="data-value"><span id="sigText"></span><button class="copy-btn" onclick="copyText('sigText', this)">Copy</button></div></div>
+                    <div class="data-row"><label>Block</label><div class="data-value"><span id="blockText"></span></div></div>
+                    <div class="data-row"><label>Timestamp</label><div class="data-value"><span id="timeText"></span></div></div>
                 </div>
 
-                <a id="proofLink" href="#" target="_blank" class="btn-proof-link">View Cryptographic Proof</a>
+                <!-- Changed to button for easier onclick window.open mapping -->
+                <button id="proofBtn" class="btn-proof-link" onclick="openProof()">View Cryptographic Proof</button>
             </div>
         </main>
     </div>
 
     <script>
-        // Risk Mapping Configuration
+        let currentId = null;
+
         const riskMap = {
             0: { text: "SAFE", color: "var(--safe)" },
             1: { text: "LOW RISK", color: "var(--low)" },
@@ -326,7 +106,26 @@
             3: { text: "HIGH RISK", color: "var(--high)" }
         };
 
-        // Main Analyze Function
+        function handleAnalyze() {
+            console.log("[DEBUG] Analyze button clicked");
+            analyzeData();
+        }
+
+        function handleClear() {
+            console.log("[DEBUG] Clear button clicked");
+            document.getElementById('userInput').value = "";
+            document.getElementById('resultSection').classList.add('hidden');
+            document.getElementById('errorState').classList.add('hidden');
+            currentId = null;
+        }
+
+        function openProof() {
+            console.log("[DEBUG] View Proof button clicked, opening ID:", currentId);
+            if(currentId) {
+                window.open(`/proof.html?id=${currentId}`, '_blank');
+            }
+        }
+
         async function analyzeData() {
             const input = document.getElementById('userInput').value.trim();
             const btn = document.getElementById('analyzeBtn');
@@ -334,22 +133,19 @@
             const loadingBox = document.getElementById('loadingState');
             const resultBox = document.getElementById('resultSection');
 
-            // Reset UI
             errorBox.classList.add('hidden');
             resultBox.classList.add('hidden');
 
             if (!input) {
-                showError("Please enter some text, a link, or a transaction to analyze.");
+                errorBox.textContent = "Please enter text to analyze.";
+                errorBox.classList.remove('hidden');
                 return;
             }
 
-            // Show Loading
             btn.disabled = true;
-            btn.textContent = "Processing...";
             loadingBox.classList.remove('hidden');
 
             try {
-                // API Call
                 const response = await fetch('https://veritas-system.onrender.com/generate', {
                     method: 'POST',
                     headers: {
@@ -359,89 +155,52 @@
                     body: JSON.stringify({ message: input })
                 });
 
-                if (!response.ok) {
-                    throw new Error(`API Error: ${response.status} ${response.statusText}`);
-                }
-
+                if (!response.ok) throw new Error("API request failed");
                 const data = await response.json();
                 
-                // Populate Results
-                updateUIWithResults(data);
+                // Mappings
+                const riskConfig = riskMap[data.decision];
+                if (!riskConfig) throw new Error("Invalid decision returned");
+
+                document.getElementById('riskBanner').style.backgroundColor = riskConfig.color;
+                document.getElementById('riskText').textContent = riskConfig.text;
+                
+                let conf = data.confidence <= 1 ? Math.round(data.confidence * 100) : data.confidence;
+                document.getElementById('confidenceText').textContent = `${conf}%`;
+
+                document.getElementById('hashText').textContent = data.hash;
+                document.getElementById('sigText').textContent = data.signature;
+                
+                // Block & Timestamp Fix
+                document.getElementById('blockText').textContent = data.block;
+                
+                // Converting timestamp (assuming timestamp is in milliseconds string/number)
+                const dateObj = new Date(Number(data.time));
+                document.getElementById('timeText').textContent = dateObj.toLocaleString();
+
+                // Save Hash for Proof Page
+                currentId = data.hash;
+
+                resultBox.classList.remove('hidden');
 
             } catch (error) {
-                showError("Failed to connect to Veritas system. Please try again later.");
-                console.error("API Error:", error);
+                console.error("[DEBUG] Error:", error);
+                errorBox.textContent = "API Error: Failed to fetch results. Please try again.";
+                errorBox.classList.remove('hidden');
             } finally {
-                // Hide Loading
+                // Remove disabled state explicitly
                 btn.disabled = false;
-                btn.textContent = "Analyze";
                 loadingBox.classList.add('hidden');
             }
         }
 
-        // Update DOM with API Data
-        function updateUIWithResults(data) {
-            // Mapping Decision to Risk Level
-            const riskConfig = riskMap[data.decision];
-            if (!riskConfig) {
-                showError("Received invalid risk data from server.");
-                return;
-            }
-
-            // Update Banner
-            const banner = document.getElementById('riskBanner');
-            banner.style.backgroundColor = riskConfig.color;
-            document.getElementById('riskText').textContent = riskConfig.text;
-            
-            // Format confidence (assuming API sends 0.95 or 95)
-            let conf = data.confidence;
-            if (conf <= 1) conf = Math.round(conf * 100); 
-            document.getElementById('confidenceText').textContent = `${conf}%`;
-
-            // Update Proof fields
-            document.getElementById('hashText').textContent = data.hash || "N/A";
-            document.getElementById('sigText').textContent = data.signature || "N/A";
-            document.getElementById('blockText').textContent = data.block || "N/A";
-            document.getElementById('timeText').textContent = data.time || "N/A";
-
-            // Update Proof Link (Using hash as ID parameter)
-            const proofId = data.hash || "unknown";
-            document.getElementById('proofLink').href = `/proof.html?id=${proofId}`;
-
-            // Show result section
-            document.getElementById('resultSection').classList.remove('hidden');
-        }
-
-        // Clear Function
-        function clearAll() {
-            document.getElementById('userInput').value = "";
-            document.getElementById('resultSection').classList.add('hidden');
-            document.getElementById('errorState').classList.add('hidden');
-            document.getElementById('loadingState').classList.add('hidden');
-            
-            // Reset copy buttons text if any were clicked
-            document.querySelectorAll('.copy-btn').forEach(btn => btn.textContent = "Copy");
-        }
-
-        // Error Handler
-        function showError(message) {
-            const errorBox = document.getElementById('errorState');
-            errorBox.textContent = message;
-            errorBox.classList.remove('hidden');
-        }
-
-        // Clipboard Helper
-        function copyToClipboard(elementId, btnElement) {
-            const textToCopy = document.getElementById(elementId).textContent;
-            navigator.clipboard.writeText(textToCopy).then(() => {
+        function copyText(elementId, btnElement) {
+            console.log(`[DEBUG] Copying ${elementId}`);
+            const text = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(text).then(() => {
                 const originalText = btnElement.textContent;
                 btnElement.textContent = "Copied!";
-                setTimeout(() => {
-                    btnElement.textContent = originalText;
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-                alert("Failed to copy. Please copy manually.");
+                setTimeout(() => btnElement.textContent = originalText, 1500);
             });
         }
     </script>
