@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
   <title>Veritas Engine · AI Fraud Intelligence</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -14,122 +14,147 @@
     }
 
     body {
-      background: #0a0c14;
-      background-image: radial-gradient(circle at 25% 0%, #0f172a 0%, #03050b 100%);
+      background: #03050b;
+      background-image: radial-gradient(circle at 30% 10%, #0a0f1c 0%, #020408 100%);
       font-family: 'Inter', sans-serif;
-      color: #eef2ff;
+      color: #edf2ff;
       min-height: 100vh;
-      padding: 1.5rem;
+      padding: 1.25rem;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 600px;
       margin: 0 auto;
     }
 
     /* Header */
     .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
       margin-bottom: 1.8rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+      text-align: center;
     }
+
     .logo h1 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #fff, #3b82f6);
+      background: linear-gradient(135deg, #ffffff, #3b82f6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
       letter-spacing: -0.5px;
+      margin-bottom: 0.25rem;
     }
-    .logo p {
-      font-size: 0.7rem;
-      color: #7c8db0;
-      margin-top: 0.2rem;
+
+    .sub {
+      font-size: 0.75rem;
+      color: #8b9ccf;
+      margin-bottom: 0.75rem;
     }
+
     .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       background: rgba(16, 24, 40, 0.8);
       backdrop-filter: blur(4px);
-      padding: 0.35rem 1rem;
+      padding: 0.3rem 1rem;
       border-radius: 40px;
       font-size: 0.7rem;
       font-weight: 500;
       border: 1px solid rgba(59, 130, 246, 0.5);
+      color: #b9d0ff;
     }
+
     .live-badge i {
+      font-size: 0.55rem;
       color: #10b981;
-      margin-right: 6px;
-      font-size: 0.6rem;
     }
 
-    /* Main Card */
+    /* Cards */
     .card {
-      background: rgba(12, 17, 29, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 1.5rem;
-      border: 1px solid rgba(59, 130, 246, 0.25);
+      background: rgba(12, 17, 29, 0.75);
+      backdrop-filter: blur(12px);
+      border-radius: 1.8rem;
+      border: 1px solid rgba(59, 130, 246, 0.35);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.6);
       padding: 1.6rem;
-      margin-bottom: 1.8rem;
-      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1.5rem;
     }
 
-    .input-label {
+    .card-title {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 0.6rem;
-      font-size: 0.85rem;
+      align-items: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
       font-weight: 500;
-      color: #b4c4ff;
+      color: #b9cbff;
     }
-    textarea {
+
+    .encrypt-tag {
+      font-size: 0.65rem;
+      background: rgba(59, 130, 246, 0.15);
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+    }
+
+    /* Input */
+    .message-input {
       width: 100%;
-      background: #070b16;
-      border: 1px solid #1f2a4e;
-      border-radius: 1rem;
-      padding: 0.9rem 1rem;
+      background: #070c19;
+      border: 1.5px solid #1f2a4e;
+      border-radius: 1.2rem;
+      padding: 1rem 1.2rem;
       font-size: 0.9rem;
       font-family: 'Inter', monospace;
       color: #eef2ff;
       resize: vertical;
     }
-    textarea:focus {
+
+    .message-input:focus {
       outline: none;
       border-color: #3b82f6;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
-    .char-count {
+
+    .char-counter {
       text-align: right;
       font-size: 0.7rem;
       color: #6a7aa3;
-      margin-top: 0.4rem;
+      margin-top: 0.5rem;
     }
-    .btn-analyze {
-      background: linear-gradient(95deg, #1e2b4f, #0f172a);
+
+    .button-wrapper {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 1.2rem;
+    }
+
+    .analyze-btn {
+      background: linear-gradient(95deg, #16203f, #0b1022);
       border: 1px solid #3b82f6;
-      border-radius: 2rem;
-      padding: 0.7rem 1.8rem;
+      border-radius: 3rem;
+      padding: 0.75rem 1.8rem;
       font-weight: 600;
+      font-size: 0.9rem;
       color: white;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 1rem;
-      transition: 0.2s;
+      transition: all 0.2s;
     }
-    .btn-analyze:hover:not(:disabled) {
-      background: linear-gradient(95deg, #2a3a62, #1e293b);
+
+    .analyze-btn:hover:not(:disabled) {
+      background: linear-gradient(95deg, #1f2d54, #121933);
       border-color: #60a5fa;
       transform: translateY(-1px);
     }
-    .btn-analyze:disabled {
-      opacity: 0.5;
+
+    .analyze-btn:disabled {
+      opacity: 0.6;
       cursor: not-allowed;
     }
+
     .spinner {
       width: 18px;
       height: 18px;
@@ -143,27 +168,28 @@
 
     /* Result Card */
     .result-card {
-      margin-top: 1.8rem;
       animation: fadeIn 0.3s ease;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(8px);}
       to { opacity: 1; transform: translateY(0);}
     }
+
     .decision-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       font-weight: 800;
       font-size: 1.2rem;
-      padding: 0.3rem 1rem;
+      padding: 0.4rem 1.2rem;
       border-radius: 40px;
       margin-bottom: 1rem;
     }
     .badge-safe { background: #0a2e2a; color: #2dd4bf; border-left: 3px solid #2dd4bf; }
     .badge-low { background: #3a2a1a; color: #facc15; border-left: 3px solid #facc15; }
     .badge-susp { background: #4a2418; color: #fb923c; border-left: 3px solid #fb923c; }
-    .badge-scam { background: #5a1e1e; color: #f87171; border-left: 3px solid #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.3); }
+    .badge-scam { background: #5a1e1e; color: #f87171; border-left: 3px solid #ef4444; box-shadow: 0 0 8px rgba(239,68,68,0.3); }
+
     .alert-banner {
       background: rgba(239,68,68,0.12);
       border-left: 4px solid #ef4444;
@@ -172,6 +198,8 @@
       margin-bottom: 1rem;
       font-size: 0.85rem;
     }
+    .alert-susp { border-left-color: #fb923c; background: rgba(251,146,60,0.1); }
+
     .proof-grid {
       background: #080c18;
       border-radius: 1rem;
@@ -188,6 +216,8 @@
       font-size: 0.8rem;
       border-bottom: 1px dashed #1e2848;
       padding: 0.4rem 0;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .proof-label {
       color: #8fa1d0;
@@ -206,24 +236,24 @@
       color: #60a5fa;
       margin-left: 6px;
       cursor: pointer;
-      font-size: 0.7rem;
     }
-    .view-proof {
+    .view-proof-btn {
       background: #0f172f;
+      border: none;
       border-radius: 2rem;
-      padding: 0.4rem 1rem;
+      padding: 0.5rem 1.2rem;
       font-size: 0.8rem;
       color: #93c5fd;
-      text-decoration: none;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
     }
 
-    /* History */
+    /* History Section */
     .history-section {
       background: rgba(8, 12, 22, 0.7);
-      border-radius: 1.2rem;
+      border-radius: 1.5rem;
       padding: 1.2rem;
       border: 1px solid #1f2a48;
     }
@@ -232,6 +262,15 @@
       justify-content: space-between;
       align-items: center;
       margin-bottom: 1rem;
+    }
+    .clear-btn {
+      background: transparent;
+      border: 1px solid #475569;
+      border-radius: 30px;
+      padding: 0.25rem 0.8rem;
+      color: #94a3b8;
+      font-size: 0.7rem;
+      cursor: pointer;
     }
     .history-list {
       display: flex;
@@ -254,7 +293,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
-      max-width: 55%;
+      max-width: 60%;
     }
     .history-badge {
       font-size: 0.7rem;
@@ -271,60 +310,19 @@
       font-size: 0.9rem;
     }
     .delete-history:hover { color: #f87171; }
-    .clear-btn {
-      background: transparent;
-      border: 1px solid #475569;
-      border-radius: 30px;
-      padding: 0.2rem 0.8rem;
-      color: #94a3b8;
-      font-size: 0.7rem;
-      cursor: pointer;
-    }
 
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(12px);
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .modal-box {
-      background: #0c1122;
-      border-radius: 1.8rem;
-      max-width: 90%;
-      width: 550px;
-      padding: 1.5rem;
-      border: 1px solid #3b82f6;
-    }
-    .modal-header {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 1rem;
-    }
-    .modal-iframe {
-      width: 100%;
-      height: 380px;
-      border-radius: 1rem;
-      border: none;
-      background: white;
-    }
     footer {
       text-align: center;
       font-size: 0.65rem;
       color: #4f6085;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
-    @media (max-width: 600px) {
+
+    @media (max-width: 550px) {
       body { padding: 1rem; }
       .card { padding: 1.2rem; }
-      .proof-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .proof-row { flex-direction: column; align-items: flex-start; }
       .proof-value { text-align: left; max-width: 100%; }
-      .history-item { flex-wrap: wrap; gap: 8px; }
     }
   </style>
 </head>
@@ -333,21 +331,26 @@
   <div class="header">
     <div class="logo">
       <h1><i class="fas fa-shield-hal"></i> Veritas Engine</h1>
-      <p>AI-powered fraud intelligence · immutable proof ledger</p>
+      <div class="sub">AI-powered fraud intelligence • immutable proof ledger</div>
     </div>
     <div class="live-badge"><i class="fas fa-circle"></i> LIVE · POST /generate</div>
   </div>
 
+  <!-- Main Card -->
   <div class="card">
-    <div class="input-label"><span><i class="fas fa-envelope"></i> Transaction / SMS / Message</span> <span style="font-size:0.7rem;">🔒 encrypted transmission</span></div>
-    <textarea id="messageInput" rows="3" placeholder="Paste suspicious message, transaction alert, or any text to analyze..."></textarea>
-    <div class="char-count"><span id="charCount">0</span> characters</div>
-    <div style="display: flex; justify-content: flex-end;">
-      <button id="analyzeBtn" class="btn-analyze"><i class="fas fa-microchip"></i> Analyze with Veritas</button>
+    <div class="card-title">
+      <span><i class="fas fa-envelope"></i> Transaction / SMS / Message</span>
+      <span class="encrypt-tag">🔒 encrypted transmission</span>
+    </div>
+    <textarea id="messageInput" class="message-input" rows="3" placeholder="Paste suspicious message, transaction alert, or any text to analyze..."></textarea>
+    <div class="char-counter"><span id="charCount">0</span> characters</div>
+    <div class="button-wrapper">
+      <button id="analyzeBtn" class="analyze-btn"><i class="fas fa-microchip"></i> Analyze with Veritas</button>
     </div>
     <div id="resultArea"></div>
   </div>
 
+  <!-- History Section -->
   <div class="history-section">
     <div class="history-header">
       <span><i class="fas fa-clock-rotate-left"></i> Recent verdicts</span>
@@ -357,24 +360,14 @@
       <div style="color:#5f6e97; text-align:center; padding:1rem;">— No analysis yet —</div>
     </div>
   </div>
-  <footer>🔒 Cryptographic hash & signature · Veritas Engine live on Render · tamper-proof evidence</footer>
-</div>
-
-<div id="proofModal" class="modal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3><i class="fas fa-certificate"></i> Veritas Proof Ledger</h3>
-      <button id="closeModalBtn" style="background:none; border:none; font-size:1.5rem; color:white; cursor:pointer;">&times;</button>
-    </div>
-    <iframe id="proofIframe" class="modal-iframe" srcdoc="<html><body style='background:#0b0f1a;color:white;display:flex;align-items:center;justify-content:center;font-family:sans-serif'>Loading proof...</body></html>"></iframe>
-    <p style="margin-top:12px; font-size:0.7rem; text-align:center;">🔗 Full evidence report — timestamp & signature anchored</p>
-  </div>
+  <footer>🔒 Cryptographic hash & signature · Veritas Engine · tamper-proof evidence</footer>
 </div>
 
 <script>
   const API_URL = 'https://veritas-system.onrender.com/generate';
   const API_KEY = 'mysecret123';
 
+  // DOM elements
   const messageInput = document.getElementById('messageInput');
   const analyzeBtn = document.getElementById('analyzeBtn');
   const resultArea = document.getElementById('resultArea');
@@ -384,22 +377,23 @@
 
   let history = [];
 
+  // Load history from localStorage
   function loadHistory() {
-    const stored = localStorage.getItem('veritas_history_v2');
-    if(stored) {
+    const stored = localStorage.getItem('veritas_history');
+    if (stored) {
       try { history = JSON.parse(stored); } catch(e) { history = []; }
     }
-    if(history.length > 5) history = history.slice(0,5);
+    if (history.length > 5) history = history.slice(0, 5);
     renderHistory();
   }
 
   function saveHistory() {
-    localStorage.setItem('veritas_history_v2', JSON.stringify(history.slice(0,5)));
+    localStorage.setItem('veritas_history', JSON.stringify(history.slice(0, 5)));
   }
 
   function addToHistory(item) {
     history.unshift(item);
-    if(history.length > 5) history.pop();
+    if (history.length > 5) history.pop();
     saveHistory();
     renderHistory();
   }
@@ -411,35 +405,36 @@
   }
 
   function renderHistory() {
-    if(!historyListDiv) return;
-    if(history.length === 0) {
+    if (history.length === 0) {
       historyListDiv.innerHTML = '<div style="color:#5f6e97; text-align:center; padding:1rem;">— No analysis yet —</div>';
       return;
     }
     let html = '';
     history.forEach((item, idx) => {
       let badgeClass = '', badgeText = '';
-      if(item.decision === 0) { badgeClass = 'badge-safe'; badgeText = 'SAFE'; }
-      else if(item.decision === 1) { badgeClass = 'badge-low'; badgeText = 'LOW'; }
-      else if(item.decision === 2) { badgeClass = 'badge-susp'; badgeText = 'SUSP'; }
+      if (item.decision === 0) { badgeClass = 'badge-safe'; badgeText = 'SAFE'; }
+      else if (item.decision === 1) { badgeClass = 'badge-low'; badgeText = 'LOW'; }
+      else if (item.decision === 2) { badgeClass = 'badge-susp'; badgeText = 'SUSP'; }
       else { badgeClass = 'badge-scam'; badgeText = 'SCAM'; }
       html += `
         <div class="history-item" data-idx="${idx}">
           <div class="history-msg"><i class="fas fa-comment"></i> ${escapeHtml(item.shortMsg)}</div>
           <div style="display:flex; align-items:center; gap:8px;">
             <span class="history-badge ${badgeClass}" style="background:${item.decision===3?'#5a1e1e':item.decision===2?'#4a2418':item.decision===1?'#3a2a1a':'#0a2e2a'}">${badgeText} · ${item.confidence}%</span>
-            <button class="delete-history" data-delidx="${idx}" title="Delete message"><i class="fas fa-times-circle"></i></button>
+            <button class="delete-history" data-delidx="${idx}" title="Delete"><i class="fas fa-times-circle"></i></button>
           </div>
         </div>
       `;
     });
     historyListDiv.innerHTML = html;
+
+    // Attach click handlers
     document.querySelectorAll('.history-item').forEach(el => {
       const idx = parseInt(el.getAttribute('data-idx'));
       el.addEventListener('click', (e) => {
-        if(e.target.classList.contains('delete-history') || e.target.closest('.delete-history')) return;
+        if (e.target.classList.contains('delete-history') || e.target.closest('.delete-history')) return;
         const entry = history[idx];
-        if(entry && entry.fullData) {
+        if (entry && entry.fullData) {
           displayResult(entry.fullData, entry.rawMsg);
           messageInput.value = entry.rawMsg;
           updateCharCount();
@@ -456,131 +451,146 @@
   }
 
   function escapeHtml(str) {
-    if(!str) return '';
+    if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
-      if(m === '&') return '&amp;';
-      if(m === '<') return '&lt;';
-      if(m === '>') return '&gt;';
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
       return m;
     });
   }
 
-  function formatTime(ts) {
-    if(!ts) return 'N/A';
+  function formatTimestamp(ts) {
+    if (!ts) return 'N/A';
     try {
       let d = new Date(ts);
-      if(isNaN(d.getTime())) d = new Date();
-      return d.toLocaleString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+      if (isNaN(d.getTime())) d = new Date();
+      return d.toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
     } catch(e) { return String(ts); }
   }
 
   function displayResult(data, rawMsg) {
     const dec = data.decision;
     let badgeClass = '', badgeIcon = '', label = '';
-    if(dec === 0) { badgeClass = 'badge-safe'; badgeIcon = '<i class="fas fa-check-circle"></i>'; label = 'SAFE'; }
-    else if(dec === 1) { badgeClass = 'badge-low'; badgeIcon = '<i class="fas fa-chart-line"></i>'; label = 'LOW RISK'; }
-    else if(dec === 2) { badgeClass = 'badge-susp'; badgeIcon = '<i class="fas fa-triangle-exclamation"></i>'; label = 'SUSPICIOUS'; }
+    if (dec === 0) { badgeClass = 'badge-safe'; badgeIcon = '<i class="fas fa-check-circle"></i>'; label = 'SAFE'; }
+    else if (dec === 1) { badgeClass = 'badge-low'; badgeIcon = '<i class="fas fa-chart-line"></i>'; label = 'LOW RISK'; }
+    else if (dec === 2) { badgeClass = 'badge-susp'; badgeIcon = '<i class="fas fa-triangle-exclamation"></i>'; label = 'SUSPICIOUS'; }
     else { badgeClass = 'badge-scam'; badgeIcon = '<i class="fas fa-skull-crossbones"></i>'; label = 'SCAM'; }
-    
+
     const confidence = data.confidence ?? '—';
     const hashVal = data.hash ?? data.id ?? '—';
     const signature = data.signature ?? '—';
     const blockNum = data.block ?? '—';
-    const timestamp = formatTime(data.time ?? data.timestamp);
-    const proofLink = data.link || (data.id ? `https://veritas-system.onrender.com/proof/${data.id}` : '#');
-    
+    const timestamp = formatTimestamp(data.time ?? data.timestamp);
+    const proofLink = data.link || (data.id ? `https://veritas-system.onrender.com/proof/${data.id}` : null);
+
     let alertHtml = '';
-    if(dec === 3) alertHtml = `<div class="alert-banner"><i class="fas fa-exclamation-triangle"></i> <strong>ALERT — SCAM DETECTED</strong> · Do not share OTP, do not click any links. This message shows high fraud probability.</div>`;
-    else if(dec === 2) alertHtml = `<div class="alert-banner" style="border-left-color:#fb923c;"><i class="fas fa-shield"></i> Suspicious patterns — verify sender before action.</div>`;
-    
+    if (dec === 3) alertHtml = `<div class="alert-banner"><i class="fas fa-exclamation-triangle"></i> <strong>ALERT — SCAM DETECTED</strong> · Do not share OTP, do not click any links. This message shows high fraud probability.</div>`;
+    else if (dec === 2) alertHtml = `<div class="alert-banner alert-susp"><i class="fas fa-shield"></i> Suspicious patterns — verify sender before action.</div>`;
+
     const resultHtml = `
       <div class="result-card">
         <div class="decision-badge ${badgeClass}">${badgeIcon} ${label} · ${confidence}% confidence</div>
         ${alertHtml}
         <div class="proof-grid">
-          <div class="proof-row"><span class="proof-label"><i class="fas fa-fingerprint"></i> SHA-256 Hash</span><span class="proof-value">${hashVal.substring(0,28)}...<button class="copy-hash-btn" data-hash="${hashVal}"><i class="far fa-copy"></i></button></span></div>
-          <div class="proof-row"><span class="proof-label"><i class="fas fa-signature"></i> Digital Signature</span><span class="proof-value">${signature.substring(0,24)}...</span></div>
+          <div class="proof-row"><span class="proof-label"><i class="fas fa-fingerprint"></i> SHA-256 Hash</span><span class="proof-value">${hashVal.substring(0, 32)}...<button class="copy-btn" data-hash="${hashVal}"><i class="far fa-copy"></i></button></span></div>
+          <div class="proof-row"><span class="proof-label"><i class="fas fa-signature"></i> Digital Signature</span><span class="proof-value">${signature.substring(0, 28)}...</span></div>
           <div class="proof-row"><span class="proof-label"><i class="fas fa-cubes"></i> Block / Ledger</span><span class="proof-value">#${blockNum}</span></div>
           <div class="proof-row"><span class="proof-label"><i class="far fa-clock"></i> Timestamp (UTC+5:30)</span><span class="proof-value">${timestamp}</span></div>
         </div>
         <div style="display:flex; justify-content:flex-end; margin-top:0.5rem;">
-          ${proofLink && proofLink !== '#' ? `<button class="view-proof" id="viewProofBtn" data-link="${proofLink}"><i class="fas fa-external-link-alt"></i> View Proof Report</button>` : '<span class="view-proof" style="opacity:0.5;"><i class="fas fa-link"></i> Proof not ready</span>'}
+          ${proofLink ? `<button class="view-proof-btn" data-link="${proofLink}"><i class="fas fa-external-link-alt"></i> View Proof Report</button>` : '<span style="opacity:0.5;">Proof link unavailable</span>'}
         </div>
         <div style="font-size:0.7rem; color:#6b7ca3; text-align:center; border-top:1px solid #1f2a48; margin-top:1rem; padding-top:0.8rem;"><i class="fas fa-database"></i> cryptographic proof anchored · immutable ledger entry</div>
       </div>
     `;
     resultArea.innerHTML = resultHtml;
-    document.querySelectorAll('.copy-hash-btn').forEach(btn => {
+
+    // Copy hash
+    document.querySelectorAll('.copy-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         const fullHash = btn.getAttribute('data-hash');
-        if(fullHash) {
+        if (fullHash) {
           navigator.clipboard.writeText(fullHash);
           btn.innerHTML = '<i class="fas fa-check"></i>';
           setTimeout(() => btn.innerHTML = '<i class="far fa-copy"></i>', 1500);
         }
       });
     });
-    const proofBtn = document.getElementById('viewProofBtn');
-    if(proofBtn) {
+
+    // View proof button: open in new tab (no modal)
+    const proofBtn = document.querySelector('.view-proof-btn');
+    if (proofBtn && proofBtn.getAttribute('data-link')) {
       proofBtn.addEventListener('click', () => {
         const link = proofBtn.getAttribute('data-link');
-        if(link) openModal(link);
+        if (link) window.open(link, '_blank');
       });
     }
+
     resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  const modal = document.getElementById('proofModal');
-  const iframe = document.getElementById('proofIframe');
-  function openModal(url) {
-    iframe.srcdoc = `<html><body style="background:#fff;display:flex;justify-content:center;align-items:center;">Loading proof from ${escapeHtml(url)}...</body></html>`;
-    iframe.src = url;
-    modal.style.display = 'flex';
-  }
-  document.getElementById('closeModalBtn')?.addEventListener('click', () => { modal.style.display = 'none'; iframe.src = 'about:blank'; });
-  window.addEventListener('click', (e) => { if(e.target === modal) { modal.style.display = 'none'; iframe.src = 'about:blank'; } });
-
-  let loading = false;
-  async function analyze() {
+  let isLoading = false;
+  async function analyzeMessage() {
     const msg = messageInput.value.trim();
-    if(!msg) { alert('Please enter a message'); return; }
-    if(loading) return;
-    loading = true;
+    if (!msg) {
+      alert('Please enter a message to analyze');
+      return;
+    }
+    if (isLoading) return;
+    isLoading = true;
     analyzeBtn.disabled = true;
-    const originalHtml = analyzeBtn.innerHTML;
+    const originalText = analyzeBtn.innerHTML;
     analyzeBtn.innerHTML = '<span class="spinner"></span> Analyzing...';
+
     try {
-      const res = await fetch(API_URL, {
+      const response = await fetch(API_URL, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': API_KEY
+        },
         body: JSON.stringify({ message: msg })
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      const short = msg.length > 45 ? msg.slice(0,42)+'...' : msg;
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} — ${response.statusText}`);
+      }
+      const data = await response.json();
+      const shortMsg = msg.length > 48 ? msg.slice(0, 45) + '...' : msg;
       addToHistory({
-        shortMsg: short,
+        shortMsg: shortMsg,
         decision: data.decision,
         confidence: data.confidence,
         rawMsg: msg,
         fullData: data
       });
       displayResult(data, msg);
-    } catch(err) {
-      resultArea.innerHTML = `<div class="result-card" style="background:#2a1a1a; padding:1rem; border-radius:1rem; margin-top:1rem;"><i class="fas fa-bug"></i> Error: ${err.message}. Check API or network.</div>`;
+    } catch (err) {
+      resultArea.innerHTML = `<div class="result-card" style="background:#2a1a1a; padding:1rem; border-radius:1rem; margin-top:1rem;"><i class="fas fa-bug"></i> Error: ${err.message}. Please check API endpoint or network.</div>`;
     } finally {
-      loading = false;
+      isLoading = false;
       analyzeBtn.disabled = false;
-      analyzeBtn.innerHTML = originalHtml;
+      analyzeBtn.innerHTML = originalText;
     }
   }
 
-  function updateCharCount() { charSpan.innerText = messageInput.value.length; }
+  function updateCharCount() {
+    charSpan.innerText = messageInput.value.length;
+  }
+
+  // Event listeners
   messageInput.addEventListener('input', updateCharCount);
-  analyzeBtn.addEventListener('click', analyze);
-  clearHistoryBtn.addEventListener('click', () => { history = []; saveHistory(); renderHistory(); });
+  analyzeBtn.addEventListener('click', analyzeMessage);
+  clearHistoryBtn.addEventListener('click', () => {
+    history = [];
+    saveHistory();
+    renderHistory();
+  });
+
   updateCharCount();
   loadHistory();
+
+  // Optional example placeholder
   messageInput.value = "URGENT: Your SBI account will be blocked in 24h. Click https://sbi-alert.com/verify";
   updateCharCount();
 </script>
