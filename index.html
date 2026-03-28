@@ -335,4 +335,70 @@
                 <div id="responseTerminal">
 > VERITAS System Terminal Ready...
 > Waiting for input to generate Hashchain...</div>
-            </
+            </section>
+
+        </div>
+    </main>
+
+    <!-- JAVASCRIPT LOGIC (API CONNECTION) -->
+    <script>
+        async function generateHash() {
+            const inputField = document.getElementById("userInput");
+            const message = inputField.value.trim();
+            const terminal = document.getElementById("responseTerminal");
+            const btn = document.getElementById("generateBtn");
+
+            if (!message) {
+                terminal.innerHTML = "> Error: Payload/Message cannot be empty.\n> Please enter data.";
+                inputField.focus();
+                return;
+            }
+
+            // UI changes while loading
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+            terminal.innerHTML = "> Connecting to Veritas Core Engine...\n> Endpoint: https://veritas-system.onrender.com/generate\n> Encrypting and Generating Hash...";
+
+            try {
+                // YOUR API FETCH LOGIC
+                const response = await fetch("https://veritas-system.onrender.com/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "x-api-key": "mysecret123" // Your secure key
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Success output formatted beautifully in the terminal
+                    terminal.innerHTML = "> SUCCESS: Data processed.\n\n" + JSON.stringify(data, null, 4);
+                } else {
+                    // Handled error from backend
+                    terminal.innerHTML = "> BACKEND ERROR: \n\n" + JSON.stringify(data, null, 4);
+                }
+                
+            } catch (error) {
+                // Connection or CORS error
+                terminal.innerHTML = "> CRITICAL ERROR: Could not connect to Render server.\n> Reason: " + error.message + "\n\n> Note: If using Render free tier, the server might take 50 seconds to wake up. Try again.";
+                console.error("API Error:", error);
+            } finally {
+                // Reset button UI
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-play"></i> Generate';
+            }
+        }
+
+        // Allow pressing Enter to submit
+        document.getElementById("userInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                generateHash();
+            }
+        });
+    </script>
+
+</body>
+</html>
