@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Veritas Engine · AI Fraud Detection</title>
-  <!-- Google Fonts + Simple Icons -->
+  <title>Veritas Engine · AI Fraud Intelligence</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
@@ -15,151 +14,140 @@
     }
 
     body {
-      background: radial-gradient(circle at 20% 30%, #0a0c14, #03050b);
+      background: #0a0c14;
+      background-image: radial-gradient(circle at 25% 0%, #0f172a 0%, #03050b 100%);
       font-family: 'Inter', sans-serif;
       color: #eef2ff;
       min-height: 100vh;
-      padding: 2rem 1.5rem;
+      padding: 1.5rem;
     }
 
-    /* glass morphism container */
-    .app-container {
-      max-width: 1280px;
+    .container {
+      max-width: 900px;
       margin: 0 auto;
     }
 
-    /* header */
-    .veritas-header {
+    /* Header */
+    .header {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
+      align-items: center;
       flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-      border-bottom: 1px solid rgba(46, 125, 255, 0.25);
+      margin-bottom: 1.8rem;
       padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(59, 130, 246, 0.3);
     }
-    .logo-area h1 {
-      font-size: 1.9rem;
+    .logo h1 {
+      font-size: 1.6rem;
       font-weight: 700;
-      background: linear-gradient(135deg, #c0e0ff, #3b82f6);
+      background: linear-gradient(135deg, #fff, #3b82f6);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.5px;
     }
-    .logo-area p {
-      font-size: 0.85rem;
-      color: #8b9bcf;
-      margin-top: 0.25rem;
-    }
-    .status-badge {
-      background: rgba(16, 24, 40, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: 60px;
-      padding: 0.4rem 1rem;
-      font-size: 0.75rem;
-      font-weight: 500;
-      border: 1px solid rgba(59,130,246,0.4);
-    }
-    .status-badge i {
-      margin-right: 6px;
+    .logo p {
       font-size: 0.7rem;
+      color: #7c8db0;
+      margin-top: 0.2rem;
+    }
+    .live-badge {
+      background: rgba(16, 24, 40, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 0.35rem 1rem;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.5);
+    }
+    .live-badge i {
       color: #10b981;
+      margin-right: 6px;
+      font-size: 0.6rem;
     }
 
-    /* main card */
-    .analysis-card {
-      background: rgba(12, 17, 29, 0.75);
-      backdrop-filter: blur(12px);
-      border-radius: 2rem;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6);
-      padding: 2rem;
-      margin-bottom: 2rem;
-      transition: all 0.2s ease;
+    /* Main Card */
+    .card {
+      background: rgba(12, 17, 29, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      padding: 1.6rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
     }
 
-    .input-group {
-      margin-bottom: 1.5rem;
-    }
     .input-label {
       display: flex;
       justify-content: space-between;
-      font-weight: 500;
       margin-bottom: 0.6rem;
-      color: #b9c8ff;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #b4c4ff;
     }
     textarea {
       width: 100%;
-      background: #0a0f1c;
-      border: 1.5px solid #1f2a48;
-      border-radius: 1.2rem;
-      padding: 1rem 1.25rem;
-      font-size: 1rem;
+      background: #070b16;
+      border: 1px solid #1f2a4e;
+      border-radius: 1rem;
+      padding: 0.9rem 1rem;
+      font-size: 0.9rem;
       font-family: 'Inter', monospace;
       color: #eef2ff;
       resize: vertical;
-      transition: 0.2s;
     }
     textarea:focus {
       outline: none;
       border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
     }
     .char-count {
       text-align: right;
       font-size: 0.7rem;
-      color: #6f7c9e;
+      color: #6a7aa3;
       margin-top: 0.4rem;
     }
-
-    .action-btn {
-      background: linear-gradient(105deg, #1e2a5e, #0f172a);
+    .btn-analyze {
+      background: linear-gradient(95deg, #1e2b4f, #0f172a);
       border: 1px solid #3b82f6;
       border-radius: 2rem;
-      padding: 0.8rem 2rem;
+      padding: 0.7rem 1.8rem;
       font-weight: 600;
-      font-size: 1rem;
       color: white;
       cursor: pointer;
-      transition: all 0.25s;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      gap: 8px;
+      margin-top: 1rem;
+      transition: 0.2s;
     }
-    .action-btn i {
-      font-size: 1rem;
-    }
-    .action-btn:hover:not(:disabled) {
-      background: linear-gradient(105deg, #2e3a6e, #1e293b);
+    .btn-analyze:hover:not(:disabled) {
+      background: linear-gradient(95deg, #2a3a62, #1e293b);
       border-color: #60a5fa;
       transform: translateY(-1px);
-      box-shadow: 0 10px 20px -5px rgba(59,130,246,0.4);
     }
-    .action-btn:disabled {
+    .btn-analyze:disabled {
       opacity: 0.5;
       cursor: not-allowed;
-      transform: none;
     }
-    .loading-spinner {
-      display: inline-block;
+    .spinner {
       width: 18px;
       height: 18px;
       border: 2px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
       border-top-color: white;
+      border-radius: 50%;
       animation: spin 0.7s linear infinite;
+      display: inline-block;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* result cards */
-    .result-section {
-      margin-top: 2rem;
-      animation: fadeUp 0.4s ease;
+    /* Result Card */
+    .result-card {
+      margin-top: 1.8rem;
+      animation: fadeIn 0.3s ease;
     }
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(10px);}
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px);}
       to { opacity: 1; transform: translateY(0);}
     }
     .decision-badge {
@@ -167,68 +155,64 @@
       align-items: center;
       gap: 8px;
       font-weight: 800;
-      font-size: 1.3rem;
-      padding: 0.3rem 1.2rem;
-      border-radius: 60px;
-      margin-bottom: 1.2rem;
+      font-size: 1.2rem;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      margin-bottom: 1rem;
     }
-    .decision-safe { background: #0b3b2f; color: #2dd4bf; border-left: 4px solid #2dd4bf; }
-    .decision-low { background: #3e2a1f; color: #facc15; border-left: 4px solid #facc15; }
-    .decision-suspicious { background: #4c2418; color: #fb923c; border-left: 4px solid #fb923c; }
-    .decision-scam { background: #5c1e1e; color: #f87171; border-left: 4px solid #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.3); }
-
-    .warning-banner {
-      background: rgba(239,68,68,0.15);
-      border-left: 5px solid #ef4444;
-      padding: 0.8rem 1.2rem;
-      border-radius: 1rem;
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-      backdrop-filter: blur(4px);
+    .badge-safe { background: #0a2e2a; color: #2dd4bf; border-left: 3px solid #2dd4bf; }
+    .badge-low { background: #3a2a1a; color: #facc15; border-left: 3px solid #facc15; }
+    .badge-susp { background: #4a2418; color: #fb923c; border-left: 3px solid #fb923c; }
+    .badge-scam { background: #5a1e1e; color: #f87171; border-left: 3px solid #ef4444; box-shadow: 0 0 6px rgba(239,68,68,0.3); }
+    .alert-banner {
+      background: rgba(239,68,68,0.12);
+      border-left: 4px solid #ef4444;
+      padding: 0.7rem 1rem;
+      border-radius: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
     }
-
     .proof-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1rem;
-      background: #0b0f1a;
-      border-radius: 1.2rem;
-      padding: 1.2rem;
-      margin: 1.2rem 0;
+      background: #080c18;
+      border-radius: 1rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      margin: 1rem 0;
     }
-    .proof-item {
+    .proof-row {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 0.85rem;
-      border-bottom: 1px dashed #1f2a48;
-      padding: 0.5rem 0;
+      font-size: 0.8rem;
+      border-bottom: 1px dashed #1e2848;
+      padding: 0.4rem 0;
     }
     .proof-label {
+      color: #8fa1d0;
       font-weight: 500;
-      color: #8ca3d9;
     }
     .proof-value {
       font-family: monospace;
       word-break: break-all;
       text-align: right;
-      max-width: 60%;
+      max-width: 65%;
       color: #cbd5ff;
     }
-    .copy-hash {
+    .copy-btn {
       background: none;
       border: none;
       color: #60a5fa;
+      margin-left: 6px;
       cursor: pointer;
-      margin-left: 8px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
-    .link-button {
-      background: #1e293b;
-      border-radius: 30px;
-      padding: 0.3rem 1rem;
+    .view-proof {
+      background: #0f172f;
+      border-radius: 2rem;
+      padding: 0.4rem 1rem;
       font-size: 0.8rem;
-      font-weight: 500;
       color: #93c5fd;
       text-decoration: none;
       display: inline-flex;
@@ -236,234 +220,241 @@
       gap: 6px;
     }
 
-    /* history panel */
-    .history-card {
+    /* History */
+    .history-section {
       background: rgba(8, 12, 22, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: 1.5rem;
-      border: 1px solid #1f2a48;
+      border-radius: 1.2rem;
       padding: 1.2rem;
+      border: 1px solid #1f2a48;
     }
-    .history-title {
-      font-weight: 600;
-      margin-bottom: 1rem;
+    .history-header {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-bottom: 1rem;
     }
     .history-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 0.5rem;
     }
     .history-item {
       background: #0a0f1c;
-      border-radius: 1rem;
+      border-radius: 0.8rem;
       padding: 0.6rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       cursor: pointer;
       transition: 0.1s;
-      border-left: 3px solid transparent;
     }
-    .history-item:hover { background: #11172b; transform: translateX(4px); }
-    .history-text {
+    .history-item:hover { background: #11182a; }
+    .history-msg {
       font-size: 0.8rem;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
       max-width: 55%;
     }
-    .clear-history {
+    .history-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+    .delete-history {
+      background: transparent;
+      border: none;
+      color: #8b5a6e;
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 0.9rem;
+    }
+    .delete-history:hover { color: #f87171; }
+    .clear-btn {
       background: transparent;
       border: 1px solid #475569;
       border-radius: 30px;
-      padding: 0.25rem 0.8rem;
+      padding: 0.2rem 0.8rem;
       color: #94a3b8;
       font-size: 0.7rem;
       cursor: pointer;
     }
 
-    /* modal */
+    /* Modal */
     .modal {
       display: none;
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(10px);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
-    .modal-content {
-      background: #0c1120;
-      border-radius: 2rem;
+    .modal-box {
+      background: #0c1122;
+      border-radius: 1.8rem;
       max-width: 90%;
       width: 550px;
-      padding: 1.8rem;
+      padding: 1.5rem;
       border: 1px solid #3b82f6;
-      box-shadow: 0 25px 40px black;
     }
     .modal-header {
       display: flex;
       justify-content: space-between;
       margin-bottom: 1rem;
     }
-    .proof-iframe {
+    .modal-iframe {
       width: 100%;
       height: 380px;
       border-radius: 1rem;
       border: none;
-      background: #fff;
+      background: white;
     }
     footer {
       text-align: center;
+      font-size: 0.65rem;
+      color: #4f6085;
       margin-top: 2rem;
-      font-size: 0.7rem;
-      color: #4c5a7a;
     }
-    @media (max-width: 680px) {
+    @media (max-width: 600px) {
       body { padding: 1rem; }
-      .analysis-card { padding: 1.2rem; }
-      .proof-grid { grid-template-columns: 1fr; }
+      .card { padding: 1.2rem; }
+      .proof-row { flex-direction: column; align-items: flex-start; gap: 5px; }
+      .proof-value { text-align: left; max-width: 100%; }
+      .history-item { flex-wrap: wrap; gap: 8px; }
     }
   </style>
 </head>
 <body>
-<div class="app-container">
-  <div class="veritas-header">
-    <div class="logo-area">
+<div class="container">
+  <div class="header">
+    <div class="logo">
       <h1><i class="fas fa-shield-hal"></i> Veritas Engine</h1>
       <p>AI-powered fraud intelligence · immutable proof ledger</p>
     </div>
-    <div class="status-badge"><i class="fas fa-circle"></i> LIVE · POST /generate</div>
+    <div class="live-badge"><i class="fas fa-circle"></i> LIVE · POST /generate</div>
   </div>
 
-  <div class="analysis-card">
-    <div class="input-group">
-      <div class="input-label"><span><i class="fas fa-envelope"></i> Transaction / SMS / Message</span> <span style="font-size:0.7rem;">🔒 encrypted transmission</span></div>
-      <textarea id="messageInput" rows="3" placeholder="Paste suspicious message, transaction alert, or any text to analyze...&#10;Example: 'Your SBI account blocked, click link to verify'"></textarea>
-      <div class="char-count"><span id="charCount">0</span> characters</div>
-    </div>
+  <div class="card">
+    <div class="input-label"><span><i class="fas fa-envelope"></i> Transaction / SMS / Message</span> <span style="font-size:0.7rem;">🔒 encrypted transmission</span></div>
+    <textarea id="messageInput" rows="3" placeholder="Paste suspicious message, transaction alert, or any text to analyze..."></textarea>
+    <div class="char-count"><span id="charCount">0</span> characters</div>
     <div style="display: flex; justify-content: flex-end;">
-      <button id="analyzeBtn" class="action-btn"><i class="fas fa-microchip"></i> <span>Analyze with Veritas</span></button>
+      <button id="analyzeBtn" class="btn-analyze"><i class="fas fa-microchip"></i> Analyze with Veritas</button>
     </div>
-
-    <!-- Result container -->
-    <div id="resultArea" class="result-section"></div>
+    <div id="resultArea"></div>
   </div>
 
-  <!-- History panel -->
-  <div class="history-card">
-    <div class="history-title"><i class="fas fa-clock-rotate-left"></i> Recent verdicts <button id="clearHistoryBtn" class="clear-history"><i class="fas fa-trash-alt"></i> Clear</button></div>
+  <div class="history-section">
+    <div class="history-header">
+      <span><i class="fas fa-clock-rotate-left"></i> Recent verdicts</span>
+      <button id="clearHistoryBtn" class="clear-btn"><i class="fas fa-trash-alt"></i> Clear</button>
+    </div>
     <div id="historyList" class="history-list">
       <div style="color:#5f6e97; text-align:center; padding:1rem;">— No analysis yet —</div>
     </div>
   </div>
-  <footer>
-    <i class="fas fa-link"></i> Cryptographic hash & signature · Veritas Engine live on Render · tamper-proof evidence
-  </footer>
+  <footer>🔒 Cryptographic hash & signature · Veritas Engine live on Render · tamper-proof evidence</footer>
 </div>
 
-<!-- modal for proof preview -->
 <div id="proofModal" class="modal">
-  <div class="modal-content">
+  <div class="modal-box">
     <div class="modal-header">
       <h3><i class="fas fa-certificate"></i> Veritas Proof Ledger</h3>
-      <button id="closeModalBtn" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:white;">&times;</button>
+      <button id="closeModalBtn" style="background:none; border:none; font-size:1.5rem; color:white; cursor:pointer;">&times;</button>
     </div>
-    <iframe id="proofIframe" class="proof-iframe" srcdoc="<html><body style='background:#0b0f1a;color:white;display:flex;align-items:center;justify-content:center;font-family:sans-serif'>Loading proof...</body></html>"></iframe>
+    <iframe id="proofIframe" class="modal-iframe" srcdoc="<html><body style='background:#0b0f1a;color:white;display:flex;align-items:center;justify-content:center;font-family:sans-serif'>Loading proof...</body></html>"></iframe>
     <p style="margin-top:12px; font-size:0.7rem; text-align:center;">🔗 Full evidence report — timestamp & signature anchored</p>
   </div>
 </div>
 
 <script>
-  // -------- CONFIGURATION ----------
   const API_URL = 'https://veritas-system.onrender.com/generate';
   const API_KEY = 'mysecret123';
-  
-  // DOM elements
+
   const messageInput = document.getElementById('messageInput');
   const analyzeBtn = document.getElementById('analyzeBtn');
   const resultArea = document.getElementById('resultArea');
   const historyListDiv = document.getElementById('historyList');
   const clearHistoryBtn = document.getElementById('clearHistoryBtn');
   const charSpan = document.getElementById('charCount');
-  
-  // -------- Helper: local storage history (max 5) ----------
-  let analysisHistory = [];   // store { id, shortMsg, decision, confidence, hash, fullResponse? }
-  
-  function loadHistoryFromStorage() {
-    const stored = localStorage.getItem('veritas_history');
+
+  let history = [];
+
+  function loadHistory() {
+    const stored = localStorage.getItem('veritas_history_v2');
     if(stored) {
-      try {
-        analysisHistory = JSON.parse(stored);
-        if(!Array.isArray(analysisHistory)) analysisHistory = [];
-      } catch(e) { analysisHistory = []; }
+      try { history = JSON.parse(stored); } catch(e) { history = []; }
     }
-    if(analysisHistory.length > 5) analysisHistory = analysisHistory.slice(0,5);
+    if(history.length > 5) history = history.slice(0,5);
     renderHistory();
   }
-  
-  function saveHistoryToStorage() {
-    const toStore = analysisHistory.slice(0,5);
-    localStorage.setItem('veritas_history', JSON.stringify(toStore));
+
+  function saveHistory() {
+    localStorage.setItem('veritas_history_v2', JSON.stringify(history.slice(0,5)));
   }
-  
+
   function addToHistory(item) {
-    analysisHistory.unshift(item);
-    if(analysisHistory.length > 5) analysisHistory.pop();
-    saveHistoryToStorage();
+    history.unshift(item);
+    if(history.length > 5) history.pop();
+    saveHistory();
     renderHistory();
   }
-  
-  function clearHistory() {
-    analysisHistory = [];
-    localStorage.removeItem('veritas_history');
+
+  function deleteHistoryItem(index) {
+    history.splice(index, 1);
+    saveHistory();
     renderHistory();
   }
-  
-  // render history panel
+
   function renderHistory() {
     if(!historyListDiv) return;
-    if(analysisHistory.length === 0) {
+    if(history.length === 0) {
       historyListDiv.innerHTML = '<div style="color:#5f6e97; text-align:center; padding:1rem;">— No analysis yet —</div>';
       return;
     }
     let html = '';
-    analysisHistory.forEach((entry, idx) => {
-      let decisionClass = '';
-      let decisionText = '';
-      const dec = entry.decision;
-      if(dec === 0) { decisionClass = 'safe'; decisionText = 'SAFE'; }
-      else if(dec === 1) { decisionClass = 'low'; decisionText = 'LOW RISK'; }
-      else if(dec === 2) { decisionClass = 'susp'; decisionText = 'SUSPICIOUS'; }
-      else { decisionClass = 'scam'; decisionText = 'SCAM'; }
-      const shortMsg = entry.shortMsg.length > 48 ? entry.shortMsg.slice(0,45)+'...' : entry.shortMsg;
-      html += `<div class="history-item" data-idx="${idx}" style="border-left-color: ${dec===3?'#ef4444':dec===2?'#fb923c':dec===1?'#facc15':'#2dd4bf'}">
-        <div class="history-text"><i class="fas fa-comment"></i> ${escapeHtml(shortMsg)}</div>
-        <div style="display:flex; gap:8px;"><span style="background:#1e293b; border-radius:20px; padding:0.1rem 0.5rem; font-size:0.7rem; font-weight:600;">${decisionText}</span><span style="color:#94a3b8; font-size:0.7rem;">${entry.confidence}%</span></div>
-      </div>`;
+    history.forEach((item, idx) => {
+      let badgeClass = '', badgeText = '';
+      if(item.decision === 0) { badgeClass = 'badge-safe'; badgeText = 'SAFE'; }
+      else if(item.decision === 1) { badgeClass = 'badge-low'; badgeText = 'LOW'; }
+      else if(item.decision === 2) { badgeClass = 'badge-susp'; badgeText = 'SUSP'; }
+      else { badgeClass = 'badge-scam'; badgeText = 'SCAM'; }
+      html += `
+        <div class="history-item" data-idx="${idx}">
+          <div class="history-msg"><i class="fas fa-comment"></i> ${escapeHtml(item.shortMsg)}</div>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="history-badge ${badgeClass}" style="background:${item.decision===3?'#5a1e1e':item.decision===2?'#4a2418':item.decision===1?'#3a2a1a':'#0a2e2a'}">${badgeText} · ${item.confidence}%</span>
+            <button class="delete-history" data-delidx="${idx}" title="Delete message"><i class="fas fa-times-circle"></i></button>
+          </div>
+        </div>
+      `;
     });
     historyListDiv.innerHTML = html;
-    // attach click events
     document.querySelectorAll('.history-item').forEach(el => {
       const idx = parseInt(el.getAttribute('data-idx'));
-      el.addEventListener('click', () => {
-        const stored = analysisHistory[idx];
-        if(stored && stored.fullResponseData) {
-          displayResult(stored.fullResponseData, stored.rawMessage);
-        } else if(stored && stored.rawMessage) {
-          // fallback: resubmit? but we can restore from cache: but better show message
-          messageInput.value = stored.rawMessage;
-          analyzeMessage(true);
+      el.addEventListener('click', (e) => {
+        if(e.target.classList.contains('delete-history') || e.target.closest('.delete-history')) return;
+        const entry = history[idx];
+        if(entry && entry.fullData) {
+          displayResult(entry.fullData, entry.rawMsg);
+          messageInput.value = entry.rawMsg;
+          updateCharCount();
         }
       });
     });
+    document.querySelectorAll('.delete-history').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const idx = parseInt(btn.getAttribute('data-delidx'));
+        deleteHistoryItem(idx);
+      });
+    });
   }
-  
+
   function escapeHtml(str) {
     if(!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -471,171 +462,125 @@
       if(m === '<') return '&lt;';
       if(m === '>') return '&gt;';
       return m;
-    }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-      return c;
     });
   }
-  
-  // Helper: format timestamp
-  function formatTimestamp(ts) {
+
+  function formatTime(ts) {
     if(!ts) return 'N/A';
     try {
-      let date = new Date(ts);
-      if(isNaN(date.getTime())) date = new Date();
-      return date.toLocaleString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
+      let d = new Date(ts);
+      if(isNaN(d.getTime())) d = new Date();
+      return d.toLocaleString('en-IN', {day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit', second:'2-digit'});
     } catch(e) { return String(ts); }
   }
-  
-  // core: display result from API response
-  function displayResult(data, rawMessageText) {
-    const decisionCode = data.decision;
-    let decisionLabel = '', decisionClass = '', icon = '';
-    if(decisionCode === 0) { decisionLabel = 'SAFE'; decisionClass = 'decision-safe'; icon = '<i class="fas fa-check-circle"></i>'; }
-    else if(decisionCode === 1) { decisionLabel = 'LOW RISK'; decisionClass = 'decision-low'; icon = '<i class="fas fa-chart-line"></i>'; }
-    else if(decisionCode === 2) { decisionLabel = 'SUSPICIOUS'; decisionClass = 'decision-suspicious'; icon = '<i class="fas fa-triangle-exclamation"></i>'; }
-    else { decisionLabel = 'SCAM'; decisionClass = 'decision-scam'; icon = '<i class="fas fa-skull-crossbones"></i>'; }
+
+  function displayResult(data, rawMsg) {
+    const dec = data.decision;
+    let badgeClass = '', badgeIcon = '', label = '';
+    if(dec === 0) { badgeClass = 'badge-safe'; badgeIcon = '<i class="fas fa-check-circle"></i>'; label = 'SAFE'; }
+    else if(dec === 1) { badgeClass = 'badge-low'; badgeIcon = '<i class="fas fa-chart-line"></i>'; label = 'LOW RISK'; }
+    else if(dec === 2) { badgeClass = 'badge-susp'; badgeIcon = '<i class="fas fa-triangle-exclamation"></i>'; label = 'SUSPICIOUS'; }
+    else { badgeClass = 'badge-scam'; badgeIcon = '<i class="fas fa-skull-crossbones"></i>'; label = 'SCAM'; }
     
     const confidence = data.confidence ?? '—';
-    const hashValue = data.hash ?? data.id ?? '—';
+    const hashVal = data.hash ?? data.id ?? '—';
     const signature = data.signature ?? '—';
     const blockNum = data.block ?? '—';
-    const timestampRaw = data.time ?? data.timestamp ?? Date.now();
-    const formattedTime = formatTimestamp(timestampRaw);
+    const timestamp = formatTime(data.time ?? data.timestamp);
     const proofLink = data.link || (data.id ? `https://veritas-system.onrender.com/proof/${data.id}` : '#');
     
-    let warningHtml = '';
-    if(decisionCode === 3) {
-      warningHtml = `<div class="warning-banner"><i class="fas fa-exclamation-triangle"></i> <strong>ALERT — SCAM DETECTED</strong> · Do not share OTP, do not click any links. This message shows high fraud probability.</div>`;
-    } else if(decisionCode === 2) {
-      warningHtml = `<div class="warning-banner" style="border-left-color:#fb923c; background:rgba(251,146,60,0.1);"><i class="fas fa-shield"></i> Suspicious patterns — verify sender before action.</div>`;
-    }
-    
-    let explanationText = '';
-    if(decisionCode === 0) explanationText = '✅ No risk indicators: this message appears legitimate based on rule engine.';
-    else if(decisionCode === 1) explanationText = '⚠️ Minor suspicious signals, exercise basic caution.';
-    else if(decisionCode === 2) explanationText = '🔍 Multiple red flags — likely impersonation or phishing attempt.';
-    else explanationText = '🚨 CRITICAL: High-confidence scam pattern triggered. Do not respond or transfer funds.';
+    let alertHtml = '';
+    if(dec === 3) alertHtml = `<div class="alert-banner"><i class="fas fa-exclamation-triangle"></i> <strong>ALERT — SCAM DETECTED</strong> · Do not share OTP, do not click any links. This message shows high fraud probability.</div>`;
+    else if(dec === 2) alertHtml = `<div class="alert-banner" style="border-left-color:#fb923c;"><i class="fas fa-shield"></i> Suspicious patterns — verify sender before action.</div>`;
     
     const resultHtml = `
-      <div class="result-section">
-        <div class="decision-badge ${decisionClass}">${icon} ${decisionLabel} · ${confidence}% confidence</div>
-        ${warningHtml}
+      <div class="result-card">
+        <div class="decision-badge ${badgeClass}">${badgeIcon} ${label} · ${confidence}% confidence</div>
+        ${alertHtml}
         <div class="proof-grid">
-          <div class="proof-item"><span class="proof-label"><i class="fas fa-fingerprint"></i> SHA-256 Hash</span><span class="proof-value">${hashValue.substring(0,24)}...<button class="copy-hash" data-hash="${hashValue}" title="copy full hash"><i class="far fa-copy"></i></button></span></div>
-          <div class="proof-item"><span class="proof-label"><i class="fas fa-signature"></i> Digital Signature</span><span class="proof-value">${signature.substring(0,20)}...</span></div>
-          <div class="proof-item"><span class="proof-label"><i class="fas fa-cubes"></i> Block / Ledger</span><span class="proof-value">#${blockNum}</span></div>
-          <div class="proof-item"><span class="proof-label"><i class="far fa-clock"></i> Timestamp (UTC+5:30)</span><span class="proof-value">${formattedTime}</span></div>
+          <div class="proof-row"><span class="proof-label"><i class="fas fa-fingerprint"></i> SHA-256 Hash</span><span class="proof-value">${hashVal.substring(0,28)}...<button class="copy-hash-btn" data-hash="${hashVal}"><i class="far fa-copy"></i></button></span></div>
+          <div class="proof-row"><span class="proof-label"><i class="fas fa-signature"></i> Digital Signature</span><span class="proof-value">${signature.substring(0,24)}...</span></div>
+          <div class="proof-row"><span class="proof-label"><i class="fas fa-cubes"></i> Block / Ledger</span><span class="proof-value">#${blockNum}</span></div>
+          <div class="proof-row"><span class="proof-label"><i class="far fa-clock"></i> Timestamp (UTC+5:30)</span><span class="proof-value">${timestamp}</span></div>
         </div>
-        <div style="background:#030712; border-radius:1rem; padding:1rem; margin:1rem 0;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap;">
-            <span><i class="fas fa-balance-scale"></i> <strong>Veritas analysis</strong> · ${explanationText}</span>
-            ${proofLink && proofLink !== '#' ? `<a id="viewProofBtn" href="javascript:void(0)" data-link="${proofLink}" class="link-button"><i class="fas fa-external-link-alt"></i> View Proof Report</a>` : '<span class="link-button" style="opacity:0.5;"><i class="fas fa-link"></i> Proof not ready</span>'}
-          </div>
+        <div style="display:flex; justify-content:flex-end; margin-top:0.5rem;">
+          ${proofLink && proofLink !== '#' ? `<button class="view-proof" id="viewProofBtn" data-link="${proofLink}"><i class="fas fa-external-link-alt"></i> View Proof Report</button>` : '<span class="view-proof" style="opacity:0.5;"><i class="fas fa-link"></i> Proof not ready</span>'}
         </div>
-        <div style="font-size:0.7rem; color:#6b7ca3; text-align:center; border-top: 1px solid #1f2a48; padding-top:1rem;"><i class="fas fa-database"></i> cryptographic proof anchored · immutable ledger entry</div>
+        <div style="font-size:0.7rem; color:#6b7ca3; text-align:center; border-top:1px solid #1f2a48; margin-top:1rem; padding-top:0.8rem;"><i class="fas fa-database"></i> cryptographic proof anchored · immutable ledger entry</div>
       </div>
     `;
     resultArea.innerHTML = resultHtml;
-    
-    // attach copy hash
-    document.querySelectorAll('.copy-hash').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const hashFull = btn.getAttribute('data-hash');
-        if(hashFull) {
-          navigator.clipboard.writeText(hashFull);
+    document.querySelectorAll('.copy-hash-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fullHash = btn.getAttribute('data-hash');
+        if(fullHash) {
+          navigator.clipboard.writeText(fullHash);
           btn.innerHTML = '<i class="fas fa-check"></i>';
           setTimeout(() => btn.innerHTML = '<i class="far fa-copy"></i>', 1500);
         }
       });
     });
     const proofBtn = document.getElementById('viewProofBtn');
-    if(proofBtn && proofLink !== '#') {
+    if(proofBtn) {
       proofBtn.addEventListener('click', () => {
         const link = proofBtn.getAttribute('data-link');
-        if(link) openProofModal(link);
+        if(link) openModal(link);
       });
     }
-    // scroll to result
     resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  
-  // modal proof viewer
+
   const modal = document.getElementById('proofModal');
-  const proofIframe = document.getElementById('proofIframe');
-  function openProofModal(url) {
-    if(!modal || !proofIframe) return;
-    proofIframe.srcdoc = `<html><body style="background:#fff; display:flex; justify-content:center; align-items:center; font-family:sans-serif;"><div>Loading proof from <strong>${escapeHtml(url)}</strong>...</div></body></html>`;
-    proofIframe.src = url;
+  const iframe = document.getElementById('proofIframe');
+  function openModal(url) {
+    iframe.srcdoc = `<html><body style="background:#fff;display:flex;justify-content:center;align-items:center;">Loading proof from ${escapeHtml(url)}...</body></html>`;
+    iframe.src = url;
     modal.style.display = 'flex';
   }
-  function closeModal() {
-    modal.style.display = 'none';
-    proofIframe.src = 'about:blank';
-  }
-  document.getElementById('closeModalBtn')?.addEventListener('click', closeModal);
-  window.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-  
-  // analyze API call
-  let isFetching = false;
-  async function analyzeMessage(silentHistory = false) {
+  document.getElementById('closeModalBtn')?.addEventListener('click', () => { modal.style.display = 'none'; iframe.src = 'about:blank'; });
+  window.addEventListener('click', (e) => { if(e.target === modal) { modal.style.display = 'none'; iframe.src = 'about:blank'; } });
+
+  let loading = false;
+  async function analyze() {
     const msg = messageInput.value.trim();
-    if(!msg) {
-      alert('Please enter a message to analyze');
-      return;
-    }
-    if(isFetching) return;
-    isFetching = true;
+    if(!msg) { alert('Please enter a message'); return; }
+    if(loading) return;
+    loading = true;
     analyzeBtn.disabled = true;
-    const originalBtnText = analyzeBtn.innerHTML;
-    analyzeBtn.innerHTML = '<span class="loading-spinner"></span> Analyzing...';
-    
+    const originalHtml = analyzeBtn.innerHTML;
+    analyzeBtn.innerHTML = '<span class="spinner"></span> Analyzing...';
     try {
-      const response = await fetch(API_URL, {
+      const res = await fetch(API_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': API_KEY
-        },
+        headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY },
         body: JSON.stringify({ message: msg })
       });
-      if(!response.ok) {
-        let errMsg = `API error ${response.status}`;
-        try { const errData = await response.json(); errMsg = errData.message || errMsg; } catch(e) {}
-        throw new Error(errMsg);
-      }
-      const data = await response.json();
-      // store history
-      const historyItem = {
-        id: data.id || Date.now(),
-        shortMsg: msg.length > 45 ? msg.slice(0,42)+'...' : msg,
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const short = msg.length > 45 ? msg.slice(0,42)+'...' : msg;
+      addToHistory({
+        shortMsg: short,
         decision: data.decision,
         confidence: data.confidence,
-        hash: data.hash,
-        rawMessage: msg,
-        fullResponseData: data
-      };
-      addToHistory(historyItem);
+        rawMsg: msg,
+        fullData: data
+      });
       displayResult(data, msg);
-    } catch (error) {
-      console.error('Veritas API error', error);
-      resultArea.innerHTML = `<div class="result-section" style="background:rgba(220,38,38,0.2); border-radius:1.5rem; padding:1rem; margin-top:1rem;"><i class="fas fa-bug"></i> <strong>Request failed:</strong> ${error.message}. Ensure backend is reachable and API key correct.</div>`;
+    } catch(err) {
+      resultArea.innerHTML = `<div class="result-card" style="background:#2a1a1a; padding:1rem; border-radius:1rem; margin-top:1rem;"><i class="fas fa-bug"></i> Error: ${err.message}. Check API or network.</div>`;
     } finally {
-      isFetching = false;
+      loading = false;
       analyzeBtn.disabled = false;
-      analyzeBtn.innerHTML = originalBtnText;
+      analyzeBtn.innerHTML = originalHtml;
     }
   }
-  
-  // update char counter
-  function updateCharCount() {
-    charSpan.innerText = messageInput.value.length;
-  }
+
+  function updateCharCount() { charSpan.innerText = messageInput.value.length; }
   messageInput.addEventListener('input', updateCharCount);
-  analyzeBtn.addEventListener('click', () => analyzeMessage(false));
-  clearHistoryBtn.addEventListener('click', clearHistory);
+  analyzeBtn.addEventListener('click', analyze);
+  clearHistoryBtn.addEventListener('click', () => { history = []; saveHistory(); renderHistory(); });
   updateCharCount();
-  loadHistoryFromStorage();
-  // optional: initial example placeholder
+  loadHistory();
   messageInput.value = "URGENT: Your SBI account will be blocked in 24h. Click https://sbi-alert.com/verify";
   updateCharCount();
 </script>
