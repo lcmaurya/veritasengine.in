@@ -1,126 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proof Verification</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .container {
-            background-color: #1e293b;
-            padding: 25px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        }
-        .data-row {
-            text-align: left;
-            margin-bottom: 15px;
-            background: #0f172a;
-            padding: 12px;
-            border-radius: 8px;
-        }
-        .data-row label {
-            display: block;
-            font-size: 12px;
-            color: #94a3b8;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-        .data-row span {
-            font-family: monospace;
-            font-size: 14px;
-            word-break: break-all;
-            color: #e2e8f0;
-        }
-        .hidden { display: none !important; }
-        .error { color: #ef4444; font-weight: 600; font-size: 18px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veritas - Privacy Policy</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0F0817; color: #CCCCCC; font-family: 'Segoe UI', sans-serif; line-height: 1.7; padding: 20px; }
+.container { max-width: 700px; margin: 0 auto; }
+h1 { color: #FFD700; font-size: 28px; text-align: center; margin: 30px 0 5px; }
+.subtitle { color: #BFAEDF; text-align: center; font-size: 14px; margin-bottom: 30px; }
+h2 { color: #FFD700; font-size: 18px; margin: 25px 0 10px; border-bottom: 1px solid rgba(255,215,0,0.2); padding-bottom: 5px; }
+p { margin-bottom: 12px; font-size: 15px; }
+.effective { color: #8A7B9D; text-align: center; font-size: 13px; margin-bottom: 30px; }
+.contact { background: rgba(255,215,0,0.05); border: 1px solid rgba(255,215,0,0.2); border-radius: 10px; padding: 20px; margin-top: 30px; text-align: center; }
+.contact a { color: #FFD700; text-decoration: none; }
+.footer { text-align: center; color: #8A7B9D; font-size: 12px; margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+</style>
 </head>
 <body>
+<div class="container">
 
-    <h1>🔐 Proof Verification</h1>
-    
-    <div class="container" id="mainContainer">
-        <p id="statusMsg">Loading...</p>
-        
-        <div id="proofData" class="hidden">
-            <div class="data-row"><label>Hash</label><span id="pHash"></span></div>
-            <div class="data-row"><label>Signature</label><span id="pSig"></span></div>
-            <div class="data-row"><label>Block</label><span id="pBlock"></span></div>
-            <div class="data-row"><label>Timestamp</label><span id="pTime"></span></div>
-        </div>
-    </div>
+<h1>VERITAS</h1>
+<p class="subtitle">Privacy Policy</p>
+<p class="effective">Effective Date: April 6, 2026</p>
 
-    <script>
-        async function fetchProof() {
-            const statusMsg = document.getElementById('statusMsg');
-            const proofData = document.getElementById('proofData');
-            
-            // 1. Read ID from URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
+<p>Veritas ("the App") is developed and operated by Molu Corporation. This Privacy Policy explains how the App handles user data. We are committed to protecting your privacy and ensuring transparency in our practices.</p>
 
-            if (!id) {
-                statusMsg.textContent = "Proof not found (No ID provided)";
-                statusMsg.className = "error";
-                return;
-            }
+<h2>1. Data We Collect</h2>
+<p>Veritas is designed with a <strong>zero-storage philosophy</strong>. We collect minimal data necessary for the App to function:</p>
+<p><strong>Message Text:</strong> When you scan a message for threat analysis, the text is processed by our AI engine in real-time. Message content is not permanently stored on our servers.</p>
+<p><strong>Document Hashes:</strong> When you register a document, only the cryptographic hash (SHA-256) is stored — never the original document, image, or any personal information contained within it.</p>
+<p><strong>Timestamps:</strong> The date and time of each scan or registration is recorded for verification purposes.</p>
 
-            try {
-                // 2. Call API
-                const response = await fetch(`https://veritas-system.onrender.com/proof?id=${id}`);
-                
-                if (!response.ok) {
-                    throw new Error("Not found");
-                }
+<h2>2. Data We Do NOT Collect</h2>
+<p>We do not collect, store, or process:</p>
+<p>• Personal identification information (name, address, phone number)<br>
+• Login credentials or account information<br>
+• Location data or GPS coordinates<br>
+• Device identifiers or advertising IDs<br>
+• Browsing history or usage analytics<br>
+• Original documents, photos, or images<br>
+• Contacts, call logs, or SMS content beyond what you manually paste</p>
 
-                const data = await response.json();
+<h2>3. Camera & Photo Library</h2>
+<p>The App requests access to your camera and photo library solely for the purpose of scanning documents for verification. Photos are processed entirely on your device to generate a cryptographic hash. The original image is never uploaded to or stored on our servers.</p>
 
-                // 3. Show Success Data
-                statusMsg.classList.add('hidden');
-                
-                document.getElementById('pHash').textContent = data.hash;
-                document.getElementById('pSig').textContent = data.signature;
-                document.getElementById('pBlock').textContent = data.block;
-                
-                // Date formatting for proof page as well
-                document.getElementById('pTime').textContent = new Date(Number(data.time)).toLocaleString();
+<h2>4. How We Use Data</h2>
+<p>The limited data we process is used exclusively to:</p>
+<p>• Analyze messages for potential fraud or scam indicators<br>
+• Generate and store cryptographic hashes for document verification<br>
+• Maintain the integrity of the verification chain<br>
+• Provide digital signatures as proof of registration</p>
 
-                proofData.classList.remove('hidden');
+<h2>5. Data Security</h2>
+<p>All communication between the App and our servers is encrypted using HTTPS/TLS. Document hashes are secured using SHA-256 cryptographic hashing and RSA digital signatures. Our verification chain is tamper-proof — any unauthorized modification is automatically detected.</p>
 
-            } catch (error) {
-                console.error("[DEBUG] Proof Fetch Error:", error);
-                // 4. Show Fail Message & Remove Loading
-                statusMsg.textContent = "Proof not found";
-                statusMsg.className = "error";
-            }
-        }
+<h2>6. Third-Party Sharing</h2>
+<p>We do not sell, trade, rent, or share any user data with third parties. No advertising networks, analytics providers, or data brokers have access to any information processed through the App.</p>
 
-        // Execute on load
-        fetchProof();
-    </script>
+<h2>7. No Account Required</h2>
+<p>Veritas does not require user registration, login, or any form of account creation. The App functions without collecting any personal identification information.</p>
+
+<h2>8. AI-Generated Results Disclaimer</h2>
+<p>All threat analysis results, trust scores, and document assessments are generated by an automated AI engine. These results are advisory in nature and should not be treated as legal judgments or professional advice. Users should independently verify information before taking action. The developers assume no liability for decisions made based on the App's output.</p>
+
+<h2>9. Data Retention</h2>
+<p>Cryptographic hashes stored on the verification chain are retained indefinitely to ensure ongoing verification capability. No other user data is retained beyond the duration of a single analysis session.</p>
+
+<h2>10. Children's Privacy</h2>
+<p>Veritas is not directed at children under the age of 13. We do not knowingly collect any information from children.</p>
+
+<h2>11. Changes to This Policy</h2>
+<p>We may update this Privacy Policy from time to time. Any changes will be reflected on this page with an updated effective date. Continued use of the App constitutes acceptance of any modified terms.</p>
+
+<div class="contact">
+<h2 style="border: none; margin-top: 0;">12. Contact Us</h2>
+<p>If you have questions about this Privacy Policy, please contact us at:</p>
+<p><a href="mailto:lal7590@gmail.com">lal7590@gmail.com</a></p>
+<p><a href="https://veritasengine.in">veritasengine.in</a></p>
+</div>
+
+<div class="footer">
+<p>© 2026 Molu Corporation. All rights reserved.</p>
+<p>Veritas — AI-Powered Security & Verification</p>
+</div>
+
+</div>
 </body>
 </html>
