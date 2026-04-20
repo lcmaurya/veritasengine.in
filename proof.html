@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Veritas Proof Verification</title>
   <meta name="theme-color" content="#0b0f14" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <style>
     :root{
       --bg:#0b0f14;
@@ -323,13 +326,6 @@
       flex:1 1 180px;
     }
 
-    .btn-ghost{
-      background:transparent;
-      color:var(--green);
-      border:1px solid rgba(0,255,159,.18);
-      flex:1 1 180px;
-    }
-
     .msg{
       margin-top:16px;
       padding:14px 16px;
@@ -439,6 +435,10 @@
                 <div class="label">Proof metadata</div>
                 <div class="rows">
                   <div class="row">
+                    <div class="k">Status</div>
+                    <div id="statusValue" class="v"></div>
+                  </div>
+                  <div class="row">
                     <div class="k">Created</div>
                     <div id="timeValue" class="v"></div>
                   </div>
@@ -446,7 +446,7 @@
                     <div class="k">Intent / Type</div>
                     <div id="intentValue" class="v"></div>
                   </div>
-                  <div class="row">
+                  <div id="docTypeRow" class="row">
                     <div class="k">Document Type</div>
                     <div id="docTypeValue" class="v"></div>
                   </div>
@@ -490,7 +490,6 @@
   </div>
 
   <script>
-    // Change only if your backend proof endpoint changes.
     const API_BASE = "https://veritas-system.onrender.com";
 
     const els = {
@@ -501,8 +500,10 @@
       content: document.getElementById("content"),
       hash: document.getElementById("hashBox"),
       sig: document.getElementById("sigBox"),
+      statusValue: document.getElementById("statusValue"),
       time: document.getElementById("timeValue"),
       intent: document.getElementById("intentValue"),
+      docTypeRow: document.getElementById("docTypeRow"),
       docType: document.getElementById("docTypeValue"),
       message: document.getElementById("messageValue"),
       qr: document.getElementById("qrImage"),
@@ -582,8 +583,9 @@
       els.publicLink.textContent = publicPageLink;
 
       try {
-        const res = await fetch(`${API_BASE}/proof?id=${encodeURIComponent(id)}`, {
+        const res = await fetch(`${API_BASE}/proof?id=${encodeURIComponent(id)}&t=${Date.now()}`, {
           method: "GET",
+          cache: "no-store",
           headers: { "Accept": "application/json" }
         });
 
@@ -609,6 +611,12 @@
           proof.docType ||
           data.docType ||
           "";
+        const risk =
+          proof.risk ||
+          data.risk ||
+          (typeof proof.decision === "number"
+            ? ["SAFE", "ATTENTION", "SUSPICIOUS", "HIGH_RISK"][proof.decision] || "UNKNOWN"
+            : "");
         const message =
           proof.message ||
           data.message ||
@@ -624,16 +632,40 @@
           proof.qrCode ||
           "";
 
+        let statusText = "Record Found";
+        let summaryText = message;
+
+        if (risk === "HIGH_RISK") statusText = "High Risk";
+        else if (risk === "SUSPICIOUS") statusText = "Suspicious";
+        else if (risk === "ATTENTION") statusText = "Attention";
+        else if (risk === "SAFE") statusText = "Safe";
+
+        if (!summaryText || /proof record$/i.test(summaryText)) {
+          if (risk === "HIGH_RISK") summaryText = "High-risk scam pattern detected.";
+          else if (risk === "SUSPICIOUS") summaryText = "Suspicious pattern detected.";
+          else if (risk === "ATTENTION") summaryText = "Attention-level unusual pattern detected.";
+          else if (risk === "SAFE") summaryText = "No strong risk signal detected.";
+          else summaryText = "Proof record found.";
+        }
+
         els.hash.textContent = hash;
         els.sig.textContent = signature;
+        els.statusValue.textContent = statusText;
         els.time.textContent = fmtDate(time);
         els.intent.textContent = text(intent);
         els.docType.textContent = text(docType);
-        els.message.textContent = text(message);
+        els.message.textContent = text(summaryText);
+
+        if (!docType || docType === "N/A") {
+          els.docTypeRow.classList.add("hidden");
+        } else {
+          els.docTypeRow.classList.remove("hidden");
+        }
 
         if (qr) {
           els.qr.src = qr;
           els.qr.alt = "Veritas QR Proof";
+          els.qr.style.display = "block";
         } else {
           els.qr.alt = "QR not available";
           els.qr.style.display = "none";
@@ -648,8 +680,10 @@
           const shareText = [
             "Veritas Proof Verification",
             "",
+            `Status: ${statusText}`,
             `Code: ${hash}`,
             `Time: ${fmtDate(time)}`,
+            `Intent: ${text(intent)}`,
             publicPageLink
           ].join("\n");
 
@@ -670,7 +704,12 @@
         hide(els.error);
         hide(els.warn);
         show(els.content);
-        setStatus("ok", "Record Found");
+
+        if (risk === "HIGH_RISK") setStatus("err", "High Risk");
+        else if (risk === "SUSPICIOUS") setStatus("warn", "Suspicious");
+        else if (risk === "ATTENTION") setStatus("warn", "Attention");
+        else setStatus("ok", statusText);
+
         document.title = `Veritas Proof • ${truncate(hash)}`;
       } catch (err) {
         hide(els.loading);
