@@ -1,161 +1,686 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proof Verification</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #0f172a; /* Dark background from screenshot */
-            color: white; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: flex-start; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 60px 20px; 
-        }
-        h1 { 
-            font-size: 26px; 
-            margin-bottom: 30px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-            font-weight: 600; 
-        }
-        .container { 
-            background-color: #1e293b; 
-            padding: 30px 20px; 
-            border-radius: 12px; 
-            width: 100%; 
-            max-width: 500px; 
-            text-align: center; 
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); 
-        }
-        
-        /* Status Text (Loading / Error) */
-        .status-box { 
-            font-size: 20px; 
-            color: #e2e8f0; 
-            font-weight: 500; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px; 
-        }
-        .error-icon { color: #ef4444; font-size: 24px; }
-        
-        /* Data Display UI */
-        .data-row { 
-            text-align: left; 
-            margin-bottom: 15px; 
-            background: #0f172a; 
-            padding: 15px; 
-            border-radius: 8px; 
-            border: 1px solid #334155; 
-        }
-        .data-row label { 
-            display: block; 
-            font-size: 12px; 
-            color: #94a3b8; 
-            margin-bottom: 8px; 
-            text-transform: uppercase; 
-            font-weight: 600; 
-            letter-spacing: 0.5px; 
-        }
-        .data-row span { 
-            font-family: monospace; 
-            font-size: 14px; 
-            word-break: break-all; 
-            color: #f8fafc; 
-            line-height: 1.5; 
-        }
-        .hidden { display: none !important; }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Veritas Proof Verification</title>
+  <meta name="theme-color" content="#0b0f14" />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#121820;
+      --panel-2:#0f141b;
+      --text:#f4f7fb;
+      --muted:#8a96a3;
+      --line:rgba(255,255,255,0.06);
+      --green:#00ff9f;
+      --green-2:#00c97e;
+      --red:#ff4d4f;
+      --amber:#ffb020;
+      --blue:#4da8da;
+      --radius:18px;
+      --shadow:0 16px 40px rgba(0,0,0,.28);
+    }
+
+    *{box-sizing:border-box}
+    html,body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      min-height:100%;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at top right, rgba(0,255,159,.06), transparent 28%),
+        linear-gradient(180deg, #091018 0%, #0b0f14 100%);
+    }
+
+    .wrap{
+      width:min(920px, calc(100% - 24px));
+      margin:0 auto;
+      padding:28px 0 48px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:18px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .brand-mark{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(180deg, rgba(0,255,159,.14), rgba(0,255,159,.04));
+      border:1px solid rgba(0,255,159,.18);
+      box-shadow:0 0 0 1px rgba(255,255,255,.02) inset;
+      font-size:22px;
+    }
+
+    .brand h1{
+      margin:0;
+      font-size:20px;
+      letter-spacing:.04em;
+      font-weight:800;
+    }
+
+    .brand p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(0,255,159,.08);
+      color:var(--green);
+      border:1px solid rgba(0,255,159,.16);
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.03em;
+      white-space:nowrap;
+    }
+
+    .hero{
+      background:linear-gradient(180deg, rgba(18,24,32,.98), rgba(12,17,24,.98));
+      border:1px solid rgba(0,255,159,.08);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+      margin-bottom:18px;
+    }
+
+    .hero h2{
+      margin:0 0 8px;
+      font-size:32px;
+      line-height:1.05;
+      font-weight:800;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+      max-width:720px;
+    }
+
+    .info{
+      margin-top:16px;
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .notice{
+      flex:1 1 220px;
+      background:rgba(0,255,159,.05);
+      border-left:3px solid var(--green);
+      border-radius:14px;
+      padding:14px 14px 14px 16px;
+      color:#d7e1ea;
+      font-size:14px;
+      line-height:1.6;
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(18,24,32,.98), rgba(12,17,24,.98));
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .card-head{
+      padding:18px 20px;
+      border-bottom:1px solid var(--line);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+
+    .card-head h3{
+      margin:0;
+      font-size:22px;
+      font-weight:800;
+    }
+
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      font-weight:800;
+      letter-spacing:.04em;
+      font-size:13px;
+      border:1px solid transparent;
+    }
+
+    .status.ok{
+      background:rgba(0,255,159,.08);
+      color:var(--green);
+      border-color:rgba(0,255,159,.16);
+    }
+
+    .status.warn{
+      background:rgba(255,176,32,.10);
+      color:var(--amber);
+      border-color:rgba(255,176,32,.18);
+    }
+
+    .status.err{
+      background:rgba(255,77,79,.10);
+      color:var(--red);
+      border-color:rgba(255,77,79,.18);
+    }
+
+    .body{
+      padding:20px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:16px;
+    }
+
+    .stack{
+      display:grid;
+      gap:16px;
+    }
+
+    .panel{
+      background:var(--panel);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .label{
+      color:var(--muted);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:10px;
+    }
+
+    .value-box{
+      background:var(--panel-2);
+      border:1px solid rgba(255,255,255,.04);
+      border-radius:14px;
+      padding:14px;
+      color:#eef4fb;
+      font-size:15px;
+      line-height:1.6;
+      word-break:break-word;
+    }
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+      letter-spacing:.01em;
+    }
+
+    .rows{
+      display:grid;
+      gap:12px;
+    }
+
+    .row{
+      display:grid;
+      grid-template-columns:140px 1fr;
+      gap:14px;
+      align-items:start;
+    }
+
+    .row .k{
+      color:var(--muted);
+      font-size:13px;
+      font-weight:700;
+    }
+
+    .row .v{
+      color:#eef4fb;
+      font-size:15px;
+      line-height:1.6;
+      word-break:break-word;
+    }
+
+    .qr-wrap{
+      display:grid;
+      place-items:center;
+      background:#fff;
+      border-radius:18px;
+      padding:14px;
+      min-height:220px;
+    }
+
+    .qr-wrap img{
+      max-width:100%;
+      width:220px;
+      height:220px;
+      object-fit:contain;
+      display:block;
+    }
+
+    .actions{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .btn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius:16px;
+      padding:14px 18px;
+      font-size:15px;
+      font-weight:800;
+      letter-spacing:.02em;
+      transition:transform .12s ease, opacity .12s ease, background .12s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:50px;
+    }
+
+    .btn:active{ transform:scale(.985); }
+
+    .btn-primary{
+      background:linear-gradient(180deg, var(--green), var(--green-2));
+      color:#05130d;
+      flex:1 1 220px;
+    }
+
+    .btn-secondary{
+      background:#1c2636;
+      color:#e7eef7;
+      flex:1 1 180px;
+    }
+
+    .btn-ghost{
+      background:transparent;
+      color:var(--green);
+      border:1px solid rgba(0,255,159,.18);
+      flex:1 1 180px;
+    }
+
+    .msg{
+      margin-top:16px;
+      padding:14px 16px;
+      border-radius:14px;
+      line-height:1.6;
+      font-size:14px;
+    }
+
+    .msg.loading{
+      background:rgba(77,168,218,.08);
+      color:#cfe9f5;
+      border:1px solid rgba(77,168,218,.16);
+    }
+
+    .msg.error{
+      background:rgba(255,77,79,.10);
+      color:#ffd3d4;
+      border:1px solid rgba(255,77,79,.18);
+    }
+
+    .msg.warn{
+      background:rgba(255,176,32,.10);
+      color:#ffe1a6;
+      border:1px solid rgba(255,176,32,.18);
+    }
+
+    .footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.7;
+      text-align:center;
+    }
+
+    .small{
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    .hidden{ display:none !important; }
+
+    @media (max-width: 760px){
+      .wrap{ width:min(100% - 16px, 100%); padding-top:16px; }
+      .hero h2{ font-size:26px; }
+      .grid{ grid-template-columns:1fr; }
+      .row{ grid-template-columns:1fr; gap:6px; }
+      .card-head h3{ font-size:20px; }
+      .qr-wrap img{ width:190px; height:190px; }
+    }
+  </style>
 </head>
 <body>
-
-    <h1>🔐 Proof Verification</h1>
-    
-    <div class="container" id="mainContainer">
-        <!-- Status / Error Box -->
-        <div id="statusBox" class="status-box">
-            Loading...
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-mark">🛡️</div>
+        <div>
+          <h1>VERITAS</h1>
+          <p>Proof Verification</p>
         </div>
-        
-        <!-- Verification Data -->
-        <div id="proofData" class="hidden">
-            <div class="data-row"><label>Hash</label><span id="pHash"></span></div>
-            <div class="data-row"><label>Signature</label><span id="pSig"></span></div>
-            <div class="data-row"><label>Block</label><span id="pBlock"></span></div>
-            <div class="data-row"><label>Timestamp</label><span id="pTime"></span></div>
-        </div>
+      </div>
+      <div class="pill">🔐 Cryptographic Record Check</div>
     </div>
 
-    <script>
-        async function fetchProof() {
-            const statusBox = document.getElementById('statusBox');
-            const proofData = document.getElementById('proofData');
-            
-            // 1. Get ID from the URL exactly as passed by index.html
-            const urlParams = new URLSearchParams(window.location.search);
-            const id = urlParams.get('id');
+    <section class="hero">
+      <h2>Verify proof safely</h2>
+      <p>
+        This page checks whether a Veritas proof record exists and displays the linked
+        cryptographic details. It helps confirm proof integrity, not legal authenticity
+        of the underlying content.
+      </p>
 
-            // If no ID is in URL, show error directly
-            if (!id) {
-                showError();
-                return;
-            }
+      <div class="info">
+        <div class="notice">
+          Public proof page on website. Backend verification is fetched live from the
+          Veritas proof service.
+        </div>
+      </div>
+    </section>
 
+    <section class="card">
+      <div class="card-head">
+        <h3>Proof details</h3>
+        <div id="statusPill" class="status warn">Loading</div>
+      </div>
+
+      <div class="body">
+        <div id="stateLoading" class="msg loading">Loading proof record...</div>
+        <div id="stateError" class="msg error hidden"></div>
+        <div id="stateWarn" class="msg warn hidden"></div>
+
+        <div id="content" class="hidden">
+          <div class="grid">
+            <div class="stack">
+              <div class="panel">
+                <div class="label">Verification code</div>
+                <div id="hashBox" class="value-box mono"></div>
+              </div>
+
+              <div class="panel">
+                <div class="label">Digital signature</div>
+                <div id="sigBox" class="value-box mono"></div>
+              </div>
+
+              <div class="panel">
+                <div class="label">Proof metadata</div>
+                <div class="rows">
+                  <div class="row">
+                    <div class="k">Created</div>
+                    <div id="timeValue" class="v"></div>
+                  </div>
+                  <div class="row">
+                    <div class="k">Intent / Type</div>
+                    <div id="intentValue" class="v"></div>
+                  </div>
+                  <div class="row">
+                    <div class="k">Document Type</div>
+                    <div id="docTypeValue" class="v"></div>
+                  </div>
+                  <div class="row">
+                    <div class="k">Message / Summary</div>
+                    <div id="messageValue" class="v"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="stack">
+              <div class="panel">
+                <div class="label">QR proof</div>
+                <div class="qr-wrap">
+                  <img id="qrImage" alt="QR Proof" />
+                </div>
+              </div>
+
+              <div class="panel">
+                <div class="label">Public link</div>
+                <div id="publicLink" class="value-box mono small"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="copyCodeBtn" class="btn btn-secondary" type="button">📋 Copy Code</button>
+            <button id="copySigBtn" class="btn btn-secondary" type="button">✍️ Copy Signature</button>
+            <button id="copyLinkBtn" class="btn btn-secondary" type="button">🔗 Copy Link</button>
+            <button id="shareBtn" class="btn btn-primary" type="button">📤 Share Proof</button>
+          </div>
+
+          <div class="footer">
+            A visible proof record confirms that the cryptographic entry is present and retrievable.
+            It does not replace official verification by the issuing authority.
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // Change only if your backend proof endpoint changes.
+    const API_BASE = "https://veritas-system.onrender.com";
+
+    const els = {
+      status: document.getElementById("statusPill"),
+      loading: document.getElementById("stateLoading"),
+      error: document.getElementById("stateError"),
+      warn: document.getElementById("stateWarn"),
+      content: document.getElementById("content"),
+      hash: document.getElementById("hashBox"),
+      sig: document.getElementById("sigBox"),
+      time: document.getElementById("timeValue"),
+      intent: document.getElementById("intentValue"),
+      docType: document.getElementById("docTypeValue"),
+      message: document.getElementById("messageValue"),
+      qr: document.getElementById("qrImage"),
+      publicLink: document.getElementById("publicLink"),
+      copyCodeBtn: document.getElementById("copyCodeBtn"),
+      copySigBtn: document.getElementById("copySigBtn"),
+      copyLinkBtn: document.getElementById("copyLinkBtn"),
+      shareBtn: document.getElementById("shareBtn"),
+    };
+
+    const params = new URLSearchParams(location.search);
+    const id = (params.get("id") || "").trim();
+
+    function setStatus(type, text) {
+      els.status.className = "status " + type;
+      els.status.textContent = text;
+    }
+
+    function show(el) { el.classList.remove("hidden"); }
+    function hide(el) { el.classList.add("hidden"); }
+
+    function fmtDate(value) {
+      if (!value) return "N/A";
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return String(value);
+      return d.toLocaleString();
+    }
+
+    function text(v, fallback = "N/A") {
+      if (v === undefined || v === null || v === "") return fallback;
+      return String(v);
+    }
+
+    function truncate(v, start = 18, end = 14) {
+      const s = String(v || "");
+      if (s.length <= start + end + 3) return s;
+      return s.slice(0, start) + "..." + s.slice(-end);
+    }
+
+    function isHex64(s) {
+      return /^[a-f0-9]{64}$/i.test(s);
+    }
+
+    async function copyText(value, okText) {
+      try {
+        await navigator.clipboard.writeText(value);
+        alert(okText);
+      } catch {
+        const ta = document.createElement("textarea");
+        ta.value = value;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        alert(okText);
+      }
+    }
+
+    async function init() {
+      if (!id) {
+        hide(els.loading);
+        show(els.warn);
+        els.warn.textContent = "Missing proof id. Open this page with ?id=<64-character hash>.";
+        setStatus("warn", "Missing ID");
+        return;
+      }
+
+      if (!isHex64(id)) {
+        hide(els.loading);
+        show(els.warn);
+        els.warn.textContent = "Invalid proof id format. A Veritas proof id must be a 64-character hash.";
+        setStatus("warn", "Invalid ID");
+        return;
+      }
+
+      const publicPageLink = `${location.origin}${location.pathname}?id=${encodeURIComponent(id)}`;
+      els.publicLink.textContent = publicPageLink;
+
+      try {
+        const res = await fetch(`${API_BASE}/proof?id=${encodeURIComponent(id)}`, {
+          method: "GET",
+          headers: { "Accept": "application/json" }
+        });
+
+        let data = null;
+        try {
+          data = await res.json();
+        } catch {
+          throw new Error("Backend returned a non-JSON response.");
+        }
+
+        if (!res.ok || data?.error) {
+          throw new Error(data?.error || `Proof lookup failed (${res.status})`);
+        }
+
+        const proof = data.proof || data.record || data;
+        const hash = proof.hash || data.hash || id;
+        const signature = proof.signature || data.signature || "N/A";
+        const time = proof.time || data.time || "";
+        const intent = proof.intent || data.intent || proof.label || "";
+        const docType =
+          proof?.docAnalysis?.docType ||
+          data?.docAnalysis?.docType ||
+          proof.docType ||
+          data.docType ||
+          "";
+        const message =
+          proof.message ||
+          data.message ||
+          proof.preview ||
+          data.preview ||
+          "";
+        const qr =
+          data.qr ||
+          data.qrcode ||
+          data.qrCode ||
+          proof.qr ||
+          proof.qrcode ||
+          proof.qrCode ||
+          "";
+
+        els.hash.textContent = hash;
+        els.sig.textContent = signature;
+        els.time.textContent = fmtDate(time);
+        els.intent.textContent = text(intent);
+        els.docType.textContent = text(docType);
+        els.message.textContent = text(message);
+
+        if (qr) {
+          els.qr.src = qr;
+          els.qr.alt = "Veritas QR Proof";
+        } else {
+          els.qr.alt = "QR not available";
+          els.qr.style.display = "none";
+          els.qr.parentElement.innerHTML = '<div class="small" style="text-align:center;color:#44505e">QR not available for this record.</div>';
+        }
+
+        els.copyCodeBtn.onclick = () => copyText(hash, "Verification code copied");
+        els.copySigBtn.onclick = () => copyText(signature, "Signature copied");
+        els.copyLinkBtn.onclick = () => copyText(publicPageLink, "Public proof link copied");
+
+        els.shareBtn.onclick = async () => {
+          const shareText = [
+            "Veritas Proof Verification",
+            "",
+            `Code: ${hash}`,
+            `Time: ${fmtDate(time)}`,
+            publicPageLink
+          ].join("\n");
+
+          if (navigator.share) {
             try {
-                // 2. Call API (Fix: Added x-api-key header to GET request)
-                const response = await fetch(`https://veritas-system.onrender.com/proof?id=${id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-api-key': 'mysecret123' // YEH MISSING THA!
-                    }
-                });
-                
-                if (!response.ok) {
-                    throw new Error("Proof not found on server");
-                }
+              await navigator.share({
+                title: "Veritas Proof Verification",
+                text: shareText,
+                url: publicPageLink
+              });
+            } catch {}
+          } else {
+            await copyText(shareText, "Share text copied");
+          }
+        };
 
-                const data = await response.json();
+        hide(els.loading);
+        hide(els.error);
+        hide(els.warn);
+        show(els.content);
+        setStatus("ok", "Record Found");
+        document.title = `Veritas Proof • ${truncate(hash)}`;
+      } catch (err) {
+        hide(els.loading);
+        show(els.error);
+        els.error.textContent = err?.message || "Unable to load proof record.";
+        setStatus("err", "Lookup Failed");
+      }
+    }
 
-                // 3. Hide loading, map data to UI
-                statusBox.classList.add('hidden');
-                
-                document.getElementById('pHash').textContent = data.hash;
-                document.getElementById('pSig').textContent = data.signature;
-                document.getElementById('pBlock').textContent = data.block;
-                
-                // Format Timestamp cleanly
-                const dateObj = new Date(Number(data.time));
-                document.getElementById('pTime').textContent = dateObj.toLocaleString();
-
-                // Show Data
-                proofData.classList.remove('hidden');
-
-            } catch (error) {
-                console.error("[DEBUG] Error fetching proof:", error);
-                showError();
-            }
-        }
-
-        // Error rendering matching your 2nd screenshot
-        function showError() {
-            const statusBox = document.getElementById('statusBox');
-            statusBox.innerHTML = '<span class="error-icon">❌</span> Invalid Proof';
-            statusBox.classList.remove('hidden');
-            document.getElementById('proofData').classList.add('hidden');
-        }
-
-        // Start function when page loads
-        fetchProof();
-    </script>
+    init();
+  </script>
 </body>
 </html>
