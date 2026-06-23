@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas — Home (gold)</title>
+<title>Veritas — Verdict Cards (improved)</title>
 <style>
   :root{
     --ink:#0A0E14;
@@ -13,193 +13,280 @@
     --mist:#E8EDF4;
     --dim:#93A1B3;
     --faint:#5A6776;
-    --gold:#FBBF24;
-    --gold-soft:#F5CF6B;
-    --gold-glow:#3D2A07;
-    --on-gold:#2A1E03;
-    --font:"Segoe UI", system-ui, -apple-system, "Noto Sans", "Noto Sans Devanagari", "Hind", "Mangal", sans-serif;
+    --font: "Segoe UI", system-ui, -apple-system, "Noto Sans", "Noto Sans Devanagari", "Hind", "Mangal", sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{background:var(--ink);}
-  body{font-family:var(--font);color:var(--mist);-webkit-font-smoothing:antialiased;line-height:1.5;padding:16px 14px 36px;}
+  body{
+    font-family:var(--font);
+    color:var(--mist);
+    padding:18px 14px 40px;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
   .wrap{max-width:460px;margin:0 auto;}
-  .rise{opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.22,1,.36,1) forwards;}
-  .d1{animation-delay:.04s}.d2{animation-delay:.10s}.d3{animation-delay:.16s}.d4{animation-delay:.22s}
+
+  /* page intro */
+  .intro{padding:6px 4px 18px;}
+  .intro h1{font-size:19px;font-weight:800;letter-spacing:.2px;}
+  .intro p{font-size:13px;color:var(--dim);margin-top:5px;}
+
+  /* ===== card ===== */
+  .card{
+    position:relative;
+    background:var(--slate);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:18px 18px 16px 22px;
+    margin-bottom:20px;
+    overflow:hidden;
+    opacity:0;transform:translateY(10px);
+    animation:rise .5s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .card:nth-child(2){animation-delay:.04s}
+  .card:nth-child(3){animation-delay:.10s}
+  .card:nth-child(4){animation-delay:.16s}
+  .card:nth-child(5){animation-delay:.22s}
   @keyframes rise{to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.card{animation:none;opacity:1;transform:none}}
 
-  /* ===== hero ===== */
-  .hero{background:linear-gradient(180deg, #1A160E 0%, var(--slate) 70%);
-    border:1px solid var(--line);border-radius:24px;padding:30px 20px 22px;text-align:center;position:relative;overflow:hidden;}
-  .hero::after{content:"";position:absolute;left:50%;top:-50px;transform:translateX(-50%);
-    width:280px;height:210px;background:radial-gradient(60% 60% at 50% 50%, rgba(251,191,36,.13) 0%, transparent 70%);pointer-events:none;}
-  .crest{position:relative;width:84px;height:84px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;z-index:1;}
-  .crest::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle, rgba(251,191,36,.22) 0%, transparent 66%);}
-  .plate{width:74px;height:74px;border-radius:50%;background:#1B1710;border:1px solid #3A3018;
-    display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 6px 22px rgba(0,0,0,.45);}
-  .plate svg{width:38px;height:42px;display:block;}
-  .brand{font-size:30px;font-weight:800;letter-spacing:5px;color:var(--mist);}
-  .brand small{display:block;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--gold);margin-top:4px;}
-  .tag{font-size:19px;font-weight:800;margin-top:14px;color:var(--mist);}
-  .sub{font-size:13px;color:var(--dim);margin-top:7px;padding:0 6px;}
-  .lang{display:inline-flex;gap:4px;margin-top:18px;background:#140F06;border:1px solid var(--line);border-radius:30px;padding:4px;}
-  .lang button{appearance:none;border:0;background:transparent;color:var(--dim);font-family:inherit;
-    font-size:13px;font-weight:700;padding:8px 16px;border-radius:24px;cursor:pointer;transition:.18s;}
-  .lang button.on{background:var(--gold);color:var(--on-gold);box-shadow:0 0 18px rgba(251,191,36,.32);}
+  /* sentinel spine — the severity light on the left edge */
+  .card::before{
+    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
+    background:var(--accent);
+    box-shadow:0 0 22px 1px var(--accent);
+  }
+  /* soft severity glow bleeding from the top */
+  .card::after{
+    content:"";position:absolute;left:0;right:0;top:0;height:120px;
+    background:radial-gradient(120% 90% at 12% 0%, var(--glow) 0%, transparent 70%);
+    pointer-events:none;
+  }
+  .card>*{position:relative;z-index:1;}
 
-  /* ===== mode grid ===== */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
-  .mode{position:relative;text-align:left;cursor:pointer;background:var(--slate);
-    border:1px solid var(--line);border-radius:18px;padding:16px 14px 15px 16px;overflow:hidden;
-    transition:border-color .18s, background .18s, transform .08s;font-family:inherit;color:inherit;}
-  .mode:active{transform:scale(.985);}
-  .mode::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);opacity:0;transition:.18s;box-shadow:0 0 16px var(--gold);}
-  .mode.on{border-color:color-mix(in srgb, var(--gold) 55%, var(--line));background:#181307;}
-  .mode.on::before{opacity:1;}
-  .ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;
-    font-size:19px;margin-bottom:11px;background:#1C170C;border:1px solid var(--line);color:var(--gold);transition:.18s;}
-  .mode.on .ico{background:color-mix(in srgb, var(--gold) 20%, transparent);border-color:color-mix(in srgb, var(--gold) 55%, transparent);}
-  .mode h3{font-size:15px;font-weight:700;color:var(--mist);}
-  .mode p{font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.45;}
+  /* brand eyebrow */
+  .eyebrow{
+    display:flex;align-items:center;gap:7px;
+    font-size:11px;letter-spacing:1.4px;text-transform:uppercase;
+    color:var(--faint);font-weight:700;margin-bottom:14px;
+  }
+  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
 
-  /* ===== input ===== */
-  .field{margin-top:18px;background:var(--slate);border:1px solid var(--line);border-radius:18px;padding:14px 15px 12px;transition:border-color .18s, box-shadow .18s;}
-  .field.focus{border-color:color-mix(in srgb, var(--gold) 55%, var(--line));box-shadow:0 0 0 3px rgba(251,191,36,.12);}
-  .field .flabel{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:9px;}
-  .field .flabel .d{width:6px;height:6px;border-radius:50%;background:var(--gold);}
-  textarea{width:100%;min-height:118px;resize:none;border:0;outline:none;background:transparent;color:var(--mist);font-family:inherit;font-size:14.5px;line-height:1.55;}
-  textarea::placeholder{color:var(--faint);}
-  .meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:9px;border-top:1px solid var(--line);}
-  .count{font-size:12px;color:var(--faint);}
-  .clear{appearance:none;border:0;background:transparent;color:var(--gold-soft);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;}
-  .clear:disabled{opacity:.4;cursor:default;color:var(--dim);}
+  /* status row — the hero */
+  .status{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
+  .glyph{
+    flex:none;width:46px;height:46px;border-radius:14px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:24px;font-weight:800;
+    background:color-mix(in srgb, var(--accent) 16%, transparent);
+    color:var(--accent);
+    border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+  .verdict{line-height:1.1;}
+  .verdict .hi{font-size:27px;font-weight:800;color:var(--accent);letter-spacing:.3px;}
+  .verdict .en{font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-top:3px;font-weight:600;}
 
-  /* ===== submit ===== */
-  .check{width:100%;margin-top:16px;appearance:none;border:0;cursor:pointer;font-family:inherit;
-    font-size:16px;font-weight:800;letter-spacing:.3px;color:var(--on-gold);background:var(--gold);
-    border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:center;gap:9px;
-    box-shadow:0 8px 26px rgba(251,191,36,.28);transition:transform .08s, filter .15s;}
-  .check:active{transform:scale(.985);}
-  .check.busy{filter:saturate(.75);}
-  .check .spin{width:15px;height:15px;border-radius:50%;border:2px solid rgba(42,30,3,.35);border-top-color:var(--on-gold);animation:spin .7s linear infinite;display:none;}
-  .check.busy .spin{display:inline-block;}.check.busy .ic{display:none;}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  /* severity ladder — honest 4-tier scale */
+  .ladder{display:flex;align-items:center;gap:9px;margin:0 0 4px 0;}
+  .ladder .lbl{font-size:11px;letter-spacing:.6px;color:var(--faint);text-transform:uppercase;font-weight:700;}
+  .ladder .pips{display:flex;gap:5px;}
+  .pip{width:9px;height:9px;border-radius:50%;background:#27313F;}
+  .pip.on{background:var(--accent);box-shadow:0 0 8px var(--accent);}
 
-  .foot{text-align:center;margin-top:22px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.4px;}
+  .rule{height:1px;background:var(--line);margin:14px 0;}
+
+  /* info blocks */
+  .block{margin-bottom:14px;}
+  .block .tag{
+    font-size:11px;letter-spacing:.8px;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:5px;display:block;
+  }
+  .block p{font-size:14.5px;color:var(--mist);}
+  .block.muted .tag{color:var(--dim);}
+
+  /* the action — raised + emphasized */
+  .action{
+    background:var(--raised);
+    border:1px solid var(--line);
+    border-left:3px solid var(--accent);
+    border-radius:12px;
+    padding:12px 13px;
+    margin-bottom:16px;
+  }
+  .action .tag{color:var(--accent);}
+  .action p{font-size:14.5px;font-weight:500;}
+
+  /* safe reply — chat bubble + copy */
+  .reply{
+    background:color-mix(in srgb, var(--accent) 9%, var(--slate));
+    border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    border-radius:14px;padding:12px 13px;
+  }
+  .reply .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+  .reply .head .tag{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);font-weight:700;}
+  .reply .txt{font-size:14.5px;color:var(--mist);font-style:italic;}
+  .copy{
+    appearance:none;border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    background:color-mix(in srgb, var(--accent) 14%, transparent);
+    color:var(--accent);font-family:inherit;font-size:12px;font-weight:700;
+    padding:6px 12px;border-radius:9px;cursor:pointer;white-space:nowrap;
+    transition:transform .08s ease, background .15s ease;
+  }
+  .copy:active{transform:scale(.94);}
+  .copy.done{background:color-mix(in srgb, var(--accent) 26%, transparent);}
+
+  /* dev tag — hidden by default */
+  .dev{display:none;margin-top:13px;padding-top:11px;border-top:1px dashed var(--line);}
+  body.show-dev .dev{display:block;}
+  .dev code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--faint);letter-spacing:.3px;word-break:break-all;}
+
+  /* footer dev toggle */
+  .toggle{
+    display:flex;align-items:center;justify-content:center;gap:9px;
+    margin-top:6px;padding:13px;border:1px solid var(--line);border-radius:14px;
+    background:var(--slate);color:var(--dim);font-size:13px;font-weight:600;
+    width:100%;cursor:pointer;font-family:inherit;
+  }
+  .toggle .sw{width:34px;height:19px;border-radius:20px;background:#27313F;position:relative;transition:background .2s;}
+  .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--dim);transition:transform .2s;}
+  body.show-dev .toggle .sw{background:#2F6B4F;}
+  body.show-dev .toggle .sw::after{transform:translateX(15px);background:#34D399;}
+
+  .disclaimer{font-size:11.5px;color:var(--faint);text-align:center;margin-top:18px;line-height:1.6;padding:0 8px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- HERO -->
-  <section class="hero rise d1">
-    <div class="crest">
-      <div class="plate">
-        <svg viewBox="0 0 38 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 C9.5 38 2 31 2 20 V7 Z" fill="#241D0E" stroke="#5A4A1E" stroke-width="1.2"/>
-          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 Z" fill="#2A2210"/>
-          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 C9.5 38 2 31 2 20 V7 Z" stroke="#FBBF24" stroke-width="1" opacity=".6"/>
-          <path d="M12.5 20.5 L17 25 L26 14.5" stroke="#FBBF24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>
-    </div>
-    <div class="brand">VERITAS<small>INTELLIGENCE</small></div>
-    <div class="tag" data-k="tag">पहले जाँच, फिर कदम</div>
-    <div class="sub" data-k="sub">मैसेज, लिंक, पेमेंट या स्क्रीनशॉट — कुछ भी भेजने से पहले Veritas से जाँचें।</div>
-    <div class="lang">
-      <button data-lang="hi" class="on">हिंदी</button>
-      <button data-lang="en">English</button>
-      <button data-lang="hing">Hinglish</button>
-    </div>
-  </section>
+  <div class="intro">
+    <h1>Veritas — Verdict Card <span style="color:var(--dim);font-weight:600;">(naya)</span></h1>
+    <p>Ek hi card. Saaf verdict, khatre ka reason, ab kya karein, aur ready safe reply. Niche saari 4 levels.</p>
+  </div>
 
-  <!-- MODE GRID -->
-  <div class="grid rise d2" id="grid"></div>
-
-  <!-- INPUT -->
-  <section class="field rise d3" id="field">
-    <div class="flabel"><span class="d"></span><span id="fieldLabel">मैसेज जाँच</span></div>
-    <textarea id="ta" maxlength="2000" placeholder="मैसेज, OTP/KYC text या suspicious chat यहाँ डालें"></textarea>
-    <div class="meta">
-      <span class="count" id="count">0/2000</span>
-      <button class="clear" id="clear" disabled>Clear</button>
+  <!-- ============ SAFE ============ -->
+  <div class="card" style="--accent:#34D399; --glow:#064E3B;">
+    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
+    <div class="status">
+      <div class="glyph">✓</div>
+      <div class="verdict"><div class="hi">सुरक्षित</div><div class="en">Safe</div></div>
     </div>
-  </section>
+    <div class="ladder">
+      <span class="lbl">खतरे का स्तर</span>
+      <span class="pips"><i class="pip on"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span>
+    </div>
+    <div class="rule"></div>
+    <div class="block"><span class="tag">क्या पकड़ा</span><p>यह OTP/code share <b>न करने</b> की safety advice है — कोई चीज़ माँगी नहीं जा रही।</p></div>
+    <div class="block"><span class="tag">खतरा क्या है</span><p>फ़िलहाल कोई सीधा खतरा नहीं। सलाह सही दिशा में है।</p></div>
+    <div class="action"><span class="tag">अब क्या करें</span><p>सलाह मानें — OTP, PIN, CVV या password किसी को न दें।</p></div>
+    <div class="reply">
+      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
+      <div class="txt">"सही बात है, OTP मैं कभी किसी को नहीं दूँगा।"</div>
+    </div>
+    <div class="dev"><code>engine: SAFETY_ADVICE · awareness_safety_advice</code></div>
+  </div>
 
-  <!-- SUBMIT -->
-  <button class="check rise d4" id="check">
-    <span class="spin"></span><span class="ic">🔍</span>
-    <span data-k="check">जाँच करें</span>
+  <!-- ============ ATTENTION ============ -->
+  <div class="card" style="--accent:#FBBF24; --glow:#3D2A07;">
+    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
+    <div class="status">
+      <div class="glyph">!</div>
+      <div class="verdict"><div class="hi">सावधान</div><div class="en">Attention</div></div>
+    </div>
+    <div class="ladder">
+      <span class="lbl">खतरे का स्तर</span>
+      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span>
+    </div>
+    <div class="rule"></div>
+    <div class="block"><span class="tag">क्या पकड़ा</span><p>Gas/bill/connection के नाम पर "service बंद हो जाएगी" का दबाव और एक नया support number।</p></div>
+    <div class="block"><span class="tag">खतरा क्या है</span><p>Unknown नंबर और जल्दबाज़ी का दबाव — असली company इस तरह डर दिखाकर call नहीं करवाती।</p></div>
+    <div class="action"><span class="tag">अब क्या करें</span><p>Official app, website या पुराने bill के verified number से ख़ुद confirm करें। जल्दी में payment या detail न दें।</p></div>
+    <div class="reply">
+      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
+      <div class="txt">"मैं अपने provider के official number से status ख़ुद check कर लूँगा, धन्यवाद।"</div>
+    </div>
+    <div class="dev"><code>engine: SERVICE_CALLBACK_VERIFY · service_bill_callback_verification</code></div>
+  </div>
+
+  <!-- ============ SUSPICIOUS ============ -->
+  <div class="card" style="--accent:#FB923C; --glow:#3D2207;">
+    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
+    <div class="status">
+      <div class="glyph">⚠</div>
+      <div class="verdict"><div class="hi">असुरक्षित</div><div class="en">Suspicious</div></div>
+    </div>
+    <div class="ladder">
+      <span class="lbl">खतरे का स्तर</span>
+      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span>
+    </div>
+    <div class="rule"></div>
+    <div class="block"><span class="tag">क्या पकड़ा</span><p>KYC pending + "account block हो जाएगा" का डर + किसी customer-care से contact करने की माँग।</p></div>
+    <div class="block"><span class="tag">खतरा क्या है</span><p>Source verify न हो तो यह identity और banking detail चुराने की चाल हो सकती है।</p></div>
+    <div class="action"><span class="tag">अब क्या करें</span><p>सिर्फ़ अपनी bank app/website से KYC status देखें। किसी unknown number पर personal या banking detail न दें।</p></div>
+    <div class="reply">
+      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
+      <div class="txt">"KYC मैं सीधे अपनी bank app में check कर लूँगा, किसी unknown number पर detail नहीं दूँगा।"</div>
+    </div>
+    <div class="dev"><code>engine: KYC_CONTACT_VERIFY · kyc_contact_source_verification</code></div>
+  </div>
+
+  <!-- ============ RED ALERT ============ -->
+  <div class="card" style="--accent:#F43F5E; --glow:#4C0519;">
+    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
+    <div class="status">
+      <div class="glyph">⛔</div>
+      <div class="verdict"><div class="hi">रेड अलर्ट</div><div class="en">Red Alert</div></div>
+    </div>
+    <div class="ladder">
+      <span class="lbl">खतरे का स्तर</span>
+      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></span>
+    </div>
+    <div class="rule"></div>
+    <div class="block"><span class="tag">क्या पकड़ा</span><p>Refund के बहाने आपका <b>UPI PIN</b> माँगा जा रहा है — credential चोरी का सीधा pattern।</p></div>
+    <div class="block"><span class="tag">खतरा क्या है</span><p>PIN डालने से पैसे <b>आते नहीं, जाते हैं।</b> यह खाता खाली करने का तरीका है।</p></div>
+    <div class="action"><span class="tag">अब क्या करें</span><p>रुकें। PIN, OTP या password किसी को न दें, किसी link पर न डालें। पैसे <b>लेने</b> के लिए PIN कभी नहीं लगता।</p></div>
+    <div class="reply">
+      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
+      <div class="txt">"Refund के लिए PIN कभी नहीं लगता। मैं कोई PIN या OTP नहीं दूँगा।"</div>
+    </div>
+    <div class="dev"><code>engine: CREDENTIAL_THEFT · upi_pin_request</code></div>
+  </div>
+
+  <button class="toggle" id="devToggle">
+    <span class="sw"></span> Developer signals (raw engine tag)
   </button>
 
-  <!-- FOOTER -->
-  <div class="foot rise d4" data-k="foot">आपकी सुरक्षा, हमारी प्राथमिकता</div>
+  <p class="disclaimer">Veritas एक सहायक जाँच है, अंतिम फ़ैसला आपका। संदेह हो तो हमेशा official source से confirm करें।</p>
 
 </div>
 
 <script>
-  var MODES = [
-    {key:'msg', icon:'💬',
-      title:{hi:'मैसेज जाँच', en:'Message check', hing:'Message jaanch'},
-      sub:{hi:'OTP, KYC, धमकी या ठगी वाले मैसेज', en:'OTP, KYC, threats or scam texts', hing:'OTP, KYC, dhamki ya thugi wale message'},
-      ph:{hi:'मैसेज, OTP/KYC text या suspicious chat यहाँ डालें', en:'Paste a message, OTP/KYC text or suspicious chat', hing:'Message, OTP/KYC text ya suspicious chat yahaan daalo'}},
-    {key:'link', icon:'🔗',
-      title:{hi:'लिंक जाँच', en:'Link check', hing:'Link jaanch'},
-      sub:{hi:'शक वाले लिंक/डोमेन की पड़ताल', en:'Inspect suspicious links / domains', hing:'Shak wale link/domain ki padtaal'},
-      ph:{hi:'शक वाला link या website यहाँ paste करें', en:'Paste a suspicious link or website', hing:'Shak wala link ya website yahaan paste karo'}},
-    {key:'pay', icon:'₹',
-      title:{hi:'पेमेंट अलर्ट', en:'Payment alert', hing:'Payment alert'},
-      sub:{hi:'UPI, refund, QR या PIN वाली बात', en:'UPI, refund, QR or PIN matters', hing:'UPI, refund, QR ya PIN wali baat'},
-      ph:{hi:'UPI / refund / QR / PIN वाला message यहाँ डालें', en:'Paste a UPI / refund / QR / PIN message', hing:'UPI/refund/QR/PIN wala message yahaan daalo'}},
-    {key:'ocr', icon:'📷',
-      title:{hi:'OCR स्क्रीनशॉट', en:'Screenshot OCR', hing:'Screenshot OCR'},
-      sub:{hi:'स्क्रीनशॉट का text जाँचें', en:'Check text from a screenshot', hing:'Screenshot ka text jaancho'},
-      ph:{hi:'स्क्रीनशॉट का text यहाँ paste करें', en:'Paste text from your screenshot', hing:'Screenshot ka text yahaan paste karo'}}
-  ];
-  var STR = {
-    tag:{hi:'पहले जाँच, फिर कदम', en:'Check first, then act', hing:'Pehle jaanch, phir kadam'},
-    sub:{hi:'मैसेज, लिंक, पेमेंट या स्क्रीनशॉट — कुछ भी भेजने से पहले Veritas से जाँचें।', en:'Message, link, payment or screenshot — check with Veritas before you act.', hing:'Message, link, payment ya screenshot — kuch bhi bhejne se pehle Veritas se jaancho.'},
-    check:{hi:'जाँच करें', en:'Check now', hing:'Jaanch karo'},
-    foot:{hi:'आपकी सुरक्षा, हमारी प्राथमिकता', en:'Your safety, our priority', hing:'Aapki suraksha, hamari priority'}
-  };
-
-  var lang='hi', active=0;
-  var grid=document.getElementById('grid');
-  MODES.forEach(function(m,i){
-    var b=document.createElement('button');
-    b.className='mode'+(i===0?' on':'');
-    b.innerHTML='<div class="ico">'+m.icon+'</div><h3 data-mt></h3><p data-ms></p>';
-    b.addEventListener('click', function(){ active=i; render(); });
-    grid.appendChild(b);
+  // dev signal toggle
+  document.getElementById('devToggle').addEventListener('click', function(){
+    document.body.classList.toggle('show-dev');
   });
 
-  var field=document.getElementById('field'), ta=document.getElementById('ta'),
-      count=document.getElementById('count'), clearBtn=document.getElementById('clear'),
-      fieldLabel=document.getElementById('fieldLabel');
-
-  function render(){
-    document.querySelectorAll('[data-k]').forEach(function(el){ var k=el.getAttribute('data-k'); if(STR[k]) el.textContent=STR[k][lang]; });
-    document.querySelectorAll('.mode').forEach(function(card,i){
-      card.classList.toggle('on', i===active);
-      card.querySelector('[data-mt]').textContent=MODES[i].title[lang];
-      card.querySelector('[data-ms]').textContent=MODES[i].sub[lang];
+  // copy buttons — clipboard API with iframe-safe fallback
+  document.querySelectorAll('.copy').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var card = btn.closest('.reply');
+      var text = card.querySelector('.txt').textContent.replace(/^"|"$/g,'').trim();
+      var done = function(){
+        btn.textContent = 'कॉपी हुआ ✓';
+        btn.classList.add('done');
+        setTimeout(function(){ btn.textContent='कॉपी'; btn.classList.remove('done'); }, 1600);
+      };
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(text, done); });
+      } else { fallback(text, done); }
     });
-    fieldLabel.textContent=MODES[active].title[lang];
-    ta.setAttribute('placeholder', MODES[active].ph[lang]);
-    document.querySelectorAll('[data-lang]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-lang')===lang); });
+  });
+  function fallback(text, done){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); done(); }catch(e){}
+    document.body.removeChild(ta);
   }
-  document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click', function(){ lang=b.getAttribute('data-lang'); render(); }); });
-
-  function updateCount(){ count.textContent=ta.value.length+'/2000'; clearBtn.disabled=ta.value.length===0; }
-  ta.addEventListener('input', updateCount);
-  ta.addEventListener('focus', function(){ field.classList.add('focus'); });
-  ta.addEventListener('blur', function(){ field.classList.remove('focus'); });
-  clearBtn.addEventListener('click', function(){ ta.value=''; updateCount(); ta.focus(); });
-
-  var check=document.getElementById('check');
-  check.addEventListener('click', function(){ if(check.classList.contains('busy'))return; check.classList.add('busy'); setTimeout(function(){check.classList.remove('busy');},1300); });
-
-  render();
 </script>
 </body>
 </html>
