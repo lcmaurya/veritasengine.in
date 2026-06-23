@@ -1,123 +1,205 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas Guard</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Veritas — Home (gold)</title>
 <style>
-:root{--bg:#0a0e1a;--surface:#111827;--surface2:#1a2234;--border:#1e2a3a;--text:#e2e8f0;--muted:#64748b;--accent:#6366f1;--accent2:#818cf8;--safe:#10b981;--safe-bg:rgba(16,185,129,0.08);--low:#f59e0b;--low-bg:rgba(245,158,11,0.08);--medium:#f97316;--medium-bg:rgba(249,115,22,0.08);--high:#ef4444;--high-bg:rgba(239,68,68,0.08)}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.disc{background:rgba(245,158,11,0.06);border-bottom:1px solid rgba(245,158,11,0.1);overflow:hidden;height:26px;display:flex;align-items:center;position:sticky;top:0;z-index:200}
-.disc-t{display:flex;animation:sc 35s linear infinite;white-space:nowrap}
-.disc-t span{font-size:11px;color:#d97706;padding:0 80px;font-weight:500}
-@keyframes sc{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.hdr{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:26px;z-index:100}
-.hdr-in{max-width:680px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
-.logo{display:flex;align-items:center;gap:10px}
-.logo i{width:34px;height:34px;background:linear-gradient(135deg,var(--accent),#a78bfa);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;font-style:normal}
-.logo b{font-size:17px;letter-spacing:0.3px}
-.logo b span{color:var(--accent2)}
-.hdr-r{display:flex;align-items:center;gap:10px}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--safe);animation:bl 2s infinite}
-.st{font-size:11px;color:var(--safe);font-weight:600}
-.lb{background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:5px 12px;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600}
-.lb:hover{color:var(--accent2);border-color:var(--accent)}
-.mn{max-width:680px;margin:0 auto;padding:20px}
-.tabs{display:flex;gap:4px;background:var(--surface);border-radius:10px;padding:4px;margin-bottom:20px}
-.tab{flex:1;padding:10px;text-align:center;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:var(--muted);border:none;background:none;transition:all 0.2s}
-.tab.on{background:var(--accent);color:white}
-.tab:hover:not(.on){color:var(--text)}
-.sec{display:none}.sec.on{display:block;animation:fi 0.3s ease}
-@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:0.3}}
-.cd{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px}
-textarea{width:100%;min-height:180px;padding:14px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;resize:vertical}
-textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,0.15)}
-textarea::placeholder{color:var(--muted)}
-input[type=text]{width:100%;padding:12px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px}
-input:focus{outline:none;border-color:var(--accent)}
-.br{display:flex;gap:8px;margin-top:12px}
-.btn{padding:13px 20px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s}
-.bp{background:linear-gradient(135deg,var(--accent),#7c3aed);color:white;flex:3}
-.bp:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 4px 15px rgba(99,102,241,0.3)}
-.btn:disabled{opacity:0.5;cursor:not-allowed}
-.bs{background:var(--surface2);border:1px solid var(--border);color:var(--muted);flex:1}
-.bs:hover{border-color:var(--accent);color:var(--accent2)}
-.bf{width:100%;margin-top:12px}
-.rb{text-align:center;padding:24px 16px;border-radius:12px;margin-bottom:16px}
-.rb h2{font-size:24px;font-weight:700;margin-bottom:4px;letter-spacing:1px}
-.rb .cf{font-size:30px;font-weight:700;margin:6px 0}
-.rb p{font-size:13px;opacity:0.85;max-width:400px;margin:0 auto}
-.sb{background:var(--safe-bg);border:1px solid rgba(16,185,129,0.2);color:var(--safe)}
-.lob{background:var(--low-bg);border:1px solid rgba(245,158,11,0.2);color:var(--low)}
-.mob{background:var(--medium-bg);border:1px solid rgba(249,115,22,0.2);color:var(--medium)}
-.hb{background:var(--high-bg);border:1px solid rgba(239,68,68,0.2);color:var(--high)}
-.ps{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
-.pt{font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:14px;display:flex;align-items:center;gap:6px}
-.fd{margin-bottom:10px}
-.fl{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px}
-.fv{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:7px 10px}
-.fv span{font-family:'JetBrains Mono',monospace;font-size:11px;word-break:break-all;flex:1;color:var(--text)}
-.cb{background:none;border:none;color:var(--accent2);font-size:10px;font-weight:600;cursor:pointer;padding:2px 6px;flex-shrink:0}
-.cb:hover{color:white}
-.pl{display:block;width:100%;text-align:center;background:var(--surface);border:1px solid var(--border);color:var(--accent2);padding:12px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;text-decoration:none;transition:all 0.2s}
-.pl:hover{background:var(--accent);color:white;border-color:var(--accent)}
-.rn{text-align:center;font-size:11px;color:var(--muted);margin-top:12px;padding:8px;border-top:1px solid var(--border)}
-.eb{display:inline-flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:10px;color:var(--muted);margin-top:10px}
-.ed{width:6px;height:6px;border-radius:50%;background:var(--safe);animation:bl 2s infinite}
-.hi{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.hib{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0}
-.d0{background:var(--safe-bg);color:var(--safe)}.d1{background:var(--low-bg);color:var(--low)}.d2{background:var(--medium-bg);color:var(--medium)}.d3{background:var(--high-bg);color:var(--high)}
-.hii{flex:1;min-width:0}
-.him{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hit{font-size:11px;color:var(--muted);margin-top:2px}
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.sc{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:20px;text-align:center}
-.sn{font-size:28px;font-weight:700;color:var(--accent2);font-family:'JetBrains Mono',monospace}
-.sl{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;text-transform:uppercase}
-.ld{text-align:center;padding:20px;color:var(--accent2);font-weight:500;animation:pu 1.5s infinite}
-@keyframes pu{0%,100%{opacity:1}50%{opacity:0.4}}
-.er{background:var(--high-bg);border:1px solid rgba(239,68,68,0.2);color:var(--high);padding:12px;border-radius:8px;text-align:center;font-size:13px;margin-bottom:12px}
-.em{text-align:center;padding:30px 20px;color:var(--muted);font-size:13px}
-.hd{display:none!important}
-.ft{max-width:680px;margin:0 auto;padding:16px 20px;text-align:center}
-.ft p{font-size:11px;color:var(--muted)}
-.ft a{color:var(--accent2);text-decoration:none}
+  :root{
+    --ink:#0A0E14;
+    --slate:#121822;
+    --raised:#18202C;
+    --line:#222C3A;
+    --mist:#E8EDF4;
+    --dim:#93A1B3;
+    --faint:#5A6776;
+    --gold:#FBBF24;
+    --gold-soft:#F5CF6B;
+    --gold-glow:#3D2A07;
+    --on-gold:#2A1E03;
+    --font:"Segoe UI", system-ui, -apple-system, "Noto Sans", "Noto Sans Devanagari", "Hind", "Mangal", sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:var(--ink);}
+  body{font-family:var(--font);color:var(--mist);-webkit-font-smoothing:antialiased;line-height:1.5;padding:16px 14px 36px;}
+  .wrap{max-width:460px;margin:0 auto;}
+  .rise{opacity:0;transform:translateY(10px);animation:rise .5s cubic-bezier(.22,1,.36,1) forwards;}
+  .d1{animation-delay:.04s}.d2{animation-delay:.10s}.d3{animation-delay:.16s}.d4{animation-delay:.22s}
+  @keyframes rise{to{opacity:1;transform:none}}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none}}
+
+  /* ===== hero ===== */
+  .hero{background:linear-gradient(180deg, #1A160E 0%, var(--slate) 70%);
+    border:1px solid var(--line);border-radius:24px;padding:30px 20px 22px;text-align:center;position:relative;overflow:hidden;}
+  .hero::after{content:"";position:absolute;left:50%;top:-50px;transform:translateX(-50%);
+    width:280px;height:210px;background:radial-gradient(60% 60% at 50% 50%, rgba(251,191,36,.13) 0%, transparent 70%);pointer-events:none;}
+  .crest{position:relative;width:84px;height:84px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;z-index:1;}
+  .crest::before{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle, rgba(251,191,36,.22) 0%, transparent 66%);}
+  .plate{width:74px;height:74px;border-radius:50%;background:#1B1710;border:1px solid #3A3018;
+    display:flex;align-items:center;justify-content:center;position:relative;z-index:1;box-shadow:0 6px 22px rgba(0,0,0,.45);}
+  .plate svg{width:38px;height:42px;display:block;}
+  .brand{font-size:30px;font-weight:800;letter-spacing:5px;color:var(--mist);}
+  .brand small{display:block;font-size:13px;font-weight:700;letter-spacing:4px;color:var(--gold);margin-top:4px;}
+  .tag{font-size:19px;font-weight:800;margin-top:14px;color:var(--mist);}
+  .sub{font-size:13px;color:var(--dim);margin-top:7px;padding:0 6px;}
+  .lang{display:inline-flex;gap:4px;margin-top:18px;background:#140F06;border:1px solid var(--line);border-radius:30px;padding:4px;}
+  .lang button{appearance:none;border:0;background:transparent;color:var(--dim);font-family:inherit;
+    font-size:13px;font-weight:700;padding:8px 16px;border-radius:24px;cursor:pointer;transition:.18s;}
+  .lang button.on{background:var(--gold);color:var(--on-gold);box-shadow:0 0 18px rgba(251,191,36,.32);}
+
+  /* ===== mode grid ===== */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px;}
+  .mode{position:relative;text-align:left;cursor:pointer;background:var(--slate);
+    border:1px solid var(--line);border-radius:18px;padding:16px 14px 15px 16px;overflow:hidden;
+    transition:border-color .18s, background .18s, transform .08s;font-family:inherit;color:inherit;}
+  .mode:active{transform:scale(.985);}
+  .mode::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold);opacity:0;transition:.18s;box-shadow:0 0 16px var(--gold);}
+  .mode.on{border-color:color-mix(in srgb, var(--gold) 55%, var(--line));background:#181307;}
+  .mode.on::before{opacity:1;}
+  .ico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    font-size:19px;margin-bottom:11px;background:#1C170C;border:1px solid var(--line);color:var(--gold);transition:.18s;}
+  .mode.on .ico{background:color-mix(in srgb, var(--gold) 20%, transparent);border-color:color-mix(in srgb, var(--gold) 55%, transparent);}
+  .mode h3{font-size:15px;font-weight:700;color:var(--mist);}
+  .mode p{font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.45;}
+
+  /* ===== input ===== */
+  .field{margin-top:18px;background:var(--slate);border:1px solid var(--line);border-radius:18px;padding:14px 15px 12px;transition:border-color .18s, box-shadow .18s;}
+  .field.focus{border-color:color-mix(in srgb, var(--gold) 55%, var(--line));box-shadow:0 0 0 3px rgba(251,191,36,.12);}
+  .field .flabel{display:flex;align-items:center;gap:7px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:9px;}
+  .field .flabel .d{width:6px;height:6px;border-radius:50%;background:var(--gold);}
+  textarea{width:100%;min-height:118px;resize:none;border:0;outline:none;background:transparent;color:var(--mist);font-family:inherit;font-size:14.5px;line-height:1.55;}
+  textarea::placeholder{color:var(--faint);}
+  .meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;padding-top:9px;border-top:1px solid var(--line);}
+  .count{font-size:12px;color:var(--faint);}
+  .clear{appearance:none;border:0;background:transparent;color:var(--gold-soft);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;}
+  .clear:disabled{opacity:.4;cursor:default;color:var(--dim);}
+
+  /* ===== submit ===== */
+  .check{width:100%;margin-top:16px;appearance:none;border:0;cursor:pointer;font-family:inherit;
+    font-size:16px;font-weight:800;letter-spacing:.3px;color:var(--on-gold);background:var(--gold);
+    border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:center;gap:9px;
+    box-shadow:0 8px 26px rgba(251,191,36,.28);transition:transform .08s, filter .15s;}
+  .check:active{transform:scale(.985);}
+  .check.busy{filter:saturate(.75);}
+  .check .spin{width:15px;height:15px;border-radius:50%;border:2px solid rgba(42,30,3,.35);border-top-color:var(--on-gold);animation:spin .7s linear infinite;display:none;}
+  .check.busy .spin{display:inline-block;}.check.busy .ic{display:none;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .foot{text-align:center;margin-top:22px;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.4px;}
 </style>
 </head>
 <body>
-<div class="disc"><div class="disc-t"><span>⚠️ This tool provides risk analysis only. Final decision is always yours. Use your judgement or consult a trusted person. यह टूल केवल जोखिम विश्लेषण प्रदान करता है। अंतिम निर्णय हमेशा आपका है। अपने विवेक का उपयोग करें या किसी जानकार से सलाह लें।</span><span>⚠️ This tool provides risk analysis only. Final decision is always yours. Use your judgement or consult a trusted person. यह टूल केवल जोखिम विश्लेषण प्रदान करता है। अंतिम निर्णय हमेशा आपका है। अपने विवेक का उपयोग करें या किसी जानकार से सलाह लें।</span></div></div>
-<div class="hdr"><div class="hdr-in"><div class="logo"><i>🛡</i><b>VERITAS <span>GUARD</span></b></div><div class="hdr-r"><div class="dot"></div><span class="st" data-en="ONLINE" data-hi="ऑनलाइन">ONLINE</span><button class="lb" onclick="tl()" id="lB">हिंदी</button></div></div></div>
-<div class="mn">
-<div class="tabs"><button class="tab on" onclick="st('scan')" id="tScan" data-en="🔍 Scan" data-hi="🔍 स्कैन">🔍 Scan</button><button class="tab" onclick="st('history')" id="tHistory" data-en="📋 History" data-hi="📋 इतिहास">📋 History</button><button class="tab" onclick="st('stats')" id="tStats" data-en="📊 Stats" data-hi="📊 आंकड़े">📊 Stats</button><button class="tab" onclick="st('verify')" id="tVerify" data-en="✅ Verify" data-hi="✅ सत्यापन">✅ Verify</button></div>
+<div class="wrap">
 
-<div class="sec on" id="sScan"><div class="cd"><textarea id="uI" data-placeholder-en="Paste any suspicious message, SMS, link or email here..." data-placeholder-hi="कोई भी संदिग्ध संदेश, SMS, लिंक या ईमेल यहाँ पेस्ट करें..." placeholder="Paste any suspicious message, SMS, link or email here..."></textarea><div class="br"><button class="btn bp" id="aB" onclick="az()" data-en="🔍 Analyze" data-hi="🔍 विश्लेषण">🔍 Analyze</button><button class="btn bs" onclick="cl()" data-en="Clear" data-hi="साफ़">Clear</button></div></div><div id="lS" class="ld hd" data-en="⚡ Analyzing with C++ Engine..." data-hi="⚡ C++ इंजन से विश्लेषण...">⚡ Analyzing with C++ Engine...</div><div id="eS" class="er hd"></div>
-<div id="rS" class="hd"><div id="rB" class="rb"><h2 id="rT">SAFE</h2><div class="cf" id="cT">95%</div><p id="rD"></p></div><div class="ps"><div class="pt">🔐 <span data-en="Cryptographic Proof" data-hi="क्रिप्टोग्राफिक प्रमाण">Cryptographic Proof</span></div><div class="fd"><div class="fl">Hash</div><div class="fv"><span id="hT"></span><button class="cb" onclick="cp('hT',this)">Copy</button></div></div><div class="fd"><div class="fl" data-en="Signature" data-hi="हस्ताक्षर">Signature</div><div class="fv"><span id="sT"></span><button class="cb" onclick="cp('sT',this)">Copy</button></div></div><div class="fd"><div class="fl" data-en="Block" data-hi="ब्लॉक">Block</div><div class="fv"><span id="bT"></span></div></div><div class="fd"><div class="fl" data-en="Timestamp" data-hi="समय">Timestamp</div><div class="fv"><span id="tT"></span></div></div></div><button class="pl" onclick="op()" data-en="🔗 View Tamper-Proof Certificate" data-hi="🔗 छेड़छाड़-रहित प्रमाणपत्र देखें">🔗 View Tamper-Proof Certificate</button><div class="rn" data-en="Final decision is always yours. Use your judgement or consult a trusted person." data-hi="अंतिम निर्णय हमेशा आपका है। अपने विवेक का उपयोग करें या किसी जानकार से सलाह लें।">Final decision is always yours. Use your judgement or consult a trusted person.</div><div style="text-align:center"><div class="eb"><span class="ed"></span><span data-en="C++ SIMD Engine + Blockchain Proof" data-hi="C++ SIMD इंजन + ब्लॉकचेन प्रमाण">C++ SIMD Engine + Blockchain Proof</span></div></div></div></div>
+  <!-- HERO -->
+  <section class="hero rise d1">
+    <div class="crest">
+      <div class="plate">
+        <svg viewBox="0 0 38 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 C9.5 38 2 31 2 20 V7 Z" fill="#241D0E" stroke="#5A4A1E" stroke-width="1.2"/>
+          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 Z" fill="#2A2210"/>
+          <path d="M19 1 L36 7 V20 C36 31 28.5 38 19 41 C9.5 38 2 31 2 20 V7 Z" stroke="#FBBF24" stroke-width="1" opacity=".6"/>
+          <path d="M12.5 20.5 L17 25 L26 14.5" stroke="#FBBF24" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </div>
+    <div class="brand">VERITAS<small>INTELLIGENCE</small></div>
+    <div class="tag" data-k="tag">पहले जाँच, फिर कदम</div>
+    <div class="sub" data-k="sub">मैसेज, लिंक, पेमेंट या स्क्रीनशॉट — कुछ भी भेजने से पहले Veritas से जाँचें।</div>
+    <div class="lang">
+      <button data-lang="hi" class="on">हिंदी</button>
+      <button data-lang="en">English</button>
+      <button data-lang="hing">Hinglish</button>
+    </div>
+  </section>
 
-<div class="sec" id="sHistory"><div class="cd"><h3 style="font-size:15px;margin-bottom:14px" data-en="📋 Recent Scans" data-hi="📋 हाल के स्कैन">📋 Recent Scans</h3><div id="hL"><div class="em">Loading...</div></div></div></div>
+  <!-- MODE GRID -->
+  <div class="grid rise d2" id="grid"></div>
 
-<div class="sec" id="sStats"><div class="sg"><div class="sc"><div class="sn" id="sTo">—</div><div class="sl" data-en="Total Scans" data-hi="कुल स्कैन">Total Scans</div></div><div class="sc"><div class="sn" id="sBl">—</div><div class="sl" data-en="Latest Block" data-hi="नवीनतम ब्लॉक">Latest Block</div></div></div><div class="cd" style="text-align:center"><div class="eb"><span class="ed"></span><span data-en="Engine Online — Real-time Protection" data-hi="इंजन ऑनलाइन — रीयल-टाइम सुरक्षा">Engine Online — Real-time Protection</span></div></div></div>
+  <!-- INPUT -->
+  <section class="field rise d3" id="field">
+    <div class="flabel"><span class="d"></span><span id="fieldLabel">मैसेज जाँच</span></div>
+    <textarea id="ta" maxlength="2000" placeholder="मैसेज, OTP/KYC text या suspicious chat यहाँ डालें"></textarea>
+    <div class="meta">
+      <span class="count" id="count">0/2000</span>
+      <button class="clear" id="clear" disabled>Clear</button>
+    </div>
+  </section>
 
-<div class="sec" id="sVerify"><div class="cd"><h3 style="font-size:15px;margin-bottom:14px" data-en="✅ Verify a Proof" data-hi="✅ प्रमाण सत्यापित करें">✅ Verify a Proof</h3><input type="text" id="vI" data-placeholder-en="Enter Proof ID..." data-placeholder-hi="प्रमाण ID दर्ज करें..." placeholder="Enter Proof ID..."><button class="btn bp bf" onclick="vf()" data-en="Verify" data-hi="सत्यापित करें">Verify</button></div><div id="vR" class="hd"></div></div>
+  <!-- SUBMIT -->
+  <button class="check rise d4" id="check">
+    <span class="spin"></span><span class="ic">🔍</span>
+    <span data-k="check">जाँच करें</span>
+  </button>
+
+  <!-- FOOTER -->
+  <div class="foot rise d4" data-k="foot">आपकी सुरक्षा, हमारी प्राथमिकता</div>
+
 </div>
-<div class="ft"><p>© 2026 Veritas Guard — <a href="https://veritasengine.in">veritasengine.in</a></p></div>
 
 <script>
-var A='https://veritas-system.onrender.com',K='mysecret123',pId=null,L='en';
-var R={0:{en:'SAFE',hi:'सुरक्षित',c:'sb',de:'No significant risk signals found.',dh:'कोई महत्वपूर्ण जोखिम संकेत नहीं मिला।'},1:{en:'LOW RISK',hi:'कम जोखिम',c:'lob',de:'Something unusual. Verify the sender.',dh:'कुछ असामान्य लग रहा है। भेजने वाले की पुष्टि करें।'},2:{en:'MEDIUM RISK',hi:'मध्यम जोखिम',c:'mob',de:'Suspicious patterns. Do not click links or share info.',dh:'संदिग्ध पैटर्न। लिंक पर क्लिक न करें या जानकारी साझा न करें।'},3:{en:'HIGH RISK',hi:'उच्च जोखिम',c:'hb',de:'Strong risk signals. Do not act on this message.',dh:'मजबूत जोखिम संकेत। इस संदेश पर कार्रवाई न करें।'}};
-function tl(){L=L==='en'?'hi':'en';document.getElementById('lB').textContent=L==='en'?'हिंदी':'English';document.querySelectorAll('[data-'+L+']').forEach(function(e){e.textContent=e.getAttribute('data-'+L)});document.querySelectorAll('[data-placeholder-'+L+']').forEach(function(e){e.placeholder=e.getAttribute('data-placeholder-'+L)})}
-function st(n){document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on')});document.querySelectorAll('.sec').forEach(function(s){s.classList.remove('on')});document.getElementById('t'+n.charAt(0).toUpperCase()+n.slice(1)).classList.add('on');document.getElementById('s'+n.charAt(0).toUpperCase()+n.slice(1)).classList.add('on');if(n==='history')lh();if(n==='stats')ls()}
-async function az(){var i=document.getElementById('uI').value.trim(),b=document.getElementById('aB'),l=document.getElementById('lS'),e=document.getElementById('eS'),r=document.getElementById('rS');e.classList.add('hd');r.classList.add('hd');if(!i){e.textContent=L==='en'?'Please enter text.':'कृपया टेक्स्ट दर्ज करें।';e.classList.remove('hd');return}b.disabled=true;l.classList.remove('hd');try{var f=await fetch(A+'/generate',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':K},body:JSON.stringify({message:i})});if(!f.ok)throw 1;var d=await f.json(),k=R[d.decision]||R[0];document.getElementById('rB').className='rb '+k.c;document.getElementById('rT').textContent=L==='en'?k.en:k.hi;var c=d.confidence<=1?Math.round(d.confidence*100):d.confidence;document.getElementById('cT').textContent=c+'%';document.getElementById('rD').textContent=L==='en'?k.de:k.dh;document.getElementById('hT').textContent=d.hash||'—';document.getElementById('sT').textContent=d.signature||'—';document.getElementById('bT').textContent=d.block!==undefined?'#'+d.block:'—';document.getElementById('tT').textContent=d.time||new Date().toLocaleString();pId=d.id||null;r.classList.remove('hd')}catch(x){e.textContent=L==='en'?'Failed to connect.':'कनेक्ट नहीं हो सका।';e.classList.remove('hd')}finally{b.disabled=false;l.classList.add('hd')}}
-function cl(){document.getElementById('uI').value='';document.getElementById('rS').classList.add('hd');document.getElementById('eS').classList.add('hd');pId=null}
-function op(){if(pId)window.open(A+'/proof.html?id='+pId,'_blank')}
-async function lh(){var b=document.getElementById('hL');b.innerHTML='<div class="ld">Loading...</div>';try{var f=await fetch(A+'/history'),d=await f.json();if(!d||!d.length){b.innerHTML='<div class="em">'+(L==='en'?'No scans yet':'अभी तक कोई स्कैन नहीं')+'</div>';return}var h='';d.forEach(function(i){var k=R[i.decision]||R[0];h+='<div class="hi"><div class="hib d'+i.decision+'">D:'+i.decision+'</div><div class="hii"><div class="him">'+es(i.message)+'</div><div class="hit">'+(L==='en'?k.en:k.hi)+' • '+(i.time||'')+'</div></div></div>'});b.innerHTML=h}catch(x){b.innerHTML='<div class="em" style="color:var(--high)">Failed</div>'}}
-async function ls(){try{var f=await fetch(A+'/stats'),d=await f.json();document.getElementById('sTo').textContent=d.total||0;document.getElementById('sBl').textContent='#'+(d.latestBlock||0)}catch(x){}}
-async function vf(){var id=document.getElementById('vI').value.trim(),b=document.getElementById('vR');if(!id){b.innerHTML='<div class="er">'+(L==='en'?'Enter Proof ID':'प्रमाण ID दर्ज करें')+'</div>';b.classList.remove('hd');return}b.innerHTML='<div class="ld">Verifying...</div>';b.classList.remove('hd');try{var f=await fetch(A+'/proof?id='+id);if(!f.ok)throw 1;var d=await f.json();if(d.error)throw 1;var k=R[d.decision]||R[0];b.innerHTML='<div class="cd"><div class="rb '+k.c+'" style="margin-bottom:14px"><h2>'+(L==='en'?k.en:k.hi)+'</h2><div class="cf">'+d.confidence+'%</div></div><div class="fd"><div class="fl">'+(L==='en'?'Message':'संदेश')+'</div><div class="fv"><span>'+es(d.message)+'</span></div></div><div class="fd"><div class="fl">Hash</div><div class="fv"><span style="font-family:monospace;font-size:11px">'+d.hash+'</span></div></div><div class="fd"><div class="fl">'+(L==='en'?'Block':'ब्लॉक')+'</div><div class="fv"><span>#'+d.block+'</span></div></div><div class="fd"><div class="fl">'+(L==='en'?'Time':'समय')+'</div><div class="fv"><span>'+d.time+'</span></div></div><div style="text-align:center;margin-top:10px"><div class="eb" style="border-color:var(--safe)"><span class="ed"></span>'+(L==='en'?' Verified — Tamper Proof':' सत्यापित — छेड़छाड़-रहित')+'</div></div></div>'}catch(x){b.innerHTML='<div class="er">'+(L==='en'?'Proof not found':'प्रमाण नहीं मिला')+'</div>'}}
-function cp(id,b){var t=document.getElementById(id).textContent;navigator.clipboard.writeText(t).then(function(){var o=b.textContent;b.textContent=L==='en'?'Copied!':'कॉपी!';setTimeout(function(){b.textContent=o},1500)})}
-function es(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-ls();
+  var MODES = [
+    {key:'msg', icon:'💬',
+      title:{hi:'मैसेज जाँच', en:'Message check', hing:'Message jaanch'},
+      sub:{hi:'OTP, KYC, धमकी या ठगी वाले मैसेज', en:'OTP, KYC, threats or scam texts', hing:'OTP, KYC, dhamki ya thugi wale message'},
+      ph:{hi:'मैसेज, OTP/KYC text या suspicious chat यहाँ डालें', en:'Paste a message, OTP/KYC text or suspicious chat', hing:'Message, OTP/KYC text ya suspicious chat yahaan daalo'}},
+    {key:'link', icon:'🔗',
+      title:{hi:'लिंक जाँच', en:'Link check', hing:'Link jaanch'},
+      sub:{hi:'शक वाले लिंक/डोमेन की पड़ताल', en:'Inspect suspicious links / domains', hing:'Shak wale link/domain ki padtaal'},
+      ph:{hi:'शक वाला link या website यहाँ paste करें', en:'Paste a suspicious link or website', hing:'Shak wala link ya website yahaan paste karo'}},
+    {key:'pay', icon:'₹',
+      title:{hi:'पेमेंट अलर्ट', en:'Payment alert', hing:'Payment alert'},
+      sub:{hi:'UPI, refund, QR या PIN वाली बात', en:'UPI, refund, QR or PIN matters', hing:'UPI, refund, QR ya PIN wali baat'},
+      ph:{hi:'UPI / refund / QR / PIN वाला message यहाँ डालें', en:'Paste a UPI / refund / QR / PIN message', hing:'UPI/refund/QR/PIN wala message yahaan daalo'}},
+    {key:'ocr', icon:'📷',
+      title:{hi:'OCR स्क्रीनशॉट', en:'Screenshot OCR', hing:'Screenshot OCR'},
+      sub:{hi:'स्क्रीनशॉट का text जाँचें', en:'Check text from a screenshot', hing:'Screenshot ka text jaancho'},
+      ph:{hi:'स्क्रीनशॉट का text यहाँ paste करें', en:'Paste text from your screenshot', hing:'Screenshot ka text yahaan paste karo'}}
+  ];
+  var STR = {
+    tag:{hi:'पहले जाँच, फिर कदम', en:'Check first, then act', hing:'Pehle jaanch, phir kadam'},
+    sub:{hi:'मैसेज, लिंक, पेमेंट या स्क्रीनशॉट — कुछ भी भेजने से पहले Veritas से जाँचें।', en:'Message, link, payment or screenshot — check with Veritas before you act.', hing:'Message, link, payment ya screenshot — kuch bhi bhejne se pehle Veritas se jaancho.'},
+    check:{hi:'जाँच करें', en:'Check now', hing:'Jaanch karo'},
+    foot:{hi:'आपकी सुरक्षा, हमारी प्राथमिकता', en:'Your safety, our priority', hing:'Aapki suraksha, hamari priority'}
+  };
+
+  var lang='hi', active=0;
+  var grid=document.getElementById('grid');
+  MODES.forEach(function(m,i){
+    var b=document.createElement('button');
+    b.className='mode'+(i===0?' on':'');
+    b.innerHTML='<div class="ico">'+m.icon+'</div><h3 data-mt></h3><p data-ms></p>';
+    b.addEventListener('click', function(){ active=i; render(); });
+    grid.appendChild(b);
+  });
+
+  var field=document.getElementById('field'), ta=document.getElementById('ta'),
+      count=document.getElementById('count'), clearBtn=document.getElementById('clear'),
+      fieldLabel=document.getElementById('fieldLabel');
+
+  function render(){
+    document.querySelectorAll('[data-k]').forEach(function(el){ var k=el.getAttribute('data-k'); if(STR[k]) el.textContent=STR[k][lang]; });
+    document.querySelectorAll('.mode').forEach(function(card,i){
+      card.classList.toggle('on', i===active);
+      card.querySelector('[data-mt]').textContent=MODES[i].title[lang];
+      card.querySelector('[data-ms]').textContent=MODES[i].sub[lang];
+    });
+    fieldLabel.textContent=MODES[active].title[lang];
+    ta.setAttribute('placeholder', MODES[active].ph[lang]);
+    document.querySelectorAll('[data-lang]').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-lang')===lang); });
+  }
+  document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click', function(){ lang=b.getAttribute('data-lang'); render(); }); });
+
+  function updateCount(){ count.textContent=ta.value.length+'/2000'; clearBtn.disabled=ta.value.length===0; }
+  ta.addEventListener('input', updateCount);
+  ta.addEventListener('focus', function(){ field.classList.add('focus'); });
+  ta.addEventListener('blur', function(){ field.classList.remove('focus'); });
+  clearBtn.addEventListener('click', function(){ ta.value=''; updateCount(); ta.focus(); });
+
+  var check=document.getElementById('check');
+  check.addEventListener('click', function(){ if(check.classList.contains('busy'))return; check.classList.add('busy'); setTimeout(function(){check.classList.remove('busy');},1300); });
+
+  render();
 </script>
 </body>
 </html>
