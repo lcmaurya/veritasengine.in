@@ -1,395 +1,2272 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Veritas Intelligence - Ultimate Polish</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-main: #0B0E14;
-            --bg-card: #121820;
-            --text-main: #ffffff;
-            --text-muted: #8B949E;
-            
-            /* Premium Green */
-            --green-glow: rgba(16, 185, 129, 0.18);
-            --green-border: rgba(16, 185, 129, 0.4);
-            --green-bg: linear-gradient(180deg, rgba(16,185,129,0.1) 0%, rgba(18,24,32,0) 100%);
-            --green-accent: #10B981;
-            
-            /* Premium Yellow */
-            --yellow-glow: rgba(234, 179, 8, 0.18);
-            --yellow-border: rgba(234, 179, 8, 0.4);
-            --yellow-bg: linear-gradient(180deg, rgba(234,179,8,0.1) 0%, rgba(18,24,32,0) 100%);
-            --yellow-accent: #EAB308;
-            
-            /* Premium Red */
-            --red-glow: rgba(244, 63, 94, 0.18);
-            --red-border: rgba(244, 63, 94, 0.4);
-            --red-bg: linear-gradient(180deg, rgba(244,63,94,0.12) 0%, rgba(18,24,32,0) 100%);
-            --red-accent: #F43F5E;
+  <meta charset="UTF-8">
 
-            --active-glow: var(--green-glow);
-            --active-border: var(--green-border);
-            --active-bg: var(--green-bg);
-            --active-accent: var(--green-accent);
-        }
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  >
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  <meta name="theme-color" content="#070c13">
 
-        html, body {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000; overflow: hidden; 
-            font-family: 'Inter', sans-serif; color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-        }
+  <title>Veritas Intelligence — Result Card Reference</title>
 
-        .app-wrapper {
-            display: flex; flex-direction: column; width: 100%;
-            height: 100dvh; align-items: center;
-        }
+  <!--
+    VERITAS REFERENCE ONLY
 
-        /* Top Controls (Hidden in production, just for testing) */
-        .controls {
-            display: flex; gap: 8px; padding: 12px; background: #05070A;
-            width: 100%; justify-content: center; flex-shrink: 0; z-index: 100;
-        }
-        .controls button {
-            padding: 10px 18px; border: none; border-radius: 8px;
-            font-weight: 700; font-size: 12px; cursor: pointer; letter-spacing: 0.5px;
-        }
-        .btn-green { background: #10B981; color: #000; }
-        .btn-yellow { background: #EAB308; color: #000; }
-        .btn-red { background: #F43F5E; color: #fff; }
+    केवल layout, spacing, colors, icons और visual hierarchy reference हैं।
 
-        /* The App Container */
-        .mobile-container {
-            width: 100%; max-width: 420px; flex: 1; 
-            background-color: var(--bg-main); display: flex; 
-            flex-direction: column; position: relative; overflow: hidden;
-        }
-        @media (min-width: 421px) {
-            .mobile-container { margin-bottom: 10px; border-radius: 32px; border: 6px solid #222; box-shadow: 0 20px 40px rgba(0,0,0,0.9); }
-        }
+    Production में sample heading, reason, action, advice या contextual chips
+    copy नहीं किए जाएँगे।
 
-        /* Glass Header */
-        .header {
-            display: flex; align-items: center; padding: 18px 20px;
-            background: rgba(11, 14, 20, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.04); z-index: 10; flex-shrink: 0;
-        }
-        .header svg { width: 22px; height: 22px; color: var(--text-muted); margin-right: 16px; }
-        .header-text h1 { margin: 0; font-size: 13px; letter-spacing: 1.5px; font-weight: 800; text-transform: uppercase;}
-        .header-text p { margin: 2px 0 0; font-size: 11px; color: var(--text-muted); font-weight: 500;}
+    Production-visible dynamic text backend canonical response:
+    result.finalPublicVerdictV1
+    से ही आएगा।
+  -->
 
-        /* Smooth Scroll Area */
-        .chat-area {
-            flex: 1; padding: 24px 20px; overflow-y: auto; scroll-behavior: smooth;
-            display: flex; flex-direction: column;
-        }
-        .chat-area::-webkit-scrollbar { display: none; }
-        .chat-area { -ms-overflow-style: none; scrollbar-width: none; }
+  <style>
+    :root {
+      color-scheme: dark;
 
-        /* User Message */
-        .user-message {
-            align-self: flex-end; background: linear-gradient(135deg, #12374A 0%, #0F2D3D 100%);
-            padding: 14px 18px; border-radius: 18px 18px 4px 18px; margin-bottom: 24px;
-            max-width: 85%; font-size: 14px; line-height: 1.5;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.05);
-        }
-        .user-message-time { display: block; font-size: 10px; color: #7CA1B3; text-align: right; margin-top: 6px; font-weight: 500;}
+      --page-bg: #000000;
+      --app-bg: #070c13;
+      --header-bg: rgba(7, 12, 19, 0.95);
 
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+      --card-bg: #101720;
+      --card-deep: #0b1119;
 
-        /* Veritas Card */
-        .veritas-card {
-            background: var(--active-bg); background-color: var(--bg-card);
-            border: 1px solid var(--active-border); border-radius: 24px; padding: 24px;
-            box-shadow: 0 12px 40px var(--active-glow), inset 0 1px 0 rgba(255,255,255,0.05);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); animation: slideUpFade 0.5s ease-out;
-            margin-bottom: 24px; /* Space before suggestion box */
-        }
+      --text-main: #f7f9fc;
+      --text-soft: #d4dae3;
+      --text-muted: #919dab;
 
-        .card-header-top { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.04); }
-        .main-icon-container {
-            width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            border: 2px solid var(--active-accent); box-shadow: 0 0 24px var(--active-glow), inset 0 0 12px var(--active-glow);
-            color: var(--active-accent); flex-shrink: 0; background: rgba(0,0,0,0.3);
-        }
-        .main-icon-container svg { width: 28px; height: 28px; stroke-width: 2.5; }
+      --safe-accent: #18bd8b;
+      --safe-rgb: 24, 189, 139;
 
-        .card-title h2 { margin: 0; font-size: 19px; font-weight: 800; color: var(--active-accent); letter-spacing: -0.3px;}
-        .card-title p { margin: 4px 0 0; font-size: 11px; color: var(--text-muted); letter-spacing: 1.5px; font-weight: 700; text-transform: uppercase;}
-        
-        .mini-badge {
-            display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 12px;
-            font-size: 10px; font-weight: 700; border: 1px solid var(--active-border); color: var(--active-accent);
-            margin-bottom: 8px; background: rgba(0,0,0,0.2);
-        }
-        .mini-badge svg { width: 10px; height: 10px; stroke-width: 3;}
+      --attention-accent: #e9ae2f;
+      --attention-rgb: 233, 174, 47;
 
-        /* Sections */
-        .section { display: flex; gap: 16px; margin-bottom: 24px; }
-        .section-icon {
-            width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
-            display: flex; justify-content: center; align-items: center; color: var(--text-muted); flex-shrink: 0; background: #1A222C;
-        }
-        .section-icon svg { width: 14px; height: 14px; }
-        .section-content h3 { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--active-accent);}
-        .section-content p { margin: 0; font-size: 13px; line-height: 1.6; color: #D1D5DB; font-weight: 400;}
+      --suspicious-accent: #d49a27;
+      --suspicious-rgb: 212, 154, 39;
 
-        /* Action Box */
-        .action-box {
-            background-color: var(--active-accent); border-radius: 16px; padding: 18px; display: flex; gap: 16px;
-            margin-bottom: 24px; color: #000; box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-        .action-box.red-mode { color: #ffffff; }
-        .action-box .section-icon { border: none; background: transparent; color: currentColor; }
-        .action-box .section-icon svg { width: 22px; height: 22px; stroke-width: 2.5;}
-        .action-box .section-content h3 { color: currentColor; font-weight: 800;}
-        .action-box .section-content p { color: currentColor; font-weight: 600; text-shadow: none;}
+      --red-accent: #ef4e60;
+      --red-rgb: 239, 78, 96;
 
-        /* Chips */
-        .chips-container {
-            display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.04);
-        }
-        .chip {
-            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); padding: 8px 12px;
-            border-radius: 10px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 6px; color: #9CA3AF;
-        }
-        .chip svg { width: 12px; height: 12px; color: var(--active-accent); }
+      --unavailable-accent: #98a6b6;
+      --unavailable-rgb: 152, 166, 182;
 
-        /* FIX 1: Suggestion Box moved inside scrollable area */
-        .suggestion-box {
-            background: rgba(56, 189, 248, 0.08); border-radius: 16px; padding: 16px; display: flex; gap: 14px;
-            border: 1px solid rgba(56, 189, 248, 0.15); margin-bottom: 20px;
-        }
-        .suggestion-box svg { width: 18px; height: 18px; color: #38BDF8; flex-shrink: 0; margin-top: 2px;}
-        .suggestion-box p { margin: 0; font-size: 12px; color: #38BDF8; font-weight: 500; line-height: 1.5;}
+      --active-accent: var(--attention-accent);
+      --active-rgb: var(--attention-rgb);
 
-        /* FIX 2: Sleek Glass Footer Input */
-        .footer-input {
-            background: rgba(11, 14, 20, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-            padding: 12px 20px; border-top: 1px solid rgba(255,255,255,0.05); flex-shrink: 0; 
-            padding-bottom: max(12px, env(safe-area-inset-bottom));
-        }
-        .input-bar { display: flex; align-items: center; gap: 12px; }
-        .input-field {
-            flex: 1; background: #1A2028; border: 1px solid rgba(255,255,255,0.1); border-radius: 24px;
-            padding: 12px 18px; color: white; font-size: 13px; outline: none; transition: border 0.3s;
-        }
-        .input-field:focus { border-color: rgba(255,255,255,0.3); }
-        .input-field::placeholder { color: #6E7681; }
-    </style>
+      --action-start: #efb226;
+      --action-end: #c8880d;
+      --action-text: #151008;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      margin: 0;
+
+      background: var(--page-bg);
+      color: var(--text-main);
+
+      font-family:
+        "Noto Sans Devanagari",
+        "Nirmala UI",
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .page {
+      min-height: 100svh;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      background:
+        radial-gradient(
+          circle at 50% -10%,
+          rgba(42, 149, 205, 0.08),
+          transparent 35%
+        ),
+        #000;
+    }
+
+    /* =====================================================
+       PREVIEW CONTROLS
+    ====================================================== */
+
+    .preview-controls {
+      width: 100%;
+
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+
+      padding: 11px 9px;
+
+      background: #030609;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .preview-button {
+      min-height: 39px;
+
+      padding: 8px 13px;
+
+      border: 1px solid #263343;
+      border-radius: 10px;
+
+      color: #dfe6ee;
+      background: #0b1420;
+
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.025em;
+
+      transition:
+        background-color 150ms ease,
+        border-color 150ms ease,
+        color 150ms ease,
+        transform 150ms ease;
+    }
+
+    .preview-button:active {
+      transform: scale(0.98);
+    }
+
+    .preview-button.active {
+      color: #071018;
+      background: var(--active-accent);
+      border-color: var(--active-accent);
+
+      box-shadow:
+        0 0 0 3px rgba(var(--active-rgb), 0.1),
+        0 5px 17px rgba(var(--active-rgb), 0.14);
+    }
+
+    /* =====================================================
+       APP SHELL
+    ====================================================== */
+
+    .app-shell {
+      width: min(100%, 430px);
+      min-height: calc(100svh - 63px);
+
+      display: flex;
+      flex-direction: column;
+
+      position: relative;
+      overflow: hidden;
+
+      background: var(--app-bg);
+    }
+
+    @media (min-width: 481px) {
+      .app-shell {
+        min-height: 790px;
+        max-height: calc(100svh - 90px);
+
+        margin: 15px 0 22px;
+
+        border: 6px solid #32363b;
+        border-radius: 31px;
+
+        box-shadow: 0 22px 65px rgba(0, 0, 0, 0.68);
+      }
+    }
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    .app-header {
+      min-height: 76px;
+
+      display: flex;
+      align-items: center;
+      gap: 11px;
+
+      padding: 13px 15px;
+
+      flex: 0 0 auto;
+
+      background: var(--header-bg);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .header-button {
+      width: 41px;
+      height: 41px;
+      flex: 0 0 41px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid #354355;
+      border-radius: 12px;
+
+      color: #dbe4ed;
+      background: #0a131e;
+    }
+
+    .header-button svg {
+      width: 21px;
+      height: 21px;
+    }
+
+    .brand-shield {
+      width: 36px;
+      height: 42px;
+      flex: 0 0 36px;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-title {
+      margin: 0;
+
+      font-size: 15px;
+      font-weight: 850;
+      letter-spacing: 0.055em;
+
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      margin-top: 4px;
+
+      color: var(--text-muted);
+
+      font-size: 11px;
+      font-weight: 520;
+    }
+
+    /* =====================================================
+       SCROLL AREA
+    ====================================================== */
+
+    .chat-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+
+      overflow-y: auto;
+      overscroll-behavior-y: contain;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+
+      padding: 17px 15px 21px;
+    }
+
+    .chat-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* =====================================================
+       USER MESSAGE
+    ====================================================== */
+
+    .user-message {
+      width: min(84%, 350px);
+
+      margin-left: auto;
+      margin-bottom: 18px;
+
+      padding: 12px 15px;
+
+      border: 1px solid rgba(255, 255, 255, 0.055);
+      border-radius: 18px 18px 4px 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          #155269,
+          #103b4e
+        );
+
+      box-shadow: 0 7px 21px rgba(0, 0, 0, 0.18);
+    }
+
+    .message-label {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: #b9d4de;
+
+      font-size: 10px;
+      font-weight: 520;
+    }
+
+    .message-text {
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 590;
+
+      overflow-wrap: anywhere;
+    }
+
+    .message-meta {
+      display: block;
+
+      margin-top: 7px;
+
+      color: #b4ccd5;
+      text-align: right;
+
+      font-size: 10px;
+      font-weight: 560;
+    }
+
+    /* =====================================================
+       RESULT CARD
+    ====================================================== */
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(7px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-card {
+      position: relative;
+      overflow: hidden;
+
+      border: 1px solid rgba(var(--active-rgb), 0.46);
+      border-radius: 22px;
+
+      background:
+        linear-gradient(
+          180deg,
+          rgba(var(--active-rgb), 0.085),
+          rgba(16, 23, 32, 0.98) 25%,
+          rgba(11, 17, 25, 0.99)
+        );
+
+      box-shadow:
+        0 14px 34px rgba(0, 0, 0, 0.26),
+        0 0 24px rgba(var(--active-rgb), 0.075),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+      animation: card-in 230ms ease-out;
+    }
+
+    .card-hero {
+      display: grid;
+      grid-template-columns: 65px minmax(0, 1fr);
+      align-items: center;
+      gap: 13px;
+
+      padding: 17px 17px 16px;
+    }
+
+    .main-icon {
+      width: 61px;
+      height: 61px;
+
+      display: grid;
+      place-items: center;
+
+      border: 2px solid var(--active-accent);
+      border-radius: 50%;
+
+      color: var(--active-accent);
+      background: rgba(2, 7, 12, 0.34);
+
+      box-shadow:
+        0 0 17px rgba(var(--active-rgb), 0.14),
+        inset 0 0 13px rgba(var(--active-rgb), 0.07);
+    }
+
+    .main-icon svg {
+      width: 31px;
+      height: 31px;
+      stroke-width: 2.35;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .status-badge {
+      width: max-content;
+      max-width: 100%;
+
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+
+      padding: 5px 9px;
+
+      border: 1px solid rgba(var(--active-rgb), 0.54);
+      border-radius: 999px;
+
+      color: var(--active-accent);
+      background: rgba(var(--active-rgb), 0.045);
+
+      font-size: 10px;
+      line-height: 1;
+      font-weight: 790;
+    }
+
+    .status-badge svg {
+      width: 11px;
+      height: 11px;
+      flex: 0 0 11px;
+    }
+
+    .verdict-heading {
+      margin: 9px 0 4px;
+
+      color: var(--active-accent);
+
+      font-size: clamp(21px, 6vw, 27px);
+      line-height: 1.14;
+      font-weight: 850;
+      letter-spacing: -0.025em;
+
+      overflow-wrap: anywhere;
+    }
+
+    .severity-label {
+      color: var(--active-accent);
+
+      font-size: 12px;
+      line-height: 1.2;
+      font-weight: 820;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .card-divider {
+      height: 1px;
+
+      margin: 0 15px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(var(--active-rgb), 0.38),
+          transparent
+        );
+    }
+
+    .card-body {
+      padding: 9px 16px 13px;
+    }
+
+    /* =====================================================
+       INFORMATION ROW
+    ====================================================== */
+
+    .information-row {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: start;
+      gap: 11px;
+
+      padding: 11px 0;
+    }
+
+    .section-icon {
+      width: 34px;
+      height: 34px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+
+      color: var(--text-muted);
+      background: #151e28;
+    }
+
+    .section-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .section-content {
+      min-width: 0;
+    }
+
+    .section-title {
+      margin: 0 0 5px;
+
+      color: var(--active-accent);
+
+      font-size: 16px;
+      line-height: 1.2;
+      font-weight: 780;
+    }
+
+    .section-text {
+      margin: 0;
+
+      color: var(--text-soft);
+
+      font-size: 14px;
+      line-height: 1.52;
+      font-weight: 460;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =====================================================
+       ACTION PANEL
+    ====================================================== */
+
+    .action-panel {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr);
+      align-items: start;
+      gap: 11px;
+
+      margin: 7px 0 10px;
+      padding: 15px;
+
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+
+      color: var(--action-text);
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--action-start),
+          var(--action-end)
+        );
+
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.13),
+        0 9px 21px rgba(0, 0, 0, 0.19);
+    }
+
+    .action-panel .section-icon {
+      width: 40px;
+      height: 40px;
+
+      border-color: rgba(0, 0, 0, 0.22);
+
+      color: currentColor;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .action-panel .section-icon svg {
+      width: 21px;
+      height: 21px;
+      stroke-width: 2.5;
+    }
+
+    .action-title {
+      margin: 0 0 5px;
+
+      color: currentColor;
+
+      font-size: 16px;
+      line-height: 1.25;
+      font-weight: 850;
+    }
+
+    .action-text {
+      margin: 0;
+
+      color: currentColor;
+
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 640;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =====================================================
+       CHIPS
+    ====================================================== */
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+
+      margin-top: 7px;
+      padding-top: 14px;
+
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .chip {
+      min-height: 30px;
+
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+
+      padding: 6px 9px;
+
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 9px;
+
+      color: #aeb8c5;
+      background: rgba(255, 255, 255, 0.025);
+
+      font-size: 11px;
+      line-height: 1.25;
+      font-weight: 570;
+    }
+
+    .chip svg {
+      width: 13px;
+      height: 13px;
+      flex: 0 0 13px;
+
+      color: var(--active-accent);
+    }
+
+    /* =====================================================
+       DETAILS
+    ====================================================== */
+
+    .details-toggle {
+      width: 100%;
+      min-height: 54px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      padding: 0 15px;
+
+      border: 0;
+      border-top: 1px solid rgba(var(--active-rgb), 0.19);
+
+      color: var(--text-main);
+      background: rgba(5, 10, 16, 0.56);
+
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .details-toggle-left,
+    .details-toggle-right {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .details-toggle-right {
+      color: var(--active-accent);
+    }
+
+    .details-toggle svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .details-panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+
+      padding: 13px 14px 14px;
+
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+      background: #070c12;
+    }
+
+    .details-panel.open {
+      display: grid;
+    }
+
+    .detail-box {
+      min-width: 0;
+
+      padding: 9px;
+
+      border: 1px solid #1b2734;
+      border-radius: 10px;
+
+      background: #0a121b;
+    }
+
+    .detail-key {
+      display: block;
+
+      margin-bottom: 4px;
+
+      color: #7f8c9c;
+
+      font-size: 10px;
+      font-weight: 560;
+    }
+
+    .detail-value {
+      display: block;
+
+      color: #d7dee7;
+
+      font-size: 11px;
+      line-height: 1.35;
+      font-weight: 720;
+
+      overflow-wrap: anywhere;
+    }
+
+    /* =====================================================
+       FOLLOW-UP PANEL
+    ====================================================== */
+
+    .follow-up {
+      margin-top: 13px;
+
+      display: grid;
+      grid-template-columns: 35px minmax(0, 1fr);
+      gap: 11px;
+      align-items: center;
+
+      padding: 13px;
+
+      border: 1px solid rgba(56, 189, 248, 0.16);
+      border-radius: 15px;
+
+      background: rgba(56, 189, 248, 0.065);
+    }
+
+    .follow-up-icon {
+      width: 35px;
+      height: 35px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid rgba(56, 189, 248, 0.26);
+      border-radius: 50%;
+
+      color: #48c8f5;
+      background: rgba(56, 189, 248, 0.04);
+    }
+
+    .follow-up-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .follow-up-text {
+      margin: 0;
+
+      color: #62c8ee;
+
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 620;
+    }
+
+    /* =====================================================
+       COMPOSER
+    ====================================================== */
+
+    .composer {
+      min-height: 74px;
+
+      display: grid;
+      grid-template-columns: 38px 38px minmax(0, 1fr) 46px;
+      align-items: center;
+      gap: 8px;
+
+      padding:
+        10px
+        13px
+        max(10px, env(safe-area-inset-bottom));
+
+      flex: 0 0 auto;
+
+      border-top: 1px solid rgba(255, 255, 255, 0.055);
+
+      background: rgba(7, 12, 19, 0.97);
+
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    .composer-icon-button {
+      width: 38px;
+      height: 38px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid #263749;
+      border-radius: 50%;
+
+      color: #8e9bab;
+      background: #0b151f;
+    }
+
+    .composer-icon-button svg {
+      width: 19px;
+      height: 19px;
+    }
+
+    .composer-input {
+      min-width: 0;
+      height: 42px;
+
+      padding: 0 14px;
+
+      border: 1px solid #273747;
+      border-radius: 999px;
+      outline: 0;
+
+      color: #e7edf4;
+      background: #121a24;
+
+      font-size: 12px;
+    }
+
+    .composer-input::placeholder {
+      color: #667382;
+    }
+
+    .composer-input:focus {
+      border-color: rgba(56, 189, 248, 0.42);
+
+      box-shadow:
+        0 0 0 3px rgba(56, 189, 248, 0.07);
+    }
+
+    .send-button {
+      width: 46px;
+      height: 46px;
+
+      display: grid;
+      place-items: center;
+
+      border: 0;
+      border-radius: 50%;
+
+      color: #00141c;
+
+      background:
+        linear-gradient(
+          145deg,
+          #39d2f2,
+          #11afd7
+        );
+
+      box-shadow:
+        0 0 19px rgba(38, 200, 236, 0.18);
+    }
+
+    .send-button svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* =====================================================
+       SMALL SCREEN
+    ====================================================== */
+
+    @media (max-width: 355px) {
+      .preview-button {
+        padding: 8px 9px;
+        font-size: 10px;
+      }
+
+      .chat-scroll {
+        padding-left: 11px;
+        padding-right: 11px;
+      }
+
+      .card-hero {
+        grid-template-columns: 57px minmax(0, 1fr);
+        gap: 10px;
+
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+
+      .main-icon {
+        width: 55px;
+        height: 55px;
+      }
+
+      .verdict-heading {
+        font-size: 21px;
+      }
+
+      .card-body {
+        padding-left: 13px;
+        padding-right: 13px;
+      }
+
+      .section-text,
+      .action-text {
+        font-size: 13px;
+      }
+
+      .composer {
+        grid-template-columns: 35px 35px minmax(0, 1fr) 42px;
+        gap: 6px;
+
+        padding-left: 9px;
+        padding-right: 9px;
+      }
+
+      .composer-icon-button {
+        width: 35px;
+        height: 35px;
+      }
+
+      .send-button {
+        width: 42px;
+        height: 42px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<div class="app-wrapper">
-    <div class="controls">
-        <button class="btn-green" onclick="setTheme('green')">SAFE</button>
-        <button class="btn-yellow" onclick="setTheme('yellow')">ATTENTION</button>
-        <button class="btn-red" onclick="setTheme('red')">RED ALERT</button>
-    </div>
+  <main class="page">
 
-    <div class="mobile-container" id="app-theme">
-        
-        <div class="header">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            <div class="header-text">
-                <h1>Veritas Intelligence</h1>
-                <p>सत्यापित करें, सुरक्षित रहें</p>
-            </div>
+    <!-- Preview-only buttons; production में नहीं चाहिए -->
+    <nav
+      class="preview-controls"
+      aria-label="Preview result states"
+    >
+      <button
+        class="preview-button"
+        data-state="safe"
+        type="button"
+      >
+        SAFE
+      </button>
+
+      <button
+        class="preview-button active"
+        data-state="attention"
+        type="button"
+      >
+        ATTENTION
+      </button>
+
+      <button
+        class="preview-button"
+        data-state="suspicious"
+        type="button"
+      >
+        SUSPICIOUS
+      </button>
+
+      <button
+        class="preview-button"
+        data-state="red"
+        type="button"
+      >
+        RED
+      </button>
+
+      <button
+        class="preview-button"
+        data-state="unavailable"
+        type="button"
+      >
+        UNAVAILABLE
+      </button>
+    </nav>
+
+    <section
+      class="app-shell"
+      aria-label="Veritas Intelligence preview"
+    >
+
+      <header class="app-header">
+
+        <button
+          class="header-button"
+          type="button"
+          aria-label="पीछे जाएँ"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <svg
+          class="brand-shield"
+          viewBox="0 0 60 70"
+          aria-hidden="true"
+        >
+          <defs>
+            <linearGradient
+              id="brandShieldFill"
+              x1="0"
+              x2="1"
+            >
+              <stop
+                offset="0"
+                stop-color="#a9bbca"
+              ></stop>
+
+              <stop
+                offset="1"
+                stop-color="#d8e4ee"
+              ></stop>
+            </linearGradient>
+          </defs>
+
+          <path
+            d="M30 3 L54 12 V32 C54 50 45 61 30 69 C15 61 6 50 6 32 V12 Z"
+            fill="rgba(202,221,236,0.08)"
+            stroke="#9eb1c1"
+            stroke-width="3"
+          ></path>
+
+          <path
+            d="M30 10 L47 16 V32 C47 44 41 53 30 60 C19 53 13 44 13 32 V16 Z"
+            fill="url(#brandShieldFill)"
+            opacity="0.9"
+          ></path>
+        </svg>
+
+        <div class="brand-copy">
+          <h1 class="brand-title">
+            VERITAS INTELLIGENCE
+          </h1>
+
+          <div class="brand-subtitle">
+            सत्यापित करें, सुरक्षित रहें
+          </div>
         </div>
 
-        <div class="chat-area" id="chat-box">
-            <div class="user-message">
-                <span id="user-msg-text">Bhai kal ghar par milte hain</span>
-                <span class="user-message-time">12:45 PM ✔✔</span>
-            </div>
+      </header>
 
-            <div class="veritas-card" id="v-card">
-                <div class="card-header-top">
-                    <div class="main-icon-container" id="main-icon"></div>
-                    <div class="card-title">
-                        <span class="mini-badge" id="badge-text"></span>
-                        <h2 id="main-heading">यह सुरक्षित लग रहा है</h2>
-                        <p id="sub-heading">SAFE</p>
-                    </div>
-                </div>
+      <section
+        class="chat-scroll"
+        id="chatScroll"
+      >
 
-                <div class="section">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                    </div>
-                    <div class="section-content">
-                        <h3 id="why-title">क्यों?</h3>
-                        <p id="why-text">यह एक सामान्य बातचीत लग रही है। इसमें कोई डर, दबाव, सीक्रेट माँग या संदिग्ध लिंक नहीं दिख रहा।</p>
-                    </div>
-                </div>
+        <div class="user-message">
 
-                <div class="action-box" id="action-box">
-                    <div class="section-icon" id="action-icon"></div>
-                    <div class="section-content">
-                        <h3 id="action-title">अब क्या करें</h3>
-                        <p id="action-text">आप आराम से जवाब दे सकते हैं। फिर भी OTP, PIN, password या payment detail किसी से share न करें।</p>
-                    </div>
-                </div>
+          <span class="message-label">
+            आपने भेजा
+          </span>
 
-                <div class="section">
-                    <div class="section-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    </div>
-                    <div class="section-content">
-                        <h3 id="advice-title">सिस्टम की सलाह</h3>
-                        <p id="advice-text">आपकी सुरक्षा के लिए, सामान्य मैसेज में भी निजी जानकारी सोच-समझकर ही साझा करें।</p>
-                    </div>
-                </div>
+          <div
+            class="message-text"
+            id="messageText"
+          ></div>
 
-                <div class="chips-container" id="chips-area"></div>
-            </div>
-            
-            <!-- FIXED: Suggestion box is now part of the scrollable chat! -->
-            <div class="suggestion-box">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-                <p>Aur kuchh check karna ho to neeche message, link ya screenshot daalein.</p>
-            </div>
+          <span class="message-meta">
+            12:45 PM ✓✓
+          </span>
+
         </div>
 
-        <!-- FIXED: Footer is now super sleek with just the input bar -->
-        <div class="footer-input">
-            <div class="input-bar">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#6E7681" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#6E7681" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                <input type="text" class="input-field" placeholder="यहाँ message, link या screenshot का text लिखें">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <article
+          class="result-card"
+          id="resultCard"
+          aria-live="polite"
+        >
+
+          <section class="card-hero">
+
+            <div
+              class="main-icon"
+              id="mainIcon"
+              aria-hidden="true"
+            ></div>
+
+            <div class="hero-copy">
+
+              <div
+                class="status-badge"
+                id="statusBadge"
+              ></div>
+
+              <h2
+                class="verdict-heading"
+                id="verdictHeading"
+              ></h2>
+
+              <div
+                class="severity-label"
+                id="severityLabel"
+              ></div>
+
             </div>
-        </div>
 
-    </div>
-</div>
+          </section>
 
-    <script>
-        const svgs = {
-            shieldCheck: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><polyline points="9 12 11 14 15 10"></polyline></svg>`,
-            searchAlert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="12"></line><line x1="11" y1="16" x2="11.01" y2="16"></line></svg>`,
-            stopHand: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V5a2 2 0 0 0-4 0v3"></path><path d="M14 6V3a2 2 0 0 0-4 0v5"></path><path d="M10 7V4a2 2 0 0 0-4 0v9L4.2 11.2a2 2 0 0 0-2.8 2.8l5.6 5.6a8 8 0 0 0 5.6 2.4H15a8 8 0 0 0 8-8V10a2 2 0 0 0-4 0v-2"></path></svg>`,
-            check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
-            alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`,
-            minus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>`
-        };
+          <div class="card-divider"></div>
 
-        const data = {
-            green: {
-                msg: "Bhai kal ghar par milte hain",
-                badgeHtml: `${svgs.check} सुरक्षित`,
-                heading: "यह सुरक्षित लग रहा है",
-                sub: "SAFE",
-                mainIconHtml: svgs.shieldCheck,
-                whyTitle: "क्यों?",
-                whyText: "यह एक सामान्य बातचीत लग रही है। इसमें कोई डर, दबाव, सीक्रेट माँग या संदिग्ध लिंक नहीं दिख रहा।",
-                actionIconHtml: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>`,
-                actionTitle: "अब क्या करें",
-                actionText: "आप आराम से जवाब दे सकते हैं। फिर भी OTP, PIN, password या payment detail किसी से share न करें।",
-                adviceText: "आपकी सुरक्षा के लिए, सामान्य मैसेज में भी निजी जानकारी सोच-समझकर ही साझा करें।",
-                chips: [
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>`, text: "सामान्य बातचीत" },
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`, text: "कोई सीक्रेट माँग नहीं" },
-                    { icon: svgs.check, text: "कोई दबाव नहीं" }
-                ],
-                isRedMode: false
-            },
-            yellow: {
-                msg: "KYC update karne ke liye is link par click karein",
-                badgeHtml: `${svgs.alert} सतर्क रहें`,
-                heading: "रुककर जाँच करें",
-                sub: "ATTENTION",
-                mainIconHtml: svgs.searchAlert,
-                whyTitle: "क्यों?",
-                whyText: "इस मैसेज में link aur account se judi baat hai. यह जल्दी में action करवाने की कोशिश कर सकता है, इसलिए पहले जाँच ज़रूरी है।",
-                actionIconHtml: svgs.alert,
-                actionTitle: "अब क्या करें",
-                actionText: "Link par turant click na karein. Apne bank, app ya official website ko khud kholkar check karein.",
-                adviceText: "आपकी सुरक्षा के लिए, message में दिए गए shortcut की जगह हमेशा official app ya website se verify karein.",
-                chips: [
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>`, text: "Link मिला है" },
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`, text: "तुरंत action का दबाव" },
-                    { icon: svgs.check, text: "पहले verify करें" }
-                ],
-                isRedMode: false
-            },
-            red: {
-                msg: "OTP mujhe abhi do warna account band",
-                badgeHtml: `${svgs.minus} खतरा है`,
-                heading: "अभी रुक जाएँ",
-                sub: "RED ALERT",
-                mainIconHtml: svgs.stopHand,
-                whyTitle: "क्यों?",
-                whyText: "Ye message aapse OTP, PIN ya password jaisi secret jankari maang raha hai.",
-                actionIconHtml: svgs.check,
-                actionTitle: "अब क्या करें",
-                actionText: "Kuch bhi share na karein. Apne bank ya app ko khud kholkar check karein.",
-                adviceText: "Aapki safety ke liye is message ka jawab na dein aur koi code share na karein.",
-                chips: [
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`, text: "Secret maanga gaya" },
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`, text: "Jaldi ka dabav" },
-                    { icon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="15" x2="16" y2="15"></line><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>`, text: "Account band ka dar" }
-                ],
-                isRedMode: true
-            }
-        };
+          <section class="card-body">
 
-        function setTheme(themeName) {
-            const root = document.documentElement;
-            const card = document.getElementById('v-card');
-            
-            card.style.animation = 'none';
-            card.offsetHeight; 
-            card.style.animation = null;
+            <div class="information-row">
 
-            root.style.setProperty('--active-glow', `var(--${themeName}-glow)`);
-            root.style.setProperty('--active-border', `var(--${themeName}-border)`);
-            root.style.setProperty('--active-bg', `var(--${themeName}-bg)`);
-            root.style.setProperty('--active-accent', `var(--${themeName}-accent)`);
+              <div
+                class="section-icon"
+                aria-hidden="true"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  ></circle>
 
-            const tData = data[themeName];
-            
-            document.getElementById('user-msg-text').innerText = tData.msg;
-            document.getElementById('badge-text').innerHTML = tData.badgeHtml;
-            document.getElementById('main-heading').innerText = tData.heading;
-            document.getElementById('sub-heading').innerText = tData.sub;
-            document.getElementById('main-icon').innerHTML = tData.mainIconHtml;
-            
-            document.getElementById('why-title').innerText = tData.whyTitle;
-            document.getElementById('why-text').innerText = tData.whyText;
-            
-            document.getElementById('action-icon').innerHTML = tData.actionIconHtml;
-            document.getElementById('action-title').innerText = tData.actionTitle;
-            document.getElementById('action-text').innerText = tData.actionText;
-            
-            document.getElementById('advice-text').innerText = tData.adviceText;
+                  <path
+                    d="M9.1 9a3 3 0 0 1 5.82 1c0 2-2.92 3-2.92 3"
+                  ></path>
 
-            const actionBox = document.getElementById('action-box');
-            if (tData.isRedMode) {
-                actionBox.classList.add('red-mode');
-            } else {
-                actionBox.classList.remove('red-mode');
-            }
+                  <line
+                    x1="12"
+                    y1="17"
+                    x2="12.01"
+                    y2="17"
+                  ></line>
+                </svg>
+              </div>
 
-            const chipsArea = document.getElementById('chips-area');
-            chipsArea.innerHTML = '';
-            tData.chips.forEach(chip => {
-                const chipDiv = document.createElement('div');
-                chipDiv.className = 'chip';
-                chipDiv.innerHTML = `${chip.icon} ${chip.text}`;
-                chipsArea.appendChild(chipDiv);
-            });
-            
-            // Auto scroll to top when theme changes so user sees the header
-            document.getElementById('chat-box').scrollTop = 0;
+              <div class="section-content">
+
+                <h3 class="section-title">
+                  क्यों?
+                </h3>
+
+                <p
+                  class="section-text"
+                  id="reasonText"
+                ></p>
+
+              </div>
+
+            </div>
+
+            <section
+              class="action-panel"
+              id="actionPanel"
+            >
+
+              <div
+                class="section-icon"
+                id="actionIcon"
+                aria-hidden="true"
+              ></div>
+
+              <div class="section-content">
+
+                <h3
+                  class="action-title"
+                  id="actionLabel"
+                ></h3>
+
+                <p
+                  class="action-text"
+                  id="actionText"
+                ></p>
+
+              </div>
+
+            </section>
+
+            <div
+              class="information-row"
+              id="benefitRow"
+            >
+
+              <div
+                class="section-icon"
+                aria-hidden="true"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle
+                    cx="12"
+                    cy="12"
+                    r="10"
+                  ></circle>
+
+                  <line
+                    x1="12"
+                    y1="16"
+                    x2="12"
+                    y2="12"
+                  ></line>
+
+                  <line
+                    x1="12"
+                    y1="8"
+                    x2="12.01"
+                    y2="8"
+                  ></line>
+                </svg>
+              </div>
+
+              <div class="section-content">
+
+                <h3 class="section-title">
+                  Veritas की सलाह
+                </h3>
+
+                <p
+                  class="section-text"
+                  id="benefitText"
+                ></p>
+
+              </div>
+
+            </div>
+
+            <div
+              class="chips"
+              id="chips"
+            ></div>
+
+          </section>
+
+          <button
+            class="details-toggle"
+            id="detailsToggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="detailsPanel"
+          >
+
+            <span class="details-toggle-left">
+
+              <span id="detailsToggleLabel">
+                और जानकारी
+              </span>
+
+              <svg
+                id="detailsChevron"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <polyline
+                  points="6 9 12 15 18 9"
+                ></polyline>
+              </svg>
+
+            </span>
+
+            <span class="details-toggle-right">
+
+              विवरण देखें
+
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+              >
+                <path
+                  d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                ></path>
+
+                <polyline
+                  points="14 2 14 8 20 8"
+                ></polyline>
+
+                <line
+                  x1="8"
+                  y1="13"
+                  x2="16"
+                  y2="13"
+                ></line>
+
+                <line
+                  x1="8"
+                  y1="17"
+                  x2="16"
+                  y2="17"
+                ></line>
+              </svg>
+
+            </span>
+
+          </button>
+
+          <section
+            class="details-panel"
+            id="detailsPanel"
+          >
+
+            <div class="detail-box">
+
+              <span class="detail-key">
+                संदर्भ कोड
+              </span>
+
+              <strong
+                class="detail-value"
+                id="contextCode"
+              ></strong>
+
+            </div>
+
+            <div class="detail-box">
+
+              <span class="detail-key">
+                कार्रवाई कोड
+              </span>
+
+              <strong
+                class="detail-value"
+                id="actionCode"
+              ></strong>
+
+            </div>
+
+            <div class="detail-box">
+
+              <span class="detail-key">
+                लिंक स्थिति
+              </span>
+
+              <strong
+                class="detail-value"
+                id="linkStatus"
+              ></strong>
+
+            </div>
+
+            <div class="detail-box">
+
+              <span class="detail-key">
+                विश्वास
+              </span>
+
+              <strong
+                class="detail-value"
+                id="confidence"
+              ></strong>
+
+            </div>
+
+          </section>
+
+        </article>
+
+        <aside class="follow-up">
+
+          <div
+            class="follow-up-icon"
+            aria-hidden="true"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 18h6"></path>
+              <path d="M10 22h4"></path>
+
+              <path
+                d="M8.4 14.5A7 7 0 1 1 15.6 14.5C14.6 15.2 14 16.1 14 17h-4c0-.9-.6-1.8-1.6-2.5z"
+              ></path>
+            </svg>
+          </div>
+
+          <p class="follow-up-text">
+            और कुछ जाँचना हो तो नीचे message, link या screenshot डालें।
+          </p>
+
+        </aside>
+
+      </section>
+
+      <footer class="composer">
+
+        <button
+          class="composer-icon-button"
+          type="button"
+          aria-label="फाइल जोड़ें"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path
+              d="M21.44 11.05 12.25 20.24a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"
+            ></path>
+          </svg>
+        </button>
+
+        <button
+          class="composer-icon-button"
+          type="button"
+          aria-label="स्क्रीनशॉट जोड़ें"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <rect
+              x="3"
+              y="3"
+              width="18"
+              height="18"
+              rx="2"
+            ></rect>
+
+            <circle
+              cx="8.5"
+              cy="8.5"
+              r="1.5"
+            ></circle>
+
+            <polyline
+              points="21 15 16 10 5 21"
+            ></polyline>
+          </svg>
+        </button>
+
+        <input
+          class="composer-input"
+          type="text"
+          placeholder="यहाँ message, link या screenshot का text लिखें"
+          aria-label="Message input"
+        >
+
+        <button
+          class="send-button"
+          type="button"
+          aria-label="भेजें"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <line
+              x1="22"
+              y1="2"
+              x2="11"
+              y2="13"
+            ></line>
+
+            <polygon
+              points="22 2 15 22 11 13 2 9 22 2"
+            ></polygon>
+          </svg>
+        </button>
+
+      </footer>
+
+    </section>
+
+  </main>
+
+  <script>
+    const icons = {
+      shieldCheck: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <polyline points="9 12 11 14 15 10"></polyline>
+        </svg>
+      `,
+
+      searchAlert: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="12"></line>
+          <line x1="11" y1="16" x2="11.01" y2="16"></line>
+        </svg>
+      `,
+
+      search: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      `,
+
+      stopHand: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M18 8V5a2 2 0 0 0-4 0v3"></path>
+          <path d="M14 6V3a2 2 0 0 0-4 0v5"></path>
+          <path d="M10 7V4a2 2 0 0 0-4 0v9L4.2 11.2a2 2 0 0 0-2.8 2.8l5.6 5.6a8 8 0 0 0 5.6 2.4H15a8 8 0 0 0 8-8V10a2 2 0 0 0-4 0V8"></path>
+        </svg>
+      `,
+
+      info: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="16" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+      `,
+
+      check: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      `,
+
+      alert: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="12" y1="7" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      `,
+
+      link: `
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+        </svg>
+      `
+    };
+
+    /*
+      नीचे का data सिर्फ visual demo के लिए है।
+
+      Production में:
+      heading
+      reason
+      actionLabel
+      action
+      benefitLine
+      detail
+      limitation
+
+      backend canonical response से आएँगे।
+    */
+
+    const states = {
+      safe: {
+        accent: "#18bd8b",
+        rgb: "24, 189, 139",
+
+        actionStart: "#20c792",
+        actionEnd: "#13aa7b",
+        actionText: "#07130f",
+
+        message:
+          "Bhai kal ghar par milte hain",
+
+        badge:
+          `${icons.check}<span>सुरक्षित</span>`,
+
+        heading:
+          "यह मैसेज सुरक्षित लग रहा है",
+
+        severity:
+          "SAFE",
+
+        mainIcon:
+          icons.shieldCheck,
+
+        reason:
+          "यह सामान्य बातचीत का मैसेज लग रहा है। इसमें अभी कोई खतरे वाली बात नहीं मिली।",
+
+        actionLabel:
+          "अब क्या करें",
+
+        action:
+          "आप बातचीत जारी रख सकते हैं।",
+
+        actionIcon:
+          icons.check,
+
+        benefitLine:
+          "निजी जानकारी सोच-समझकर ही साझा करें।",
+
+        chips: [
+          {
+            icon: icons.shieldCheck,
+            text: "SAFE"
+          },
+          {
+            icon: icons.link,
+            text: "NO_LINK"
+          },
+          {
+            icon: icons.info,
+            text: "medium"
+          }
+        ],
+
+        contextCode:
+          "NORMAL_CHAT",
+
+        actionCode:
+          "CONTINUE_CONVERSATION",
+
+        linkStatus:
+          "NO_LINK",
+
+        confidence:
+          "medium"
+      },
+
+      attention: {
+        accent: "#e9ae2f",
+        rgb: "233, 174, 47",
+
+        actionStart: "#efb226",
+        actionEnd: "#c8880d",
+        actionText: "#151008",
+
+        message:
+          "KYC update karne ke liye is link par click karein",
+
+        badge:
+          `${icons.alert}<span>सतर्क रहें</span>`,
+
+        heading:
+          "रुककर जाँच करें",
+
+        severity:
+          "ATTENTION",
+
+        mainIcon:
+          icons.searchAlert,
+
+        reason:
+          "इस मैसेज में account और पहचान से जुड़ी बात है। इसलिए पहले जाँच जरूरी है।",
+
+        actionLabel:
+          "अब क्या करें",
+
+        action:
+          "Link पर तुरंत click न करें। Official app या website खुद खोलकर check करें।",
+
+        actionIcon:
+          icons.alert,
+
+        benefitLine:
+          "Message में दिए shortcut की जगह official source से verify करें।",
+
+        chips: [
+          {
+            icon: icons.alert,
+            text: "ATTENTION"
+          },
+          {
+            icon: icons.link,
+            text: "LINK_PRESENT"
+          },
+          {
+            icon: icons.info,
+            text: "medium"
+          }
+        ],
+
+        contextCode:
+          "KYC_IDENTITY_PRESSURE",
+
+        actionCode:
+          "USE_OFFICIAL_APP",
+
+        linkStatus:
+          "LINK_PRESENT",
+
+        confidence:
+          "medium"
+      },
+
+      suspicious: {
+        accent: "#d49a27",
+        rgb: "212, 154, 39",
+
+        actionStart: "#a86f11",
+        actionEnd: "#75500f",
+        actionText: "#ffffff",
+
+        message:
+          "Aapka bijli connection kat jayega, is number par turant call karein",
+
+        badge:
+          `${icons.search}<span>संदिग्ध संकेत</span>`,
+
+        heading:
+          "सावधान — पहले जाँच करें",
+
+        severity:
+          "SUSPICIOUS",
+
+        mainIcon:
+          icons.search,
+
+        reason:
+          "मैसेज में संदिग्ध संकेत हैं, लेकिन सही जोखिम का संदर्भ पूरी तरह साफ नहीं है।",
+
+        actionLabel:
+          "आपकी सुरक्षा के लिए",
+
+        action:
+          "अभी कोई कार्रवाई न करें। भरोसेमंद source से खुद जाँच करें।",
+
+        actionIcon:
+          icons.search,
+
+        benefitLine:
+          "Official bill, app या website से स्थिति verify करें।",
+
+        chips: [
+          {
+            icon: icons.search,
+            text: "SUSPICIOUS"
+          },
+          {
+            icon: icons.link,
+            text: "NO_LINK"
+          },
+          {
+            icon: icons.info,
+            text: "medium"
+          }
+        ],
+
+        contextCode:
+          "AMBIGUOUS_VERIFY_FIRST",
+
+        actionCode:
+          "VERIFY_TRUSTED_SOURCE",
+
+        linkStatus:
+          "NO_LINK",
+
+        confidence:
+          "medium"
+      },
+
+      red: {
+        accent: "#ef4e60",
+        rgb: "239, 78, 96",
+
+        actionStart: "#f04f61",
+        actionEnd: "#c83245",
+        actionText: "#ffffff",
+
+        message:
+          "OTP mujhe abhi do warna account band ho jayega",
+
+        badge:
+          `${icons.alert}<span>खतरा है</span>`,
+
+        heading:
+          "अभी रुक जाएँ",
+
+        severity:
+          "RED ALERT",
+
+        mainIcon:
+          icons.stopHand,
+
+        reason:
+          "यह मैसेज आपसे OTP, PIN या password जैसी secret जानकारी माँग रहा है।",
+
+        actionLabel:
+          "अब क्या करें",
+
+        action:
+          "कुछ भी share न करें। अपने bank या app को खुद खोलकर check करें।",
+
+        actionIcon:
+          icons.alert,
+
+        benefitLine:
+          "इस message का जवाब न दें और कोई code share न करें।",
+
+        chips: [
+          {
+            icon: icons.alert,
+            text: "RED"
+          },
+          {
+            icon: icons.link,
+            text: "NO_LINK"
+          },
+          {
+            icon: icons.info,
+            text: "high"
+          }
+        ],
+
+        contextCode:
+          "OTP_SECRET_PRESSURE",
+
+        actionCode:
+          "DO_NOT_SHARE_SECRET",
+
+        linkStatus:
+          "NO_LINK",
+
+        confidence:
+          "high"
+      },
+
+      unavailable: {
+        accent: "#98a6b6",
+        rgb: "152, 166, 182",
+
+        actionStart: "#354250",
+        actionEnd: "#25313d",
+        actionText: "#ffffff",
+
+        message:
+          "Hello bhai",
+
+        badge:
+          `${icons.info}<span>जानकारी उपलब्ध नहीं</span>`,
+
+        heading:
+          "अभी परिणाम उपलब्ध नहीं है",
+
+        severity:
+          "UNAVAILABLE",
+
+        mainIcon:
+          icons.info,
+
+        reason:
+          "इस समय सुरक्षित निष्कर्ष दिखाने के लिए जरूरी जानकारी उपलब्ध नहीं है।",
+
+        actionLabel:
+          "अब क्या करें",
+
+        action:
+          "कुछ देर बाद फिर से जाँच करें।",
+
+        actionIcon:
+          icons.info,
+
+        benefitLine:
+          "",
+
+        chips: [
+          {
+            icon: icons.info,
+            text: "UNAVAILABLE"
+          },
+          {
+            icon: icons.link,
+            text: "UNKNOWN"
+          }
+        ],
+
+        contextCode:
+          "UNAVAILABLE",
+
+        actionCode:
+          "TRY_AGAIN",
+
+        linkStatus:
+          "UNKNOWN",
+
+        confidence:
+          "—"
+      }
+    };
+
+    const root =
+      document.documentElement;
+
+    const chatScroll =
+      document.getElementById("chatScroll");
+
+    const resultCard =
+      document.getElementById("resultCard");
+
+    function setState(stateName) {
+      const state =
+        states[stateName];
+
+      if (!state) {
+        return;
+      }
+
+      root.style.setProperty(
+        "--active-accent",
+        state.accent
+      );
+
+      root.style.setProperty(
+        "--active-rgb",
+        state.rgb
+      );
+
+      root.style.setProperty(
+        "--action-start",
+        state.actionStart
+      );
+
+      root.style.setProperty(
+        "--action-end",
+        state.actionEnd
+      );
+
+      root.style.setProperty(
+        "--action-text",
+        state.actionText
+      );
+
+      document
+        .querySelectorAll(".preview-button")
+        .forEach((button) => {
+          button.classList.toggle(
+            "active",
+            button.dataset.state === stateName
+          );
+        });
+
+      document.getElementById(
+        "messageText"
+      ).textContent = state.message;
+
+      document.getElementById(
+        "statusBadge"
+      ).innerHTML = state.badge;
+
+      document.getElementById(
+        "verdictHeading"
+      ).textContent = state.heading;
+
+      document.getElementById(
+        "severityLabel"
+      ).textContent = state.severity;
+
+      document.getElementById(
+        "mainIcon"
+      ).innerHTML = state.mainIcon;
+
+      document.getElementById(
+        "reasonText"
+      ).textContent = state.reason;
+
+      document.getElementById(
+        "actionLabel"
+      ).textContent = state.actionLabel;
+
+      document.getElementById(
+        "actionText"
+      ).textContent = state.action;
+
+      document.getElementById(
+        "actionIcon"
+      ).innerHTML = state.actionIcon;
+
+      const benefitRow =
+        document.getElementById("benefitRow");
+
+      if (state.benefitLine.trim()) {
+        benefitRow.hidden = false;
+
+        document.getElementById(
+          "benefitText"
+        ).textContent =
+          state.benefitLine;
+      } else {
+        benefitRow.hidden = true;
+
+        document.getElementById(
+          "benefitText"
+        ).textContent = "";
+      }
+
+      document.getElementById(
+        "chips"
+      ).innerHTML = state.chips
+        .slice(0, 3)
+        .map(
+          (chip) => `
+            <span class="chip">
+              ${chip.icon}
+              <span>${chip.text}</span>
+            </span>
+          `
+        )
+        .join("");
+
+      document.getElementById(
+        "contextCode"
+      ).textContent =
+        state.contextCode;
+
+      document.getElementById(
+        "actionCode"
+      ).textContent =
+        state.actionCode;
+
+      document.getElementById(
+        "linkStatus"
+      ).textContent =
+        state.linkStatus;
+
+      document.getElementById(
+        "confidence"
+      ).textContent =
+        state.confidence;
+
+      closeDetails();
+
+      resultCard.style.animation =
+        "none";
+
+      void resultCard.offsetHeight;
+
+      resultCard.style.animation =
+        "";
+
+      chatScroll.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+    function closeDetails() {
+      const panel =
+        document.getElementById(
+          "detailsPanel"
+        );
+
+      const toggle =
+        document.getElementById(
+          "detailsToggle"
+        );
+
+      panel.classList.remove("open");
+
+      toggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
+      document.getElementById(
+        "detailsToggleLabel"
+      ).textContent =
+        "और जानकारी";
+
+      document.getElementById(
+        "detailsChevron"
+      ).innerHTML =
+        '<polyline points="6 9 12 15 18 9"></polyline>';
+    }
+
+    document
+      .querySelectorAll(
+        ".preview-button"
+      )
+      .forEach((button) => {
+        button.addEventListener(
+          "click",
+          () => {
+            setState(
+              button.dataset.state
+            );
+          }
+        );
+      });
+
+    document
+      .getElementById(
+        "detailsToggle"
+      )
+      .addEventListener(
+        "click",
+        () => {
+          const panel =
+            document.getElementById(
+              "detailsPanel"
+            );
+
+          const toggle =
+            document.getElementById(
+              "detailsToggle"
+            );
+
+          const willOpen =
+            !panel.classList.contains(
+              "open"
+            );
+
+          panel.classList.toggle(
+            "open",
+            willOpen
+          );
+
+          toggle.setAttribute(
+            "aria-expanded",
+            String(willOpen)
+          );
+
+          document.getElementById(
+            "detailsToggleLabel"
+          ).textContent =
+            willOpen
+              ? "कम जानकारी"
+              : "और जानकारी";
+
+          document.getElementById(
+            "detailsChevron"
+          ).innerHTML =
+            willOpen
+              ? '<polyline points="18 15 12 9 6 15"></polyline>'
+              : '<polyline points="6 9 12 15 18 9"></polyline>';
         }
+      );
 
-        window.onload = () => setTheme('green');
-    </script>
+    setState("attention");
+  </script>
+
 </body>
 </html>
