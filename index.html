@@ -1,292 +1,461 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Veritas — Verdict Cards (improved)</title>
-<style>
-  :root{
-    --ink:#0A0E14;
-    --slate:#121822;
-    --raised:#18202C;
-    --line:#222C3A;
-    --mist:#E8EDF4;
-    --dim:#93A1B3;
-    --faint:#5A6776;
-    --font: "Segoe UI", system-ui, -apple-system, "Noto Sans", "Noto Sans Devanagari", "Hind", "Mangal", sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{background:var(--ink);}
-  body{
-    font-family:var(--font);
-    color:var(--mist);
-    padding:18px 14px 40px;
-    -webkit-font-smoothing:antialiased;
-    line-height:1.5;
-  }
-  .wrap{max-width:460px;margin:0 auto;}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veritas Intelligence - UI Mockup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0a0f16;
+            --bg-card: #111822;
+            --text-main: #ffffff;
+            --text-muted: #9ca3af;
+            
+            /* Green Theme (Safe) */
+            --green-glow: rgba(16, 185, 129, 0.2);
+            --green-border: rgba(16, 185, 129, 0.4);
+            --green-bg: rgba(16, 185, 129, 0.1);
+            --green-accent: #10b981;
+            
+            /* Yellow Theme (Attention) */
+            --yellow-glow: rgba(245, 158, 11, 0.2);
+            --yellow-border: rgba(245, 158, 11, 0.4);
+            --yellow-bg: rgba(245, 158, 11, 0.1);
+            --yellow-accent: #f59e0b;
+            
+            /* Red Theme (Alert) */
+            --red-glow: rgba(239, 68, 68, 0.2);
+            --red-border: rgba(239, 68, 68, 0.4);
+            --red-bg: rgba(239, 68, 68, 0.15);
+            --red-accent: #ef4444;
 
-  /* page intro */
-  .intro{padding:6px 4px 18px;}
-  .intro h1{font-size:19px;font-weight:800;letter-spacing:.2px;}
-  .intro p{font-size:13px;color:var(--dim);margin-top:5px;}
+            /* Active Theme Variables */
+            --active-glow: var(--green-glow);
+            --active-border: var(--green-border);
+            --active-bg: var(--green-bg);
+            --active-accent: var(--green-accent);
+        }
 
-  /* ===== card ===== */
-  .card{
-    position:relative;
-    background:var(--slate);
-    border:1px solid var(--line);
-    border-radius:20px;
-    padding:18px 18px 16px 22px;
-    margin-bottom:20px;
-    overflow:hidden;
-    opacity:0;transform:translateY(10px);
-    animation:rise .5s cubic-bezier(.22,1,.36,1) forwards;
-  }
-  .card:nth-child(2){animation-delay:.04s}
-  .card:nth-child(3){animation-delay:.10s}
-  .card:nth-child(4){animation-delay:.16s}
-  .card:nth-child(5){animation-delay:.22s}
-  @keyframes rise{to{opacity:1;transform:none}}
-  @media (prefers-reduced-motion:reduce){.card{animation:none;opacity:1;transform:none}}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000;
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-  /* sentinel spine — the severity light on the left edge */
-  .card::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
-    background:var(--accent);
-    box-shadow:0 0 22px 1px var(--accent);
-  }
-  /* soft severity glow bleeding from the top */
-  .card::after{
-    content:"";position:absolute;left:0;right:0;top:0;height:120px;
-    background:radial-gradient(120% 90% at 12% 0%, var(--glow) 0%, transparent 70%);
-    pointer-events:none;
-  }
-  .card>*{position:relative;z-index:1;}
+        /* Controls outside the phone UI */
+        .controls {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
 
-  /* brand eyebrow */
-  .eyebrow{
-    display:flex;align-items:center;gap:7px;
-    font-size:11px;letter-spacing:1.4px;text-transform:uppercase;
-    color:var(--faint);font-weight:700;margin-bottom:14px;
-  }
-  .eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);}
+        .controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-  /* status row — the hero */
-  .status{display:flex;align-items:center;gap:14px;margin-bottom:14px;}
-  .glyph{
-    flex:none;width:46px;height:46px;border-radius:14px;
-    display:flex;align-items:center;justify-content:center;
-    font-size:24px;font-weight:800;
-    background:color-mix(in srgb, var(--accent) 16%, transparent);
-    color:var(--accent);
-    border:1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  }
-  .verdict{line-height:1.1;}
-  .verdict .hi{font-size:27px;font-weight:800;color:var(--accent);letter-spacing:.3px;}
-  .verdict .en{font-size:12.5px;letter-spacing:1px;text-transform:uppercase;color:var(--dim);margin-top:3px;font-weight:600;}
+        .btn-green { background: #10b981; color: #000; }
+        .btn-yellow { background: #f59e0b; color: #000; }
+        .btn-red { background: #ef4444; color: #fff; }
 
-  /* severity ladder — honest 4-tier scale */
-  .ladder{display:flex;align-items:center;gap:9px;margin:0 0 4px 0;}
-  .ladder .lbl{font-size:11px;letter-spacing:.6px;color:var(--faint);text-transform:uppercase;font-weight:700;}
-  .ladder .pips{display:flex;gap:5px;}
-  .pip{width:9px;height:9px;border-radius:50%;background:#27313F;}
-  .pip.on{background:var(--accent);box-shadow:0 0 8px var(--accent);}
+        /* Mobile Simulator Container */
+        .mobile-container {
+            width: 100%;
+            max-width: 400px;
+            height: 800px;
+            background-color: var(--bg-main);
+            border-radius: 30px;
+            border: 8px solid #333;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
 
-  .rule{height:1px;background:var(--line);margin:14px 0;}
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .back-btn { margin-right: 15px; font-size: 20px; color: var(--text-muted); }
+        .header-logo { width: 30px; height: 35px; border: 2px solid var(--text-muted); border-radius: 5px; margin-right: 15px; display: flex; justify-content: center; align-items: center;}
+        
+        .header-text h1 { margin: 0; font-size: 14px; letter-spacing: 1px; font-weight: 600; }
+        .header-text p { margin: 2px 0 0; font-size: 10px; color: var(--text-muted); }
 
-  /* info blocks */
-  .block{margin-bottom:14px;}
-  .block .tag{
-    font-size:11px;letter-spacing:.8px;text-transform:uppercase;
-    color:var(--accent);font-weight:700;margin-bottom:5px;display:block;
-  }
-  .block p{font-size:14.5px;color:var(--mist);}
-  .block.muted .tag{color:var(--dim);}
+        /* Chat Area */
+        .chat-area {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
 
-  /* the action — raised + emphasized */
-  .action{
-    background:var(--raised);
-    border:1px solid var(--line);
-    border-left:3px solid var(--accent);
-    border-radius:12px;
-    padding:12px 13px;
-    margin-bottom:16px;
-  }
-  .action .tag{color:var(--accent);}
-  .action p{font-size:14.5px;font-weight:500;}
+        .user-message {
+            align-self: flex-end;
+            background-color: #164e63;
+            padding: 12px 15px;
+            border-radius: 12px 12px 0 12px;
+            margin-bottom: 20px;
+            max-width: 80%;
+            font-size: 14px;
+        }
+        .user-message-time {
+            display: block;
+            font-size: 10px;
+            color: rgba(255,255,255,0.6);
+            text-align: right;
+            margin-top: 5px;
+        }
 
-  /* safe reply — chat bubble + copy */
-  .reply{
-    background:color-mix(in srgb, var(--accent) 9%, var(--slate));
-    border:1px solid color-mix(in srgb, var(--accent) 28%, transparent);
-    border-radius:14px;padding:12px 13px;
-  }
-  .reply .head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
-  .reply .head .tag{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--accent);font-weight:700;}
-  .reply .txt{font-size:14.5px;color:var(--mist);font-style:italic;}
-  .copy{
-    appearance:none;border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);
-    background:color-mix(in srgb, var(--accent) 14%, transparent);
-    color:var(--accent);font-family:inherit;font-size:12px;font-weight:700;
-    padding:6px 12px;border-radius:9px;cursor:pointer;white-space:nowrap;
-    transition:transform .08s ease, background .15s ease;
-  }
-  .copy:active{transform:scale(.94);}
-  .copy.done{background:color-mix(in srgb, var(--accent) 26%, transparent);}
+        /* The Veritas Card */
+        .veritas-card {
+            background: linear-gradient(180deg, var(--active-bg) 0%, rgba(17,24,34,1) 100%);
+            border: 1px solid var(--active-border);
+            border-radius: 16px;
+            padding: 20px 15px;
+            box-shadow: 0 0 30px var(--active-glow);
+            transition: all 0.5s ease;
+        }
 
-  /* dev tag — hidden by default */
-  .dev{display:none;margin-top:13px;padding-top:11px;border-top:1px dashed var(--line);}
-  body.show-dev .dev{display:block;}
-  .dev code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;color:var(--faint);letter-spacing:.3px;word-break:break-all;}
+        .card-header-top {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 20px;
+        }
 
-  /* footer dev toggle */
-  .toggle{
-    display:flex;align-items:center;justify-content:center;gap:9px;
-    margin-top:6px;padding:13px;border:1px solid var(--line);border-radius:14px;
-    background:var(--slate);color:var(--dim);font-size:13px;font-weight:600;
-    width:100%;cursor:pointer;font-family:inherit;
-  }
-  .toggle .sw{width:34px;height:19px;border-radius:20px;background:#27313F;position:relative;transition:background .2s;}
-  .toggle .sw::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--dim);transition:transform .2s;}
-  body.show-dev .toggle .sw{background:#2F6B4F;}
-  body.show-dev .toggle .sw::after{transform:translateX(15px);background:#34D399;}
+        .main-icon-container {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--active-accent);
+            box-shadow: 0 0 20px var(--active-glow), inset 0 0 15px var(--active-glow);
+            font-size: 30px;
+            color: var(--active-accent);
+        }
 
-  .disclaimer{font-size:11.5px;color:var(--faint);text-align:center;margin-top:18px;line-height:1.6;padding:0 8px;}
-</style>
+        .card-title h2 { margin: 0; font-size: 22px; font-weight: 700; color: var(--active-accent); }
+        .card-title p { margin: 5px 0 0; font-size: 12px; color: var(--text-muted); letter-spacing: 1px;}
+        .mini-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10px;
+            border: 1px solid var(--active-accent);
+            color: var(--active-accent);
+            margin-bottom: 5px;
+        }
+
+        /* Sections */
+        .section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .section-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--text-muted);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .section-content h3 { margin: 0 0 5px; font-size: 14px; font-weight: 600; color: var(--active-accent);}
+        .section-content p { margin: 0; font-size: 13px; line-height: 1.5; color: #d1d5db; }
+
+        /* Highlighted Action Box */
+        .action-box {
+            background-color: var(--active-accent);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            color: #000;
+        }
+        .action-box.red-mode { color: #fff; }
+        
+        .action-box .section-icon { border-color: currentColor; color: currentColor; font-weight: bold; font-size:16px;}
+        .action-box .section-content h3 { color: currentColor; }
+        .action-box .section-content p { color: currentColor; font-weight: 500;}
+
+        /* Chips/Tags */
+        .chips-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .chip {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-muted);
+        }
+        .chip span { color: var(--active-accent); }
+
+        /* Footer Input Area */
+        .footer-input {
+            background: #0f172a;
+            padding: 15px;
+            border-top: 1px solid #1e293b;
+        }
+        .suggestion-box {
+            background: rgba(56, 189, 248, 0.1);
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .suggestion-box p { margin: 0; font-size: 11px; color: #38bdf8; font-weight: 500;}
+        
+        .input-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .input-field {
+            flex: 1;
+            background: transparent;
+            border: 1px solid #334155;
+            border-radius: 20px;
+            padding: 10px 15px;
+            color: white;
+            font-size: 12px;
+        }
+        .icon-btn { font-size: 20px; color: #94a3b8; }
+        .send-btn { color: #38bdf8; font-size: 24px;}
+
+    </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="intro">
-    <h1>Veritas — Verdict Card <span style="color:var(--dim);font-weight:600;">(naya)</span></h1>
-    <p>Ek hi card. Saaf verdict, khatre ka reason, ab kya karein, aur ready safe reply. Niche saari 4 levels.</p>
-  </div>
+    <div class="controls">
+        <button class="btn-green" onclick="setTheme('green')">SAFE</button>
+        <button class="btn-yellow" onclick="setTheme('yellow')">ATTENTION</button>
+        <button class="btn-red" onclick="setTheme('red')">RED ALERT</button>
+    </div>
 
-  <!-- ============ SAFE ============ -->
-  <div class="card" style="--accent:#34D399; --glow:#064E3B;">
-    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
-    <div class="status">
-      <div class="glyph">✓</div>
-      <div class="verdict"><div class="hi">सुरक्षित</div><div class="en">Safe</div></div>
-    </div>
-    <div class="ladder">
-      <span class="lbl">खतरे का स्तर</span>
-      <span class="pips"><i class="pip on"></i><i class="pip"></i><i class="pip"></i><i class="pip"></i></span>
-    </div>
-    <div class="rule"></div>
-    <div class="block"><span class="tag">क्या पकड़ा</span><p>यह OTP/code share <b>न करने</b> की safety advice है — कोई चीज़ माँगी नहीं जा रही।</p></div>
-    <div class="block"><span class="tag">खतरा क्या है</span><p>फ़िलहाल कोई सीधा खतरा नहीं। सलाह सही दिशा में है।</p></div>
-    <div class="action"><span class="tag">अब क्या करें</span><p>सलाह मानें — OTP, PIN, CVV या password किसी को न दें।</p></div>
-    <div class="reply">
-      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
-      <div class="txt">"सही बात है, OTP मैं कभी किसी को नहीं दूँगा।"</div>
-    </div>
-    <div class="dev"><code>engine: SAFETY_ADVICE · awareness_safety_advice</code></div>
-  </div>
+    <div class="mobile-container" id="app-theme">
+        
+        <div class="header">
+            <div class="back-btn">❮</div>
+            <div class="header-logo">🛡️</div>
+            <div class="header-text">
+                <h1>VERITAS INTELLIGENCE</h1>
+                <p>सत्यापित करें, सुरक्षित रहें</p>
+            </div>
+        </div>
 
-  <!-- ============ ATTENTION ============ -->
-  <div class="card" style="--accent:#FBBF24; --glow:#3D2A07;">
-    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
-    <div class="status">
-      <div class="glyph">!</div>
-      <div class="verdict"><div class="hi">सावधान</div><div class="en">Attention</div></div>
-    </div>
-    <div class="ladder">
-      <span class="lbl">खतरे का स्तर</span>
-      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip"></i><i class="pip"></i></span>
-    </div>
-    <div class="rule"></div>
-    <div class="block"><span class="tag">क्या पकड़ा</span><p>Gas/bill/connection के नाम पर "service बंद हो जाएगी" का दबाव और एक नया support number।</p></div>
-    <div class="block"><span class="tag">खतरा क्या है</span><p>Unknown नंबर और जल्दबाज़ी का दबाव — असली company इस तरह डर दिखाकर call नहीं करवाती।</p></div>
-    <div class="action"><span class="tag">अब क्या करें</span><p>Official app, website या पुराने bill के verified number से ख़ुद confirm करें। जल्दी में payment या detail न दें।</p></div>
-    <div class="reply">
-      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
-      <div class="txt">"मैं अपने provider के official number से status ख़ुद check कर लूँगा, धन्यवाद।"</div>
-    </div>
-    <div class="dev"><code>engine: SERVICE_CALLBACK_VERIFY · service_bill_callback_verification</code></div>
-  </div>
+        <div class="chat-area">
+            <div class="user-message">
+                <span id="user-msg-text">Bhai kal ghar par milte hain</span>
+                <span class="user-message-time">12:45 PM ✔✔</span>
+            </div>
 
-  <!-- ============ SUSPICIOUS ============ -->
-  <div class="card" style="--accent:#FB923C; --glow:#3D2207;">
-    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
-    <div class="status">
-      <div class="glyph">⚠</div>
-      <div class="verdict"><div class="hi">असुरक्षित</div><div class="en">Suspicious</div></div>
-    </div>
-    <div class="ladder">
-      <span class="lbl">खतरे का स्तर</span>
-      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip"></i></span>
-    </div>
-    <div class="rule"></div>
-    <div class="block"><span class="tag">क्या पकड़ा</span><p>KYC pending + "account block हो जाएगा" का डर + किसी customer-care से contact करने की माँग।</p></div>
-    <div class="block"><span class="tag">खतरा क्या है</span><p>Source verify न हो तो यह identity और banking detail चुराने की चाल हो सकती है।</p></div>
-    <div class="action"><span class="tag">अब क्या करें</span><p>सिर्फ़ अपनी bank app/website से KYC status देखें। किसी unknown number पर personal या banking detail न दें।</p></div>
-    <div class="reply">
-      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
-      <div class="txt">"KYC मैं सीधे अपनी bank app में check कर लूँगा, किसी unknown number पर detail नहीं दूँगा।"</div>
-    </div>
-    <div class="dev"><code>engine: KYC_CONTACT_VERIFY · kyc_contact_source_verification</code></div>
-  </div>
+            <div class="veritas-card">
+                
+                <div class="card-header-top">
+                    <div class="main-icon-container" id="main-icon">✓</div>
+                    <div class="card-title">
+                        <span class="mini-badge" id="badge-text">✓ सुरक्षित</span>
+                        <h2 id="main-heading">यह सुरक्षित लग रहा है</h2>
+                        <p id="sub-heading">SAFE</p>
+                    </div>
+                </div>
 
-  <!-- ============ RED ALERT ============ -->
-  <div class="card" style="--accent:#F43F5E; --glow:#4C0519;">
-    <div class="eyebrow"><span class="dot"></span> Veritas · जाँच पूरी</div>
-    <div class="status">
-      <div class="glyph">⛔</div>
-      <div class="verdict"><div class="hi">रेड अलर्ट</div><div class="en">Red Alert</div></div>
+                <div class="section">
+                    <div class="section-icon">?</div>
+                    <div class="section-content">
+                        <h3 id="why-title">क्यों?</h3>
+                        <p id="why-text">यह एक सामान्य बातचीत लग रही है। इसमें कोई डर, दबाव, सीक्रेट माँग या संदिग्ध लिंक नहीं दिख रहा।</p>
+                    </div>
+                </div>
+
+                <div class="action-box" id="action-box">
+                    <div class="section-icon" id="action-icon">👍</div>
+                    <div class="section-content">
+                        <h3 id="action-title">अब क्या करें</h3>
+                        <p id="action-text">आप आराम से जवाब दे सकते हैं। फिर भी OTP, PIN, password या payment detail किसी से share न करें।</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-icon">💡</div>
+                    <div class="section-content">
+                        <h3 id="advice-title">सिस्टम की सलाह</h3>
+                        <p id="advice-text">आपकी सुरक्षा के लिए, सामान्य मैसेज में भी निजी जानकारी सोच-समझकर ही साझा करें।</p>
+                    </div>
+                </div>
+
+                <div class="chips-container" id="chips-area">
+                    <div class="chip"><span>👥</span> सामान्य बातचीत</div>
+                    <div class="chip"><span>🔒</span> कोई सीक्रेट माँग नहीं</div>
+                    <div class="chip"><span>✅</span> कोई दबाव नहीं</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-input">
+            <div class="suggestion-box">
+                <div>💡</div>
+                <p>Aur kuchh check karna ho to neeche message, link ya screenshot daalein.</p>
+            </div>
+            <div class="input-bar">
+                <div class="icon-btn">📎</div>
+                <div class="icon-btn">📷</div>
+                <input type="text" class="input-field" placeholder="यहाँ message, link या screenshot का text लिखें">
+                <div class="send-btn">➤</div>
+            </div>
+        </div>
+
     </div>
-    <div class="ladder">
-      <span class="lbl">खतरे का स्तर</span>
-      <span class="pips"><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i><i class="pip on"></i></span>
-    </div>
-    <div class="rule"></div>
-    <div class="block"><span class="tag">क्या पकड़ा</span><p>Refund के बहाने आपका <b>UPI PIN</b> माँगा जा रहा है — credential चोरी का सीधा pattern।</p></div>
-    <div class="block"><span class="tag">खतरा क्या है</span><p>PIN डालने से पैसे <b>आते नहीं, जाते हैं।</b> यह खाता खाली करने का तरीका है।</p></div>
-    <div class="action"><span class="tag">अब क्या करें</span><p>रुकें। PIN, OTP या password किसी को न दें, किसी link पर न डालें। पैसे <b>लेने</b> के लिए PIN कभी नहीं लगता।</p></div>
-    <div class="reply">
-      <div class="head"><span class="tag">💬 सुरक्षित जवाब</span><button class="copy">कॉपी</button></div>
-      <div class="txt">"Refund के लिए PIN कभी नहीं लगता। मैं कोई PIN या OTP नहीं दूँगा।"</div>
-    </div>
-    <div class="dev"><code>engine: CREDENTIAL_THEFT · upi_pin_request</code></div>
-  </div>
 
-  <button class="toggle" id="devToggle">
-    <span class="sw"></span> Developer signals (raw engine tag)
-  </button>
+    <script>
+        const data = {
+            green: {
+                msg: "Bhai kal ghar par milte hain",
+                badge: "✓ सुरक्षित",
+                heading: "यह सुरक्षित लग रहा है",
+                sub: "SAFE",
+                mainIcon: "✓",
+                whyTitle: "क्यों?",
+                whyText: "यह एक सामान्य बातचीत लग रही है। इसमें कोई डर, दबाव, सीक्रेट माँग या संदिग्ध लिंक नहीं दिख रहा।",
+                actionIcon: "👍",
+                actionTitle: "अब क्या करें",
+                actionText: "आप आराम से जवाब दे सकते हैं। फिर भी OTP, PIN, password या payment detail किसी से share न करें।",
+                adviceTitle: "सिस्टम की सलाह",
+                adviceText: "आपकी सुरक्षा के लिए, सामान्य मैसेज में भी निजी जानकारी सोच-समझकर ही साझा करें।",
+                chips: [
+                    { icon: "👥", text: "सामान्य बातचीत" },
+                    { icon: "🔒", text: "कोई सीक्रेट माँग नहीं" },
+                    { icon: "✅", text: "कोई दबाव नहीं" }
+                ],
+                isRedMode: false
+            },
+            yellow: {
+                msg: "KYC update karne ke liye is link par click karein",
+                badge: "! सतर्क रहें",
+                heading: "रुककर जाँच करें",
+                sub: "ATTENTION",
+                mainIcon: "🔍",
+                whyTitle: "क्यों?",
+                whyText: "इस मैसेज में link aur account se judi baat hai. यह जल्दी में action करवाने की कोशिश कर सकता है, इसलिए पहले जाँच ज़रूरी है।",
+                actionIcon: "!",
+                actionTitle: "अब क्या करें",
+                actionText: "Link par turant click na karein. Apne bank, app ya official website ko khud kholkar check karein.",
+                adviceTitle: "सिस्टम की सलाह",
+                adviceText: "आपकी सुरक्षा के लिए, message में दिए गए shortcut की जगह हमेशा official app ya website se verify karein.",
+                chips: [
+                    { icon: "🔗", text: "Link मिला है" },
+                    { icon: "⏱️", text: "तुरंत action का दबाव" },
+                    { icon: "✅", text: "पहले verify करें" }
+                ],
+                isRedMode: false
+            },
+            red: {
+                msg: "OTP mujhe abhi do warna account band",
+                badge: "⛔ खतरा है",
+                heading: "अभी रुक जाएँ",
+                sub: "RED ALERT",
+                mainIcon: "✋",
+                whyTitle: "क्यों?",
+                whyText: "Ye message aapse OTP, PIN ya password jaisi secret jankari maang raha hai.",
+                actionIcon: "✓",
+                actionTitle: "अब क्या करें",
+                actionText: "Kuch bhi share na karein. Apne bank ya app ko khud kholkar check karein.",
+                adviceTitle: "सिस्टम की सलाह",
+                adviceText: "Aapki safety ke liye is message ka jawab na dein aur koi code share na karein.",
+                chips: [
+                    { icon: "🔒", text: "Secret maanga gaya" },
+                    { icon: "⏱️", text: "Jaldi ka dabav" },
+                    { icon: "😟", text: "Account band ka dar" }
+                ],
+                isRedMode: true
+            }
+        };
 
-  <p class="disclaimer">Veritas एक सहायक जाँच है, अंतिम फ़ैसला आपका। संदेह हो तो हमेशा official source से confirm करें।</p>
+        function setTheme(themeName) {
+            const root = document.documentElement;
+            
+            // Set CSS Variables for colors
+            root.style.setProperty('--active-glow', `var(--${themeName}-glow)`);
+            root.style.setProperty('--active-border', `var(--${themeName}-border)`);
+            root.style.setProperty('--active-bg', `var(--${themeName}-bg)`);
+            root.style.setProperty('--active-accent', `var(--${themeName}-accent)`);
 
-</div>
+            // Update content based on theme
+            const themeData = data[themeName];
+            document.getElementById('user-msg-text').innerText = themeData.msg;
+            document.getElementById('badge-text').innerText = themeData.badge;
+            document.getElementById('main-heading').innerText = themeData.heading;
+            document.getElementById('sub-heading').innerText = themeData.sub;
+            document.getElementById('main-icon').innerText = themeData.mainIcon;
+            
+            document.getElementById('why-title').innerText = themeData.whyTitle;
+            document.getElementById('why-text').innerText = themeData.whyText;
+            
+            document.getElementById('action-icon').innerText = themeData.actionIcon;
+            document.getElementById('action-title').innerText = themeData.actionTitle;
+            document.getElementById('action-text').innerText = themeData.actionText;
+            
+            document.getElementById('advice-title').innerText = themeData.adviceTitle;
+            document.getElementById('advice-text').innerText = themeData.adviceText;
 
-<script>
-  // dev signal toggle
-  document.getElementById('devToggle').addEventListener('click', function(){
-    document.body.classList.toggle('show-dev');
-  });
+            // Handle Red Mode text color for action box
+            const actionBox = document.getElementById('action-box');
+            if (themeData.isRedMode) {
+                actionBox.classList.add('red-mode');
+            } else {
+                actionBox.classList.remove('red-mode');
+            }
 
-  // copy buttons — clipboard API with iframe-safe fallback
-  document.querySelectorAll('.copy').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var card = btn.closest('.reply');
-      var text = card.querySelector('.txt').textContent.replace(/^"|"$/g,'').trim();
-      var done = function(){
-        btn.textContent = 'कॉपी हुआ ✓';
-        btn.classList.add('done');
-        setTimeout(function(){ btn.textContent='कॉपी'; btn.classList.remove('done'); }, 1600);
-      };
-      if(navigator.clipboard && navigator.clipboard.writeText){
-        navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(text, done); });
-      } else { fallback(text, done); }
-    });
-  });
-  function fallback(text, done){
-    var ta = document.createElement('textarea');
-    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.focus(); ta.select();
-    try{ document.execCommand('copy'); done(); }catch(e){}
-    document.body.removeChild(ta);
-  }
-</script>
+            // Update Chips
+            const chipsArea = document.getElementById('chips-area');
+            chipsArea.innerHTML = ''; // Clear old chips
+            themeData.chips.forEach(chip => {
+                const chipDiv = document.createElement('div');
+                chipDiv.className = 'chip';
+                chipDiv.innerHTML = `<span>${chip.icon}</span> ${chip.text}`;
+                chipsArea.appendChild(chipDiv);
+            });
+        }
+    </script>
 </body>
 </html>
